@@ -147,7 +147,7 @@ fn extract_pyfn_attrs(
 }
 
 /// Check if the function has a #[pyfunction] attribute
-fn is_pyfunction(attrs: &Vec<syn::Attribute>) -> bool {
+fn is_pyfunction(attrs: &[syn::Attribute]) -> bool {
     for attr in attrs.iter() {
         match attr.parse_meta() {
             Ok(syn::Meta::Path(ref path)) if path.is_ident("pyfunction") => return true,
@@ -155,7 +155,7 @@ fn is_pyfunction(attrs: &Vec<syn::Attribute>) -> bool {
         }
     }
 
-    return false;
+    false
 }
 
 enum ModuleName<'a> {
