@@ -26,6 +26,7 @@ fn module_with_functions(py: Python, m: &PyModule) -> PyResult<()> {
     use pyo3::wrap_pyfunction;
 
     #[pyfn(m, "sum_as_string")]
+    #[text_signature = "(a, b, /)"]
     fn sum_as_string_py(_py: Python, a: i64, b: i64) -> PyResult<String> {
         let out = sum_as_string(a, b);
         Ok(out)

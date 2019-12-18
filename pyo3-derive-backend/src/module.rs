@@ -158,6 +158,18 @@ fn is_pyfunction(attrs: &[syn::Attribute]) -> bool {
     false
 }
 
+/// Get
+fn extract_add_to_module_attribue(attrs: &[syn::Attribute]) -> Result<Option<Module>> {
+    for attr in attrs.iter() {
+        match attr.parse_meta() {
+            Ok(syn::Meta::Path(ref path)) if path.is_ident("pyfunction") => return true,
+            _ => {}
+        }
+    }
+
+    false
+}
+
 enum ModuleName<'a> {
     Ident(&'a syn::Ident),
     Wild(&'a syn::token::Underscore),
