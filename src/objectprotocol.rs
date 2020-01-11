@@ -12,7 +12,7 @@ use crate::AsPyPointer;
 use crate::IntoPyPointer;
 use crate::Py;
 use crate::Python;
-use crate::{FromPyObject, IntoPy, PyTryFrom, ToBorrowedObject, ToPyObject};
+use crate::{FromPyObject, IntoPy, PyTryFrom, IntoPyValue};
 use std::cmp::Ordering;
 use std::os::raw::c_int;
 
@@ -22,26 +22,26 @@ pub trait ObjectProtocol {
     /// This is equivalent to the Python expression `hasattr(self, attr_name)`.
     fn hasattr<N>(&self, attr_name: N) -> PyResult<bool>
     where
-        N: ToPyObject;
+        N: for<'py> IntoPyValue<'py>;
 
     /// Retrieves an attribute value.
     /// This is equivalent to the Python expression `self.attr_name`.
     fn getattr<N>(&self, attr_name: N) -> PyResult<&PyAny>
     where
-        N: ToPyObject;
+        N: for<'py> IntoPyValue<'py>;
 
     /// Sets an attribute value.
     /// This is equivalent to the Python expression `self.attr_name = value`.
     fn setattr<N, V>(&self, attr_name: N, value: V) -> PyResult<()>
     where
-        N: ToBorrowedObject,
-        V: ToBorrowedObject;
+        N: for<'py> IntoPyValue<'py>,
+        V: for<'py> IntoPyValue<'py>;
 
     /// Deletes an attribute.
     /// This is equivalent to the Python expression `del self.attr_name`.
     fn delattr<N>(&self, attr_name: N) -> PyResult<()>
     where
-        N: ToPyObject;
+        N: for<'py> IntoPyValue<'py>;
 
     /// Compares two Python objects.
     ///
@@ -58,7 +58,7 @@ pub trait ObjectProtocol {
     /// ```
     fn compare<O>(&self, other: O) -> PyResult<Ordering>
     where
-        O: ToPyObject;
+        O: for<'py> IntoPyValue<'py>;
 
     /// Compares two Python objects.
     ///
@@ -71,7 +71,7 @@ pub trait ObjectProtocol {
     ///   * CompareOp::Ge: `self >= other`
     fn rich_compare<O>(&self, other: O, compare_op: CompareOp) -> PyResult<PyObject>
     where
-        O: ToPyObject;
+        O: for<'py> IntoPyValue<'py>;
 
     /// Compute the string representation of self.
     /// This is equivalent to the Python expression `repr(self)`.
@@ -149,20 +149,20 @@ pub trait ObjectProtocol {
     /// This is equivalent to the Python expression: `self[key]`.
     fn get_item<K>(&self, key: K) -> PyResult<&PyAny>
     where
-        K: ToBorrowedObject;
+        K: for<'py> IntoPyValue<'py>;
 
     /// Sets an item value.
     /// This is equivalent to the Python expression `self[key] = value`.
     fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
     where
-        K: ToBorrowedObject,
-        V: ToBorrowedObject;
+        K: for<'py> IntoPyValue<'py>,
+        V: for<'py> IntoPyValue<'py>;
 
     /// Deletes an item.
     /// This is equivalent to the Python expression `del self[key]`.
     fn del_item<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToBorrowedObject;
+        K: for<'py> IntoPyValue<'py>;
 
     /// Takes an object and returns an iterator for it.
     /// This is typically a new iterator but if the argument
@@ -213,7 +213,7 @@ where
 {
     fn hasattr<N>(&self, attr_name: N) -> PyResult<bool>
     where
-        N: ToPyObject,
+        N: for<'py> IntoPyValue<'py>,
     {
         attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
             Ok(ffi::PyObject_HasAttr(self.as_ptr(), attr_name) != 0)
@@ -222,7 +222,7 @@ where
 
     fn getattr<N>(&self, attr_name: N) -> PyResult<&PyAny>
     where
-        N: ToPyObject,
+        N: for<'py> IntoPyValue<'py>,
     {
         attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
             self.py()
@@ -232,8 +232,8 @@ where
 
     fn setattr<N, V>(&self, attr_name: N, value: V) -> PyResult<()>
     where
-        N: ToBorrowedObject,
-        V: ToBorrowedObject,
+        N: for<'py> IntoPyValue<'py>,
+        V: for<'py> IntoPyValue<'py>,
     {
         attr_name.with_borrowed_ptr(self.py(), move |attr_name| {
             value.with_borrowed_ptr(self.py(), |value| unsafe {
@@ -247,7 +247,7 @@ where
 
     fn delattr<N>(&self, attr_name: N) -> PyResult<()>
     where
-        N: ToPyObject,
+        N: for<'py> IntoPyValue<'py>,
     {
         attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
             err::error_on_minusone(self.py(), ffi::PyObject_DelAttr(self.as_ptr(), attr_name))
@@ -256,7 +256,7 @@ where
 
     fn compare<O>(&self, other: O) -> PyResult<Ordering>
     where
-        O: ToPyObject,
+        O: for<'py> IntoPyValue<'py>,
     {
         unsafe fn do_compare(
             py: Python,
@@ -293,7 +293,7 @@ where
 
     fn rich_compare<O>(&self, other: O, compare_op: CompareOp) -> PyResult<PyObject>
     where
-        O: ToPyObject,
+        O: for<'py> IntoPyValue<'py>,
     {
         unsafe {
             other.with_borrowed_ptr(self.py(), |other| {
@@ -413,7 +413,7 @@ where
 
     fn get_item<K>(&self, key: K) -> PyResult<&PyAny>
     where
-        K: ToBorrowedObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), |key| unsafe {
             self.py()
@@ -423,8 +423,8 @@ where
 
     fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
     where
-        K: ToBorrowedObject,
-        V: ToBorrowedObject,
+        K: for<'py> IntoPyValue<'py>,
+        V: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), move |key| {
             value.with_borrowed_ptr(self.py(), |value| unsafe {
@@ -435,7 +435,7 @@ where
 
     fn del_item<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToBorrowedObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), |key| unsafe {
             err::error_on_minusone(self.py(), ffi::PyObject_DelItem(self.as_ptr(), key))

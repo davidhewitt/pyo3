@@ -180,6 +180,17 @@ macro_rules! tuple_conversion ({$length:expr,$(($refN:ident, $n:tt, $T:ident)),+
         }
     }
 
+    impl <'py, $($T: IntoPy<PyObject>),+> $crate::IntoPyValue<'py> for ($($T,)+) {
+        type Target = $crate::Py<&'py PyTuple>;
+        fn into_py_value(self, py: Python<'py>) -> Self::Target {
+            unsafe {
+                let ptr = ffi::PyTuple_New($length);
+                $(ffi::PyTuple_SetItem(ptr, $n, self.$n.into_py(py).into_ptr());)+
+                $crate::Py::from_owned_ptr(ptr)
+            }
+        }
+    }
+
     impl<'s, $($T: FromPyObject<'s>),+> FromPyObject<'s> for ($($T,)+) {
         fn extract(obj: &'s PyAny) -> PyResult<Self>
         {

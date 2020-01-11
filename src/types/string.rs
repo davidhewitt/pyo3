@@ -9,7 +9,7 @@ use crate::internal_tricks::Unsendable;
 use crate::object::PyObject;
 use crate::types::PyAny;
 use crate::AsPyPointer;
-use crate::IntoPy;
+use crate::{IntoPy, IntoPyValue};
 use crate::Python;
 use crate::{ffi, FromPy};
 use std::borrow::Cow;
@@ -115,6 +115,14 @@ impl<'a> IntoPy<PyObject> for &'a str {
     #[inline]
     fn into_py(self, py: Python) -> PyObject {
         PyString::new(py, self).into()
+    }
+}
+
+impl<'py, 'a> IntoPyValue<'py> for &'a str {
+    type Target = &'py PyString;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        PyString::new(py, self)
     }
 }
 

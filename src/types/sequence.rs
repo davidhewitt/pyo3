@@ -9,7 +9,7 @@ use crate::object::PyObject;
 use crate::objectprotocol::ObjectProtocol;
 use crate::types::{PyAny, PyList, PyTuple};
 use crate::AsPyPointer;
-use crate::{FromPyObject, PyTryFrom, ToBorrowedObject};
+use crate::{FromPyObject, PyTryFrom, IntoPyValue};
 
 /// Represents a reference to a python object supporting the sequence protocol.
 #[repr(transparent)]
@@ -118,7 +118,7 @@ impl PySequence {
     #[inline]
     pub fn set_item<I>(&self, i: isize, item: I) -> PyResult<()>
     where
-        I: ToBorrowedObject,
+        I: for<'py> IntoPyValue<'py>,
     {
         unsafe {
             item.with_borrowed_ptr(self.py(), |item| {
@@ -177,7 +177,7 @@ impl PySequence {
     #[cfg(not(PyPy))]
     pub fn count<V>(&self, value: V) -> PyResult<usize>
     where
-        V: ToBorrowedObject,
+        V: for<'py> IntoPyValue<'py>,
     {
         let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
             ffi::PySequence_Count(self.as_ptr(), ptr)
@@ -193,7 +193,7 @@ impl PySequence {
     #[inline]
     pub fn contains<V>(&self, value: V) -> PyResult<bool>
     where
-        V: ToBorrowedObject,
+        V: for<'py> IntoPyValue<'py>,
     {
         let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
             ffi::PySequence_Contains(self.as_ptr(), ptr)
@@ -210,7 +210,7 @@ impl PySequence {
     #[inline]
     pub fn index<V>(&self, value: V) -> PyResult<usize>
     where
-        V: ToBorrowedObject,
+        V: for<'py> IntoPyValue<'py>,
     {
         let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
             ffi::PySequence_Index(self.as_ptr(), ptr)
@@ -371,9 +371,7 @@ mod test {
         let ob = v.to_object(py);
         let seq = ob.cast_as::<PySequence>(py).unwrap();
         assert_eq!(0, seq.len().unwrap());
-
-        let needle = 7i32.to_object(py);
-        assert_eq!(false, seq.contains(&needle).unwrap());
+        assert_eq!(false, seq.contains(7i32).unwrap());
     }
 
     #[test]
@@ -385,14 +383,9 @@ mod test {
         let seq = ob.cast_as::<PySequence>(py).unwrap();
         assert_eq!(6, seq.len().unwrap());
 
-        let bad_needle = 7i32.to_object(py);
-        assert_eq!(false, seq.contains(&bad_needle).unwrap());
-
-        let good_needle = 8i32.to_object(py);
-        assert_eq!(true, seq.contains(&good_needle).unwrap());
-
-        let type_coerced_needle = 8f32.to_object(py);
-        assert_eq!(true, seq.contains(&type_coerced_needle).unwrap());
+        assert_eq!(false, seq.contains(7i32).unwrap());
+        assert_eq!(true, seq.contains(8i32).unwrap());
+        assert_eq!(true, seq.contains(8f32).unwrap());
     }
 
     #[test]
@@ -465,7 +458,7 @@ mod test {
             let v: Vec<i32> = vec![1, 2];
             let ob = v.to_object(py);
             let seq = ob.cast_as::<PySequence>(py).unwrap();
-            assert!(seq.set_item(1, &obj).is_ok());
+            assert!(seq.set_item(1, obj.to_object(py)).is_ok());
             assert!(seq.get_item(1).unwrap().as_ptr() == obj.as_ptr());
         }
         {

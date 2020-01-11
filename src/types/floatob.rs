@@ -12,7 +12,7 @@ use crate::types::PyAny;
 use crate::FromPyObject;
 use crate::PyResult;
 use crate::Python;
-use crate::ToPyObject;
+use crate::{ToPyObject, IntoPyValue};
 use crate::{AsPyPointer, FromPy};
 use std::os::raw::c_double;
 
@@ -70,6 +70,14 @@ impl<'source> FromPyObject<'source> for f64 {
     }
 }
 
+impl<'py> IntoPyValue<'py> for f64 {
+    type Target = &'py PyFloat;
+
+    fn into_py_value(self, py: Python<'py>) -> &'py PyFloat {
+        PyFloat::new(py, self)
+    }
+}
+
 impl ToPyObject for f32 {
     fn to_object(&self, py: Python) -> PyObject {
         PyFloat::new(py, f64::from(*self)).into()
@@ -85,6 +93,14 @@ impl FromPy<f32> for PyObject {
 impl<'source> FromPyObject<'source> for f32 {
     fn extract(obj: &'source PyAny) -> PyResult<Self> {
         Ok(obj.extract::<f64>()? as f32)
+    }
+}
+
+impl<'py> IntoPyValue<'py> for f32 {
+    type Target = &'py PyFloat;
+
+    fn into_py_value(self, py: Python<'py>) -> &'py PyFloat {
+        PyFloat::new(py, self.into())
     }
 }
 

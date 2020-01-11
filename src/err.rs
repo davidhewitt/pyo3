@@ -9,7 +9,7 @@ use crate::IntoPyPointer;
 use crate::Python;
 use crate::{exceptions, IntoPy};
 use crate::{ffi, FromPy};
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::{ToPyObject, IntoPyValue};
 use libc::c_int;
 use std::ffi::CString;
 use std::io;
@@ -242,9 +242,9 @@ impl PyErr {
     /// Return true if the current exception matches the exception in `exc`.
     /// If `exc` is a class object, this also returns `true` when `self` is an instance of a subclass.
     /// If `exc` is a tuple, all exceptions in the tuple (and recursively in subtuples) are searched for a match.
-    pub fn matches<T>(&self, py: Python, exc: T) -> bool
+    pub fn matches<'py, T>(&self, py: Python<'py>, exc: T) -> bool
     where
-        T: ToBorrowedObject,
+        T: IntoPyValue<'py>,
     {
         exc.with_borrowed_ptr(py, |exc| unsafe {
             ffi::PyErr_GivenExceptionMatches(self.ptype.as_ptr(), exc) != 0
@@ -393,6 +393,14 @@ impl<'a> IntoPy<PyObject> for &'a PyErr {
     fn into_py(self, py: Python) -> PyObject {
         let err = self.clone_ref(py);
         err.instance(py)
+    }
+}
+
+impl<'py> IntoPyValue<'py> for PyErr {
+    type Target = PyObject;
+
+    fn into_py_value(self, py: Python<'py>) -> PyObject {
+        self.into_py(py)
     }
 }
 

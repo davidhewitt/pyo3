@@ -12,7 +12,7 @@ use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::IntoPy;
 use crate::Python;
-use crate::{FromPyObject, ToPyObject};
+use crate::{FromPyObject, ToPyObject, IntoPyValue};
 use num_traits::cast::cast;
 use std::i64;
 use std::os::raw::c_int;
@@ -137,6 +137,16 @@ macro_rules! int_fits_c_long {
             fn into_py(self, py: Python) -> PyObject {
                 unsafe {
                     PyObject::from_owned_ptr_or_panic(py, ffi::PyLong_FromLong(self as c_long))
+                }
+            }
+        }
+        impl<'py> IntoPyValue<'py> for $rust_type {
+            type Target = &'py PyLong;
+
+            #[cfg_attr(feature = "cargo-clippy", allow(clippy::cast_lossless))]
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                unsafe {
+                    py.from_owned_ptr(ffi::PyLong_FromLong(self as c_long))
                 }
             }
         }

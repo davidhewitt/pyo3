@@ -6,10 +6,10 @@ use crate::ffi;
 use crate::instance::PyNativeType;
 use crate::internal_tricks::Unsendable;
 use crate::object::PyObject;
-use crate::types::PyAny;
+use crate::types::{PyAny, PyList};
 use crate::AsPyPointer;
 use crate::Python;
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::{IntoPyValue, ToPyObject};
 use std::ptr;
 use std::{collections, hash};
 
@@ -31,13 +31,17 @@ pyobject_native_type!(
 
 impl PySet {
     /// Creates a new set.
-    pub fn new<'p, T: ToPyObject>(py: Python<'p>, elements: &[T]) -> PyResult<&'p PySet> {
-        let list = elements.to_object(py);
+    pub fn new<T, U>(py: Python, elements: impl IntoIterator<Item = T, IntoIter = U>) -> PyResult<&PySet>
+    where
+        T: for<'py> IntoPyValue<'py>,
+        U: ExactSizeIterator<Item = T>,
+    {
+        let list = PyList::new(py, elements);
         unsafe { py.from_owned_ptr_or_err(ffi::PySet_New(list.as_ptr())) }
     }
 
     /// Creates a new empty set
-    pub fn empty<'p>(py: Python<'p>) -> PyResult<&'p PySet> {
+    pub fn empty(py: Python) -> PyResult<&PySet> {
         unsafe { py.from_owned_ptr_or_err(ffi::PySet_New(ptr::null_mut())) }
     }
 
@@ -65,7 +69,7 @@ impl PySet {
     /// This is equivalent to the Python expression `key in self`.
     pub fn contains<K>(&self, key: K) -> PyResult<bool>
     where
-        K: ToPyObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), |key| unsafe {
             match ffi::PySet_Contains(self.as_ptr(), key) {
@@ -79,7 +83,7 @@ impl PySet {
     /// Remove element from the set if it is present.
     pub fn discard<K>(&self, key: K)
     where
-        K: ToPyObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), |key| unsafe {
             ffi::PySet_Discard(self.as_ptr(), key);
@@ -89,7 +93,7 @@ impl PySet {
     /// Add element to the set.
     pub fn add<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToPyObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), move |key| unsafe {
             err::error_on_minusone(self.py(), ffi::PySet_Add(self.as_ptr(), key))
@@ -157,13 +161,20 @@ where
     T: hash::Hash + Eq + ToPyObject,
 {
     fn to_object(&self, py: Python) -> PyObject {
-        let set = PySet::new::<T>(py, &[]).expect("Failed to construct empty set");
-        {
-            for val in self {
-                set.add(val).expect("Failed to add to set");
-            }
-        }
-        set.into()
+        PySet::new(py, self.into_iter().map(|v| v.to_object(py)))
+            .expect("Failed to create set")
+            .into()
+    }
+}
+
+impl<'py, T> IntoPyValue<'py> for collections::HashSet<T>
+where
+    T: hash::Hash + Eq + for<'a> IntoPyValue<'a>,
+{
+    type Target = &'py PySet;
+
+    fn into_py_value(self, py: Python) -> &PySet {
+        PySet::new(py, self).expect("Failed to create set")
     }
 }
 
@@ -172,13 +183,20 @@ where
     T: hash::Hash + Eq + ToPyObject,
 {
     fn to_object(&self, py: Python) -> PyObject {
-        let set = PySet::new::<T>(py, &[]).expect("Failed to construct empty set");
-        {
-            for val in self {
-                set.add(val).expect("Failed to add to set");
-            }
-        }
-        set.into()
+        PySet::new(py, self.into_iter().map(|v| v.to_object(py)))
+            .expect("Failed to create set")
+            .into()
+    }
+}
+
+impl<'py, T> IntoPyValue<'py> for collections::BTreeSet<T>
+where
+    T: hash::Hash + Eq + for<'a> IntoPyValue<'a>,
+{
+    type Target = &'py PySet;
+
+    fn into_py_value(self, py: Python) -> &PySet {
+        PySet::new(py, self).expect("Failed to create set")
     }
 }
 
@@ -212,7 +230,7 @@ impl PyFrozenSet {
     /// This is equivalent to the Python expression `key in self`.
     pub fn contains<K>(&self, key: K) -> PyResult<bool>
     where
-        K: ToBorrowedObject,
+        K: for<'py> IntoPyValue<'py>,
     {
         key.with_borrowed_ptr(self.py(), |key| unsafe {
             match ffi::PySet_Contains(self.as_ptr(), key) {
@@ -249,7 +267,7 @@ impl<'a> std::iter::IntoIterator for &'a PyFrozenSet {
 mod test {
     use super::{PyFrozenSet, PySet};
     use crate::instance::AsPyRef;
-    use crate::{ObjectProtocol, PyTryFrom, Python, ToPyObject};
+    use crate::{ObjectProtocol, PyTryFrom, Python, ToPyObject, IntoPyValue};
     use std::collections::HashSet;
 
     #[test]
@@ -261,7 +279,7 @@ mod test {
         assert_eq!(1, set.len());
 
         let v = vec![1];
-        assert!(PySet::new(py, &[v]).is_err());
+        assert!(PySet::new(py, &[v.into_py_value(py)]).is_err());
     }
 
     #[test]
@@ -366,7 +384,7 @@ mod test {
         assert_eq!(1, set.len());
 
         let v = vec![1];
-        assert!(PyFrozenSet::new(py, &[v]).is_err());
+        assert!(PyFrozenSet::new(py, &[v.into_py_value(py)]).is_err());
     }
 
     #[test]

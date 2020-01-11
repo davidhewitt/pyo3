@@ -11,7 +11,7 @@ use crate::types::PyAny;
 use crate::IntoPyPointer;
 use crate::Python;
 use crate::{AsPyPointer, IntoPy};
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::{IntoPyValue, ToPyObject};
 
 /// Represents a Python `list`.
 #[repr(transparent)]
@@ -21,9 +21,9 @@ pyobject_native_var_type!(PyList, ffi::PyList_Type, ffi::PyList_Check);
 
 impl PyList {
     /// Construct a new list with the given elements.
-    pub fn new<T, U>(py: Python<'_>, elements: impl IntoIterator<Item = T, IntoIter = U>) -> &PyList
+    pub fn new<T, U>(py: Python, elements: impl IntoIterator<Item = T, IntoIter = U>) -> &PyList
     where
-        T: ToPyObject,
+        T: for<'py> IntoPyValue<'py>,
         U: ExactSizeIterator<Item = T>,
     {
         let elements_iter = elements.into_iter();
@@ -31,7 +31,7 @@ impl PyList {
         unsafe {
             let ptr = ffi::PyList_New(len as Py_ssize_t);
             for (i, e) in elements_iter.enumerate() {
-                let obj = e.to_object(py).into_ptr();
+                let obj = e.into_py_value(py).into_ptr();
                 ffi::PyList_SetItem(ptr, i as Py_ssize_t, obj);
             }
             py.from_owned_ptr::<PyList>(ptr)
@@ -94,7 +94,7 @@ impl PyList {
     /// Appends an item at the list.
     pub fn append<I>(&self, item: I) -> PyResult<()>
     where
-        I: ToBorrowedObject,
+        I: for<'py> IntoPyValue<'py>,
     {
         item.with_borrowed_ptr(self.py(), |item| unsafe {
             err::error_on_minusone(self.py(), ffi::PyList_Append(self.as_ptr(), item))
@@ -106,7 +106,7 @@ impl PyList {
     /// Panics if the index is out of range.
     pub fn insert<I>(&self, index: isize, item: I) -> PyResult<()>
     where
-        I: ToBorrowedObject,
+        I: for<'py> IntoPyValue<'py>,
     {
         item.with_borrowed_ptr(self.py(), |item| unsafe {
             err::error_on_minusone(self.py(), ffi::PyList_Insert(self.as_ptr(), index, item))
@@ -199,6 +199,25 @@ where
                 ffi::PyList_SetItem(ptr, i as Py_ssize_t, obj);
             }
             PyObject::from_owned_ptr_or_panic(py, ptr)
+        }
+    }
+}
+
+impl<'py, T> IntoPyValue<'py> for Vec<T>
+where
+    T: IntoPyValue<'py>,
+{
+    type Target = &'py PyList;
+
+    fn into_py_value(self, py: Python<'py>) -> &'py PyList {
+        unsafe {
+            let ptr = ffi::PyList_New(self.len() as Py_ssize_t);
+            for (i, e) in self.into_iter().enumerate() {
+                e.with_borrowed_ptr(py, |e| {
+                    ffi::PyList_SetItem(ptr, i as Py_ssize_t, e);
+                })
+            }
+            py.from_owned_ptr(ptr)
         }
     }
 }

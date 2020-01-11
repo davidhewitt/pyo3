@@ -28,9 +28,14 @@ pub trait AsPyPointer {
 }
 
 /// This trait allows retrieving the underlying FFI pointer from Python objects.
-pub trait IntoPyPointer {
-    /// Retrieves the underlying FFI pointer. Whether pointer owned or borrowed
-    /// depends on implementation.
+///
+/// # Safety
+///
+/// Implementations of this trait must always return a pointer which corresponds
+/// to an owned Python reference.
+pub unsafe trait IntoPyPointer {
+    /// Retrieves the underlying FFI pointer. The pointer must be owned.
+    #[must_use = "this is an owned Python reference which will leak if unused"]
     fn into_ptr(self) -> *mut ffi::PyObject;
 }
 
@@ -48,21 +53,16 @@ where
     }
 }
 
-/// Convert `None` into a null pointer.
-impl<T> IntoPyPointer for Option<T>
+impl<'a, T> AsPyPointer for &'a T
 where
-    T: IntoPyPointer,
+    T: AsPyPointer,
 {
-    #[inline]
-    fn into_ptr(self) -> *mut ffi::PyObject {
-        match self {
-            Some(t) => t.into_ptr(),
-            None => std::ptr::null_mut(),
-        }
+    fn as_ptr(&self) -> *mut ffi::PyObject {
+        (**self).as_ptr()
     }
 }
 
-impl<'a, T> IntoPyPointer for &'a T
+unsafe impl<'a, T> IntoPyPointer for &'a T
 where
     T: AsPyPointer,
 {
@@ -83,52 +83,6 @@ pub trait ToPyObject {
     fn to_object(&self, py: Python) -> PyObject;
 }
 
-/// This trait has two implementations: The slow one is implemented for
-/// all [ToPyObject] and creates a new object using [ToPyObject::to_object],
-/// while the fast one is only implemented for AsPyPointer (we know
-/// that every AsPyPointer is also ToPyObject) and uses [AsPyPointer::as_ptr()]
-///
-/// This trait should eventually be replaced with [ManagedPyRef](crate::ManagedPyRef).
-pub trait ToBorrowedObject: ToPyObject {
-    /// Converts self into a Python object and calls the specified closure
-    /// on the native FFI pointer underlying the Python object.
-    ///
-    /// May be more efficient than `to_object` because it does not need
-    /// to touch any reference counts when the input object already is a Python object.
-    fn with_borrowed_ptr<F, R>(&self, py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R;
-}
-
-impl<T> ToBorrowedObject for T
-where
-    T: ToPyObject,
-{
-    default fn with_borrowed_ptr<F, R>(&self, py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-    {
-        let ptr = self.to_object(py).into_ptr();
-        let result = f(ptr);
-        unsafe {
-            ffi::Py_XDECREF(ptr);
-        }
-        result
-    }
-}
-
-impl<T> ToBorrowedObject for T
-where
-    T: ToPyObject + AsPyPointer,
-{
-    fn with_borrowed_ptr<F, R>(&self, _py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-    {
-        f(self.as_ptr())
-    }
-}
-
 /// Similar to [std::convert::From], just that it requires a gil token.
 pub trait FromPy<T>: Sized {
     /// Performs the conversion.
@@ -144,7 +98,7 @@ pub trait IntoPy<T>: Sized {
 // From implies Into
 impl<T, U> IntoPy<U> for T
 where
-    U: FromPy<T>,
+    U: for<'a> FromPy<T>,
 {
     fn into_py(self, py: Python) -> U {
         U::from_py(self, py)
@@ -155,6 +109,38 @@ where
 impl<T> FromPy<T> for T {
     fn from_py(t: T, _: Python) -> T {
         t
+    }
+}
+
+/// Defines a conversion from a type to a given Python type
+pub trait IntoPyValue<'py> {
+    type Target: IntoPyPointer;
+
+    /// Converts self into an owned Python object.
+    fn into_py_value(self, py: Python<'py>) -> Self::Target;
+
+    /// Converts self into a Python object, without increasing a reference count if possible.
+    ///
+    /// The default implementation calls `to_object()` to create a new Python object.
+    fn with_borrowed_ptr<F, R>(self, py: Python<'py>, f: F) -> R
+    where
+        F: FnOnce(*mut ffi::PyObject) -> R,
+        Self: Sized
+    {
+        let ptr = self.into_py_value(py).into_ptr();
+        let result = f(ptr);
+        unsafe {
+            ffi::Py_XDECREF(ptr);
+        }
+        result
+    }
+}
+
+impl<'py, T: Copy + IntoPyValue<'py>> IntoPyValue<'py> for &'_ T {
+    type Target = <T as IntoPyValue<'py>>::Target;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        (*self).into_py_value(py)
     }
 }
 
@@ -216,6 +202,22 @@ where
     fn into_py(self, py: Python) -> PyObject {
         match self {
             Some(val) => val.into_py(py),
+            None => py.None(),
+        }
+    }
+}
+
+impl<'py, T> IntoPyValue<'py> for Option<T>
+where
+    T: IntoPyValue<'py>,
+{
+    type Target = PyObject;
+
+    fn into_py_value(self, py: Python<'py>) -> PyObject {
+        match self {
+            Some(val) => unsafe {
+                PyObject::from_owned_ptr(py, val.into_py_value(py).into_ptr())
+            },
             None => py.None(),
         }
     }
