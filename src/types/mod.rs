@@ -164,23 +164,6 @@ macro_rules! pyobject_native_type_convert(
             }
         }
 
-        impl<$($type_param,)*> $crate::IntoPyValue<'_> for &'_ $name {
-            type Target = Self;
-
-            fn into_py_value(self, _py: $crate::Python<'_>) -> Self::Target {
-                self
-            }
-
-            fn with_borrowed_ptr<F, R>(self, _py: $crate::Python<'_>, f: F) -> R
-            where
-                F: FnOnce(*mut ffi::PyObject) -> R,
-                Self: Sized
-            {
-                use $crate::AsPyPointer;
-                f(self.as_ptr())
-            }
-        }
-
         impl<$($type_param,)*> ::std::fmt::Debug for $name {
             fn fmt(&self, f: &mut ::std::fmt::Formatter)
                    -> Result<(), ::std::fmt::Error>

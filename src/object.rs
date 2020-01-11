@@ -280,38 +280,6 @@ impl AsPyPointer for PyObject {
     }
 }
 
-impl IntoPyValue<'_> for PyObject {
-    type Target = Self;
-
-    fn into_py_value(self, _py: Python) -> Self::Target {
-        self
-    }
-
-    fn with_borrowed_ptr<F, R>(self, _py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-        Self: Sized
-    {
-        f(self.as_ptr())
-    }
-}
-
-impl IntoPyValue<'_> for &'_ PyObject {
-    type Target = Self;
-
-    fn into_py_value(self, _py: Python) -> Self::Target {
-        self
-    }
-
-    fn with_borrowed_ptr<F, R>(self, _py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-        Self: Sized
-    {
-        f(self.as_ptr())
-    }
-}
-
 unsafe impl IntoPyPointer for PyObject {
     /// Gets the underlying FFI pointer, returns a owned pointer.
     #[inline]

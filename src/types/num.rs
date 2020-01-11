@@ -43,7 +43,20 @@ macro_rules! int_fits_larger_int {
                 (self as $larger_type).into_py(py)
             }
         }
+        impl<'py> IntoPyValue<'py> for $rust_type {
+            type Target = &'py PyLong;
 
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                (self as $larger_type).into_py_value(py)
+            }
+        }
+        impl<'py> IntoPyValue<'py> for &'_ $rust_type {
+            type Target = &'py PyLong;
+
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                (*self).into_py_value(py)
+            }
+        }
         impl<'source> FromPyObject<'source> for $rust_type {
             fn extract(obj: &'source PyAny) -> PyResult<Self> {
                 let val = $crate::objectprotocol::ObjectProtocol::extract::<$larger_type>(obj)?;
@@ -83,6 +96,29 @@ macro_rules! int_convert_128 {
                     );
                     PyObject::from_owned_ptr_or_panic(py, obj)
                 }
+            }
+        }
+        impl<'py> IntoPyValue<'py> for $rust_type {
+            type Target = &'py PyLong;
+
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                unsafe {
+                    let bytes = self.to_ne_bytes();
+                    let obj = ffi::_PyLong_FromByteArray(
+                        bytes.as_ptr() as *const c_uchar,
+                        $byte_size,
+                        IS_LITTLE_ENDIAN,
+                        $is_signed,
+                    );
+                    py.from_owned_ptr(obj)
+                }
+            }
+        }
+        impl<'py> IntoPyValue<'py> for &'_ $rust_type {
+            type Target = &'py PyLong;
+
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                (*self).into_py_value(py)
             }
         }
         impl<'source> FromPyObject<'source> for $rust_type {
@@ -150,7 +186,13 @@ macro_rules! int_fits_c_long {
                 }
             }
         }
+        impl<'py> IntoPyValue<'py> for &'_ $rust_type {
+            type Target = &'py PyLong;
 
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                (*self).into_py_value(py)
+            }
+        }
         impl<'source> FromPyObject<'source> for $rust_type {
             fn extract(obj: &'source PyAny) -> PyResult<Self> {
                 let ptr = obj.as_ptr();
@@ -185,6 +227,20 @@ macro_rules! int_convert_u64_or_i64 {
             #[inline]
             fn into_py(self, py: Python) -> PyObject {
                 unsafe { PyObject::from_owned_ptr_or_panic(py, $pylong_from_ll_or_ull(self)) }
+            }
+        }
+        impl<'py> IntoPyValue<'py> for $rust_type {
+            type Target = &'py PyLong;
+
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                unsafe { py.from_owned_ptr($pylong_from_ll_or_ull(self)) }
+            }
+        }
+        impl<'py> IntoPyValue<'py> for &'_ $rust_type {
+            type Target = &'py PyLong;
+
+            fn into_py_value(self, py: Python<'py>) -> &'py PyLong {
+                (*self).into_py_value(py)
             }
         }
         impl<'source> FromPyObject<'source> for $rust_type {

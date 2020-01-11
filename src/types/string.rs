@@ -126,6 +126,14 @@ impl<'py, 'a> IntoPyValue<'py> for &'a str {
     }
 }
 
+impl<'py, 'a> IntoPyValue<'py> for String {
+    type Target = &'py PyString;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        PyString::new(py, &self)
+    }
+}
+
 /// Converts Rust `Cow<str>` to Python object.
 /// See `PyString::new` for details on the conversion.
 impl<'a> ToPyObject for Cow<'a, str> {

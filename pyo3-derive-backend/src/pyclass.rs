@@ -372,6 +372,14 @@ fn impl_class(
                     pyo3::IntoPy::into_py(pyo3::Py::new(py, self).unwrap(), py)
                 }
             }
+
+            impl<'py> pyo3::IntoPyValue<'py> for #cls {
+                type Target = Py<Self>;
+
+                fn into_py_value(self, py: Python<'py>) -> Self::Target {
+                    pyo3::Py::new(py, self).unwrap()
+                }
+            }
         }
     } else {
         quote! {}

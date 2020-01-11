@@ -7,7 +7,7 @@ use crate::FromPyObject;
 use crate::PyResult;
 use crate::Python;
 use crate::{AsPyPointer, FromPy};
-use crate::{PyTryFrom, ToPyObject};
+use crate::{PyTryFrom, ToPyObject, IntoPyValue};
 
 /// Represents a Python `bool`.
 #[repr(transparent)]
@@ -50,6 +50,22 @@ impl FromPy<bool> for PyObject {
     #[inline]
     fn from_py(other: bool, py: Python) -> Self {
         PyBool::new(py, other).into()
+    }
+}
+
+impl<'py> IntoPyValue<'py> for bool {
+    type Target = &'py PyBool;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        PyBool::new(py, self)
+    }
+}
+
+impl<'py> IntoPyValue<'py> for &bool {
+    type Target = &'py PyBool;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        PyBool::new(py, *self)
     }
 }
 

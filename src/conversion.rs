@@ -136,11 +136,19 @@ pub trait IntoPyValue<'py> {
     }
 }
 
-impl<'py, T: Copy + IntoPyValue<'py>> IntoPyValue<'py> for &'_ T {
-    type Target = <T as IntoPyValue<'py>>::Target;
+impl<T: AsPyPointer + IntoPyPointer> IntoPyValue<'_> for T {
+    type Target = Self;
 
-    fn into_py_value(self, py: Python<'py>) -> Self::Target {
-        (*self).into_py_value(py)
+    fn into_py_value(self, _py: Python<'_>) -> Self::Target {
+        self
+    }
+
+    fn with_borrowed_ptr<F, R>(self, _py: Python<'_>, f: F) -> R
+    where
+        F: FnOnce(*mut ffi::PyObject) -> R,
+        Self: Sized
+    {
+        f(self.as_ptr())
     }
 }
 
@@ -233,6 +241,22 @@ impl ToPyObject for () {
 impl FromPy<()> for PyObject {
     fn from_py(_: (), py: Python) -> Self {
         py.None()
+    }
+}
+
+impl IntoPyValue<'_> for () {
+    type Target = PyObject;
+
+    fn into_py_value(self, py: Python) -> PyObject {
+        py.None()
+    }
+
+    fn with_borrowed_ptr<F, R>(self, _py: Python<'_>, f: F) -> R
+    where
+        F: FnOnce(*mut ffi::PyObject) -> R,
+        Self: Sized
+    {
+        f(std::ptr::null_mut())
     }
 }
 

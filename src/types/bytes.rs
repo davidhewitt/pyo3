@@ -1,5 +1,5 @@
 use crate::conversion::FromPyObject;
-use crate::conversion::{PyTryFrom, ToPyObject};
+use crate::conversion::{PyTryFrom, ToPyObject, IntoPyValue};
 use crate::err::PyResult;
 use crate::internal_tricks::Unsendable;
 use crate::object::PyObject;
@@ -71,6 +71,14 @@ impl<'a> FromPy<&'a [u8]> for PyObject {
 impl<'a> FromPyObject<'a> for &'a [u8] {
     fn extract(obj: &'a PyAny) -> PyResult<Self> {
         Ok(<PyBytes as PyTryFrom>::try_from(obj)?.as_bytes())
+    }
+}
+
+impl<'py> IntoPyValue<'py> for &'_ [u8] {
+    type Target = &'py PyBytes;
+
+    fn into_py_value(self, py: Python<'py>) -> Self::Target {
+        PyBytes::new(py, self)
     }
 }
 #[cfg(test)]

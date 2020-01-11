@@ -11,7 +11,7 @@ use crate::instance::PyNativeType;
 use crate::pyclass::PyClass;
 use crate::pyclass_init::PyClassInitializer;
 use crate::types::{PyAny, PyDict, PyModule, PyTuple};
-use crate::{ffi, GILPool, IntoPy, PyObject, Python};
+use crate::{ffi, GILPool, IntoPy, Python, IntoPyValue};
 use std::ptr;
 
 /// Description of a python parameter; used for `parse_args()`.
@@ -170,13 +170,17 @@ pub trait IntoPyResult<T> {
     fn into_py_result(self) -> PyResult<T>;
 }
 
-impl<T: IntoPy<PyObject>> IntoPyResult<T> for T {
+impl<T> IntoPyResult<T> for T
+where T: for<'py> IntoPyValue<'py>
+{
     fn into_py_result(self) -> PyResult<T> {
         Ok(self)
     }
 }
 
-impl<T: IntoPy<PyObject>> IntoPyResult<T> for PyResult<T> {
+impl<T> IntoPyResult<T> for PyResult<T>
+where T: for<'py> IntoPyValue<'py>
+{
     fn into_py_result(self) -> PyResult<T> {
         self
     }

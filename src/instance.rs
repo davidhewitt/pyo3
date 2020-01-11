@@ -8,7 +8,7 @@ use crate::pyclass_init::PyClassInitializer;
 use crate::type_object::{PyObjectLayout, PyTypeInfo};
 use crate::types::PyAny;
 use crate::{ffi, IntoPy};
-use crate::{AsPyPointer, FromPyObject, IntoPyPointer, Python, ToPyObject, IntoPyValue};
+use crate::{AsPyPointer, FromPyObject, IntoPyPointer, Python, ToPyObject};
 use std::marker::PhantomData;
 use std::mem;
 use std::ptr::NonNull;
@@ -233,21 +233,5 @@ where
             ob.extract::<&T>()
                 .map(|val| Py::from_borrowed_ptr(val.as_ptr()))
         }
-    }
-}
-
-impl<T> IntoPyValue<'_> for Py<T> {
-    type Target = Self;
-
-    fn into_py_value(self, _py: Python) -> Self::Target {
-        self
-    }
-
-    fn with_borrowed_ptr<F, R>(self, _py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-        Self: Sized
-    {
-        f(self.as_ptr())
     }
 }
