@@ -94,6 +94,17 @@ pub trait FromPy<T>: Sized + AsPyPointer + IntoPyPointer {
     }
 }
 
+// From (and thus Into) is reflexive
+impl<T: Sized + AsPyPointer + IntoPyPointer> FromPy<T> for T {
+    fn from_py(t: Self, _: Python) -> Self {
+        t
+    }
+
+    fn managed_ref_from(other: Self, py: Python) -> ManagedPyRef<Self> {
+        ManagedPyRef::borrowed(py, &other)
+    }
+}
+
 /// Similar to [std::convert::Into], just that it requires a gil token.
 pub trait IntoPy<T>: Sized
 where
@@ -116,17 +127,6 @@ where
 
     fn into_managed_ref(self, py: Python) -> ManagedPyRef<U> {
         U::managed_ref_from(self, py)
-    }
-}
-
-// From (and thus Into) is reflexive
-impl<T: Sized + AsPyPointer + IntoPyPointer> FromPy<T> for T {
-    fn from_py(t: Self, _: Python) -> Self {
-        t
-    }
-
-    fn managed_ref_from(other: Self, py: Python) -> ManagedPyRef<Self> {
-        ManagedPyRef::borrowed(py, &other)
     }
 }
 
@@ -195,7 +195,7 @@ where
     fn managed_ref_from(other: Option<T>, py: Python) -> ManagedPyRef<PyObject> {
         match other {
             Some(val) => val.into_managed_ref(py),
-            None => unsafe { ManagedPyRef::from_raw(py, std::ptr::null_mut(), false) }
+            None => ().into_managed_ref(py)
         }
     }
 }
@@ -210,6 +210,16 @@ impl ToPyObject for () {
 impl FromPy<()> for PyObject {
     fn from_py(_: (), py: Python) -> Self {
         py.None()
+    }
+
+    fn managed_ref_from(_: (), py: Python) -> ManagedPyRef<PyObject> {
+        unsafe { ManagedPyRef::from_raw(py, std::ptr::null_mut(), false) }
+    }
+}
+
+impl AsPyPointer for () {
+    fn as_ptr(&self) -> *mut ffi::PyObject {
+        std::ptr::null_mut()
     }
 }
 
