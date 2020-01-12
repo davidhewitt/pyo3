@@ -4,7 +4,7 @@ use crate::class::basic::CompareOp;
 use crate::err::{self, PyDowncastError, PyErr, PyResult};
 use crate::exceptions::TypeError;
 use crate::ffi;
-use crate::instance::PyNativeType;
+use crate::instance::{PyNativeType, ManagedPyRef};
 use crate::object::PyObject;
 use crate::type_object::PyTypeInfo;
 use crate::types::{PyAny, PyDict, PyIterator, PyString, PyTuple, PyType};
@@ -12,7 +12,7 @@ use crate::AsPyPointer;
 use crate::IntoPyPointer;
 use crate::Py;
 use crate::Python;
-use crate::{FromPyObject, IntoPy, PyTryFrom, ToBorrowedObject, ToPyObject};
+use crate::{FromPyObject, IntoPy, PyTryFrom};
 use std::cmp::Ordering;
 use std::os::raw::c_int;
 
@@ -22,26 +22,26 @@ pub trait ObjectProtocol {
     /// This is equivalent to the Python expression `hasattr(self, attr_name)`.
     fn hasattr<N>(&self, attr_name: N) -> PyResult<bool>
     where
-        N: ToPyObject;
+        N: IntoPy<PyObject>;
 
     /// Retrieves an attribute value.
     /// This is equivalent to the Python expression `self.attr_name`.
     fn getattr<N>(&self, attr_name: N) -> PyResult<&PyAny>
     where
-        N: ToPyObject;
+        N: IntoPy<PyObject>;
 
     /// Sets an attribute value.
     /// This is equivalent to the Python expression `self.attr_name = value`.
     fn setattr<N, V>(&self, attr_name: N, value: V) -> PyResult<()>
     where
-        N: ToBorrowedObject,
-        V: ToBorrowedObject;
+        N: IntoPy<PyObject>,
+        V: IntoPy<PyObject>;
 
     /// Deletes an attribute.
     /// This is equivalent to the Python expression `del self.attr_name`.
     fn delattr<N>(&self, attr_name: N) -> PyResult<()>
     where
-        N: ToPyObject;
+        N: IntoPy<PyObject>;
 
     /// Compares two Python objects.
     ///
@@ -58,7 +58,7 @@ pub trait ObjectProtocol {
     /// ```
     fn compare<O>(&self, other: O) -> PyResult<Ordering>
     where
-        O: ToPyObject;
+        O: IntoPy<PyObject>;
 
     /// Compares two Python objects.
     ///
@@ -71,7 +71,7 @@ pub trait ObjectProtocol {
     ///   * CompareOp::Ge: `self >= other`
     fn rich_compare<O>(&self, other: O, compare_op: CompareOp) -> PyResult<PyObject>
     where
-        O: ToPyObject;
+        O: IntoPy<PyObject>;
 
     /// Compute the string representation of self.
     /// This is equivalent to the Python expression `repr(self)`.
@@ -149,20 +149,20 @@ pub trait ObjectProtocol {
     /// This is equivalent to the Python expression: `self[key]`.
     fn get_item<K>(&self, key: K) -> PyResult<&PyAny>
     where
-        K: ToBorrowedObject;
+        K: IntoPy<PyObject>;
 
     /// Sets an item value.
     /// This is equivalent to the Python expression `self[key] = value`.
     fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
     where
-        K: ToBorrowedObject,
-        V: ToBorrowedObject;
+        K: IntoPy<PyObject>,
+        V: IntoPy<PyObject>;
 
     /// Deletes an item.
     /// This is equivalent to the Python expression `del self[key]`.
     fn del_item<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToBorrowedObject;
+        K: IntoPy<PyObject>;
 
     /// Takes an object and returns an iterator for it.
     /// This is typically a new iterator but if the argument
@@ -213,50 +213,56 @@ where
 {
     fn hasattr<N>(&self, attr_name: N) -> PyResult<bool>
     where
-        N: ToPyObject,
+        N: IntoPy<PyObject>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
-            Ok(ffi::PyObject_HasAttr(self.as_ptr(), attr_name) != 0)
-        })
+        let attr_name = attr_name.into_managed_ref(self.py());
+        unsafe {
+            Ok(ffi::PyObject_HasAttr(self.as_ptr(), attr_name.as_ptr()) != 0)
+        }
     }
 
     fn getattr<N>(&self, attr_name: N) -> PyResult<&PyAny>
     where
-        N: ToPyObject,
+        N: IntoPy<PyObject>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
+        let attr_name = attr_name.into_managed_ref(self.py());
+        unsafe {
             self.py()
-                .from_owned_ptr_or_err(ffi::PyObject_GetAttr(self.as_ptr(), attr_name))
-        })
+                .from_owned_ptr_or_err(ffi::PyObject_GetAttr(self.as_ptr(), attr_name.as_ptr()))
+        }
     }
 
     fn setattr<N, V>(&self, attr_name: N, value: V) -> PyResult<()>
     where
-        N: ToBorrowedObject,
-        V: ToBorrowedObject,
+        N: IntoPy<PyObject>,
+        V: IntoPy<PyObject>,
     {
-        attr_name.with_borrowed_ptr(self.py(), move |attr_name| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(
-                    self.py(),
-                    ffi::PyObject_SetAttr(self.as_ptr(), attr_name, value),
-                )
-            })
-        })
+        let attr_name = attr_name.into_managed_ref(self.py());
+        let value = value.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_SetAttr(self.as_ptr(), attr_name.as_ptr(), value.as_ptr()),
+            )
+        }
     }
 
     fn delattr<N>(&self, attr_name: N) -> PyResult<()>
     where
-        N: ToPyObject,
+        N: IntoPy<PyObject>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyObject_DelAttr(self.as_ptr(), attr_name))
-        })
+        let attr_name = attr_name.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_DelAttr(self.as_ptr(), attr_name.as_ptr())
+            )
+        }
     }
 
     fn compare<O>(&self, other: O) -> PyResult<Ordering>
     where
-        O: ToPyObject,
+        O: IntoPy<PyObject>,
     {
         unsafe fn do_compare(
             py: Python,
@@ -286,22 +292,22 @@ where
             ))
         }
 
-        other.with_borrowed_ptr(self.py(), |other| unsafe {
-            do_compare(self.py(), self.as_ptr(), other)
-        })
+        let other = other.into_managed_ref(self.py());
+        unsafe {
+            do_compare(self.py(), self.as_ptr(), other.as_ptr())
+        }
     }
 
     fn rich_compare<O>(&self, other: O, compare_op: CompareOp) -> PyResult<PyObject>
     where
-        O: ToPyObject,
+        O: IntoPy<PyObject>,
     {
+        let other = other.into_managed_ref(self.py());
         unsafe {
-            other.with_borrowed_ptr(self.py(), |other| {
-                PyObject::from_owned_ptr_or_err(
-                    self.py(),
-                    ffi::PyObject_RichCompare(self.as_ptr(), other, compare_op as c_int),
-                )
-            })
+            PyObject::from_owned_ptr_or_err(
+                self.py(),
+                ffi::PyObject_RichCompare(self.as_ptr(), other.as_ptr(), compare_op as c_int),
+            )
         }
     }
 
@@ -351,9 +357,10 @@ where
         args: impl IntoPy<Py<PyTuple>>,
         kwargs: Option<&PyDict>,
     ) -> PyResult<&PyAny> {
-        name.with_borrowed_ptr(self.py(), |name| unsafe {
+        let name = ManagedPyRef::new(self.py(), name);
+        unsafe {
             let py = self.py();
-            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name);
+            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name.as_ptr());
             if ptr.is_null() {
                 return Err(PyErr::fetch(py));
             }
@@ -365,7 +372,7 @@ where
             ffi::Py_XDECREF(args);
             ffi::Py_XDECREF(kwargs);
             result
-        })
+        }
     }
 
     fn call_method0(&self, name: &str) -> PyResult<&PyAny> {
@@ -413,33 +420,38 @@ where
 
     fn get_item<K>(&self, key: K) -> PyResult<&PyAny>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
+        let key = key.into_managed_ref(self.py());
+        unsafe {
             self.py()
-                .from_owned_ptr_or_err(ffi::PyObject_GetItem(self.as_ptr(), key))
-        })
+                .from_owned_ptr_or_err(ffi::PyObject_GetItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
     where
-        K: ToBorrowedObject,
-        V: ToBorrowedObject,
+        K: IntoPy<PyObject>,
+        V: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(self.py(), ffi::PyObject_SetItem(self.as_ptr(), key, value))
-            })
-        })
+        let key = key.into_managed_ref(self.py());
+        let value = value.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_SetItem(self.as_ptr(), key.as_ptr(), value.as_ptr())
+            )
+        }
     }
 
     fn del_item<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyObject_DelItem(self.as_ptr(), key))
-        })
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyObject_DelItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     fn iter(&self) -> PyResult<PyIterator> {

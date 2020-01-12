@@ -84,52 +84,6 @@ pub trait ToPyObject {
     fn to_object(&self, py: Python) -> PyObject;
 }
 
-/// This trait has two implementations: The slow one is implemented for
-/// all [ToPyObject] and creates a new object using [ToPyObject::to_object],
-/// while the fast one is only implemented for AsPyPointer (we know
-/// that every AsPyPointer is also ToPyObject) and uses [AsPyPointer::as_ptr()]
-///
-/// This trait should eventually be replaced with [ManagedPyRef](crate::ManagedPyRef).
-pub trait ToBorrowedObject: ToPyObject {
-    /// Converts self into a Python object and calls the specified closure
-    /// on the native FFI pointer underlying the Python object.
-    ///
-    /// May be more efficient than `to_object` because it does not need
-    /// to touch any reference counts when the input object already is a Python object.
-    fn with_borrowed_ptr<F, R>(&self, py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R;
-}
-
-impl<T> ToBorrowedObject for T
-where
-    T: ToPyObject,
-{
-    default fn with_borrowed_ptr<F, R>(&self, py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-    {
-        let ptr = self.to_object(py).into_ptr();
-        let result = f(ptr);
-        unsafe {
-            ffi::Py_XDECREF(ptr);
-        }
-        result
-    }
-}
-
-impl<T> ToBorrowedObject for T
-where
-    T: ToPyObject + AsPyPointer,
-{
-    fn with_borrowed_ptr<F, R>(&self, _py: Python, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-    {
-        f(self.as_ptr())
-    }
-}
-
 /// Similar to [std::convert::From], just that it requires a gil token.
 pub trait FromPy<T>: Sized + AsPyPointer + IntoPyPointer {
     /// Performs the conversion.

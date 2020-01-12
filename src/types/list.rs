@@ -11,7 +11,7 @@ use crate::types::PyAny;
 use crate::IntoPyPointer;
 use crate::Python;
 use crate::{AsPyPointer, FromPy, IntoPy};
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::{ToPyObject};
 
 /// Represents a Python `list`.
 #[repr(transparent)]
@@ -94,11 +94,12 @@ impl PyList {
     /// Appends an item at the list.
     pub fn append<I>(&self, item: I) -> PyResult<()>
     where
-        I: ToBorrowedObject,
+        I: IntoPy<PyObject>,
     {
-        item.with_borrowed_ptr(self.py(), |item| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyList_Append(self.as_ptr(), item))
-        })
+        let item = item.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyList_Append(self.as_ptr(), item.as_ptr()))
+        }
     }
 
     /// Inserts an item at the specified index.
@@ -106,11 +107,15 @@ impl PyList {
     /// Panics if the index is out of range.
     pub fn insert<I>(&self, index: isize, item: I) -> PyResult<()>
     where
-        I: ToBorrowedObject,
+        I: IntoPy<PyObject>,
     {
-        item.with_borrowed_ptr(self.py(), |item| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyList_Insert(self.as_ptr(), index, item))
-        })
+        let item = item.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyList_Insert(self.as_ptr(), index, item.as_ptr())
+            )
+        }
     }
 
     /// Returns an iterator over this list items.

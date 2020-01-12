@@ -9,7 +9,7 @@ use crate::object::PyObject;
 use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::Python;
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::{FromPy, IntoPy, ToPyObject};
 use std::ptr;
 use std::{collections, hash};
 
@@ -65,35 +65,38 @@ impl PySet {
     /// This is equivalent to the Python expression `key in self`.
     pub fn contains<K>(&self, key: K) -> PyResult<bool>
     where
-        K: ToPyObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PySet_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            match ffi::PySet_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Remove element from the set if it is present.
     pub fn discard<K>(&self, key: K)
     where
-        K: ToPyObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            ffi::PySet_Discard(self.as_ptr(), key);
-        })
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            ffi::PySet_Discard(self.as_ptr(), key.as_ptr());
+        }
     }
 
     /// Add element to the set.
     pub fn add<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToPyObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PySet_Add(self.as_ptr(), key))
-        })
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PySet_Add(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// Remove and return an arbitrary element from the set
@@ -160,7 +163,7 @@ where
         let set = PySet::new::<T>(py, &[]).expect("Failed to construct empty set");
         {
             for val in self {
-                set.add(val).expect("Failed to add to set");
+                set.add(val.to_object(py)).expect("Failed to add to set");
             }
         }
         set.into()
@@ -175,6 +178,36 @@ where
         let set = PySet::new::<T>(py, &[]).expect("Failed to construct empty set");
         {
             for val in self {
+                set.add(val.to_object(py)).expect("Failed to add to set");
+            }
+        }
+        set.into()
+    }
+}
+
+impl<T> FromPy<collections::HashSet<T>> for PyObject
+where
+    T: hash::Hash + Eq + IntoPy<PyObject>,
+{
+    fn from_py(other: collections::HashSet<T>, py: Python) -> PyObject {
+        let set = PySet::empty(py).expect("Failed to construct empty set");
+        {
+            for val in other {
+                set.add(val).expect("Failed to add to set");
+            }
+        }
+        set.into()
+    }
+}
+
+impl<T> FromPy<collections::BTreeSet<T>> for PyObject
+where
+    T: hash::Hash + Eq + IntoPy<PyObject>,
+{
+    fn from_py(other: collections::BTreeSet<T>, py: Python) -> PyObject {
+        let set = PySet::empty(py).expect("Failed to construct empty set");
+        {
+            for val in other {
                 set.add(val).expect("Failed to add to set");
             }
         }
@@ -212,15 +245,16 @@ impl PyFrozenSet {
     /// This is equivalent to the Python expression `key in self`.
     pub fn contains<K>(&self, key: K) -> PyResult<bool>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PySet_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            match ffi::PySet_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Returns an iterator of values in this frozen set.

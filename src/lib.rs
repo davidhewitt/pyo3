@@ -120,7 +120,7 @@
 pub use crate::class::*;
 pub use crate::conversion::{
     AsPyPointer, FromPy, FromPyObject, FromPyPointer, IntoPy, IntoPyPointer, PyTryFrom, PyTryInto,
-    ToBorrowedObject, ToPyObject,
+    ToPyObject,
 };
 pub use crate::err::{PyDowncastError, PyErr, PyErrArguments, PyErrValue, PyResult};
 pub use crate::gil::{init_once, GILGuard, GILPool};

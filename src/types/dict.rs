@@ -11,7 +11,7 @@ use crate::IntoPyPointer;
 use crate::Python;
 use crate::{ffi, FromPy, IntoPy};
 use crate::{FromPyObject, PyTryFrom};
-use crate::{ToBorrowedObject, ToPyObject};
+use crate::ToPyObject;
 use std::collections::{BTreeMap, HashMap};
 use std::{cmp, collections, hash};
 
@@ -80,52 +80,58 @@ impl PyDict {
     /// This is equivalent to the Python expression `key in self`.
     pub fn contains<K>(&self, key: K) -> PyResult<bool>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PyDict_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            match ffi::PyDict_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Gets an item from the dictionary.
     /// Returns None if the item is not present, or if an error occurs.
     pub fn get_item<K>(&self, key: K) -> Option<&PyAny>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
+        let key = key.into_managed_ref(self.py());
+        unsafe {
             self.py()
-                .from_borrowed_ptr_or_opt(ffi::PyDict_GetItem(self.as_ptr(), key))
-        })
+                .from_borrowed_ptr_or_opt(ffi::PyDict_GetItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// Sets an item value.
     /// This is equivalent to the Python expression `self[key] = value`.
     pub fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
     where
-        K: ToPyObject,
-        V: ToPyObject,
+        K: IntoPy<PyObject>,
+        V: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(self.py(), ffi::PyDict_SetItem(self.as_ptr(), key, value))
-            })
-        })
+        let key = key.into_managed_ref(self.py());
+        let value = value.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyDict_SetItem(self.as_ptr(), key.as_ptr(), value.as_ptr())
+            )
+        }
     }
 
     /// Deletes an item.
     /// This is equivalent to the Python expression `del self[key]`.
     pub fn del_item<K>(&self, key: K) -> PyResult<()>
     where
-        K: ToBorrowedObject,
+        K: IntoPy<PyObject>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyDict_DelItem(self.as_ptr(), key))
-        })
+        let key = key.into_managed_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyDict_DelItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// List of dict keys.
@@ -205,7 +211,10 @@ where
     H: hash::BuildHasher,
 {
     fn to_object(&self, py: Python) -> PyObject {
-        IntoPyDict::into_py_dict(self, py).into()
+        let iter = self
+            .iter()
+            .map(|(k, v)| (k.to_object(py), v.to_object(py)));
+        IntoPyDict::into_py_dict(iter, py).into()
     }
 }
 
@@ -215,7 +224,10 @@ where
     V: ToPyObject,
 {
     fn to_object(&self, py: Python) -> PyObject {
-        IntoPyDict::into_py_dict(self, py).into()
+        let iter = self
+            .iter()
+            .map(|(k, v)| (k.to_object(py), v.to_object(py)));
+        IntoPyDict::into_py_dict(iter, py).into()
     }
 }
 
@@ -226,10 +238,7 @@ where
     H: hash::BuildHasher,
 {
     fn from_py(other: collections::HashMap<K, V, H>, py: Python) -> PyObject {
-        let iter = other
-            .into_iter()
-            .map(|(k, v)| (k.into_py(py), v.into_py(py)));
-        IntoPyDict::into_py_dict(iter, py).into()
+        other.into_py_dict(py).into()
     }
 }
 
@@ -239,10 +248,7 @@ where
     V: IntoPy<PyObject>,
 {
     fn from_py(other: collections::BTreeMap<K, V>, py: Python) -> PyObject {
-        let iter = other
-            .into_iter()
-            .map(|(k, v)| (k.into_py(py), v.into_py(py)));
-        IntoPyDict::into_py_dict(iter, py).into()
+        other.into_py_dict(py).into()
     }
 }
 
@@ -262,7 +268,8 @@ where
     fn into_py_dict(self, py: Python) -> &PyDict {
         let dict = PyDict::new(py);
         for item in self {
-            dict.set_item(item.key(), item.value())
+            let (key, value) = item.item(py);
+            dict.set_item(key, value)
                 .expect("Failed to set_item on dict");
         }
         dict
@@ -271,24 +278,20 @@ where
 
 /// Represents a tuple which can be used as a PyDict item.
 pub trait PyDictItem {
-    type K: ToPyObject;
-    type V: ToPyObject;
-    fn key(&self) -> &Self::K;
-    fn value(&self) -> &Self::V;
+    type K: IntoPy<PyObject>;
+    type V: IntoPy<PyObject>;
+    fn item(self, py: Python) -> (Self::K, Self::V);
 }
 
 impl<K, V> PyDictItem for (K, V)
 where
-    K: ToPyObject,
-    V: ToPyObject,
+    K: IntoPy<PyObject>,
+    V: IntoPy<PyObject>,
 {
     type K = K;
     type V = V;
-    fn key(&self) -> &Self::K {
-        &self.0
-    }
-    fn value(&self) -> &Self::V {
-        &self.1
+    fn item(self, _py: Python) -> Self {
+        self
     }
 }
 
@@ -297,13 +300,10 @@ where
     K: ToPyObject,
     V: ToPyObject,
 {
-    type K = K;
-    type V = V;
-    fn key(&self) -> &Self::K {
-        &self.0
-    }
-    fn value(&self) -> &Self::V {
-        &self.1
+    type K = PyObject;
+    type V = PyObject;
+    fn item(self, py: Python) -> (Self::K, Self::V) {
+        (self.0.to_object(py), self.1.to_object(py))
     }
 }
 

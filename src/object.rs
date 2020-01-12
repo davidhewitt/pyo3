@@ -3,10 +3,10 @@
 use crate::err::{PyDowncastError, PyErr, PyResult};
 use crate::ffi;
 use crate::gil;
-use crate::instance::{AsPyRef, PyNativeType};
+use crate::instance::{AsPyRef, ManagedPyRef, PyNativeType};
 use crate::types::{PyAny, PyDict, PyTuple};
 use crate::{AsPyPointer, Py, Python};
-use crate::{FromPyObject, IntoPy, IntoPyPointer, PyTryFrom, ToBorrowedObject, ToPyObject};
+use crate::{FromPyObject, IntoPy, IntoPyPointer, PyTryFrom, ToPyObject};
 use std::ptr::NonNull;
 
 /// A python object
@@ -169,11 +169,15 @@ impl PyObject {
     /// This is equivalent to the Python expression 'self.attr_name'.
     pub fn getattr<N>(&self, py: Python, attr_name: N) -> PyResult<PyObject>
     where
-        N: ToPyObject,
+        N: IntoPy<PyObject>,
     {
-        attr_name.with_borrowed_ptr(py, |attr_name| unsafe {
-            PyObject::from_owned_ptr_or_err(py, ffi::PyObject_GetAttr(self.as_ptr(), attr_name))
-        })
+        let attr_name = attr_name.into_managed_ref(py);
+        unsafe {
+            PyObject::from_owned_ptr_or_err(
+                py,
+                ffi::PyObject_GetAttr(self.as_ptr(), attr_name.as_ptr())
+            )
+        }
     }
 
     /// Calls the object.
@@ -217,10 +221,11 @@ impl PyObject {
         args: impl IntoPy<Py<PyTuple>>,
         kwargs: Option<&PyDict>,
     ) -> PyResult<PyObject> {
-        name.with_borrowed_ptr(py, |name| unsafe {
+        let name = ManagedPyRef::new(py, name);
+        unsafe {
             let args = args.into_py(py).into_ptr();
             let kwargs = kwargs.into_ptr();
-            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name);
+            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name.as_ptr());
             if ptr.is_null() {
                 return Err(PyErr::fetch(py));
             }
@@ -229,7 +234,7 @@ impl PyObject {
             ffi::Py_XDECREF(args);
             ffi::Py_XDECREF(kwargs);
             result
-        })
+        }
     }
 
     /// Calls a method on the object.

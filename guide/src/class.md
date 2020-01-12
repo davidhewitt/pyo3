@@ -54,9 +54,9 @@ impl pyo3::pyclass::PyClass for MyClass {
     type WeakRef = pyo3::pyclass_slots::PyClassDummySlot;
 }
 
-impl pyo3::IntoPy<PyObject> for MyClass {
-    fn into_py(self, py: pyo3::Python) -> pyo3::PyObject {
-        pyo3::IntoPy::into_py(pyo3::Py::new(py, self).unwrap(), py)
+impl pyo3::FromPy<MyClass> for pyo3::PyObject {
+    fn from_py(other: MyClass, py: pyo3::Python) -> pyo3::PyObject {
+        pyo3::IntoPy::into_py(pyo3::Py::new(py, other).unwrap(), py)
     }
 }
 

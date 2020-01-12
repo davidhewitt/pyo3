@@ -7,7 +7,7 @@ use crate::pyclass::{PyClass, PyClassShell};
 use crate::pyclass_init::PyClassInitializer;
 use crate::type_object::{PyObjectLayout, PyTypeInfo};
 use crate::types::PyAny;
-use crate::{ffi, FromPy};
+use crate::{ffi, FromPy, IntoPy};
 use crate::{AsPyPointer, FromPyObject, IntoPyPointer, Python, ToPyObject};
 use std::marker::PhantomData;
 use std::mem;
@@ -250,11 +250,11 @@ where
 ///
 /// ```
 /// use pyo3::ffi;
-/// use pyo3::{ToPyObject, AsPyPointer, PyNativeType, ManagedPyRef};
+/// use pyo3::{IntoPy, PyObject, AsPyPointer, PyNativeType, ManagedPyRef};
 /// use pyo3::types::{PyDict, PyAny};
 ///
-/// pub fn get_dict_item<'p>(dict: &'p PyDict, key: &impl ToPyObject) -> Option<&'p PyAny> {
-///     let key = ManagedPyRef::from_to_pyobject(dict.py(), key);
+/// pub fn get_dict_item<'p>(dict: &'p PyDict, key: impl IntoPy<PyObject>) -> Option<&'p PyAny> {
+///     let key = ManagedPyRef::new(dict.py(), key);
 ///     unsafe {
 ///         dict.py().from_borrowed_ptr_or_opt(ffi::PyDict_GetItem(dict.as_ptr(), key.as_ptr()))
 ///     }
@@ -265,6 +265,14 @@ pub struct ManagedPyRef<'p, T> {
     owned: bool,
     data_type: PhantomData<T>,
     _py: Python<'p>,
+}
+
+impl<'p> ManagedPyRef<'p, PyObject> {
+    pub fn new<T>(py: Python<'p>, value: T) -> Self
+    where T: IntoPy<PyObject>
+    {
+        Self::owned(py, value.into_py(py))
+    }
 }
 
 /// This should eventually be replaced with a generic `IntoPy` trait impl by figuring
@@ -324,7 +332,7 @@ mod test {
         let py = gil.python();
         let native = PyDict::new(py);
         let ref_count = unsafe { ffi::Py_REFCNT(native.as_ptr()) };
-        let borrowed = ManagedPyRef::from_to_pyobject(py, native);
+        let borrowed = ManagedPyRef::borrowed(py, native);
         assert_eq!(native.as_ptr(), borrowed.data);
         assert_eq!(ref_count, unsafe { ffi::Py_REFCNT(borrowed.data) });
         drop(borrowed);
@@ -336,7 +344,7 @@ mod test {
         let gil = Python::acquire_gil();
         let py = gil.python();
         let convertible = (1, 2, 3);
-        let borrowed = ManagedPyRef::from_to_pyobject(py, &convertible);
+        let borrowed = ManagedPyRef::new(py, convertible);
         let ptr = borrowed.data;
         // The refcountwould become 0 after dropping, which means the gc can free the pointer
         // and getting the refcount would be UB. This incref ensures that it remains 1
