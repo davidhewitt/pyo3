@@ -7,7 +7,7 @@ use crate::types::{PyAny, PyType};
 use crate::AsPyPointer;
 use crate::IntoPyPointer;
 use crate::Python;
-use crate::{exceptions, IntoPy};
+use crate::exceptions;
 use crate::{ffi, FromPy};
 use crate::{ToBorrowedObject, ToPyObject};
 use libc::c_int;
@@ -382,15 +382,15 @@ impl FromPy<PyErr> for PyObject {
     }
 }
 
-impl ToPyObject for PyErr {
-    fn to_object(&self, py: Python) -> PyObject {
-        let err = self.clone_ref(py);
+impl FromPy<&'_ PyErr> for PyObject {
+    fn from_py(other: &PyErr, py: Python) -> PyObject {
+        let err = other.clone_ref(py);
         err.instance(py)
     }
 }
 
-impl<'a> IntoPy<PyObject> for &'a PyErr {
-    fn into_py(self, py: Python) -> PyObject {
+impl ToPyObject for PyErr {
+    fn to_object(&self, py: Python) -> PyObject {
         let err = self.clone_ref(py);
         err.instance(py)
     }

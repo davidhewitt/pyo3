@@ -7,7 +7,7 @@ use crate::pyclass::{PyClass, PyClassShell};
 use crate::pyclass_init::PyClassInitializer;
 use crate::type_object::{PyObjectLayout, PyTypeInfo};
 use crate::types::PyAny;
-use crate::{ffi, IntoPy};
+use crate::{ffi, FromPy};
 use crate::{AsPyPointer, FromPyObject, IntoPyPointer, Python, ToPyObject};
 use std::marker::PhantomData;
 use std::mem;
@@ -138,12 +138,12 @@ impl<T> ToPyObject for Py<T> {
     }
 }
 
-impl<T> IntoPy<PyObject> for Py<T> {
+impl<T> FromPy<Py<T>> for PyObject {
     /// Converts `Py` instance -> PyObject.
     /// Consumes `self` without calling `Py_DECREF()`
     #[inline]
-    fn into_py(self, _py: Python) -> PyObject {
-        unsafe { PyObject::from_not_null(self.into_non_null()) }
+    fn from_py(other: Py<T>, _py: Python) -> PyObject {
+        unsafe { PyObject::from_not_null(other.into_non_null()) }
     }
 }
 
@@ -260,79 +260,55 @@ where
 ///     }
 /// }
 /// ```
-#[repr(transparent)]
-pub struct ManagedPyRef<'p, T: ToPyObject + ?Sized> {
+pub struct ManagedPyRef<'p, T> {
     data: *mut ffi::PyObject,
+    owned: bool,
     data_type: PhantomData<T>,
     _py: Python<'p>,
 }
 
 /// This should eventually be replaced with a generic `IntoPy` trait impl by figuring
 /// out the correct lifetime annotation to make the compiler happy
-impl<'p, T: ToPyObject> ManagedPyRef<'p, T> {
-    pub fn from_to_pyobject(py: Python<'p>, to_pyobject: &T) -> Self {
-        to_pyobject.to_managed_py_ref(py)
+impl<'p, T> ManagedPyRef<'p, T> {
+    pub fn owned(py: Python<'p>, value: T) -> Self
+    where T: IntoPyPointer
+    {
+        Self::_new(py, value.into_ptr(), true)
+    }
+
+    pub fn borrowed(py: Python<'p>, value: &T) -> Self
+    where T: AsPyPointer
+    {
+        Self::_new(py, value.as_ptr(), false)
+    }
+
+    pub unsafe fn from_raw(py: Python<'p>, data: *mut ffi::PyObject, owned: bool) -> Self {
+        Self::_new(py, data, owned)
+    }
+
+    fn _new(py: Python<'p>, data: *mut ffi::PyObject, owned: bool) -> Self {
+        Self {
+            data,
+            owned,
+            data_type: PhantomData,
+            _py: py
+        }
     }
 }
 
-impl<'p, T: ToPyObject> AsPyPointer for ManagedPyRef<'p, T> {
+impl<'p, T> AsPyPointer for ManagedPyRef<'p, T> {
     fn as_ptr(&self) -> *mut ffi::PyObject {
         self.data
     }
 }
 
-/// Helper trait to choose the right implementation for [ManagedPyRef]
-pub trait ManagedPyRefDispatch: ToPyObject {
-    /// Optionally converts into a python object and stores the pointer to the python heap.
-    fn to_managed_py_ref<'p>(&self, py: Python<'p>) -> ManagedPyRef<'p, Self>;
-
-    /// Dispatch over a xdecref and a noop drop impl
-    fn drop_impl(borrowed: &mut ManagedPyRef<Self>);
-}
-
-/// Case 1: It's a rust object which still needs to be converted to a python object.
-/// This means we're storing the owned pointer that into_ptr() has given us
-/// and therefore need to xdecref when we're done.
-///
-/// Note that the actual implementations are part of the trait declaration to avoid
-/// a specialization error
-impl<T: ToPyObject + ?Sized> ManagedPyRefDispatch for T {
-    /// Contains the case 1 impl (with to_object) to avoid a specialization error
-    default fn to_managed_py_ref<'p>(&self, py: Python<'p>) -> ManagedPyRef<'p, Self> {
-        ManagedPyRef {
-            data: self.to_object(py).into_ptr(),
-            data_type: PhantomData,
-            _py: py,
-        }
-    }
-
-    /// Contains the case 1 impl (decref) to avoid a specialization error
-    default fn drop_impl(borrowed: &mut ManagedPyRef<Self>) {
-        unsafe { ffi::Py_DECREF(borrowed.data) };
-    }
-}
-
-/// Case 2: It's an object on the python heap, we're just storing a borrowed pointer.
-/// The object we're getting is an owned pointer, it might have it's own drop impl.
-impl<T: ToPyObject + AsPyPointer + ?Sized> ManagedPyRefDispatch for T {
-    /// Use AsPyPointer to copy the pointer and store it as borrowed pointer
-    fn to_managed_py_ref<'p>(&self, py: Python<'p>) -> ManagedPyRef<'p, Self> {
-        ManagedPyRef {
-            data: self.as_ptr(),
-            data_type: PhantomData,
-            _py: py,
-        }
-    }
-
-    /// We have a borrowed pointer, so nothing to do here
-    fn drop_impl(_: &mut ManagedPyRef<T>) {}
-}
-
-impl<'p, T: ToPyObject + ?Sized> Drop for ManagedPyRef<'p, T> {
+impl<'p, T> Drop for ManagedPyRef<'p, T> {
     /// Uses the internal [ManagedPyRefDispatch] trait to get the right drop impl without causing
     /// a specialization error
     fn drop(&mut self) {
-        ManagedPyRefDispatch::drop_impl(self);
+        if self.owned {
+            unsafe { ffi::Py_DECREF(self.data) }
+        }
     }
 }
 

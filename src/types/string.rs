@@ -9,7 +9,6 @@ use crate::internal_tricks::Unsendable;
 use crate::object::PyObject;
 use crate::types::PyAny;
 use crate::AsPyPointer;
-use crate::IntoPy;
 use crate::Python;
 use crate::{ffi, FromPy};
 use std::borrow::Cow;
@@ -111,10 +110,10 @@ impl ToPyObject for str {
     }
 }
 
-impl<'a> IntoPy<PyObject> for &'a str {
+impl FromPy<&'_ str> for PyObject {
     #[inline]
-    fn into_py(self, py: Python) -> PyObject {
-        PyString::new(py, self).into()
+    fn from_py(other: &str, py: Python) -> PyObject {
+        PyString::new(py, other).into()
     }
 }
 
@@ -124,6 +123,13 @@ impl<'a> ToPyObject for Cow<'a, str> {
     #[inline]
     fn to_object(&self, py: Python) -> PyObject {
         PyString::new(py, self).into()
+    }
+}
+
+impl FromPy<Cow<'_, str>> for PyObject {
+    #[inline]
+    fn from_py(other: Cow<str>, py: Python) -> PyObject {
+        PyString::new(py, &other).into()
     }
 }
 
@@ -142,10 +148,10 @@ impl FromPy<String> for PyObject {
     }
 }
 
-impl<'a> IntoPy<PyObject> for &'a String {
+impl FromPy<&'_ String> for PyObject {
     #[inline]
-    fn into_py(self, py: Python) -> PyObject {
-        PyString::new(py, self).into()
+    fn from_py(other: &String, py: Python) -> PyObject {
+        PyString::new(py, other).into()
     }
 }
 

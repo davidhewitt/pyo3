@@ -160,21 +160,21 @@ macro_rules! tuple_conversion ({$length:expr,$(($refN:ident, $n:tt, $T:ident)),+
             }
         }
     }
-    impl <$($T: IntoPy<PyObject>),+> IntoPy<PyObject> for ($($T,)+) {
-        fn into_py(self, py: Python) -> PyObject {
+    impl <$($T: IntoPy<PyObject>),+> FromPy<($($T,)+)> for PyObject {
+        fn from_py(other: ($($T,)+), py: Python) -> PyObject {
             unsafe {
                 let ptr = ffi::PyTuple_New($length);
-                $(ffi::PyTuple_SetItem(ptr, $n, self.$n.into_py(py).into_ptr());)+
+                $(ffi::PyTuple_SetItem(ptr, $n, other.$n.into_py(py).into_ptr());)+
                 PyObject::from_owned_ptr_or_panic(py, ptr)
             }
         }
     }
 
-    impl <$($T: IntoPy<PyObject>),+> IntoPy<Py<PyTuple>> for ($($T,)+) {
-        fn into_py(self, py: Python) -> Py<PyTuple> {
+    impl <$($T: IntoPy<PyObject>),+> FromPy<($($T,)+)> for Py<PyTuple> {
+        fn from_py(other: ($($T,)+), py: Python) -> Py<PyTuple> {
             unsafe {
                 let ptr = ffi::PyTuple_New($length);
-                $(ffi::PyTuple_SetItem(ptr, $n, self.$n.into_py(py).into_ptr());)+
+                $(ffi::PyTuple_SetItem(ptr, $n, other.$n.into_py(py).into_ptr());)+
                 Py::from_owned_ptr_or_panic(ptr)
             }
         }

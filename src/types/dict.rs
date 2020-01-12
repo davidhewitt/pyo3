@@ -9,7 +9,7 @@ use crate::AsPyPointer;
 #[cfg(not(PyPy))]
 use crate::IntoPyPointer;
 use crate::Python;
-use crate::{ffi, IntoPy};
+use crate::{ffi, FromPy, IntoPy};
 use crate::{FromPyObject, PyTryFrom};
 use crate::{ToBorrowedObject, ToPyObject};
 use std::collections::{BTreeMap, HashMap};
@@ -219,27 +219,27 @@ where
     }
 }
 
-impl<K, V, H> IntoPy<PyObject> for collections::HashMap<K, V, H>
+impl<K, V, H> FromPy<collections::HashMap<K, V, H>> for PyObject
 where
     K: hash::Hash + cmp::Eq + IntoPy<PyObject>,
     V: IntoPy<PyObject>,
     H: hash::BuildHasher,
 {
-    fn into_py(self, py: Python) -> PyObject {
-        let iter = self
+    fn from_py(other: collections::HashMap<K, V, H>, py: Python) -> PyObject {
+        let iter = other
             .into_iter()
             .map(|(k, v)| (k.into_py(py), v.into_py(py)));
         IntoPyDict::into_py_dict(iter, py).into()
     }
 }
 
-impl<K, V> IntoPy<PyObject> for collections::BTreeMap<K, V>
+impl<K, V> FromPy<collections::BTreeMap<K, V>> for PyObject
 where
     K: cmp::Eq + IntoPy<PyObject>,
     V: IntoPy<PyObject>,
 {
-    fn into_py(self, py: Python) -> PyObject {
-        let iter = self
+    fn from_py(other: collections::BTreeMap<K, V>, py: Python) -> PyObject {
+        let iter = other
             .into_iter()
             .map(|(k, v)| (k.into_py(py), v.into_py(py)));
         IntoPyDict::into_py_dict(iter, py).into()

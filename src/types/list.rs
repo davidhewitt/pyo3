@@ -10,7 +10,7 @@ use crate::object::PyObject;
 use crate::types::PyAny;
 use crate::IntoPyPointer;
 use crate::Python;
-use crate::{AsPyPointer, IntoPy};
+use crate::{AsPyPointer, FromPy, IntoPy};
 use crate::{ToBorrowedObject, ToPyObject};
 
 /// Represents a Python `list`.
@@ -187,14 +187,14 @@ where
     }
 }
 
-impl<T> IntoPy<PyObject> for Vec<T>
+impl<T> FromPy<Vec<T>> for PyObject
 where
     T: IntoPy<PyObject>,
 {
-    fn into_py(self, py: Python) -> PyObject {
+    fn from_py(other: Vec<T>, py: Python) -> PyObject {
         unsafe {
-            let ptr = ffi::PyList_New(self.len() as Py_ssize_t);
-            for (i, e) in self.into_iter().enumerate() {
+            let ptr = ffi::PyList_New(other.len() as Py_ssize_t);
+            for (i, e) in other.into_iter().enumerate() {
                 let obj = e.into_py(py).into_ptr();
                 ffi::PyList_SetItem(ptr, i as Py_ssize_t, obj);
             }

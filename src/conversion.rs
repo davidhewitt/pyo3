@@ -7,6 +7,7 @@ use crate::type_object::{PyObjectLayout, PyTypeInfo};
 use crate::types::PyAny;
 use crate::types::PyTuple;
 use crate::{ffi, gil, Py, Python};
+use crate::instance::ManagedPyRef;
 use std::ptr::NonNull;
 
 /// This trait represents that, **we can do zero-cost conversion from the object to FFI pointer**.
@@ -130,15 +131,24 @@ where
 }
 
 /// Similar to [std::convert::From], just that it requires a gil token.
-pub trait FromPy<T>: Sized {
+pub trait FromPy<T>: Sized + AsPyPointer + IntoPyPointer {
     /// Performs the conversion.
     fn from_py(_: T, py: Python) -> Self;
+
+    fn managed_ref_from(other: T, py: Python) -> ManagedPyRef<Self> {
+        ManagedPyRef::owned(py, Self::from_py(other, py))
+    }
 }
 
 /// Similar to [std::convert::Into], just that it requires a gil token.
-pub trait IntoPy<T>: Sized {
+pub trait IntoPy<T>: Sized
+where
+    T: AsPyPointer + IntoPyPointer
+{
     /// Performs the conversion.
     fn into_py(self, py: Python) -> T;
+
+    fn into_managed_ref(self, py: Python) -> ManagedPyRef<T>;
 }
 
 // From implies Into
@@ -149,12 +159,20 @@ where
     fn into_py(self, py: Python) -> U {
         U::from_py(self, py)
     }
+
+    fn into_managed_ref(self, py: Python) -> ManagedPyRef<U> {
+        U::managed_ref_from(self, py)
+    }
 }
 
 // From (and thus Into) is reflexive
-impl<T> FromPy<T> for T {
-    fn from_py(t: T, _: Python) -> T {
+impl<T: Sized + AsPyPointer + IntoPyPointer> FromPy<T> for T {
+    fn from_py(t: Self, _: Python) -> Self {
         t
+    }
+
+    fn managed_ref_from(other: Self, py: Python) -> ManagedPyRef<Self> {
+        ManagedPyRef::borrowed(py, &other)
     }
 }
 
@@ -209,14 +227,21 @@ where
     }
 }
 
-impl<T> IntoPy<PyObject> for Option<T>
+impl<T> FromPy<Option<T>> for PyObject
 where
     T: IntoPy<PyObject>,
 {
-    fn into_py(self, py: Python) -> PyObject {
-        match self {
+    fn from_py(other: Option<T>, py: Python) -> PyObject {
+        match other {
             Some(val) => val.into_py(py),
             None => py.None(),
+        }
+    }
+
+    fn managed_ref_from(other: Option<T>, py: Python) -> ManagedPyRef<PyObject> {
+        match other {
+            Some(val) => val.into_managed_ref(py),
+            None => unsafe { ManagedPyRef::from_raw(py, std::ptr::null_mut(), false) }
         }
     }
 }
