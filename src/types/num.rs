@@ -12,7 +12,7 @@ use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::IntoPy;
 use crate::Python;
-use crate::{FromPyObject, ToPyObject, IntoPyValue};
+use crate::{FromPyObject, IntoPyValue};
 use num_traits::cast::cast;
 use std::i64;
 use std::os::raw::c_int;

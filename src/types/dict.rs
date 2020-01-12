@@ -213,7 +213,7 @@ where
     type Target = &'py PyDict;
 
     fn into_py_value(self, py: Python<'py>) -> &'py PyDict {
-        self.into_iter().into_py_dict(py)
+        self.into_py_dict(py)
     }
 }
 
@@ -225,9 +225,29 @@ where
     type Target = &'py PyDict;
 
     fn into_py_value(self, py: Python<'py>) -> &'py PyDict {
-        self.into_iter().into_py_dict(py)
+        self.into_py_dict(py)
     }
 }
+
+impl<K, V, H> IntoPy<PyObject> for collections::HashMap<K, V, H>
+where
+    K: hash::Hash + cmp::Eq + IntoPy<PyObject>,
+    V: IntoPy<PyObject>,
+    H: hash::BuildHasher,
+{
+    fn into_py(self, py: Python) -> PyObject {
+        self.into_py_dict(py).into()
+    }
+}
+
+impl<K, V> IntoPy<PyObject> for collections::BTreeMap<K, V>
+where
+    K: cmp::Eq + IntoPy<PyObject>,
+    V: IntoPy<PyObject>,
+{
+    fn into_py(self, py: Python) -> PyObject {
+        self.into_py_dict(py).into()
+
 
 /// Conversion trait that allows a sequence of tuples to be converted into `PyDict`
 /// Primary use case for this trait is `call` and `call_method` methods as keywords argument.
@@ -677,18 +697,5 @@ mod test {
 
         assert_eq!(py_map.len(), 3);
         assert_eq!(py_map.get_item("b").unwrap().extract::<i32>().unwrap(), 2);
-    }
-
-    #[test]
-    fn test_dict_decref() {
-        let gil = Python::acquire_gil();
-        let py = gil.python();
-
-        let d = PyDict::new(py);
-        unsafe {
-            use crate::AsPyPointer;
-            assert_eq!(1, crate::ffi::Py_REFCNT(d.as_ptr()));
-            crate::ffi::Py_DECREF(d.as_ptr());
-        }
     }
 }

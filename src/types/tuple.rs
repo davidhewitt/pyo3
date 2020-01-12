@@ -11,7 +11,7 @@ use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::IntoPyPointer;
 use crate::Python;
-use crate::{FromPyObject, IntoPy, PyTryFrom, ToPyObject, IntoPyValue};
+use crate::{FromPyObject, IntoPy, PyTryFrom, IntoPyValue};
 use std::slice;
 
 /// Represents a Python `tuple` object.

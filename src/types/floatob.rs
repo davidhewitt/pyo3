@@ -12,7 +12,7 @@ use crate::types::PyAny;
 use crate::FromPyObject;
 use crate::PyResult;
 use crate::Python;
-use crate::{ToPyObject, IntoPyValue};
+use crate::IntoPyValue;
 use crate::{AsPyPointer, FromPy};
 use std::os::raw::c_double;
 
