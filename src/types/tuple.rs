@@ -11,7 +11,7 @@ use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::IntoPyPointer;
 use crate::Python;
-use crate::{FromPyObject, IntoPy, PyTryFrom, ToPyObject};
+use crate::{FromPyObject, IntoPy, PyTryFrom, ToPyObject, IntoPyValue};
 use std::slice;
 
 /// Represents a Python `tuple` object.
@@ -24,7 +24,7 @@ impl PyTuple {
     /// Construct a new tuple with the given elements.
     pub fn new<T, U>(py: Python, elements: impl IntoIterator<Item = T, IntoIter = U>) -> &PyTuple
     where
-        T: ToPyObject,
+        T: for<'a> IntoPyValue<'a>,
         U: ExactSizeIterator<Item = T>,
     {
         let elements_iter = elements.into_iter();
@@ -32,7 +32,7 @@ impl PyTuple {
         unsafe {
             let ptr = ffi::PyTuple_New(len as Py_ssize_t);
             for (i, e) in elements_iter.enumerate() {
-                ffi::PyTuple_SetItem(ptr, i as Py_ssize_t, e.to_object(py).into_ptr());
+                ffi::PyTuple_SetItem(ptr, i as Py_ssize_t, e.into_py_value(py).into_ptr());
             }
             py.from_owned_ptr(ptr)
         }
@@ -151,15 +151,6 @@ fn wrong_tuple_length(t: &PyTuple, expected_length: usize) -> PyErr {
 }
 
 macro_rules! tuple_conversion ({$length:expr,$(($refN:ident, $n:tt, $T:ident)),+} => {
-    impl <$($T: ToPyObject),+> ToPyObject for ($($T,)+) {
-        fn to_object(&self, py: Python) -> PyObject {
-            unsafe {
-                let ptr = ffi::PyTuple_New($length);
-                $(ffi::PyTuple_SetItem(ptr, $n, self.$n.to_object(py).into_ptr());)+
-                PyObject::from_owned_ptr_or_panic(py, ptr)
-            }
-        }
-    }
     impl <$($T: IntoPy<PyObject>),+> IntoPy<PyObject> for ($($T,)+) {
         fn into_py(self, py: Python) -> PyObject {
             unsafe {

@@ -215,19 +215,21 @@ where
     where
         N: for<'py> IntoPyValue<'py>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
-            Ok(ffi::PyObject_HasAttr(self.as_ptr(), attr_name) != 0)
-        })
+        let attr_name = attr_name.into_managed_py_ref(self.py());
+        unsafe {
+            Ok(ffi::PyObject_HasAttr(self.as_ptr(), attr_name.as_ptr()) != 0)
+        }
     }
 
     fn getattr<N>(&self, attr_name: N) -> PyResult<&PyAny>
     where
         N: for<'py> IntoPyValue<'py>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
+        let attr_name = attr_name.into_managed_py_ref(self.py());
+        unsafe {
             self.py()
-                .from_owned_ptr_or_err(ffi::PyObject_GetAttr(self.as_ptr(), attr_name))
-        })
+                .from_owned_ptr_or_err(ffi::PyObject_GetAttr(self.as_ptr(), attr_name.as_ptr()))
+        }
     }
 
     fn setattr<N, V>(&self, attr_name: N, value: V) -> PyResult<()>
@@ -235,23 +237,27 @@ where
         N: for<'py> IntoPyValue<'py>,
         V: for<'py> IntoPyValue<'py>,
     {
-        attr_name.with_borrowed_ptr(self.py(), move |attr_name| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(
-                    self.py(),
-                    ffi::PyObject_SetAttr(self.as_ptr(), attr_name, value),
-                )
-            })
-        })
+        let attr_name = attr_name.into_managed_py_ref(self.py());
+        let value = value.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_SetAttr(self.as_ptr(), attr_name.as_ptr(), value.as_ptr()),
+            )
+        }
     }
 
     fn delattr<N>(&self, attr_name: N) -> PyResult<()>
     where
         N: for<'py> IntoPyValue<'py>,
     {
-        attr_name.with_borrowed_ptr(self.py(), |attr_name| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyObject_DelAttr(self.as_ptr(), attr_name))
-        })
+        let attr_name = attr_name.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_DelAttr(self.as_ptr(), attr_name.as_ptr())
+            )
+        }
     }
 
     fn compare<O>(&self, other: O) -> PyResult<Ordering>
@@ -286,22 +292,22 @@ where
             ))
         }
 
-        other.with_borrowed_ptr(self.py(), |other| unsafe {
-            do_compare(self.py(), self.as_ptr(), other)
-        })
+        let other = other.into_managed_py_ref(self.py());
+        unsafe {
+            do_compare(self.py(), self.as_ptr(), other.as_ptr())
+        }
     }
 
     fn rich_compare<O>(&self, other: O, compare_op: CompareOp) -> PyResult<PyObject>
     where
         O: for<'py> IntoPyValue<'py>,
     {
+        let other = other.into_managed_py_ref(self.py());
         unsafe {
-            other.with_borrowed_ptr(self.py(), |other| {
-                PyObject::from_owned_ptr_or_err(
-                    self.py(),
-                    ffi::PyObject_RichCompare(self.as_ptr(), other, compare_op as c_int),
-                )
-            })
+            PyObject::from_owned_ptr_or_err(
+                self.py(),
+                ffi::PyObject_RichCompare(self.as_ptr(), other.as_ptr(), compare_op as c_int),
+            )
         }
     }
 
@@ -351,9 +357,10 @@ where
         args: impl IntoPy<Py<PyTuple>>,
         kwargs: Option<&PyDict>,
     ) -> PyResult<&PyAny> {
-        name.with_borrowed_ptr(self.py(), |name| unsafe {
+        let name = name.into_managed_py_ref(self.py());
+        unsafe {
             let py = self.py();
-            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name);
+            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name.as_ptr());
             if ptr.is_null() {
                 return Err(PyErr::fetch(py));
             }
@@ -365,7 +372,7 @@ where
             ffi::Py_XDECREF(args);
             ffi::Py_XDECREF(kwargs);
             result
-        })
+        }
     }
 
     fn call_method0(&self, name: &str) -> PyResult<&PyAny> {
@@ -415,10 +422,11 @@ where
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
             self.py()
-                .from_owned_ptr_or_err(ffi::PyObject_GetItem(self.as_ptr(), key))
-        })
+                .from_owned_ptr_or_err(ffi::PyObject_GetItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     fn set_item<K, V>(&self, key: K, value: V) -> PyResult<()>
@@ -426,20 +434,24 @@ where
         K: for<'py> IntoPyValue<'py>,
         V: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(self.py(), ffi::PyObject_SetItem(self.as_ptr(), key, value))
-            })
-        })
+        let key = key.into_managed_py_ref(self.py());
+        let value = value.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyObject_SetItem(self.as_ptr(), key.as_ptr(), value.as_ptr())
+            )
+        }
     }
 
     fn del_item<K>(&self, key: K) -> PyResult<()>
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyObject_DelItem(self.as_ptr(), key))
-        })
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyObject_DelItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     fn iter(&self) -> PyResult<PyIterator> {

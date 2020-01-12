@@ -29,23 +29,6 @@ impl PyBool {
     }
 }
 
-/// Converts a rust `bool` to a Python `bool`.
-impl ToPyObject for bool {
-    #[inline]
-    fn to_object(&self, py: Python) -> PyObject {
-        unsafe {
-            PyObject::from_borrowed_ptr(
-                py,
-                if *self {
-                    ffi::Py_True()
-                } else {
-                    ffi::Py_False()
-                },
-            )
-        }
-    }
-}
-
 impl FromPy<bool> for PyObject {
     #[inline]
     fn from_py(other: bool, py: Python) -> Self {

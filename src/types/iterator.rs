@@ -118,7 +118,8 @@ mod tests {
             let gil_guard = Python::acquire_gil();
             let py = gil_guard.python();
             obj = vec![10, 20].to_object(py);
-            count = obj.get_refcnt();
+            // We expect one GIL reference to be dropped when we release GIL
+            count = obj.get_refcnt() - 1;
         }
 
         {

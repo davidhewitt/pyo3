@@ -1,6 +1,7 @@
 //! Traits and structs for `#[pyclass]`.
 use crate::class::methods::{PyMethodDefType, PyMethodsProtocol};
-use crate::conversion::{AsPyPointer, FromPyPointer, ToPyObject};
+use crate::conversion::{AsPyPointer, FromPyPointer, ToPyObject, IntoPyValue};
+use crate::instance::ManagedPyRef;
 use crate::pyclass_init::PyClassInitializer;
 use crate::pyclass_slots::{PyClassDict, PyClassWeakRef};
 use crate::type_object::{type_flags, PyObjectLayout, PyObjectSizedLayout, PyTypeObject};
@@ -235,15 +236,33 @@ impl<T: PyClass> std::ops::DerefMut for PyClassShell<T> {
     }
 }
 
-impl<T: PyClass> ToPyObject for &PyClassShell<T> {
-    fn to_object(&self, py: Python<'_>) -> PyObject {
+impl<T: PyClass> ToPyObject for &mut PyClassShell<T> {
+    fn to_object(&self, py: Python) -> PyObject {
         unsafe { PyObject::from_borrowed_ptr(py, self.as_ptr()) }
     }
 }
 
-impl<T: PyClass> ToPyObject for &mut PyClassShell<T> {
-    fn to_object(&self, py: Python<'_>) -> PyObject {
+impl<T: PyClass> IntoPyValue<'_> for &mut PyClassShell<T> {
+    type Target = PyObject;
+
+    fn into_py_value(self, py: Python) -> PyObject {
         unsafe { PyObject::from_borrowed_ptr(py, self.as_ptr()) }
+    }
+
+    fn into_managed_py_ref(self, py: Python) -> ManagedPyRef<Self> {
+        unsafe { ManagedPyRef::from_raw(py, self.as_ptr(), false) }
+    }
+}
+
+impl<T: PyClass> IntoPyValue<'_> for &&mut PyClassShell<T> {
+    type Target = PyObject;
+
+    fn into_py_value(self, py: Python) -> PyObject {
+        unsafe { PyObject::from_borrowed_ptr(py, self.as_ptr()) }
+    }
+
+    fn into_managed_py_ref(self, py: Python) -> ManagedPyRef<Self> {
+        unsafe { ManagedPyRef::from_raw(py, self.as_ptr(), false) }
     }
 }
 

@@ -82,13 +82,14 @@ impl PyDict {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PyDict_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            match ffi::PyDict_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Gets an item from the dictionary.
@@ -97,10 +98,11 @@ impl PyDict {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
             self.py()
-                .from_borrowed_ptr_or_opt(ffi::PyDict_GetItem(self.as_ptr(), key))
-        })
+                .from_borrowed_ptr_or_opt(ffi::PyDict_GetItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// Sets an item value.
@@ -110,11 +112,14 @@ impl PyDict {
         K: for<'py> IntoPyValue<'py>,
         V: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| {
-            value.with_borrowed_ptr(self.py(), |value| unsafe {
-                err::error_on_minusone(self.py(), ffi::PyDict_SetItem(self.as_ptr(), key, value))
-            })
-        })
+        let key = key.into_managed_py_ref(self.py());
+        let value = value.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyDict_SetItem(self.as_ptr(), key.as_ptr(), value.as_ptr())
+            )
+        }
     }
 
     /// Deletes an item.
@@ -123,9 +128,10 @@ impl PyDict {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyDict_DelItem(self.as_ptr(), key))
-        })
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyDict_DelItem(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// List of dict keys.

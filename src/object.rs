@@ -165,24 +165,17 @@ impl PyObject {
         FromPyObject::extract(self.as_ref(py))
     }
 
-    /// Retrieves an attribute value.
-    /// This is equivalent to the Python expression 'self.attr_name'.
-    // pub fn getattr<N>(&self, py: Python, attr_name: N) -> PyResult<PyObject>
-    // where
-    //     N: ToPyObject,
-    // {
-    //     attr_name.with_borrowed_ptr(py, |attr_name| unsafe {
-    //         PyObject::from_owned_ptr_or_err(py, ffi::PyObject_GetAttr(self.as_ptr(), attr_name))
-    //     })
-    // }
-
     pub fn getattr<N>(&self, py: Python, attr_name: N) -> PyResult<PyObject>
     where
         N: for<'py> IntoPyValue<'py>,
     {
-        attr_name.with_borrowed_ptr(py, |attr_name| unsafe {
-            PyObject::from_owned_ptr_or_err(py, ffi::PyObject_GetAttr(self.as_ptr(), attr_name))
-        })
+        let attr_name = attr_name.into_managed_py_ref(py);
+        unsafe {
+            PyObject::from_owned_ptr_or_err(
+                py,
+                ffi::PyObject_GetAttr(self.as_ptr(), attr_name.as_ptr())
+            )
+        }
     }
 
     /// Calls the object.
@@ -226,10 +219,11 @@ impl PyObject {
         args: impl IntoPy<Py<PyTuple>>,
         kwargs: Option<&PyDict>,
     ) -> PyResult<PyObject> {
-        name.with_borrowed_ptr(py, |name| unsafe {
+        let name = name.into_managed_py_ref(py);
+        unsafe {
             let args = args.into_py(py).into_ptr();
             let kwargs = kwargs.into_ptr();
-            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name);
+            let ptr = ffi::PyObject_GetAttr(self.as_ptr(), name.as_ptr());
             if ptr.is_null() {
                 return Err(PyErr::fetch(py));
             }
@@ -238,7 +232,7 @@ impl PyObject {
             ffi::Py_XDECREF(args);
             ffi::Py_XDECREF(kwargs);
             result
-        })
+        }
     }
 
     /// Calls a method on the object.

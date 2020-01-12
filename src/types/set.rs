@@ -71,13 +71,14 @@ impl PySet {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PySet_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            match ffi::PySet_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Remove element from the set if it is present.
@@ -85,9 +86,8 @@ impl PySet {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            ffi::PySet_Discard(self.as_ptr(), key);
-        })
+        let key = key.into_managed_py_ref(self.py());
+        unsafe { ffi::PySet_Discard(self.as_ptr(), key.as_ptr()); }
     }
 
     /// Add element to the set.
@@ -95,9 +95,10 @@ impl PySet {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), move |key| unsafe {
-            err::error_on_minusone(self.py(), ffi::PySet_Add(self.as_ptr(), key))
-        })
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PySet_Add(self.as_ptr(), key.as_ptr()))
+        }
     }
 
     /// Remove and return an arbitrary element from the set
@@ -156,17 +157,6 @@ impl<'a> std::iter::IntoIterator for &'a PySet {
     }
 }
 
-impl<T> ToPyObject for collections::HashSet<T>
-where
-    T: hash::Hash + Eq + ToPyObject,
-{
-    fn to_object(&self, py: Python) -> PyObject {
-        PySet::new(py, self.into_iter().map(|v| v.to_object(py)))
-            .expect("Failed to create set")
-            .into()
-    }
-}
-
 impl<'py, T> IntoPyValue<'py> for collections::HashSet<T>
 where
     T: hash::Hash + Eq + for<'a> IntoPyValue<'a>,
@@ -175,17 +165,6 @@ where
 
     fn into_py_value(self, py: Python) -> &PySet {
         PySet::new(py, self).expect("Failed to create set")
-    }
-}
-
-impl<T> ToPyObject for collections::BTreeSet<T>
-where
-    T: hash::Hash + Eq + ToPyObject,
-{
-    fn to_object(&self, py: Python) -> PyObject {
-        PySet::new(py, self.into_iter().map(|v| v.to_object(py)))
-            .expect("Failed to create set")
-            .into()
     }
 }
 
@@ -232,13 +211,14 @@ impl PyFrozenSet {
     where
         K: for<'py> IntoPyValue<'py>,
     {
-        key.with_borrowed_ptr(self.py(), |key| unsafe {
-            match ffi::PySet_Contains(self.as_ptr(), key) {
+        let key = key.into_managed_py_ref(self.py());
+        unsafe {
+            match ffi::PySet_Contains(self.as_ptr(), key.as_ptr()) {
                 1 => Ok(true),
                 0 => Ok(false),
                 _ => Err(PyErr::fetch(self.py())),
             }
-        })
+        }
     }
 
     /// Returns an iterator of values in this frozen set.

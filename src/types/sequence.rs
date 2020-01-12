@@ -121,12 +121,11 @@ impl PySequence {
         I: for<'py> IntoPyValue<'py>,
     {
         unsafe {
-            item.with_borrowed_ptr(self.py(), |item| {
-                err::error_on_minusone(
-                    self.py(),
-                    ffi::PySequence_SetItem(self.as_ptr(), i as Py_ssize_t, item),
-                )
-            })
+            let item = item.into_managed_py_ref(self.py());
+            err::error_on_minusone(
+                self.py(),
+                ffi::PySequence_SetItem(self.as_ptr(), i as Py_ssize_t, item.as_ptr()),
+            )
         }
     }
 
@@ -179,9 +178,8 @@ impl PySequence {
     where
         V: for<'py> IntoPyValue<'py>,
     {
-        let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
-            ffi::PySequence_Count(self.as_ptr(), ptr)
-        });
+        let value = value.into_managed_py_ref(self.py());
+        let r = unsafe { ffi::PySequence_Count(self.as_ptr(), value.as_ptr()) };
         if r == -1 {
             Err(PyErr::fetch(self.py()))
         } else {
@@ -195,9 +193,8 @@ impl PySequence {
     where
         V: for<'py> IntoPyValue<'py>,
     {
-        let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
-            ffi::PySequence_Contains(self.as_ptr(), ptr)
-        });
+        let value = value.into_managed_py_ref(self.py());
+        let r = unsafe { ffi::PySequence_Contains(self.as_ptr(), value.as_ptr()) };
         match r {
             0 => Ok(false),
             1 => Ok(true),
@@ -212,9 +209,8 @@ impl PySequence {
     where
         V: for<'py> IntoPyValue<'py>,
     {
-        let r = value.with_borrowed_ptr(self.py(), |ptr| unsafe {
-            ffi::PySequence_Index(self.as_ptr(), ptr)
-        });
+        let value = value.into_managed_py_ref(self.py());
+        let r = unsafe { ffi::PySequence_Index(self.as_ptr(), value.as_ptr()) };
         if r == -1 {
             Err(PyErr::fetch(self.py()))
         } else {
@@ -331,6 +327,7 @@ impl<'v> PyTryFrom<'v> for PySequence {
 #[cfg(test)]
 mod test {
     use crate::instance::AsPyRef;
+    use crate::conversion::IntoPyValue;
     use crate::object::PyObject;
     use crate::objectprotocol::ObjectProtocol;
     use crate::types::PySequence;

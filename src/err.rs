@@ -246,9 +246,10 @@ impl PyErr {
     where
         T: IntoPyValue<'py>,
     {
-        exc.with_borrowed_ptr(py, |exc| unsafe {
-            ffi::PyErr_GivenExceptionMatches(self.ptype.as_ptr(), exc) != 0
-        })
+        let exc = exc.into_managed_py_ref(py);
+        unsafe {
+            ffi::PyErr_GivenExceptionMatches(self.ptype.as_ptr(), exc.as_ptr()) != 0
+        }
     }
 
     /// Return true if the current exception is instance of `T`

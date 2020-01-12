@@ -2,6 +2,7 @@
 
 //! Conversions between various states of rust and python types and their wrappers.
 use crate::err::{self, PyDowncastError, PyResult};
+use crate::instance::ManagedPyRef;
 use crate::object::PyObject;
 use crate::type_object::{PyObjectLayout, PyTypeInfo};
 use crate::types::PyAny;
@@ -79,8 +80,18 @@ where
 
 /// Conversion trait that allows various objects to be converted into `PyObject`
 pub trait ToPyObject {
-    /// Converts self into a Python object.
+    /// Converts self into a Python object via a clone.
+    ///
+    /// To move data into Python without a clone, see `IntoPyValue`.
     fn to_object(&self, py: Python) -> PyObject;
+}
+
+impl<T> ToPyObject for T
+where T: Clone + for<'py> IntoPyValue<'py>
+{
+    fn to_object(&self, py: Python) -> PyObject {
+        unsafe { PyObject::from_owned_ptr(py, self.clone().into_py_value(py).into_ptr()) }
+    }
 }
 
 /// Similar to [std::convert::From], just that it requires a gil token.
@@ -122,17 +133,11 @@ pub trait IntoPyValue<'py> {
     /// Converts self into a Python object, without increasing a reference count if possible.
     ///
     /// The default implementation calls `to_object()` to create a new Python object.
-    fn with_borrowed_ptr<F, R>(self, py: Python<'py>, f: F) -> R
+    fn into_managed_py_ref(self, py: Python<'py>) -> ManagedPyRef<'py, Self>
     where
-        F: FnOnce(*mut ffi::PyObject) -> R,
         Self: Sized
     {
-        let ptr = self.into_py_value(py).into_ptr();
-        let result = f(ptr);
-        unsafe {
-            ffi::Py_XDECREF(ptr);
-        }
-        result
+        ManagedPyRef::from_owned(py, self)
     }
 }
 
@@ -143,12 +148,14 @@ impl<T: AsPyPointer + IntoPyPointer> IntoPyValue<'_> for T {
         self
     }
 
-    fn with_borrowed_ptr<F, R>(self, _py: Python<'_>, f: F) -> R
+    /// Converts self into a Python object, without increasing a reference count if possible.
+    ///
+    /// The default implementation calls `to_object()` to create a new Python object.
+    fn into_managed_py_ref(self, py: Python) -> ManagedPyRef<Self>
     where
-        F: FnOnce(*mut ffi::PyObject) -> R,
         Self: Sized
     {
-        f(self.as_ptr())
+        ManagedPyRef::from_borrowed(py, self)
     }
 }
 
@@ -177,32 +184,8 @@ pub trait FromPyObject<'source>: Sized {
     fn extract(ob: &'source PyAny) -> PyResult<Self>;
 }
 
-/// Identity conversion: allows using existing `PyObject` instances where
-/// `T: ToPyObject` is expected.
-impl<'a, T: ?Sized> ToPyObject for &'a T
-where
-    T: ToPyObject,
-{
-    #[inline]
-    fn to_object(&self, py: Python) -> PyObject {
-        <T as ToPyObject>::to_object(*self, py)
-    }
-}
-
 /// `Option::Some<T>` is converted like `T`.
 /// `Option::None` is converted to Python `None`.
-impl<T> ToPyObject for Option<T>
-where
-    T: ToPyObject,
-{
-    fn to_object(&self, py: Python) -> PyObject {
-        match *self {
-            Some(ref val) => val.to_object(py),
-            None => py.None(),
-        }
-    }
-}
-
 impl<T> IntoPy<PyObject> for Option<T>
 where
     T: IntoPy<PyObject>,
@@ -232,18 +215,6 @@ where
 }
 
 /// `()` is converted to Python `None`.
-impl ToPyObject for () {
-    fn to_object(&self, py: Python) -> PyObject {
-        py.None()
-    }
-}
-
-impl FromPy<()> for PyObject {
-    fn from_py(_: (), py: Python) -> Self {
-        py.None()
-    }
-}
-
 impl IntoPyValue<'_> for () {
     type Target = PyObject;
 
@@ -251,12 +222,14 @@ impl IntoPyValue<'_> for () {
         py.None()
     }
 
-    fn with_borrowed_ptr<F, R>(self, _py: Python<'_>, f: F) -> R
-    where
-        F: FnOnce(*mut ffi::PyObject) -> R,
-        Self: Sized
-    {
-        f(std::ptr::null_mut())
+    fn into_managed_py_ref(self, py: Python) -> ManagedPyRef<Self> {
+        unsafe { ManagedPyRef::from_raw(py, std::ptr::null_mut(), false) }
+    }
+}
+
+impl FromPy<()> for PyObject {
+    fn from_py(_: (), py: Python) -> Self {
+        py.None()
     }
 }
 

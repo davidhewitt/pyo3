@@ -124,7 +124,7 @@ pub use crate::conversion::{
 };
 pub use crate::err::{PyDowncastError, PyErr, PyErrArguments, PyErrValue, PyResult};
 pub use crate::gil::{init_once, GILGuard, GILPool};
-pub use crate::instance::{AsPyRef, Py, PyNativeType};
+pub use crate::instance::{AsPyRef, Py, ManagedPyRef, PyNativeType};
 pub use crate::object::PyObject;
 pub use crate::objectprotocol::ObjectProtocol;
 pub use crate::pyclass::{PyClass, PyClassShell};

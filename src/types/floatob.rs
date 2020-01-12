@@ -44,12 +44,6 @@ impl PyFloat {
     }
 }
 
-impl ToPyObject for f64 {
-    fn to_object(&self, py: Python) -> PyObject {
-        PyFloat::new(py, *self).into()
-    }
-}
-
 impl FromPy<f64> for PyObject {
     fn from_py(other: f64, py: Python) -> Self {
         PyFloat::new(py, other).into()
@@ -75,12 +69,6 @@ impl<'py> IntoPyValue<'py> for f64 {
 
     fn into_py_value(self, py: Python<'py>) -> &'py PyFloat {
         PyFloat::new(py, self)
-    }
-}
-
-impl ToPyObject for f32 {
-    fn to_object(&self, py: Python) -> PyObject {
-        PyFloat::new(py, f64::from(*self)).into()
     }
 }
 

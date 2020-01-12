@@ -81,12 +81,13 @@ impl PyList {
     /// Panics if the index is out of range.
     pub fn set_item<I>(&self, index: isize, item: I) -> PyResult<()>
     where
-        I: ToPyObject,
+        I: for<'a> IntoPyValue<'a>,
     {
+        let item = item.into_managed_py_ref(self.py());
         unsafe {
             err::error_on_minusone(
                 self.py(),
-                ffi::PyList_SetItem(self.as_ptr(), index, item.to_object(self.py()).into_ptr()),
+                ffi::PyList_SetItem(self.as_ptr(), index, item.as_ptr()),
             )
         }
     }
@@ -96,9 +97,10 @@ impl PyList {
     where
         I: for<'py> IntoPyValue<'py>,
     {
-        item.with_borrowed_ptr(self.py(), |item| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyList_Append(self.as_ptr(), item))
-        })
+        let item = item.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(self.py(), ffi::PyList_Append(self.as_ptr(), item.as_ptr()))
+        }
     }
 
     /// Inserts an item at the specified index.
@@ -108,9 +110,13 @@ impl PyList {
     where
         I: for<'py> IntoPyValue<'py>,
     {
-        item.with_borrowed_ptr(self.py(), |item| unsafe {
-            err::error_on_minusone(self.py(), ffi::PyList_Insert(self.as_ptr(), index, item))
-        })
+        let item = item.into_managed_py_ref(self.py());
+        unsafe {
+            err::error_on_minusone(
+                self.py(),
+                ffi::PyList_Insert(self.as_ptr(), index, item.as_ptr())
+            )
+        }
     }
 
     /// Returns an iterator over this list items.
@@ -178,15 +184,6 @@ where
     }
 }
 
-impl<T> ToPyObject for Vec<T>
-where
-    T: ToPyObject,
-{
-    fn to_object(&self, py: Python<'_>) -> PyObject {
-        self.as_slice().to_object(py)
-    }
-}
-
 impl<T> IntoPy<PyObject> for Vec<T>
 where
     T: IntoPy<PyObject>,
@@ -213,9 +210,8 @@ where
         unsafe {
             let ptr = ffi::PyList_New(self.len() as Py_ssize_t);
             for (i, e) in self.into_iter().enumerate() {
-                e.with_borrowed_ptr(py, |e| {
-                    ffi::PyList_SetItem(ptr, i as Py_ssize_t, e);
-                })
+                let e = e.into_py_value(py);
+                ffi::PyList_SetItem(ptr, i as Py_ssize_t, e.into_ptr());
             }
             py.from_owned_ptr(ptr)
         }
@@ -303,7 +299,8 @@ mod test {
             let ob = v.to_object(py);
             let list = <PyList as PyTryFrom>::try_from(ob.as_ref(py)).unwrap();
             let none = py.None();
-            cnt = none.get_refcnt();
+            // We expect one reference to be released with GIL
+            cnt = none.get_refcnt() - 1;
             list.set_item(0, none).unwrap();
         }
 

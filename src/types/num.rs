@@ -32,12 +32,6 @@ fn err_if_invalid_value<T: PartialEq>(
 
 macro_rules! int_fits_larger_int {
     ($rust_type:ty, $larger_type:ty) => {
-        impl ToPyObject for $rust_type {
-            #[inline]
-            fn to_object(&self, py: Python) -> PyObject {
-                (*self as $larger_type).into_py(py)
-            }
-        }
         impl IntoPy<PyObject> for $rust_type {
             fn into_py(self, py: Python) -> PyObject {
                 (self as $larger_type).into_py(py)
@@ -78,12 +72,6 @@ const IS_LITTLE_ENDIAN: c_int = 0;
 // for 128bit Integers
 macro_rules! int_convert_128 {
     ($rust_type: ty, $byte_size: expr, $is_signed: expr) => {
-        impl ToPyObject for $rust_type {
-            #[inline]
-            fn to_object(&self, py: Python) -> PyObject {
-                (*self).into_py(py)
-            }
-        }
         impl IntoPy<PyObject> for $rust_type {
             fn into_py(self, py: Python) -> PyObject {
                 unsafe {
@@ -160,14 +148,6 @@ pyobject_native_var_type!(PyLong, ffi::PyLong_Type, ffi::PyLong_Check);
 
 macro_rules! int_fits_c_long {
     ($rust_type:ty) => {
-        impl ToPyObject for $rust_type {
-            #![cfg_attr(feature = "cargo-clippy", allow(clippy::cast_lossless))]
-            fn to_object(&self, py: Python) -> PyObject {
-                unsafe {
-                    PyObject::from_owned_ptr_or_panic(py, ffi::PyLong_FromLong(*self as c_long))
-                }
-            }
-        }
         impl IntoPy<PyObject> for $rust_type {
             #![cfg_attr(feature = "cargo-clippy", allow(clippy::cast_lossless))]
             fn into_py(self, py: Python) -> PyObject {
@@ -217,12 +197,6 @@ macro_rules! int_fits_c_long {
 
 macro_rules! int_convert_u64_or_i64 {
     ($rust_type:ty, $pylong_from_ll_or_ull:expr, $pylong_as_ll_or_ull:expr) => {
-        impl ToPyObject for $rust_type {
-            #[inline]
-            fn to_object(&self, py: Python) -> PyObject {
-                unsafe { PyObject::from_owned_ptr_or_panic(py, $pylong_from_ll_or_ull(*self)) }
-            }
-        }
         impl IntoPy<PyObject> for $rust_type {
             #[inline]
             fn into_py(self, py: Python) -> PyObject {
@@ -338,8 +312,10 @@ mod bigint_conversion {
 
     macro_rules! bigint_conversion {
         ($rust_ty: ty, $is_signed: expr, $to_bytes: path, $from_bytes: path) => {
-            impl ToPyObject for $rust_ty {
-                fn to_object(&self, py: Python) -> PyObject {
+            impl<'py> IntoPyValue<'py> for $rust_ty {
+                type Target = &'py PyLong;
+
+                fn to_py_value(&self, py: Python) -> Self::Target {
                     unsafe {
                         let bytes = $to_bytes(self);
                         let obj = ffi::_PyLong_FromByteArray(
@@ -348,7 +324,7 @@ mod bigint_conversion {
                             1,
                             $is_signed,
                         );
-                        PyObject::from_owned_ptr_or_panic(py, obj)
+                        py.from_owned_ptr_or_panic(obj)
                     }
                 }
             }
