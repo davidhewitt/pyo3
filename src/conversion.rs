@@ -251,6 +251,7 @@ pub mod extract_impl {
         fn extract(source: &'a PyAny) -> PyResult<Target>;
     }
 
+    pub struct BufferElement;
     pub struct Cloned;
     pub struct Reference;
     pub struct MutReference;

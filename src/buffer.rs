@@ -17,6 +17,7 @@
 // DEALINGS IN THE SOFTWARE.
 
 //! `PyBuffer` implementation
+use crate::conversion;
 use crate::err::{self, PyResult};
 use crate::exceptions;
 use crate::ffi;
@@ -634,6 +635,10 @@ macro_rules! impl_element(
                 }
                 ElementType::from_format(format) == ElementType::$f { bytes: mem::size_of::<$t>() }
             }
+        }
+
+        impl conversion::FromPyObjectImpl for $t {
+            type Impl = conversion::extract_impl::BufferElement;
         }
     }
 );

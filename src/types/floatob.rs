@@ -2,6 +2,7 @@
 //
 // based on Daniel Grunwald's https://github.com/dgrunwald/rust-cpython
 
+use crate::conversion::extract_impl;
 use crate::err::PyErr;
 use crate::ffi;
 use crate::instance::PyNativeType;
@@ -9,7 +10,6 @@ use crate::internal_tricks::Unsendable;
 use crate::object::PyObject;
 use crate::objectprotocol::ObjectProtocol;
 use crate::types::PyAny;
-use crate::FromPyObject;
 use crate::PyResult;
 use crate::Python;
 use crate::ToPyObject;
@@ -56,10 +56,10 @@ impl FromPy<f64> for PyObject {
     }
 }
 
-impl<'source> FromPyObject<'source> for f64 {
+impl<'source> extract_impl::ExtractImpl<'source, f64> for extract_impl::BufferElement {
     // PyFloat_AsDouble returns -1.0 upon failure
     #![cfg_attr(feature = "cargo-clippy", allow(clippy::float_cmp))]
-    fn extract(obj: &'source PyAny) -> PyResult<Self> {
+    fn extract(obj: &'source PyAny) -> PyResult<f64> {
         let v = unsafe { ffi::PyFloat_AsDouble(obj.as_ptr()) };
 
         if v == -1.0 && PyErr::occurred(obj.py()) {
@@ -82,8 +82,8 @@ impl FromPy<f32> for PyObject {
     }
 }
 
-impl<'source> FromPyObject<'source> for f32 {
-    fn extract(obj: &'source PyAny) -> PyResult<Self> {
+impl<'source> extract_impl::ExtractImpl<'source, f32> for extract_impl::BufferElement {
+    fn extract(obj: &'source PyAny) -> PyResult<f32> {
         Ok(obj.extract::<f64>()? as f32)
     }
 }

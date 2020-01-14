@@ -1,6 +1,7 @@
 // Copyright (c) 2017-present PyO3 Project and Contributors
 
 use crate::buffer;
+use crate::conversion;
 use crate::err::{self, PyDowncastError, PyErr, PyResult};
 use crate::ffi::{self, Py_ssize_t};
 use crate::instance::PyNativeType;
@@ -241,20 +242,14 @@ impl PySequence {
     }
 }
 
-impl<'a, T> FromPyObject<'a> for Vec<T>
-where
-    T: FromPyObject<'a>,
-{
-    default fn extract(obj: &'a PyAny) -> PyResult<Self> {
-        extract_sequence(obj)
-    }
+pub trait ExtractVecImpl<'a, Target> {
+    fn extract_vec(obj: &'a PyAny) -> PyResult<Vec<Target>>;
 }
 
-impl<'source, T> FromPyObject<'source> for Vec<T>
-where
-    for<'a> T: FromPyObject<'a> + buffer::Element + Copy,
+impl<'a, T> ExtractVecImpl<'a, T> for conversion::extract_impl::BufferElement
+where T: buffer::Element + Copy + FromPyObject<'a>
 {
-    fn extract(obj: &'source PyAny) -> PyResult<Self> {
+    fn extract_vec(obj: &'a PyAny) -> PyResult<Vec<T>> {
         // first try buffer protocol
         if let Ok(buf) = buffer::PyBuffer::get(obj.py(), obj) {
             if buf.dimensions() == 1 {
@@ -269,6 +264,53 @@ where
         extract_sequence(obj)
     }
 }
+
+macro_rules! default_extract_vec_impl{
+    ($ty:ty) => {
+        impl<'a, T> ExtractVecImpl<'a, T> for $ty
+        where T: FromPyObject<'a>
+        {
+            fn extract_vec(obj: &'a PyAny) -> PyResult<Vec<T>> {
+                // fall back to sequence protocol
+                extract_sequence(obj)
+            }
+        }
+    };
+}
+
+default_extract_vec_impl!(conversion::extract_impl::Cloned);
+default_extract_vec_impl!(conversion::extract_impl::Reference);
+default_extract_vec_impl!(conversion::extract_impl::MutReference);
+
+impl<'a, T> FromPyObject<'a> for Vec<T>
+where
+    T: conversion::FromPyObjectImpl,
+    <T as conversion::FromPyObjectImpl>::Impl: ExtractVecImpl<'a, T>
+{
+    fn extract(obj: &'a PyAny) -> PyResult<Self> {
+        <T as conversion::FromPyObjectImpl>::Impl::extract_vec(obj)
+    }
+}
+
+// impl<'source, T> FromPyObject<'source> for Vec<T>
+// where
+//     for<'a> T: FromPyObject<'a> + buffer::Element + Copy,
+// {
+//     fn extract(obj: &'source PyAny) -> PyResult<Self> {
+//         // first try buffer protocol
+//         if let Ok(buf) = buffer::PyBuffer::get(obj.py(), obj) {
+//             if buf.dimensions() == 1 {
+//                 if let Ok(v) = buf.to_vec::<T>(obj.py()) {
+//                     buf.release(obj.py());
+//                     return Ok(v);
+//                 }
+//             }
+//             buf.release(obj.py());
+//         }
+//         // fall back to sequence protocol
+//         extract_sequence(obj)
+//     }
+// }
 
 fn extract_sequence<'s, T>(obj: &'s PyAny) -> PyResult<Vec<T>>
 where
