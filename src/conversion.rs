@@ -4,9 +4,8 @@
 use crate::err::{self, PyDowncastError, PyResult};
 use crate::object::PyObject;
 use crate::type_object::{PyObjectLayout, PyTypeInfo};
-use crate::types::PyAny;
-use crate::types::PyTuple;
-use crate::{ffi, gil, Py, Python};
+use crate::types::{PyAny, PySequence, PyTuple};
+use crate::{ffi, gil, Py, Python, ObjectProtocol};
 use std::ptr::NonNull;
 
 /// This trait represents that, **we can do zero-cost conversion from the object to FFI pointer**.
@@ -305,7 +304,26 @@ pub trait FromPyObjectImpl {
     //
     // We catch invalid Impls in the blanket impl for FromPyObject, which only
     // complains when .extract() is actually used.
+
+    /// The type which implements `ExtractImpl`.
     type Impl;
+
+    /// Implementation of how to extract a vector of this type from Python.
+    ///
+    /// This method is provided here with a default implementation to offer a crude form of
+    /// specialization. Types may override this to add optimizations (e.g. for types which
+    /// can be stored in PyBuffer objects.)
+    ///
+    /// In the future this will probably be an associated type `ExtractVecImpl` with a default type
+    /// which will take the "slow" path. However, associated type defaults are not yet stable, so
+    /// using a method is necessary in the interim.
+    fn extract_vec<'a>(obj: &'a PyAny) -> PyResult<Vec<Self>>
+    where
+        Self: Sized,
+        Self::Impl: ExtractImpl<'a, Self>,
+    {
+        extract_sequence(obj)
+    }
 }
 
 impl<'a, T> FromPyObject<'a> for T
@@ -332,6 +350,28 @@ where
                 Err(e) => Err(e),
             }
         }
+    }
+}
+
+pub(crate) fn extract_sequence<'s, T>(obj: &'s PyAny) -> PyResult<Vec<T>>
+where
+    T: FromPyObject<'s>,
+{
+    let seq = <PySequence as PyTryFrom>::try_from(obj)?;
+    let mut v = Vec::with_capacity(seq.len().unwrap_or(0) as usize);
+    for item in seq.iter()? {
+        v.push(item?.extract::<T>()?);
+    }
+    Ok(v)
+}
+
+impl<'a, T> FromPyObject<'a> for Vec<T>
+where
+    T: FromPyObjectImpl + 'a,
+    <T as FromPyObjectImpl>::Impl: ExtractImpl<'a, T>
+{
+    fn extract(obj: &'a PyAny) -> PyResult<Self> {
+        T::extract_vec(obj)
     }
 }
 

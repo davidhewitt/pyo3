@@ -24,6 +24,7 @@ use crate::ffi;
 use crate::types::PyAny;
 use crate::AsPyPointer;
 use crate::Python;
+use crate::instance::PyNativeType;
 use libc;
 use std::ffi::CStr;
 use std::os::raw;
@@ -639,6 +640,24 @@ macro_rules! impl_element(
 
         impl conversion::FromPyObjectImpl for $t {
             type Impl = conversion::extract_impl::BufferElement;
+            fn extract_vec<'a>(obj: &'a PyAny) -> PyResult<Vec<Self>>
+            where
+                Self::Impl: conversion::extract_impl::ExtractImpl<'a, Self>,
+            {
+                // first try buffer protocol
+                if let Ok(buf) = PyBuffer::get(obj.py(), obj) {
+                    if buf.dimensions() == 1 {
+                        if let Ok(v) = buf.to_vec::<Self>(obj.py()) {
+                            buf.release(obj.py());
+                            return Ok(v);
+                        }
+                    }
+                    buf.release(obj.py());
+                }
+
+                // fall back to sequence protocol
+                conversion::extract_sequence(obj)
+            }
         }
     }
 );
