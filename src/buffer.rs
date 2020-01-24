@@ -17,7 +17,6 @@
 // DEALINGS IN THE SOFTWARE.
 
 //! `PyBuffer` implementation
-use crate::conversion;
 use crate::err::{self, PyResult};
 use crate::exceptions;
 use crate::ffi;
@@ -637,28 +636,6 @@ macro_rules! impl_element(
                 ElementType::from_format(format) == ElementType::$f { bytes: mem::size_of::<$t>() }
             }
         }
-
-        impl conversion::FromPyObjectImpl for $t {
-            type Impl = conversion::extract_impl::BufferElement;
-            fn extract_vec<'a>(obj: &'a PyAny) -> PyResult<Vec<Self>>
-            where
-                Self::Impl: conversion::extract_impl::ExtractImpl<'a, Self>,
-            {
-                // first try buffer protocol
-                if let Ok(buf) = PyBuffer::get(obj.py(), obj) {
-                    if buf.dimensions() == 1 {
-                        if let Ok(v) = buf.to_vec::<Self>(obj.py()) {
-                            buf.release(obj.py());
-                            return Ok(v);
-                        }
-                    }
-                    buf.release(obj.py());
-                }
-
-                // fall back to sequence protocol
-                conversion::extract_sequence(obj)
-            }
-        }
     }
 );
 
@@ -674,6 +651,24 @@ impl_element!(i64, SignedInteger);
 impl_element!(isize, SignedInteger);
 impl_element!(f32, Float);
 impl_element!(f64, Float);
+
+pub(crate) fn extract_buffer<'a, T>(obj: &'a PyAny) -> PyResult<Vec<T>>
+where
+    T: Copy + Element + 'a
+{
+
+    let buf = PyBuffer::get(obj.py(), obj)?;
+    let result;
+
+    if buf.dimensions() == 1 {
+        result = buf.to_vec::<T>(obj.py());
+    } else {
+        result = Err(err::PyDowncastError.into());
+    }
+
+    buf.release(obj.py());
+    result
+}
 
 #[cfg(test)]
 mod test {

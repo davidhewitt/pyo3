@@ -2,7 +2,8 @@
 //
 // based on Daniel Grunwald's https://github.com/dgrunwald/rust-cpython
 
-use crate::conversion::extract_impl::{ExtractImpl, BufferElement};
+use crate::buffer::extract_buffer;
+use crate::conversion::extract_sequence;
 use crate::err::{PyErr, PyResult};
 use crate::exceptions;
 use crate::ffi;
@@ -45,13 +46,17 @@ macro_rules! int_fits_larger_int {
             }
         }
 
-        impl<'source> ExtractImpl<'source, $rust_type> for BufferElement {
-            fn extract(obj: &'source PyAny) -> PyResult<$rust_type> {
+        impl<'source> FromPyObject<'source> for $rust_type {
+            fn extract(obj: &'source PyAny) -> PyResult<Self> {
                 let val = $crate::objectprotocol::ObjectProtocol::extract::<$larger_type>(obj)?;
                 match cast::<$larger_type, $rust_type>(val) {
                     Some(v) => Ok(v),
                     None => Err(exceptions::OverflowError.into()),
                 }
+            }
+
+            fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>> {
+                extract_buffer(obj).or_else(|_| extract_sequence(obj))
             }
         }
     };
@@ -142,8 +147,8 @@ macro_rules! int_fits_c_long {
             }
         }
 
-        impl<'source> ExtractImpl<'source, $rust_type> for BufferElement {
-            fn extract(obj: &'source PyAny) -> PyResult<$rust_type> {
+        impl<'source> FromPyObject<'source> for $rust_type {
+            fn extract(obj: &'source PyAny) -> PyResult<Self> {
                 let ptr = obj.as_ptr();
                 let val = unsafe {
                     let num = ffi::PyNumber_Index(ptr);
@@ -159,6 +164,10 @@ macro_rules! int_fits_c_long {
                     Some(v) => Ok(v),
                     None => Err(exceptions::OverflowError.into()),
                 }
+            }
+
+            fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>> {
+                extract_buffer(obj).or_else(|_| extract_sequence(obj))
             }
         }
     };
@@ -178,8 +187,8 @@ macro_rules! int_convert_u64_or_i64 {
                 unsafe { PyObject::from_owned_ptr_or_panic(py, $pylong_from_ll_or_ull(self)) }
             }
         }
-        impl<'source> ExtractImpl<'source, $rust_type> for BufferElement {
-            fn extract(ob: &'source PyAny) -> PyResult<$rust_type> {
+        impl<'source> FromPyObject<'source> for $rust_type {
+            fn extract(ob: &'source PyAny) -> PyResult<Self> {
                 let ptr = ob.as_ptr();
                 unsafe {
                     let num = ffi::PyNumber_Index(ptr);
@@ -191,6 +200,10 @@ macro_rules! int_convert_u64_or_i64 {
                         result
                     }
                 }
+            }
+
+            fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>> {
+                extract_buffer(obj).or_else(|_| extract_sequence(obj))
             }
         }
     };

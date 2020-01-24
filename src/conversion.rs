@@ -180,6 +180,26 @@ impl<T> FromPy<T> for T {
 pub trait FromPyObject<'source>: Sized {
     /// Extracts `Self` from the source `PyObject`.
     fn extract(ob: &'source PyAny) -> PyResult<Self>;
+
+    /// Extracts a `Vec<Self>` for the source `PyObject`.
+    ///
+    /// This method is provided here with a default implementation to offer a crude form of
+    /// specialization. Types may override this to add optimizations (e.g. for types which
+    /// can be stored in PyBuffer objects.)
+    ///
+    /// Users typically should not call this method directly; instead use it via the
+    /// implementation of FromPyObject for `Vec<T>`, i.e.
+    ///
+    ///     let any: &PyAny = ...;
+    ///     let vec = Vec::<i32>::extract(any)?;
+    ///
+    /// This method will probably be removed once specialization is stabilised.
+    fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>>
+    where
+        Self: Sized,
+    {
+        extract_sequence(obj)
+    }
 }
 
 /// Identity conversion: allows using existing `PyObject` instances where
@@ -250,7 +270,6 @@ pub mod extract_impl {
         fn extract(source: &'a PyAny) -> PyResult<Target>;
     }
 
-    pub struct BufferElement;
     pub struct Cloned;
     pub struct Reference;
     pub struct MutReference;
@@ -307,23 +326,6 @@ pub trait FromPyObjectImpl {
 
     /// The type which implements `ExtractImpl`.
     type Impl;
-
-    /// Implementation of how to extract a vector of this type from Python.
-    ///
-    /// This method is provided here with a default implementation to offer a crude form of
-    /// specialization. Types may override this to add optimizations (e.g. for types which
-    /// can be stored in PyBuffer objects.)
-    ///
-    /// In the future this will probably be an associated type `ExtractVecImpl` with a default type
-    /// which will take the "slow" path. However, associated type defaults are not yet stable, so
-    /// using a method is necessary in the interim.
-    fn extract_vec<'a>(obj: &'a PyAny) -> PyResult<Vec<Self>>
-    where
-        Self: Sized,
-        Self::Impl: ExtractImpl<'a, Self>,
-    {
-        extract_sequence(obj)
-    }
 }
 
 impl<'a, T> FromPyObject<'a> for T
@@ -367,8 +369,7 @@ where
 
 impl<'a, T> FromPyObject<'a> for Vec<T>
 where
-    T: FromPyObjectImpl + 'a,
-    <T as FromPyObjectImpl>::Impl: ExtractImpl<'a, T>
+    T: FromPyObject<'a>
 {
     fn extract(obj: &'a PyAny) -> PyResult<Self> {
         T::extract_vec(obj)

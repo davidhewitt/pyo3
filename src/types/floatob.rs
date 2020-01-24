@@ -1,8 +1,8 @@
 // Copyright (c) 2017-present PyO3 Project and Contributors
 //
 // based on Daniel Grunwald's https://github.com/dgrunwald/rust-cpython
-
-use crate::conversion::extract_impl;
+use crate::buffer::extract_buffer;
+use crate::conversion::extract_sequence;
 use crate::err::PyErr;
 use crate::ffi;
 use crate::instance::PyNativeType;
@@ -12,7 +12,7 @@ use crate::objectprotocol::ObjectProtocol;
 use crate::types::PyAny;
 use crate::PyResult;
 use crate::Python;
-use crate::ToPyObject;
+use crate::{FromPyObject, ToPyObject};
 use crate::{AsPyPointer, FromPy};
 use std::os::raw::c_double;
 
@@ -56,10 +56,10 @@ impl FromPy<f64> for PyObject {
     }
 }
 
-impl<'source> extract_impl::ExtractImpl<'source, f64> for extract_impl::BufferElement {
+impl<'source> FromPyObject<'source> for f64 {
     // PyFloat_AsDouble returns -1.0 upon failure
     #![cfg_attr(feature = "cargo-clippy", allow(clippy::float_cmp))]
-    fn extract(obj: &'source PyAny) -> PyResult<f64> {
+    fn extract(obj: &'source PyAny) -> PyResult<Self> {
         let v = unsafe { ffi::PyFloat_AsDouble(obj.as_ptr()) };
 
         if v == -1.0 && PyErr::occurred(obj.py()) {
@@ -67,6 +67,10 @@ impl<'source> extract_impl::ExtractImpl<'source, f64> for extract_impl::BufferEl
         } else {
             Ok(v)
         }
+    }
+
+    fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>> {
+        extract_buffer(obj).or_else(|_| extract_sequence(obj))
     }
 }
 
@@ -82,9 +86,13 @@ impl FromPy<f32> for PyObject {
     }
 }
 
-impl<'source> extract_impl::ExtractImpl<'source, f32> for extract_impl::BufferElement {
-    fn extract(obj: &'source PyAny) -> PyResult<f32> {
+impl<'source> FromPyObject<'source> for f32 {
+    fn extract(obj: &'source PyAny) -> PyResult<Self> {
         Ok(obj.extract::<f64>()? as f32)
+    }
+
+    fn extract_vec(obj: &'source PyAny) -> PyResult<Vec<Self>> {
+        extract_buffer(obj).or_else(|_| extract_sequence(obj))
     }
 }
 
