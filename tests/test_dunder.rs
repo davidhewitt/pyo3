@@ -46,7 +46,7 @@ fn len() {
 
 #[pyclass]
 struct Iterator {
-    iter: Box<dyn iter::Iterator<Item = i32> + Send>,
+    iter: Box<dyn iter::Iterator<Item = i32> + Send + Sync>,
 }
 
 #[pyproto]
