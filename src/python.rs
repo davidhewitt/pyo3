@@ -144,6 +144,7 @@ impl<'p> Python<'p> {
             let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(f));
             ffi::PyEval_RestoreThread(save);
             gil::GIL_COUNT.with(|c| c.set(count));
+
             // Now that the GIL state has been safely reset, we can unwind if a panic was caught.
             result.unwrap_or_else(|payload| std::panic::resume_unwind(payload))
         }
@@ -523,15 +524,8 @@ mod test {
     }
 
     #[test]
+    #[should_panic(expected = "There was a panic!")]
     fn test_allow_threads_panics_safely() {
-        // If -Cpanic=abort is specified, we can't catch panic.
-        if option_env!("RUSTFLAGS")
-            .map(|s| s.contains("-Cpanic=abort"))
-            .unwrap_or(false)
-        {
-            return;
-        }
-
         let gil = Python::acquire_gil();
         let py = gil.python();
 
@@ -549,5 +543,7 @@ mod test {
         // so the following Python calls should not cause crashes.
         let list = PyList::new(py, &[1, 2, 3, 4]);
         assert_eq!(list.extract::<Vec<i32>>().unwrap(), vec![1, 2, 3, 4]);
+
+        std::panic::resume_unwind(result.unwrap_err());
     }
 }

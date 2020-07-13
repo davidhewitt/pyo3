@@ -191,9 +191,11 @@ impl PyErr {
             let err = PyErr::new_from_ffi_tuple(py, ptype, pvalue, ptraceback);
 
             if ptype == PanicException::type_object(py).as_ptr() {
-                let msg: String = PyAny::from_borrowed_ptr_or_opt(py, pvalue)
-                    .and_then(|obj| obj.extract().ok())
-                    .unwrap_or_else(|| String::from("Unwrapped panic from Python code"));
+                let msg: &str = PyAny::from_borrowed_ptr_or_opt(py, pvalue)
+                    .and_then(|obj| obj.repr().ok())
+                    .and_then(|s| s.extract().ok())
+                    .filter(|s: &&str| !s.is_empty())
+                    .unwrap_or("Unwrapped panic from Python code");
 
                 eprintln!(
                     "--- PyO3 is resuming a panic after fetching a PanicException from Python. ---"
@@ -201,7 +203,7 @@ impl PyErr {
                 eprintln!("Python stack trace below:");
                 err.print(py);
 
-                std::panic::resume_unwind(Box::new(msg))
+                std::panic::resume_unwind(Box::new(msg.to_owned()))
             }
 
             err
@@ -607,22 +609,14 @@ mod tests {
     }
 
     #[test]
+    #[should_panic(expected = "new panic")]
     fn fetching_panic_exception_panics() {
-        // If -Cpanic=abort is specified, we can't catch panic.
-        if option_env!("RUSTFLAGS")
-            .map(|s| s.contains("-Cpanic=abort"))
-            .unwrap_or(false)
-        {
-            return;
-        }
-
         let gil = Python::acquire_gil();
         let py = gil.python();
         let err: PyErr = PanicException::py_err("new panic");
         err.restore(py);
         assert!(PyErr::occurred(py));
-        let started_unwind =
-            std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| PyErr::fetch(py))).is_err();
-        assert!(started_unwind);
+
+        PyErr::fetch(py);
     }
 }
