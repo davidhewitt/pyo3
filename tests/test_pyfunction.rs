@@ -4,7 +4,7 @@ use pyo3::prelude::*;
 use pyo3::types::PyCFunction;
 #[cfg(not(Py_LIMITED_API))]
 use pyo3::types::PyFunction;
-use pyo3::{raw_pycfunction, wrap_pyfunction};
+use pyo3::{raw_pycfunction, wrap_pyfunction, wrap_pymodule};
 
 mod common;
 
@@ -186,3 +186,67 @@ fn test_conversion_error() {
         "argument 'option_arg': 'str' object cannot be interpreted as an integer"
     );
 }
+
+#[test]
+fn test_pyfunction_in_mod() {
+    mod my_module {
+        use pyo3::prelude::*;
+
+        #[pyfunction]
+        pub fn function_in_module() -> i32 {
+            42
+        }
+    }
+
+    use my_module::function_in_module;
+
+    #[pymodule]
+    fn test_module(_py: Python, m: &PyModule) -> PyResult<()> {
+        m.add_function(wrap_pyfunction!(function_in_module, m)?)?;
+        Ok(())
+    }
+
+    Python::with_gil(|py| {
+        let test_mod = wrap_pymodule!(test_module)(py);
+
+        assert_eq!(
+            test_mod
+                .getattr(py, "function_in_module")
+                .unwrap()
+                .call0(py)
+                .unwrap()
+                .extract::<i32>(py)
+                .unwrap(),
+            42
+        );
+    })
+}
+
+// #[test]
+// fn test_wrap_pyfunction_one_argument() {
+//     #[pyfunction]
+//     pub fn my_function() -> i32 {
+//         42
+//     }
+
+//     #[pymodule]
+//     fn test_module(py: Python, m: &PyModule) -> PyResult<()> {
+//         m.add_function(wrap_pyfunction!(my_function)(py)?)?;
+//         Ok(())
+//     }
+
+//     Python::with_gil(|py| {
+//         let test_mod = wrap_pymodule!(test_module)(py);
+
+//         assert_eq!(
+//             test_mod
+//                 .getattr(py, "my_function")
+//                 .unwrap()
+//                 .call0(py)
+//                 .unwrap()
+//                 .extract::<i32>(py)
+//                 .unwrap(),
+//             42
+//         );
+//     })
+// }

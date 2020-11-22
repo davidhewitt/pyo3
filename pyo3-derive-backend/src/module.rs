@@ -40,11 +40,11 @@ pub fn process_functions_in_module(func: &mut syn::ItemFn) -> syn::Result<()> {
                 extract_pyfn_attrs(&mut func.attrs)?
             {
                 let function_to_python = add_fn_to_module(func, python_name, pyfn_attrs)?;
-                let function_wrapper_ident = function_wrapper_ident(&func.sig.ident);
+                let name = &func.sig.ident;
                 let item: syn::ItemFn = syn::parse_quote! {
                     fn block_wrapper() {
                         #function_to_python
-                        #module_name.add_function(#function_wrapper_ident(#module_name)?)?;
+                        #module_name.add_function(pyo3::wrap_pyfunction!(#name, m)?)?;
                     }
                 };
                 stmts.extend(item.block.stmts.into_iter());
@@ -205,23 +205,75 @@ pub fn add_fn_to_module(
     let python_name = &spec.python_name;
 
     let name = &func.sig.ident;
-    let wrapper_ident = format_ident!("__pyo3_raw_{}", name);
+    let wrapper_ident = Ident::new("py_function", name.span());
     let wrapper = function_c_wrapper(name, &wrapper_ident, &spec, pyfn_attrs.pass_module);
+
+    let args = func.sig.inputs.iter()
+        .map(|arg| match arg {
+            syn::FnArg::Receiver(_) => quote!(self),
+            syn::FnArg::Typed(syn::PatType { pat, .. }) => quote!(#pat),
+        });
+
+    let call_impl = vec![
+        syn::Stmt::Expr(syn::parse_quote!(#name::impl_(#(#args),*)))
+    ];
+
+    let body = std::mem::replace(&mut func.block.stmts, call_impl);
+
+    let mut impl_ = func.clone();
+    impl_.block.stmts = body;
+    impl_.sig.ident = Ident::new("impl_", name.span());
+    impl_.vis = syn::parse_quote!(pub(super));
+
+    // This is necessary because the use of impl_ means that the original
+    // Rust function is technically unused unless it's actually called
+    // from Rust.
+    func.attrs.push(syn::parse_quote!(#[allow(dead_code)]));
+
+    // if is_pyfn {
+    //     Ok(quote! {
+    //         #wrapper
+
+    //         pub(crate) fn #function_wrapper_ident<'a>(
+    //             args: impl Into<pyo3::derive_utils::PyFunctionArguments<'a>>
+    //         ) -> pyo3::PyResult<&'a pyo3::types::PyCFunction> {
+    //             let name = concat!(stringify!(#python_name), "\0");
+    //             let name = std::ffi::CStr::from_bytes_with_nul(name.as_bytes()).unwrap();
+    //             let doc = std::ffi::CStr::from_bytes_with_nul(#doc).unwrap();
+    //             pyo3::types::PyCFunction::internal_new(
+    //                 name,
+    //                 doc,
+    //                 pyo3::class::PyMethodType::PyCFunctionWithKeywords(#wrapper_ident),
+    //                 pyo3::ffi::METH_VARARGS | pyo3::ffi::METH_KEYWORDS,
+    //                 args.into(),
+    //             )
+    //         }
+    //     })
+    // } else {
+
     Ok(quote! {
-        #wrapper
-        pub(crate) fn #function_wrapper_ident<'a>(
-            args: impl Into<pyo3::derive_utils::PyFunctionArguments<'a>>
-        ) -> pyo3::PyResult<&'a pyo3::types::PyCFunction> {
-            let name = concat!(stringify!(#python_name), "\0");
-            let name = std::ffi::CStr::from_bytes_with_nul(name.as_bytes()).unwrap();
-            let doc = std::ffi::CStr::from_bytes_with_nul(#doc).unwrap();
-            pyo3::types::PyCFunction::internal_new(
-                name,
-                doc,
-                pyo3::class::PyMethodType::PyCFunctionWithKeywords(#wrapper_ident),
-                pyo3::ffi::METH_VARARGS | pyo3::ffi::METH_KEYWORDS,
-                args.into(),
-            )
+        // TODO: set visibility to match original function visibility
+        pub mod #name {
+            use super::*;
+
+            #impl_
+
+            pub #wrapper
+
+            pub fn get_py_function<'a>(
+                args: impl Into<pyo3::derive_utils::PyFunctionArguments<'a>>
+            ) -> pyo3::PyResult<&'a pyo3::types::PyCFunction> {
+                let name = concat!(stringify!(#python_name), "\0");
+                let name = std::ffi::CStr::from_bytes_with_nul(name.as_bytes()).unwrap();
+                let doc = std::ffi::CStr::from_bytes_with_nul(#doc).unwrap();
+                pyo3::types::PyCFunction::internal_new(
+                    name,
+                    doc,
+                    pyo3::class::PyMethodType::PyCFunctionWithKeywords(#wrapper_ident),
+                    pyo3::ffi::METH_VARARGS | pyo3::ffi::METH_KEYWORDS,
+                    args.into(),
+                )
+            }
         }
     })
 }
@@ -238,14 +290,14 @@ fn function_c_wrapper(
     let slf_module;
     if pass_module {
         cb = quote! {
-            #name(_slf, #(#names),*)
+            impl_(_slf, #(#names),*)
         };
         slf_module = Some(quote! {
             let _slf = _py.from_borrowed_ptr::<pyo3::types::PyModule>(_slf);
         });
     } else {
         cb = quote! {
-            #name(#(#names),*)
+            impl_(#(#names),*)
         };
         slf_module = None;
     };

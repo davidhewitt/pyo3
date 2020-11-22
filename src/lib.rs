@@ -211,7 +211,7 @@ pub mod proc_macro {
 #[macro_export]
 macro_rules! wrap_pyfunction {
     ($function_name: ident) => {{
-        &pyo3::paste::paste! { [<__pyo3_get_function_ $function_name>] }
+        &$function_name::get_py_function
     }};
 
     ($function_name: ident, $arg: expr) => {
@@ -244,7 +244,7 @@ macro_rules! wrap_pyfunction {
 #[macro_export]
 macro_rules! raw_pycfunction {
     ($function_name: ident) => {{
-        pyo3::paste::paste! { [<__pyo3_raw_ $function_name>] }
+        $function_name::py_function
     }};
 }
 
