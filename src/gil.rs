@@ -3,11 +3,11 @@
 //! Interaction with python's global interpreter lock
 
 use crate::{ffi, internal_tricks::Unsendable, Python};
-use parking_lot::{const_mutex, Mutex};
+use parking_lot::{const_mutex, Condvar, Mutex, Once};
 use std::cell::{Cell, RefCell};
-use std::{mem::ManuallyDrop, ptr::NonNull, sync};
+use std::{mem::ManuallyDrop, ptr::NonNull};
 
-static START: sync::Once = sync::Once::new();
+static START: Once = Once::new();
 
 thread_local! {
     /// This is a internal counter in pyo3 monitoring whether this thread has the GIL.
@@ -80,32 +80,59 @@ pub fn prepare_freethreaded_python() {
             // PyPy does not support the embedding API
             #[cfg(not(PyPy))]
             {
-                ffi::Py_InitializeEx(0);
+                static INITIALIZATION_THREAD_SIGNAL: Condvar = Condvar::new();
+                static INITIALIZATION_THREAD_MUTEX: Mutex<()> = const_mutex(());
+
+                // This thread will be responsible for initialization and finalization of the
+                // Python interpreter.
+                //
+                // This is necessary because Python's `threading` module requires that the same
+                // thread which started the interpreter also calls finalize.
+                unsafe fn initialization_thread() {
+                    let mut guard = INITIALIZATION_THREAD_MUTEX.lock();
+
+                    ffi::Py_InitializeEx(0);
+
+                    #[cfg(not(Py_3_7))] // Called by Py_InitializeEx in Python 3.7 and up.
+                    ffi::PyEval_InitThreads();
+
+                    // Import the threading module - this ensures that it will associate this
+                    // thread as the "main" thread.
+                    {
+                        let pool = GILPool::new();
+                        pool.python().import("threading").unwrap();
+                    }
+
+                    // Release the GIL, notify the original calling thread that Python is now
+                    // initialized, and wait for notification to begin finalization.
+                    let tstate = ffi::PyEval_SaveThread();
+
+                    INITIALIZATION_THREAD_SIGNAL.notify_one();
+                    INITIALIZATION_THREAD_SIGNAL.wait(&mut guard);
+
+                    // Signal to finalize received.
+                    if ffi::Py_IsInitialized() != 0 {
+                        ffi::PyEval_RestoreThread(tstate);
+                        ffi::Py_Finalize();
+                    }
+
+                    INITIALIZATION_THREAD_SIGNAL.notify_one();
+                }
+
+                let mut guard = INITIALIZATION_THREAD_MUTEX.lock();
+                std::thread::spawn(|| initialization_thread());
+                INITIALIZATION_THREAD_SIGNAL.wait(&mut guard);
 
                 // Make sure Py_Finalize will be called before exiting.
-                extern "C" fn finalize() {
-                    unsafe {
-                        if ffi::Py_IsInitialized() != 0 {
-                            ffi::PyGILState_Ensure();
-                            ffi::Py_Finalize();
-                        }
-                    }
+                extern "C" fn finalize_callback() {
+                    // Notify initialization_thread to finalize, and wait.
+                    INITIALIZATION_THREAD_SIGNAL.notify_one();
+                    INITIALIZATION_THREAD_SIGNAL.wait(&mut INITIALIZATION_THREAD_MUTEX.lock());
+                    assert_eq!(unsafe { ffi::Py_IsInitialized() }, 0);
                 }
-                libc::atexit(finalize);
-            }
 
-            // > Changed in version 3.7: This function is now called by Py_Initialize(), so you don’t have
-            // > to call it yourself anymore.
-            #[cfg(not(Py_3_7))]
-            ffi::PyEval_InitThreads();
-            // PyEval_InitThreads() will acquire the GIL,
-            // but we don't want to hold it at this point
-            // (it's not acquired in the other code paths)
-            // So immediately release the GIL:
-            #[cfg(not(PyPy))]
-            let _thread_state = ffi::PyEval_SaveThread();
-            // Note that the PyThreadState returned by PyEval_SaveThread is also held in TLS by the Python runtime,
-            // and will be restored by PyGILState_Ensure.
+                libc::atexit(finalize_callback);
+            }
         }
     });
 }
