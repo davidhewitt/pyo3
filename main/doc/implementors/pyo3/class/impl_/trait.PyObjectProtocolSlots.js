@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["pyo3_pytests"] = [{"text":"impl PyObjectProtocolSlots&lt;<a class=\"struct\" href=\"pyo3_pytests/subclassing/struct.Subclassable.html\" title=\"struct pyo3_pytests::subclassing::Subclassable\">Subclassable</a>&gt; for PyClassImplCollector&lt;<a class=\"struct\" href=\"pyo3_pytests/subclassing/struct.Subclassable.html\" title=\"struct pyo3_pytests::subclassing::Subclassable\">Subclassable</a>&gt;","synthetic":false,"types":["pyo3::class::impl_::PyClassImplCollector"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
