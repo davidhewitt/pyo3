@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["pyo3_pytests"] = [{"text":"impl&lt;'p&gt; PyObjectStrProtocol&lt;'p&gt; for <a class=\"struct\" href=\"pyo3_pytests/subclassing/struct.Subclassable.html\" title=\"struct pyo3_pytests::subclassing::Subclassable\">Subclassable</a>","synthetic":false,"types":["pyo3_pytests::subclassing::Subclassable"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
