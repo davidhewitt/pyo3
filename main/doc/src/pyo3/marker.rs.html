@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/marker.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>marker.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/marker.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>marker.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -1028,1030 +1022,1041 @@
 <span id="1022">1022</span>
 <span id="1023">1023</span>
 <span id="1024">1024</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors</span>
-<span class="comment">//</span>
-<span class="comment">// based on Daniel Grunwald&#39;s https://github.com/dgrunwald/rust-cpython</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+//
+// based on Daniel Grunwald&#39;s https://github.com/dgrunwald/rust-cpython
 
-<span class="doccomment">//! Fundamental properties of objects tied to the Python interpreter.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The Python interpreter is not threadsafe. To protect the Python interpreter in multithreaded</span>
-<span class="doccomment">//! scenarios there is a global lock, the *global interpreter lock* (hereafter referred to as *GIL*)</span>
-<span class="doccomment">//! that must be held to safely interact with Python objects. This is why in PyO3 when you acquire</span>
-<span class="doccomment">//! the GIL you get a [`Python`] marker token that carries the *lifetime* of holding the GIL and all</span>
-<span class="doccomment">//! borrowed references to Python objects carry this lifetime as well. This will statically ensure</span>
-<span class="doccomment">//! that you can never use Python objects after dropping the lock - if you mess this up it will be</span>
-<span class="doccomment">//! caught at compile time and your program will fail to compile.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It also supports this pattern that many extension modules employ:</span>
-<span class="doccomment">//! - Drop the GIL, so that other Python threads can acquire it and make progress themselves</span>
-<span class="doccomment">//! - Do something independently of the Python interpreter, like IO, a long running calculation or</span>
-<span class="doccomment">//! awaiting a future</span>
-<span class="doccomment">//! - Once that is done, reacquire the GIL</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! That API is provided by [`Python::allow_threads`] and enforced via the [`Ungil`] bound on the</span>
-<span class="doccomment">//! closure and the return type. This is done by relying on the [`Send`] auto trait. `Ungil` is</span>
-<span class="doccomment">//! defined as the following:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! pub unsafe trait Ungil {}</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! unsafe impl&lt;T: Send&gt; Ungil for T {}</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! We piggy-back off the `Send` auto trait because it is not possible to implement custom auto</span>
-<span class="doccomment">//! traits on stable Rust. This is the solution which enables it for as many types as possible while</span>
-<span class="doccomment">//! making the API usable.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In practice this API works quite well, but it comes with some drawbacks:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Drawbacks</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! There is no reason to prevent `!Send` types like [`Rc`] from crossing the closure. After all,</span>
-<span class="doccomment">//! [`Python::allow_threads`] just lets other Python threads run - it does not itself launch a new</span>
-<span class="doccomment">//! thread.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust, compile_fail</span>
-<span class="doccomment">//! # #[cfg(feature = &quot;nightly&quot;)]</span>
-<span class="doccomment">//! # compile_error!(&quot;this actually works on nightly&quot;)</span>
-<span class="doccomment">//! use pyo3::prelude::*;</span>
-<span class="doccomment">//! use std::rc::Rc;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     Python::with_gil(|py| {</span>
-<span class="doccomment">//!         let rc = Rc::new(5);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!         py.allow_threads(|| {</span>
-<span class="doccomment">//!             // This would actually be fine...</span>
-<span class="doccomment">//!             println!(&quot;{:?}&quot;, *rc);</span>
-<span class="doccomment">//!         });</span>
-<span class="doccomment">//!     });</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Because we are using `Send` for something it&#39;s not quite meant for, other code that</span>
-<span class="doccomment">//! (correctly) upholds the invariants of [`Send`] can cause problems.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [`SendWrapper`] is one of those. Per its documentation:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! &gt; A wrapper which allows you to move around non-Send-types between threads, as long as you</span>
-<span class="doccomment">//! &gt; access the contained value only from within the original thread and make sure that it is</span>
-<span class="doccomment">//! &gt; dropped from within the original thread.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This will &quot;work&quot; to smuggle Python references across the closure, because we&#39;re not actually</span>
-<span class="doccomment">//! doing anything with threads:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust, no_run</span>
-<span class="doccomment">//! use pyo3::prelude::*;</span>
-<span class="doccomment">//! use pyo3::types::PyString;</span>
-<span class="doccomment">//! use send_wrapper::SendWrapper;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Python::with_gil(|py| {</span>
-<span class="doccomment">//!     let string = PyString::new(py, &quot;foo&quot;);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let wrapped = SendWrapper::new(string);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     py.allow_threads(|| {</span>
-<span class="doccomment">//! # #[cfg(not(feature = &quot;nightly&quot;))]</span>
-<span class="doccomment">//! # {</span>
-<span class="doccomment">//!         // 💥 Unsound! 💥</span>
-<span class="doccomment">//!         let smuggled: &amp;PyString = *wrapped;</span>
-<span class="doccomment">//!         println!(&quot;{:?}&quot;, smuggled);</span>
-<span class="doccomment">//! # }</span>
-<span class="doccomment">//!     });</span>
-<span class="doccomment">//! });</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! For now the answer to that is &quot;don&#39;t do that&quot;.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # A proper implementation using an auto trait</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! However on nightly Rust and when PyO3&#39;s `nightly` feature is</span>
-<span class="doccomment">//! enabled, `Ungil` is defined as the following:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! # #[cfg(FALSE)]</span>
-<span class="doccomment">//! # {</span>
-<span class="doccomment">//! #![feature(auto_traits, negative_impls)]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! pub unsafe auto trait Ungil {}</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // It is unimplemented for the `Python` struct and Python objects.</span>
-<span class="doccomment">//! impl !Ungil for Python&lt;&#39;_&gt; {}</span>
-<span class="doccomment">//! impl !Ungil for ffi::PyObject {}</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // `Py` wraps it in  a safe api, so this is OK</span>
-<span class="doccomment">//! unsafe impl &lt;T&gt; Ungil for Py&lt;T&gt; {}</span>
-<span class="doccomment">//! # }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! With this feature enabled, the above two examples will start working and not working, respectively.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [`SendWrapper`]: https://docs.rs/send_wrapper/latest/send_wrapper/struct.SendWrapper.html</span>
-<span class="doccomment">//! [`Rc`]: std::rc::Rc</span>
-<span class="doccomment">//! [`Py`]: crate::Py</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::err</span>::{<span class="self">self</span>, <span class="ident">PyDowncastError</span>, <span class="ident">PyErr</span>, <span class="ident">PyResult</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::gil</span>::{<span class="self">self</span>, <span class="ident">GILGuard</span>, <span class="ident">GILPool</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::impl_::not_send::NotSend</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<span class="ident">PyAny</span>, <span class="ident">PyDict</span>, <span class="ident">PyModule</span>, <span class="ident">PyString</span>, <span class="ident">PyType</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::version::PythonVersionInfo</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">ffi</span>, <span class="ident">AsPyPointer</span>, <span class="ident">FromPyPointer</span>, <span class="ident">IntoPy</span>, <span class="ident">IntoPyPointer</span>, <span class="ident">Py</span>, <span class="ident">PyNativeType</span>, <span class="ident">PyObject</span>, <span class="ident">PyTryFrom</span>,
-    <span class="ident">PyTypeInfo</span>,
+</span><span class="doccomment">//! Fundamental properties of objects tied to the Python interpreter.
+//!
+//! The Python interpreter is not threadsafe. To protect the Python interpreter in multithreaded
+//! scenarios there is a global lock, the *global interpreter lock* (hereafter referred to as *GIL*)
+//! that must be held to safely interact with Python objects. This is why in PyO3 when you acquire
+//! the GIL you get a [`Python`] marker token that carries the *lifetime* of holding the GIL and all
+//! borrowed references to Python objects carry this lifetime as well. This will statically ensure
+//! that you can never use Python objects after dropping the lock - if you mess this up it will be
+//! caught at compile time and your program will fail to compile.
+//!
+//! It also supports this pattern that many extension modules employ:
+//! - Drop the GIL, so that other Python threads can acquire it and make progress themselves
+//! - Do something independently of the Python interpreter, like IO, a long running calculation or
+//! awaiting a future
+//! - Once that is done, reacquire the GIL
+//!
+//! That API is provided by [`Python::allow_threads`] and enforced via the [`Ungil`] bound on the
+//! closure and the return type. This is done by relying on the [`Send`] auto trait. `Ungil` is
+//! defined as the following:
+//!
+//! ```rust
+//! pub unsafe trait Ungil {}
+//!
+//! unsafe impl&lt;T: Send&gt; Ungil for T {}
+//! ```
+//!
+//! We piggy-back off the `Send` auto trait because it is not possible to implement custom auto
+//! traits on stable Rust. This is the solution which enables it for as many types as possible while
+//! making the API usable.
+//!
+//! In practice this API works quite well, but it comes with some drawbacks:
+//!
+//! ## Drawbacks
+//!
+//! There is no reason to prevent `!Send` types like [`Rc`] from crossing the closure. After all,
+//! [`Python::allow_threads`] just lets other Python threads run - it does not itself launch a new
+//! thread.
+//!
+//! ```rust, compile_fail
+//! # #[cfg(feature = &quot;nightly&quot;)]
+//! # compile_error!(&quot;this actually works on nightly&quot;)
+//! use pyo3::prelude::*;
+//! use std::rc::Rc;
+//!
+//! fn main() {
+//!     Python::with_gil(|py| {
+//!         let rc = Rc::new(5);
+//!
+//!         py.allow_threads(|| {
+//!             // This would actually be fine...
+//!             println!(&quot;{:?}&quot;, *rc);
+//!         });
+//!     });
+//! }
+//! ```
+//!
+//! Because we are using `Send` for something it&#39;s not quite meant for, other code that
+//! (correctly) upholds the invariants of [`Send`] can cause problems.
+//!
+//! [`SendWrapper`] is one of those. Per its documentation:
+//!
+//! &gt; A wrapper which allows you to move around non-Send-types between threads, as long as you
+//! &gt; access the contained value only from within the original thread and make sure that it is
+//! &gt; dropped from within the original thread.
+//!
+//! This will &quot;work&quot; to smuggle Python references across the closure, because we&#39;re not actually
+//! doing anything with threads:
+//!
+//! ```rust, no_run
+//! use pyo3::prelude::*;
+//! use pyo3::types::PyString;
+//! use send_wrapper::SendWrapper;
+//!
+//! Python::with_gil(|py| {
+//!     let string = PyString::new(py, &quot;foo&quot;);
+//!
+//!     let wrapped = SendWrapper::new(string);
+//!
+//!     py.allow_threads(|| {
+//! # #[cfg(not(feature = &quot;nightly&quot;))]
+//! # {
+//!         // 💥 Unsound! 💥
+//!         let smuggled: &amp;PyString = *wrapped;
+//!         println!(&quot;{:?}&quot;, smuggled);
+//! # }
+//!     });
+//! });
+//! ```
+//!
+//! For now the answer to that is &quot;don&#39;t do that&quot;.
+//!
+//! # A proper implementation using an auto trait
+//!
+//! However on nightly Rust and when PyO3&#39;s `nightly` feature is
+//! enabled, `Ungil` is defined as the following:
+//!
+//! ```rust
+//! # #[cfg(FALSE)]
+//! # {
+//! #![feature(auto_traits, negative_impls)]
+//!
+//! pub unsafe auto trait Ungil {}
+//!
+//! // It is unimplemented for the `Python` struct and Python objects.
+//! impl !Ungil for Python&lt;&#39;_&gt; {}
+//! impl !Ungil for ffi::PyObject {}
+//!
+//! // `Py` wraps it in  a safe api, so this is OK
+//! unsafe impl &lt;T&gt; Ungil for Py&lt;T&gt; {}
+//! # }
+//! ```
+//!
+//! With this feature enabled, the above two examples will start working and not working, respectively.
+//!
+//! [`SendWrapper`]: https://docs.rs/send_wrapper/latest/send_wrapper/struct.SendWrapper.html
+//! [`Rc`]: std::rc::Rc
+//! [`Py`]: crate::Py
+</span><span class="kw">use </span><span class="kw">crate</span>::err::{<span class="self">self</span>, PyDowncastError, PyErr, PyResult};
+<span class="kw">use </span><span class="kw">crate</span>::gil::{<span class="self">self</span>, GILGuard, GILPool};
+<span class="kw">use </span><span class="kw">crate</span>::impl_::not_send::NotSend;
+<span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PyDict, PyModule, PyString, PyType};
+<span class="kw">use </span><span class="kw">crate</span>::version::PythonVersionInfo;
+<span class="kw">use crate</span>::{
+    ffi, AsPyPointer, FromPyPointer, IntoPy, IntoPyPointer, Py, PyNativeType, PyObject, PyTryFrom,
+    PyTypeInfo,
 };
-<span class="kw">use</span> <span class="ident">std::ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>};
-<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
-<span class="kw">use</span> <span class="ident">std::os::raw::c_int</span>;
+<span class="kw">use </span>std::ffi::{CStr, CString};
+<span class="kw">use </span>std::marker::PhantomData;
+<span class="kw">use </span>std::os::raw::c_int;
 
-<span class="doccomment">/// Types that are safe to access while the GIL is not held.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The type must not carry borrowed Python references or, if it does, not allow access to them if</span>
-<span class="doccomment">/// the GIL is not held.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See the [module-level documentation](self) for more information.</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">all</span>())))]</span> <span class="comment">// Hide the cfg flag</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">Ungil</span> {}
+<span class="doccomment">/// Types that are safe to access while the GIL is not held.
+///
+/// # Safety
+///
+/// The type must not carry borrowed Python references or, if it does, not allow access to them if
+/// the GIL is not held.
+///
+/// See the [module-level documentation](self) for more information.
+</span><span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))]</span> <span class="comment">// Hide the cfg flag
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]</span>
+<span class="kw">pub unsafe trait </span>Ungil {}
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">all</span>())))]</span> <span class="comment">// Hide the cfg flag</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>))]</span>
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident">T</span> {}
+<span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))]</span> <span class="comment">// Hide the cfg flag
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]</span>
+<span class="kw">unsafe impl</span>&lt;T: Send&gt; Ungil <span class="kw">for </span>T {}
 
-<span class="doccomment">/// Types that are safe to access while the GIL is not held.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The type must not carry borrowed Python references or, if it does, not allow access to them if</span>
-<span class="doccomment">/// the GIL is not held.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See the [module-level documentation](self) for more information.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="ident">auto</span> <span class="kw">trait</span> <span class="ident">Ungil</span> {}
+<span class="doccomment">/// Types that are safe to access while the GIL is not held.
+///
+/// # Safety
+///
+/// The type must not carry borrowed Python references or, if it does, not allow access to them if
+/// the GIL is not held.
+///
+/// See the [module-level documentation](self) for more information.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]</span>
+<span class="kw">pub unsafe </span>auto <span class="kw">trait </span>Ungil {}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">negative_impls</span> {
-    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Ungil</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]</span>
+<span class="kw">mod </span>negative_impls {
+    <span class="kw">use </span><span class="kw">super</span>::Ungil;
 
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::Python&lt;<span class="lifetime">&#39;_</span>&gt; {}
 
-    <span class="comment">// This means that PyString, PyList, etc all inherit !Ungil from  this.</span>
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::PyAny</span> {}
+    <span class="comment">// This means that PyString, PyList, etc all inherit !Ungil from  this.
+    </span><span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::PyAny {}
 
-    <span class="comment">// All the borrowing wrappers</span>
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::PyCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::PyRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::PyRefMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+    <span class="comment">// All the borrowing wrappers
+    </span><span class="kw">impl</span>&lt;T&gt; !Ungil <span class="kw">for </span><span class="kw">crate</span>::PyCell&lt;T&gt; {}
+    <span class="kw">impl</span>&lt;T&gt; !Ungil <span class="kw">for </span><span class="kw">crate</span>::PyRef&lt;<span class="lifetime">&#39;_</span>, T&gt; {}
+    <span class="kw">impl</span>&lt;T&gt; !Ungil <span class="kw">for </span><span class="kw">crate</span>::PyRefMut&lt;<span class="lifetime">&#39;_</span>, T&gt; {}
 
-    <span class="comment">// FFI pointees</span>
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyObject</span> {}
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyLongObject</span> {}
+    <span class="comment">// FFI pointees
+    </span><span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyObject {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyLongObject {}
 
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyThreadState</span> {}
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyInterpreterState</span> {}
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyWeakReference</span> {}
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyFrameObject</span> {}
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyCodeObject</span> {}
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyDictKeysObject</span> {}
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">Py_LIMITED_API</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">impl</span> <span class="op">!</span><span class="ident">Ungil</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::ffi::PyArena</span> {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyThreadState {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyInterpreterState {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyWeakReference {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyFrameObject {}
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyCodeObject {}
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyDictKeysObject {}
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, Py_3_10)))]</span>
+    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyArena {}
 }
 
-<span class="doccomment">/// A marker token that represents holding the GIL.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// It serves three main purposes:</span>
-<span class="doccomment">/// - It provides a global API for the Python interpreter, such as [`Python::eval`].</span>
-<span class="doccomment">/// - It can be passed to functions that require a proof of holding the GIL, such as</span>
-<span class="doccomment">/// [`Py::clone_ref`].</span>
-<span class="doccomment">/// - Its lifetime represents the scope of holding the GIL which can be used to create Rust</span>
-<span class="doccomment">/// references that are bound to it, such as `&amp;`[`PyAny`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note that there are some caveats to using it that you might need to be aware of. See the</span>
-<span class="doccomment">/// [Deadlocks](#deadlocks) and [Releasing and freeing memory](#releasing-and-freeing-memory)</span>
-<span class="doccomment">/// paragraphs for more information about that.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Obtaining a Python token</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The following are the recommended ways to obtain a [`Python`] token, in order of preference:</span>
-<span class="doccomment">/// - In a function or method annotated with [`#[pyfunction]`](crate::pyfunction) or [`#[pymethods]`](crate::pymethods) you can declare it</span>
-<span class="doccomment">/// as a parameter, and PyO3 will pass in the token when Python code calls it.</span>
-<span class="doccomment">/// - If you already have something with a lifetime bound to the GIL, such as `&amp;`[`PyAny`], you can</span>
-<span class="doccomment">/// use its [`.py()`][PyAny::py] method to get a token.</span>
-<span class="doccomment">/// - When you need to acquire the GIL yourself, such as when calling Python code from Rust, you</span>
-<span class="doccomment">/// should call [`Python::with_gil`] to do that and pass your code as a closure to it.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Deadlocks</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note that the GIL can be temporarily released by the Python interpreter during a function call</span>
-<span class="doccomment">/// (e.g. importing a module). In general, you don&#39;t need to worry about this because the GIL is</span>
-<span class="doccomment">/// reacquired before returning to the Rust code:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```text</span>
-<span class="doccomment">/// `Python` exists   |=====================================|</span>
-<span class="doccomment">/// GIL actually held |==========|         |================|</span>
-<span class="doccomment">/// Rust code running |=======|                |==|  |======|</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This behaviour can cause deadlocks when trying to lock a Rust mutex while holding the GIL:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///  * Thread 1 acquires the GIL</span>
-<span class="doccomment">///  * Thread 1 locks a mutex</span>
-<span class="doccomment">///  * Thread 1 makes a call into the Python interpreter which releases the GIL</span>
-<span class="doccomment">///  * Thread 2 acquires the GIL</span>
-<span class="doccomment">///  * Thread 2 tries to locks the mutex, blocks</span>
-<span class="doccomment">///  * Thread 1&#39;s Python interpreter call blocks trying to reacquire the GIL held by thread 2</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// To avoid deadlocking, you should release the GIL before trying to lock a mutex or `await`ing in</span>
-<span class="doccomment">/// asynchronous code, e.g. with [`Python::allow_threads`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Releasing and freeing memory</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The [`Python`] type can be used to create references to variables owned by the Python</span>
-<span class="doccomment">/// interpreter, using functions such as [`Python::eval`] and [`PyModule::import`]. These</span>
-<span class="doccomment">/// references are tied to a [`GILPool`] whose references are not cleared until it is dropped.</span>
-<span class="doccomment">/// This can cause apparent &quot;memory leaks&quot; if it is kept around for a long time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// use pyo3::prelude::*;</span>
-<span class="doccomment">/// use pyo3::types::PyString;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # fn main () -&gt; PyResult&lt;()&gt; {</span>
-<span class="doccomment">/// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {</span>
-<span class="doccomment">///     for _ in 0..10 {</span>
-<span class="doccomment">///         let hello: &amp;PyString = py.eval(&quot;\&quot;Hello World!\&quot;&quot;, None, None)?.extract()?;</span>
-<span class="doccomment">///         println!(&quot;Python says: {}&quot;, hello.to_str()?);</span>
-<span class="doccomment">///         // Normally variables in a loop scope are dropped here, but `hello` is a reference to</span>
-<span class="doccomment">///         // something owned by the Python interpreter. Dropping this reference does nothing.</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">///     Ok(())</span>
-<span class="doccomment">/// })</span>
-<span class="doccomment">/// // This is where the `hello`&#39;s reference counts start getting decremented.</span>
-<span class="doccomment">/// # }</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The variable `hello` is dropped at the end of each loop iteration, but the lifetime of the</span>
-<span class="doccomment">/// pointed-to memory is bound to [`Python::with_gil`]&#39;s [`GILPool`] which will not be dropped until</span>
-<span class="doccomment">/// the end of [`Python::with_gil`]&#39;s scope. Only then is each `hello`&#39;s Python reference count</span>
-<span class="doccomment">/// decreased. This means that at the last line of the example there are 10 copies of `hello` in</span>
-<span class="doccomment">/// Python&#39;s memory, not just one at a time as we might expect from Rust&#39;s [scoping rules].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See the [Memory Management] chapter of the guide for more information about how PyO3 uses</span>
-<span class="doccomment">/// [`GILPool`] to manage memory.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [scoping rules]: https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html#ownership-rules</span>
-<span class="doccomment">/// [`Py::clone_ref`]: crate::Py::clone_ref</span>
-<span class="doccomment">/// [Memory Management]: https://pyo3.rs/main/memory.html#gil-bound-memory</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">GILGuard</span>, <span class="ident">NotSend</span>)<span class="op">&gt;</span>);
+<span class="doccomment">/// A marker token that represents holding the GIL.
+///
+/// It serves three main purposes:
+/// - It provides a global API for the Python interpreter, such as [`Python::eval`].
+/// - It can be passed to functions that require a proof of holding the GIL, such as
+/// [`Py::clone_ref`].
+/// - Its lifetime represents the scope of holding the GIL which can be used to create Rust
+/// references that are bound to it, such as `&amp;`[`PyAny`].
+///
+/// Note that there are some caveats to using it that you might need to be aware of. See the
+/// [Deadlocks](#deadlocks) and [Releasing and freeing memory](#releasing-and-freeing-memory)
+/// paragraphs for more information about that.
+///
+/// # Obtaining a Python token
+///
+/// The following are the recommended ways to obtain a [`Python`] token, in order of preference:
+/// - In a function or method annotated with [`#[pyfunction]`](crate::pyfunction) or [`#[pymethods]`](crate::pymethods) you can declare it
+/// as a parameter, and PyO3 will pass in the token when Python code calls it.
+/// - If you already have something with a lifetime bound to the GIL, such as `&amp;`[`PyAny`], you can
+/// use its [`.py()`][PyAny::py] method to get a token.
+/// - When you need to acquire the GIL yourself, such as when calling Python code from Rust, you
+/// should call [`Python::with_gil`] to do that and pass your code as a closure to it.
+///
+/// # Deadlocks
+///
+/// Note that the GIL can be temporarily released by the Python interpreter during a function call
+/// (e.g. importing a module). In general, you don&#39;t need to worry about this because the GIL is
+/// reacquired before returning to the Rust code:
+///
+/// ```text
+/// `Python` exists   |=====================================|
+/// GIL actually held |==========|         |================|
+/// Rust code running |=======|                |==|  |======|
+/// ```
+///
+/// This behaviour can cause deadlocks when trying to lock a Rust mutex while holding the GIL:
+///
+///  * Thread 1 acquires the GIL
+///  * Thread 1 locks a mutex
+///  * Thread 1 makes a call into the Python interpreter which releases the GIL
+///  * Thread 2 acquires the GIL
+///  * Thread 2 tries to locks the mutex, blocks
+///  * Thread 1&#39;s Python interpreter call blocks trying to reacquire the GIL held by thread 2
+///
+/// To avoid deadlocking, you should release the GIL before trying to lock a mutex or `await`ing in
+/// asynchronous code, e.g. with [`Python::allow_threads`].
+///
+/// # Releasing and freeing memory
+///
+/// The [`Python`] type can be used to create references to variables owned by the Python
+/// interpreter, using functions such as [`Python::eval`] and [`PyModule::import`]. These
+/// references are tied to a [`GILPool`] whose references are not cleared until it is dropped.
+/// This can cause apparent &quot;memory leaks&quot; if it is kept around for a long time.
+///
+/// ```rust
+/// use pyo3::prelude::*;
+/// use pyo3::types::PyString;
+///
+/// # fn main () -&gt; PyResult&lt;()&gt; {
+/// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
+///     for _ in 0..10 {
+///         let hello: &amp;PyString = py.eval(&quot;\&quot;Hello World!\&quot;&quot;, None, None)?.extract()?;
+///         println!(&quot;Python says: {}&quot;, hello.to_str()?);
+///         // Normally variables in a loop scope are dropped here, but `hello` is a reference to
+///         // something owned by the Python interpreter. Dropping this reference does nothing.
+///     }
+///     Ok(())
+/// })
+/// // This is where the `hello`&#39;s reference counts start getting decremented.
+/// # }
+/// ```
+///
+/// The variable `hello` is dropped at the end of each loop iteration, but the lifetime of the
+/// pointed-to memory is bound to [`Python::with_gil`]&#39;s [`GILPool`] which will not be dropped until
+/// the end of [`Python::with_gil`]&#39;s scope. Only then is each `hello`&#39;s Python reference count
+/// decreased. This means that at the last line of the example there are 10 copies of `hello` in
+/// Python&#39;s memory, not just one at a time as we might expect from Rust&#39;s [scoping rules].
+///
+/// See the [Memory Management] chapter of the guide for more information about how PyO3 uses
+/// [`GILPool`] to manage memory.
+///
+/// [scoping rules]: https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html#ownership-rules
+/// [`Py::clone_ref`]: crate::Py::clone_ref
+/// [Memory Management]: https://pyo3.rs/main/memory.html#gil-bound-memory
+</span><span class="attribute">#[derive(Copy, Clone)]</span>
+<span class="kw">pub struct </span>Python&lt;<span class="lifetime">&#39;py</span>&gt;(PhantomData&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>GILGuard, NotSend)&gt;);
 
-<span class="kw">impl</span> <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Acquires the global interpreter lock, allowing access to the Python interpreter. The</span>
-    <span class="doccomment">/// provided closure `F` will be executed with the acquired `Python` marker token.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the [`auto-initialize`] feature is enabled and the Python runtime is not already</span>
-    <span class="doccomment">/// initialized, this function will initialize it. See</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(
-        <span class="ident">not</span>(<span class="ident">PyPy</span>),
-        <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;</span>
-    )]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
-    <span class="doccomment">/// for details.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - If the [`auto-initialize`] feature is not enabled and the Python interpreter is not</span>
-    <span class="doccomment">///   initialized.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use pyo3::prelude::*;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # fn main() -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">///     let x: i32 = py.eval(&quot;5&quot;, None, None)?.extract()?;</span>
-    <span class="doccomment">///     assert_eq!(x, 5);</span>
-    <span class="doccomment">///     Ok(())</span>
-    <span class="doccomment">/// })</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_gil</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="ident">R</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">FnOnce</span>(<span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>) -&gt; <span class="ident">R</span>,
+<span class="kw">impl </span>Python&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="doccomment">/// Acquires the global interpreter lock, allowing access to the Python interpreter. The
+    /// provided closure `F` will be executed with the acquired `Python` marker token.
+    ///
+    /// If the [`auto-initialize`] feature is enabled and the Python runtime is not already
+    /// initialized, this function will initialize it. See
+    </span><span class="attribute">#[cfg_attr(
+        not(PyPy),
+        doc = <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;
+    </span>)]</span>
+    <span class="attribute">#[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
+    <span class="doccomment">/// for details.
+    ///
+    /// # Panics
+    ///
+    /// - If the [`auto-initialize`] feature is not enabled and the Python interpreter is not
+    ///   initialized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use pyo3::prelude::*;
+    ///
+    /// # fn main() -&gt; PyResult&lt;()&gt; {
+    /// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
+    ///     let x: i32 = py.eval(&quot;5&quot;, None, None)?.extract()?;
+    ///     assert_eq!(x, 5);
+    ///     Ok(())
+    /// })
+    /// # }
+    /// ```
+    ///
+    /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>with_gil&lt;F, R&gt;(f: F) -&gt; R
+    <span class="kw">where
+        </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;py</span>&gt; FnOnce(Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; R,
     {
-        <span class="ident">f</span>(<span class="kw">unsafe</span> { <span class="ident">gil::ensure_gil</span>().<span class="ident">python</span>() })
+        f(<span class="kw">unsafe </span>{ gil::ensure_gil().python() })
     }
 
-    <span class="doccomment">/// Like [`Python::with_gil`] except Python interpreter state checking is skipped.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Normally when the GIL is acquired, we check that the Python interpreter is an</span>
-    <span class="doccomment">/// appropriate state (e.g. it is fully initialized). This function skips those</span>
-    <span class="doccomment">/// checks.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If [`Python::with_gil`] would succeed, it is safe to call this function.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// In most cases, you should use [`Python::with_gil`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A justified scenario for calling this function is during multi-phase interpreter</span>
-    <span class="doccomment">/// initialization when [`Python::with_gil`] would fail before</span>
-    <span class="comment">// this link is only valid on 3.8+not pypy and up.</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(
-        <span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)),
-        <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;[`_Py_InitializeMain`](crate::ffi::_Py_InitializeMain)&quot;</span>
-    )]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">not</span>(<span class="ident">Py_3_8</span>), <span class="ident">PyPy</span>), <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;`_Py_InitializeMain`&quot;</span>)]</span>
-    <span class="doccomment">/// is called because the interpreter is only partially initialized.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Behavior in other scenarios is not documented.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">with_gil_unchecked</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="ident">R</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">FnOnce</span>(<span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>) -&gt; <span class="ident">R</span>,
+    <span class="doccomment">/// Like [`Python::with_gil`] except Python interpreter state checking is skipped.
+    ///
+    /// Normally when the GIL is acquired, we check that the Python interpreter is an
+    /// appropriate state (e.g. it is fully initialized). This function skips those
+    /// checks.
+    ///
+    /// # Safety
+    ///
+    /// If [`Python::with_gil`] would succeed, it is safe to call this function.
+    ///
+    /// In most cases, you should use [`Python::with_gil`].
+    ///
+    /// A justified scenario for calling this function is during multi-phase interpreter
+    /// initialization when [`Python::with_gil`] would fail before
+    </span><span class="comment">// this link is only valid on 3.8+not pypy and up.
+    </span><span class="attribute">#[cfg_attr(
+        all(Py_3_8, not(PyPy)),
+        doc = <span class="string">&quot;[`_Py_InitializeMain`](crate::ffi::_Py_InitializeMain)&quot;
+    </span>)]</span>
+    <span class="attribute">#[cfg_attr(any(not(Py_3_8), PyPy), doc = <span class="string">&quot;`_Py_InitializeMain`&quot;</span>)]</span>
+    <span class="doccomment">/// is called because the interpreter is only partially initialized.
+    ///
+    /// Behavior in other scenarios is not documented.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub unsafe fn </span>with_gil_unchecked&lt;F, R&gt;(f: F) -&gt; R
+    <span class="kw">where
+        </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;py</span>&gt; FnOnce(Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; R,
     {
-        <span class="ident">f</span>(<span class="ident">gil::ensure_gil_unchecked</span>().<span class="ident">python</span>())
+        f(gil::ensure_gil_unchecked().python())
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Acquires the global interpreter lock, allowing access to the Python interpreter.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the [`auto-initialize`] feature is enabled and the Python runtime is not already</span>
-    <span class="doccomment">/// initialized, this function will initialize it. See</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(
-        <span class="ident">not</span>(<span class="ident">PyPy</span>),
-        <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;</span>
-    )]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
-    <span class="doccomment">/// for details.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Most users should not need to use this API directly, and should prefer one of two options:</span>
-    <span class="doccomment">/// 1. If implementing [`#[pymethods]`](crate::pymethods) or [`#[pyfunction]`](crate::pyfunction),  declare `py: Python` as an argument.</span>
-    <span class="doccomment">/// PyO3 will pass in the token to grant access to the GIL context in which the function is running.</span>
-    <span class="doccomment">/// 2. Use [`Python::with_gil`] to run a closure with the GIL, acquiring only if needed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - If the [`auto-initialize`] feature is not enabled and the Python interpreter is not</span>
-    <span class="doccomment">/// initialized.</span>
-    <span class="doccomment">/// - If multiple [`GILGuard`]s are not dropped in in the reverse order of acquisition, PyO3</span>
-    <span class="doccomment">/// may panic. It is recommended to use [`Python::with_gil`] instead to avoid this.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Notes</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The return type from this function, [`GILGuard`], is implemented as a RAII guard</span>
-    <span class="doccomment">/// around [`PyGILState_Ensure`]. This means that multiple `acquire_gil()` calls are</span>
-    <span class="doccomment">/// allowed, and will not deadlock. However, [`GILGuard`]s must be dropped in the reverse order</span>
-    <span class="doccomment">/// to acquisition. If PyO3 detects this order is not maintained, it will panic when the out-of-order drop occurs.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`PyGILState_Ensure`]: crate::ffi::PyGILState_Ensure</span>
-    <span class="doccomment">/// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire_gil</span>() -&gt; <span class="ident">GILGuard</span> {
-        <span class="ident">GILGuard::acquire</span>()
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; Python&lt;<span class="lifetime">&#39;py</span>&gt; {
+    <span class="doccomment">/// Acquires the global interpreter lock, allowing access to the Python interpreter.
+    ///
+    /// If the [`auto-initialize`] feature is enabled and the Python runtime is not already
+    /// initialized, this function will initialize it. See
+    </span><span class="attribute">#[cfg_attr(
+        not(PyPy),
+        doc = <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;
+    </span>)]</span>
+    <span class="attribute">#[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
+    <span class="doccomment">/// for details.
+    ///
+    /// Most users should not need to use this API directly, and should prefer one of two options:
+    /// 1. If implementing [`#[pymethods]`](crate::pymethods) or [`#[pyfunction]`](crate::pyfunction),  declare `py: Python` as an argument.
+    /// PyO3 will pass in the token to grant access to the GIL context in which the function is running.
+    /// 2. Use [`Python::with_gil`] to run a closure with the GIL, acquiring only if needed.
+    ///
+    /// # Panics
+    ///
+    /// - If the [`auto-initialize`] feature is not enabled and the Python interpreter is not
+    /// initialized.
+    /// - If multiple [`GILGuard`]s are not dropped in in the reverse order of acquisition, PyO3
+    /// may panic. It is recommended to use [`Python::with_gil`] instead to avoid this.
+    ///
+    /// # Notes
+    ///
+    /// The return type from this function, [`GILGuard`], is implemented as a RAII guard
+    /// around [`PyGILState_Ensure`]. This means that multiple `acquire_gil()` calls are
+    /// allowed, and will not deadlock. However, [`GILGuard`]s must be dropped in the reverse order
+    /// to acquisition. If PyO3 detects this order is not maintained, it will panic when the out-of-order drop occurs.
+    ///
+    /// # Deprecation
+    ///
+    /// This API has been deprecated for several reasons:
+    /// - GIL drop order tracking has turned out to be [error prone](https://github.com/PyO3/pyo3/issues/1683).
+    /// With a scoped API like `Python::with_gil`, these are always dropped in the correct order.
+    /// - It promotes passing and keeping the GILGuard around, which is almost always not what you actually want.
+    ///
+    /// [`PyGILState_Ensure`]: crate::ffi::PyGILState_Ensure
+    /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize
+    </span><span class="attribute">#[inline]</span>
+    <span class="comment">// Once removed, we can remove GILGuard&#39;s drop tracking.
+    </span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.17.0&quot;</span>, note = <span class="string">&quot;prefer Python::with_gil&quot;</span>)]</span>
+    <span class="kw">pub fn </span>acquire_gil() -&gt; GILGuard {
+        GILGuard::acquire()
     }
 
-    <span class="doccomment">/// Temporarily releases the GIL, thus allowing other Python threads to run. The GIL will be</span>
-    <span class="doccomment">/// reacquired when `F`&#39;s scope ends.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If you don&#39;t need to touch the Python</span>
-    <span class="doccomment">/// interpreter for some time and have other Python threads around, this will let you run</span>
-    <span class="doccomment">/// Rust-only code while letting those other Python threads make progress.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only types that implement [`Ungil`] can cross the closure. See the</span>
-    <span class="doccomment">/// [module level documentation](self) for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If you need to pass Python objects into the closure you can use [`Py`]`&lt;T&gt;`to create a</span>
-    <span class="doccomment">/// reference independent of the GIL lifetime. However, you cannot do much with those without a</span>
-    <span class="doccomment">/// [`Python`] token, for which you&#39;d need to reacquire the GIL.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example: Releasing the GIL while running a computation in Rust-only code</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use pyo3::prelude::*;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #[pyfunction]</span>
-    <span class="doccomment">/// fn sum_numbers(py: Python&lt;&#39;_&gt;, numbers: Vec&lt;u32&gt;) -&gt; PyResult&lt;u32&gt; {</span>
-    <span class="doccomment">///     // We release the GIL here so any other Python threads get a chance to run.</span>
-    <span class="doccomment">///     py.allow_threads(move || {</span>
-    <span class="doccomment">///         // An example of an &quot;expensive&quot; Rust calculation</span>
-    <span class="doccomment">///         let sum = numbers.iter().sum();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///         Ok(sum)</span>
-    <span class="doccomment">///     })</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// #</span>
-    <span class="doccomment">/// # fn main() -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// #     Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// #         let fun = pyo3::wrap_pyfunction!(sum_numbers, py)?;</span>
-    <span class="doccomment">/// #         let res = fun.call1((vec![1_u32, 2, 3],))?;</span>
-    <span class="doccomment">/// #         assert_eq!(res.extract::&lt;u32&gt;()?, 6_u32);</span>
-    <span class="doccomment">/// #         Ok(())</span>
-    <span class="doccomment">/// #     })</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Please see the [Parallelism] chapter of the guide for a thorough discussion of using</span>
-    <span class="doccomment">/// [`Python::allow_threads`] in this manner.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example: Passing borrowed Python references into the closure is not allowed</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```compile_fail</span>
-    <span class="doccomment">/// use pyo3::prelude::*;</span>
-    <span class="doccomment">/// use pyo3::types::PyString;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// fn parallel_print(py: Python&lt;&#39;_&gt;) {</span>
-    <span class="doccomment">///     let s = PyString::new(py, &quot;This object cannot be accessed without holding the GIL &gt;_&lt;&quot;);</span>
-    <span class="doccomment">///     py.allow_threads(move || {</span>
-    <span class="doccomment">///         println!(&quot;{:?}&quot;, s); // This causes a compile error.</span>
-    <span class="doccomment">///     });</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`Py`]: crate::Py</span>
-    <span class="doccomment">/// [`PyString`]: crate::types::PyString</span>
-    <span class="doccomment">/// [auto-traits]: https://doc.rust-lang.org/nightly/unstable-book/language-features/auto-traits.html</span>
-    <span class="doccomment">/// [Parallelism]: https://pyo3.rs/main/parallelism.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allow_threads</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Ungil</span> <span class="op">+</span> <span class="ident">FnOnce</span>() -&gt; <span class="ident">T</span>,
-        <span class="ident">T</span>: <span class="ident">Ungil</span>,
+    <span class="doccomment">/// Temporarily releases the GIL, thus allowing other Python threads to run. The GIL will be
+    /// reacquired when `F`&#39;s scope ends.
+    ///
+    /// If you don&#39;t need to touch the Python
+    /// interpreter for some time and have other Python threads around, this will let you run
+    /// Rust-only code while letting those other Python threads make progress.
+    ///
+    /// Only types that implement [`Ungil`] can cross the closure. See the
+    /// [module level documentation](self) for more information.
+    ///
+    /// If you need to pass Python objects into the closure you can use [`Py`]`&lt;T&gt;`to create a
+    /// reference independent of the GIL lifetime. However, you cannot do much with those without a
+    /// [`Python`] token, for which you&#39;d need to reacquire the GIL.
+    ///
+    /// # Example: Releasing the GIL while running a computation in Rust-only code
+    ///
+    /// ```
+    /// use pyo3::prelude::*;
+    ///
+    /// #[pyfunction]
+    /// fn sum_numbers(py: Python&lt;&#39;_&gt;, numbers: Vec&lt;u32&gt;) -&gt; PyResult&lt;u32&gt; {
+    ///     // We release the GIL here so any other Python threads get a chance to run.
+    ///     py.allow_threads(move || {
+    ///         // An example of an &quot;expensive&quot; Rust calculation
+    ///         let sum = numbers.iter().sum();
+    ///
+    ///         Ok(sum)
+    ///     })
+    /// }
+    /// #
+    /// # fn main() -&gt; PyResult&lt;()&gt; {
+    /// #     Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
+    /// #         let fun = pyo3::wrap_pyfunction!(sum_numbers, py)?;
+    /// #         let res = fun.call1((vec![1_u32, 2, 3],))?;
+    /// #         assert_eq!(res.extract::&lt;u32&gt;()?, 6_u32);
+    /// #         Ok(())
+    /// #     })
+    /// # }
+    /// ```
+    ///
+    /// Please see the [Parallelism] chapter of the guide for a thorough discussion of using
+    /// [`Python::allow_threads`] in this manner.
+    ///
+    /// # Example: Passing borrowed Python references into the closure is not allowed
+    ///
+    /// ```compile_fail
+    /// use pyo3::prelude::*;
+    /// use pyo3::types::PyString;
+    ///
+    /// fn parallel_print(py: Python&lt;&#39;_&gt;) {
+    ///     let s = PyString::new(py, &quot;This object cannot be accessed without holding the GIL &gt;_&lt;&quot;);
+    ///     py.allow_threads(move || {
+    ///         println!(&quot;{:?}&quot;, s); // This causes a compile error.
+    ///     });
+    /// }
+    /// ```
+    ///
+    /// [`Py`]: crate::Py
+    /// [`PyString`]: crate::types::PyString
+    /// [auto-traits]: https://doc.rust-lang.org/nightly/unstable-book/language-features/auto-traits.html
+    /// [Parallelism]: https://pyo3.rs/main/parallelism.html
+    </span><span class="kw">pub fn </span>allow_threads&lt;T, F&gt;(<span class="self">self</span>, f: F) -&gt; T
+    <span class="kw">where
+        </span>F: Ungil + FnOnce() -&gt; T,
+        T: Ungil,
     {
-        <span class="comment">// Use a guard pattern to handle reacquiring the GIL, so that the GIL will be reacquired</span>
-        <span class="comment">// even if `f` panics.</span>
+        <span class="comment">// Use a guard pattern to handle reacquiring the GIL, so that the GIL will be reacquired
+        // even if `f` panics.
 
-        <span class="kw">struct</span> <span class="ident">RestoreGuard</span> {
-            <span class="ident">count</span>: <span class="ident">usize</span>,
-            <span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyThreadState</span>,
+        </span><span class="kw">struct </span>RestoreGuard {
+            count: usize,
+            tstate: <span class="kw-2">*mut </span>ffi::PyThreadState,
         }
 
-        <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">RestoreGuard</span> {
-            <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-                <span class="ident">gil::GIL_COUNT</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">set</span>(<span class="self">self</span>.<span class="ident">count</span>));
-                <span class="kw">unsafe</span> {
-                    <span class="ident">ffi::PyEval_RestoreThread</span>(<span class="self">self</span>.<span class="ident">tstate</span>);
+        <span class="kw">impl </span>Drop <span class="kw">for </span>RestoreGuard {
+            <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+                gil::GIL_COUNT.with(|c| c.set(<span class="self">self</span>.count));
+                <span class="kw">unsafe </span>{
+                    ffi::PyEval_RestoreThread(<span class="self">self</span>.tstate);
                 }
             }
         }
 
-        <span class="comment">// The `Send` bound on the closure prevents the user from</span>
-        <span class="comment">// transferring the `Python` token into the closure.</span>
-        <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">gil::GIL_COUNT</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">replace</span>(<span class="number">0</span>));
-        <span class="kw">let</span> <span class="ident">tstate</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::PyEval_SaveThread</span>() };
+        <span class="comment">// The `Send` bound on the closure prevents the user from
+        // transferring the `Python` token into the closure.
+        </span><span class="kw">let </span>count = gil::GIL_COUNT.with(|c| c.replace(<span class="number">0</span>));
+        <span class="kw">let </span>tstate = <span class="kw">unsafe </span>{ ffi::PyEval_SaveThread() };
 
-        <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">RestoreGuard</span> { <span class="ident">count</span>, <span class="ident">tstate</span> };
-        <span class="ident">f</span>()
+        <span class="kw">let </span>_guard = RestoreGuard { count, tstate };
+        f()
     }
 
-    <span class="doccomment">/// Evaluates a Python expression in the given context and returns the result.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `globals` is `None`, it defaults to Python module `__main__`.</span>
-    <span class="doccomment">/// If `locals` is `None`, it defaults to the value of `globals`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use pyo3::prelude::*;</span>
-    <span class="doccomment">/// # Python::with_gil(|py| {</span>
-    <span class="doccomment">/// let result = py.eval(&quot;[i * 10 for i in range(5)]&quot;, None, None).unwrap();</span>
-    <span class="doccomment">/// let res: Vec&lt;i64&gt; = result.extract().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(res, vec![0, 10, 20, 30, 40])</span>
-    <span class="doccomment">/// # });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">eval</span>(
+    <span class="doccomment">/// Evaluates a Python expression in the given context and returns the result.
+    ///
+    /// If `globals` is `None`, it defaults to Python module `__main__`.
+    /// If `locals` is `None`, it defaults to the value of `globals`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use pyo3::prelude::*;
+    /// # Python::with_gil(|py| {
+    /// let result = py.eval(&quot;[i * 10 for i in range(5)]&quot;, None, None).unwrap();
+    /// let res: Vec&lt;i64&gt; = result.extract().unwrap();
+    /// assert_eq!(res, vec![0, 10, 20, 30, 40])
+    /// # });
+    /// ```
+    </span><span class="kw">pub fn </span>eval(
         <span class="self">self</span>,
-        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">globals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-        <span class="ident">locals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">run_code</span>(<span class="ident">code</span>, <span class="ident">ffi::Py_eval_input</span>, <span class="ident">globals</span>, <span class="ident">locals</span>)
+        code: <span class="kw-2">&amp;</span>str,
+        globals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+        locals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+    ) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt; {
+        <span class="self">self</span>.run_code(code, ffi::Py_eval_input, globals, locals)
     }
 
-    <span class="doccomment">/// Executes one or more Python statements in the given context.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `globals` is `None`, it defaults to Python module `__main__`.</span>
-    <span class="doccomment">/// If `locals` is `None`, it defaults to the value of `globals`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use pyo3::{</span>
-    <span class="doccomment">///     prelude::*,</span>
-    <span class="doccomment">///     types::{PyBytes, PyDict},</span>
-    <span class="doccomment">/// };</span>
-    <span class="doccomment">/// Python::with_gil(|py| {</span>
-    <span class="doccomment">///     let locals = PyDict::new(py);</span>
-    <span class="doccomment">///     py.run(</span>
-    <span class="doccomment">///         r#&quot;</span>
-    <span class="doccomment">/// import base64</span>
-    <span class="doccomment">/// s = &#39;Hello Rust!&#39;</span>
-    <span class="doccomment">/// ret = base64.b64encode(s.encode(&#39;utf-8&#39;))</span>
-    <span class="doccomment">/// &quot;#,</span>
-    <span class="doccomment">///         None,</span>
-    <span class="doccomment">///         Some(locals),</span>
-    <span class="doccomment">///     )</span>
-    <span class="doccomment">///     .unwrap();</span>
-    <span class="doccomment">///     let ret = locals.get_item(&quot;ret&quot;).unwrap();</span>
-    <span class="doccomment">///     let b64: &amp;PyBytes = ret.downcast().unwrap();</span>
-    <span class="doccomment">///     assert_eq!(b64.as_bytes(), b&quot;SGVsbG8gUnVzdCE=&quot;);</span>
-    <span class="doccomment">/// });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You can use [`py_run!`](macro.py_run.html) for a handy alternative of `run`</span>
-    <span class="doccomment">/// if you don&#39;t need `globals` and unwrapping is OK.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(
+    <span class="doccomment">/// Executes one or more Python statements in the given context.
+    ///
+    /// If `globals` is `None`, it defaults to Python module `__main__`.
+    /// If `locals` is `None`, it defaults to the value of `globals`.
+    ///
+    /// # Examples
+    /// ```
+    /// use pyo3::{
+    ///     prelude::*,
+    ///     types::{PyBytes, PyDict},
+    /// };
+    /// Python::with_gil(|py| {
+    ///     let locals = PyDict::new(py);
+    ///     py.run(
+    ///         r#&quot;
+    /// import base64
+    /// s = &#39;Hello Rust!&#39;
+    /// ret = base64.b64encode(s.encode(&#39;utf-8&#39;))
+    /// &quot;#,
+    ///         None,
+    ///         Some(locals),
+    ///     )
+    ///     .unwrap();
+    ///     let ret = locals.get_item(&quot;ret&quot;).unwrap();
+    ///     let b64: &amp;PyBytes = ret.downcast().unwrap();
+    ///     assert_eq!(b64.as_bytes(), b&quot;SGVsbG8gUnVzdCE=&quot;);
+    /// });
+    /// ```
+    ///
+    /// You can use [`py_run!`](macro.py_run.html) for a handy alternative of `run`
+    /// if you don&#39;t need `globals` and unwrapping is OK.
+    </span><span class="kw">pub fn </span>run(
         <span class="self">self</span>,
-        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">globals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-        <span class="ident">locals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">run_code</span>(<span class="ident">code</span>, <span class="ident">ffi::Py_file_input</span>, <span class="ident">globals</span>, <span class="ident">locals</span>);
-        <span class="ident">res</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
-            <span class="macro">debug_assert!</span>(<span class="ident">obj</span>.<span class="ident">is_none</span>());
+        code: <span class="kw-2">&amp;</span>str,
+        globals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+        locals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+    ) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">let </span>res = <span class="self">self</span>.run_code(code, ffi::Py_file_input, globals, locals);
+        res.map(|obj| {
+            <span class="macro">debug_assert!</span>(obj.is_none());
         })
     }
 
-    <span class="doccomment">/// Runs code in the given context.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `start` indicates the type of input expected: one of `Py_single_input`,</span>
-    <span class="doccomment">/// `Py_file_input`, or `Py_eval_input`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `globals` is `None`, it defaults to Python module `__main__`.</span>
-    <span class="doccomment">/// If `locals` is `None`, it defaults to the value of `globals`.</span>
-    <span class="kw">fn</span> <span class="ident">run_code</span>(
+    <span class="doccomment">/// Runs code in the given context.
+    ///
+    /// `start` indicates the type of input expected: one of `Py_single_input`,
+    /// `Py_file_input`, or `Py_eval_input`.
+    ///
+    /// If `globals` is `None`, it defaults to Python module `__main__`.
+    /// If `locals` is `None`, it defaults to the value of `globals`.
+    </span><span class="kw">fn </span>run_code(
         <span class="self">self</span>,
-        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">start</span>: <span class="ident">c_int</span>,
-        <span class="ident">globals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-        <span class="ident">locals</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">code</span> <span class="op">=</span> <span class="ident">CString::new</span>(<span class="ident">code</span>)<span class="question-mark">?</span>;
-        <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">mptr</span> <span class="op">=</span> <span class="ident">ffi::PyImport_AddModule</span>(<span class="string">&quot;__main__\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>);
-            <span class="kw">if</span> <span class="ident">mptr</span>.<span class="ident">is_null</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PyErr::fetch</span>(<span class="self">self</span>));
+        code: <span class="kw-2">&amp;</span>str,
+        start: c_int,
+        globals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+        locals: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDict&gt;,
+    ) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt; {
+        <span class="kw">let </span>code = CString::new(code)<span class="question-mark">?</span>;
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>mptr = ffi::PyImport_AddModule(<span class="string">&quot;__main__\0&quot;</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>);
+            <span class="kw">if </span>mptr.is_null() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>));
             }
 
-            <span class="kw">let</span> <span class="ident">globals</span> <span class="op">=</span> <span class="ident">globals</span>
-                .<span class="ident">map</span>(<span class="ident">AsPyPointer::as_ptr</span>)
-                .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ffi::PyModule_GetDict</span>(<span class="ident">mptr</span>));
-            <span class="kw">let</span> <span class="ident">locals</span> <span class="op">=</span> <span class="ident">locals</span>.<span class="ident">map</span>(<span class="ident">AsPyPointer::as_ptr</span>).<span class="ident">unwrap_or</span>(<span class="ident">globals</span>);
+            <span class="kw">let </span>globals = globals
+                .map(AsPyPointer::as_ptr)
+                .unwrap_or_else(|| ffi::PyModule_GetDict(mptr));
+            <span class="kw">let </span>locals = locals.map(AsPyPointer::as_ptr).unwrap_or(globals);
 
-            <span class="kw">let</span> <span class="ident">code_obj</span> <span class="op">=</span> <span class="ident">ffi::Py_CompileString</span>(<span class="ident">code</span>.<span class="ident">as_ptr</span>(), <span class="string">&quot;&lt;string&gt;\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">start</span>);
-            <span class="kw">if</span> <span class="ident">code_obj</span>.<span class="ident">is_null</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PyErr::fetch</span>(<span class="self">self</span>));
+            <span class="kw">let </span>code_obj = ffi::Py_CompileString(code.as_ptr(), <span class="string">&quot;&lt;string&gt;\0&quot;</span>.as_ptr() <span class="kw">as _</span>, start);
+            <span class="kw">if </span>code_obj.is_null() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>));
             }
-            <span class="kw">let</span> <span class="ident">res_ptr</span> <span class="op">=</span> <span class="ident">ffi::PyEval_EvalCode</span>(<span class="ident">code_obj</span>, <span class="ident">globals</span>, <span class="ident">locals</span>);
-            <span class="ident">ffi::Py_DECREF</span>(<span class="ident">code_obj</span>);
+            <span class="kw">let </span>res_ptr = ffi::PyEval_EvalCode(code_obj, globals, locals);
+            ffi::Py_DECREF(code_obj);
 
-            <span class="self">self</span>.<span class="ident">from_owned_ptr_or_err</span>(<span class="ident">res_ptr</span>)
+            <span class="self">self</span>.from_owned_ptr_or_err(res_ptr)
         }
     }
 
-    <span class="doccomment">/// Gets the Python type object for type `T`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyType</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">PyTypeInfo</span>,
+    <span class="doccomment">/// Gets the Python type object for type `T`.
+    </span><span class="kw">pub fn </span>get_type&lt;T&gt;(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyType
+    <span class="kw">where
+        </span>T: PyTypeInfo,
     {
-        <span class="ident">T::type_object</span>(<span class="self">self</span>)
+        T::type_object(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Imports the Python module with the specified name.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">import</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">name</span>: <span class="ident">N</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyModule</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">N</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyString</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Imports the Python module with the specified name.
+    </span><span class="kw">pub fn </span>import&lt;N&gt;(<span class="self">self</span>, name: N) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyModule&gt;
+    <span class="kw">where
+        </span>N: IntoPy&lt;Py&lt;PyString&gt;&gt;,
     {
-        <span class="ident">PyModule::import</span>(<span class="self">self</span>, <span class="ident">name</span>)
+        PyModule::import(<span class="self">self</span>, name)
     }
 
-    <span class="doccomment">/// Gets the Python builtin value `None`.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span> <span class="comment">// the Python keyword starts with uppercase</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="prelude-val">None</span>(<span class="self">self</span>) -&gt; <span class="ident">PyObject</span> {
-        <span class="kw">unsafe</span> { <span class="ident">PyObject::from_borrowed_ptr</span>(<span class="self">self</span>, <span class="ident">ffi::Py_None</span>()) }
+    <span class="doccomment">/// Gets the Python builtin value `None`.
+    </span><span class="attribute">#[allow(non_snake_case)]</span> <span class="comment">// the Python keyword starts with uppercase
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span><span class="prelude-val">None</span>(<span class="self">self</span>) -&gt; PyObject {
+        <span class="kw">unsafe </span>{ PyObject::from_borrowed_ptr(<span class="self">self</span>, ffi::Py_None()) }
     }
 
-    <span class="doccomment">/// Gets the Python builtin value `NotImplemented`.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span> <span class="comment">// the Python keyword starts with uppercase</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">NotImplemented</span>(<span class="self">self</span>) -&gt; <span class="ident">PyObject</span> {
-        <span class="kw">unsafe</span> { <span class="ident">PyObject::from_borrowed_ptr</span>(<span class="self">self</span>, <span class="ident">ffi::Py_NotImplemented</span>()) }
+    <span class="doccomment">/// Gets the Python builtin value `NotImplemented`.
+    </span><span class="attribute">#[allow(non_snake_case)]</span> <span class="comment">// the Python keyword starts with uppercase
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>NotImplemented(<span class="self">self</span>) -&gt; PyObject {
+        <span class="kw">unsafe </span>{ PyObject::from_borrowed_ptr(<span class="self">self</span>, ffi::Py_NotImplemented()) }
     }
 
-    <span class="doccomment">/// Gets the running Python interpreter version as a string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use pyo3::Python;</span>
-    <span class="doccomment">/// Python::with_gil(|py| {</span>
-    <span class="doccomment">///     // The full string could be, for example:</span>
-    <span class="doccomment">///     // &quot;3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]&quot;</span>
-    <span class="doccomment">///     assert!(py.version().starts_with(&quot;3.&quot;));</span>
-    <span class="doccomment">/// });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">str</span> {
-        <span class="kw">unsafe</span> {
-            <span class="ident">CStr::from_ptr</span>(<span class="ident">ffi::Py_GetVersion</span>())
-                .<span class="ident">to_str</span>()
-                .<span class="ident">expect</span>(<span class="string">&quot;Python version string not UTF-8&quot;</span>)
+    <span class="doccomment">/// Gets the running Python interpreter version as a string.
+    ///
+    /// # Examples
+    /// ```rust
+    /// # use pyo3::Python;
+    /// Python::with_gil(|py| {
+    ///     // The full string could be, for example:
+    ///     // &quot;3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]&quot;
+    ///     assert!(py.version().starts_with(&quot;3.&quot;));
+    /// });
+    /// ```
+    </span><span class="kw">pub fn </span>version(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>str {
+        <span class="kw">unsafe </span>{
+            CStr::from_ptr(ffi::Py_GetVersion())
+                .to_str()
+                .expect(<span class="string">&quot;Python version string not UTF-8&quot;</span>)
         }
     }
 
-    <span class="doccomment">/// Gets the running Python interpreter version as a struct similar to</span>
-    <span class="doccomment">/// `sys.version_info`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use pyo3::Python;</span>
-    <span class="doccomment">/// Python::with_gil(|py| {</span>
-    <span class="doccomment">///     // PyO3 supports Python 3.7 and up.</span>
-    <span class="doccomment">///     assert!(py.version_info() &gt;= (3, 7));</span>
-    <span class="doccomment">///     assert!(py.version_info() &gt;= (3, 7, 0));</span>
-    <span class="doccomment">/// });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version_info</span>(<span class="self">self</span>) -&gt; <span class="ident">PythonVersionInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">version_str</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">version</span>();
+    <span class="doccomment">/// Gets the running Python interpreter version as a struct similar to
+    /// `sys.version_info`.
+    ///
+    /// # Examples
+    /// ```rust
+    /// # use pyo3::Python;
+    /// Python::with_gil(|py| {
+    ///     // PyO3 supports Python 3.7 and up.
+    ///     assert!(py.version_info() &gt;= (3, 7));
+    ///     assert!(py.version_info() &gt;= (3, 7, 0));
+    /// });
+    /// ```
+    </span><span class="kw">pub fn </span>version_info(<span class="self">self</span>) -&gt; PythonVersionInfo&lt;<span class="lifetime">&#39;py</span>&gt; {
+        <span class="kw">let </span>version_str = <span class="self">self</span>.version();
 
-        <span class="comment">// Portion of the version string returned by Py_GetVersion up to the first space is the</span>
-        <span class="comment">// version number.</span>
-        <span class="kw">let</span> <span class="ident">version_number_str</span> <span class="op">=</span> <span class="ident">version_str</span>.<span class="ident">split</span>(<span class="string">&#39; &#39;</span>).<span class="ident">next</span>().<span class="ident">unwrap_or</span>(<span class="ident">version_str</span>);
+        <span class="comment">// Portion of the version string returned by Py_GetVersion up to the first space is the
+        // version number.
+        </span><span class="kw">let </span>version_number_str = version_str.split(<span class="string">&#39; &#39;</span>).next().unwrap_or(version_str);
 
-        <span class="ident">PythonVersionInfo::from_str</span>(<span class="ident">version_number_str</span>).<span class="ident">unwrap</span>()
+        PythonVersionInfo::from_str(version_number_str).unwrap()
     }
 
-    <span class="doccomment">/// Registers the object in the release pool, and tries to downcast to specific type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">checked_cast_as</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">obj</span>: <span class="ident">PyObject</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span>, <span class="ident">PyDowncastError</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">PyTryFrom</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Registers the object in the release pool, and tries to downcast to specific type.
+    </span><span class="kw">pub fn </span>checked_cast_as&lt;T&gt;(<span class="self">self</span>, obj: PyObject) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T, PyDowncastError&lt;<span class="lifetime">&#39;py</span>&gt;&gt;
+    <span class="kw">where
+        </span>T: PyTryFrom&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="kw">let</span> <span class="ident">any</span>: <span class="kw-2">&amp;</span><span class="ident">PyAny</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">from_owned_ptr</span>(<span class="ident">obj</span>.<span class="ident">into_ptr</span>()) };
-        <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">any</span>)
+        <span class="kw">let </span>any: <span class="kw-2">&amp;</span>PyAny = <span class="kw">unsafe </span>{ <span class="self">self</span>.from_owned_ptr(obj.into_ptr()) };
+        &lt;T <span class="kw">as </span>PyTryFrom&gt;::try_from(any)
     }
 
-    <span class="doccomment">/// Registers the object in the release pool, and does an unchecked downcast</span>
-    <span class="doccomment">/// to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cast_as</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">obj</span>: <span class="ident">PyObject</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">PyNativeType</span> <span class="op">+</span> <span class="ident">PyTypeInfo</span>,
+    <span class="doccomment">/// Registers the object in the release pool, and does an unchecked downcast
+    /// to the specific type.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="kw">pub unsafe fn </span>cast_as&lt;T&gt;(<span class="self">self</span>, obj: PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
+    <span class="kw">where
+        </span>T: PyNativeType + PyTypeInfo,
     {
-        <span class="kw">let</span> <span class="ident">any</span>: <span class="kw-2">&amp;</span><span class="ident">PyAny</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">from_owned_ptr</span>(<span class="ident">obj</span>.<span class="ident">into_ptr</span>());
-        <span class="ident">T::unchecked_downcast</span>(<span class="ident">any</span>)
+        <span class="kw">let </span>any: <span class="kw-2">&amp;</span>PyAny = <span class="self">self</span>.from_owned_ptr(obj.into_ptr());
+        T::unchecked_downcast(any)
     }
 
-    <span class="doccomment">/// Registers the object pointer in the release pool,</span>
-    <span class="doccomment">/// and does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_owned_ptr</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Registers the object pointer in the release pool,
+    /// and does an unchecked downcast to the specific type.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_owned_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_owned_ptr</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_owned_ptr(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Registers the owned object pointer in the release pool.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `Err(PyErr)` if the pointer is NULL.</span>
-    <span class="doccomment">/// Does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_owned_ptr_or_err</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Registers the owned object pointer in the release pool.
+    ///
+    /// Returns `Err(PyErr)` if the pointer is NULL.
+    /// Does an unchecked downcast to the specific type.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_owned_ptr_or_err</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_owned_ptr_or_err(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Registers the owned object pointer in release pool.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `None` if the pointer is NULL.</span>
-    <span class="doccomment">/// Does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_owned_ptr_or_opt</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Registers the owned object pointer in release pool.
+    ///
+    /// Returns `None` if the pointer is NULL.
+    /// Does an unchecked downcast to the specific type.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_owned_ptr_or_opt</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_owned_ptr_or_opt(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the pointer is NULL.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_borrowed_ptr</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Does an unchecked downcast to the specific type.
+    ///
+    /// Panics if the pointer is NULL.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_borrowed_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_borrowed_ptr</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_borrowed_ptr(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `Err(PyErr)` if the pointer is NULL.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_borrowed_ptr_or_err</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Does an unchecked downcast to the specific type.
+    ///
+    /// Returns `Err(PyErr)` if the pointer is NULL.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_borrowed_ptr_or_err</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_borrowed_ptr_or_err(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Does an unchecked downcast to the specific type.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `None` if the pointer is NULL.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Callers must ensure that ensure that the cast is valid.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_borrowed_ptr_or_opt</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">FromPyPointer</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Does an unchecked downcast to the specific type.
+    ///
+    /// Returns `None` if the pointer is NULL.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that ensure that the cast is valid.
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
+    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    <span class="kw">where
+        </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="ident">FromPyPointer::from_borrowed_ptr_or_opt</span>(<span class="self">self</span>, <span class="ident">ptr</span>)
+        FromPyPointer::from_borrowed_ptr_or_opt(<span class="self">self</span>, ptr)
     }
 
-    <span class="doccomment">/// Lets the Python interpreter check and handle any pending signals. This will invoke the</span>
-    <span class="doccomment">/// corresponding signal handlers registered in Python (if any).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `Err(`[`PyErr`]`)` if any signal handler raises an exception.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// These signals include `SIGINT` (normally raised by CTRL + C), which by default raises</span>
-    <span class="doccomment">/// `KeyboardInterrupt`. For this reason it is good practice to call this function regularly</span>
-    <span class="doccomment">/// as part of long-running Rust functions so that users can cancel it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # #![allow(dead_code)] // this example is quite impractical to test</span>
-    <span class="doccomment">/// use pyo3::prelude::*;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # fn main(){</span>
-    <span class="doccomment">/// #[pyfunction]</span>
-    <span class="doccomment">/// fn loop_forever(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">///     loop {</span>
-    <span class="doccomment">///         // As this loop is infinite it should check for signals every once in a while.</span>
-    <span class="doccomment">///         // Using `?` causes any `PyErr` (potentially containing `KeyboardInterrupt`)</span>
-    <span class="doccomment">///         // to break out of the loop.</span>
-    <span class="doccomment">///         py.check_signals()?;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///         // do work here</span>
-    <span class="doccomment">///         # break Ok(()) // don&#39;t actually loop forever</span>
-    <span class="doccomment">///     }</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Note</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function calls [`PyErr_CheckSignals()`][1] which in turn may call signal handlers.</span>
-    <span class="doccomment">/// As Python&#39;s [`signal`][2] API allows users to define custom signal handlers, calling this</span>
-    <span class="doccomment">/// function allows arbitrary Python code inside signal handlers to run.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [1]: https://docs.python.org/3/c-api/exceptions.html?highlight=pyerr_checksignals#c.PyErr_CheckSignals</span>
-    <span class="doccomment">/// [2]: https://docs.python.org/3/library/signal.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_signals</span>(<span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::PyErr_CheckSignals</span>() };
-        <span class="ident">err::error_on_minusone</span>(<span class="self">self</span>, <span class="ident">v</span>)
+    <span class="doccomment">/// Lets the Python interpreter check and handle any pending signals. This will invoke the
+    /// corresponding signal handlers registered in Python (if any).
+    ///
+    /// Returns `Err(`[`PyErr`]`)` if any signal handler raises an exception.
+    ///
+    /// These signals include `SIGINT` (normally raised by CTRL + C), which by default raises
+    /// `KeyboardInterrupt`. For this reason it is good practice to call this function regularly
+    /// as part of long-running Rust functions so that users can cancel it.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # #![allow(dead_code)] // this example is quite impractical to test
+    /// use pyo3::prelude::*;
+    ///
+    /// # fn main(){
+    /// #[pyfunction]
+    /// fn loop_forever(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;()&gt; {
+    ///     loop {
+    ///         // As this loop is infinite it should check for signals every once in a while.
+    ///         // Using `?` causes any `PyErr` (potentially containing `KeyboardInterrupt`)
+    ///         // to break out of the loop.
+    ///         py.check_signals()?;
+    ///
+    ///         // do work here
+    ///         # break Ok(()) // don&#39;t actually loop forever
+    ///     }
+    /// }
+    /// # }
+    /// ```
+    ///
+    /// # Note
+    ///
+    /// This function calls [`PyErr_CheckSignals()`][1] which in turn may call signal handlers.
+    /// As Python&#39;s [`signal`][2] API allows users to define custom signal handlers, calling this
+    /// function allows arbitrary Python code inside signal handlers to run.
+    ///
+    /// [1]: https://docs.python.org/3/c-api/exceptions.html?highlight=pyerr_checksignals#c.PyErr_CheckSignals
+    /// [2]: https://docs.python.org/3/library/signal.html
+    </span><span class="kw">pub fn </span>check_signals(<span class="self">self</span>) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">let </span>v = <span class="kw">unsafe </span>{ ffi::PyErr_CheckSignals() };
+        err::error_on_minusone(<span class="self">self</span>, v)
     }
 
-    <span class="doccomment">/// Create a new pool for managing PyO3&#39;s owned references.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When this `GILPool` is dropped, all PyO3 owned references created after this `GILPool` will</span>
-    <span class="doccomment">/// all have their Python reference counts decremented, potentially allowing Python to drop</span>
-    <span class="doccomment">/// the corresponding Python objects.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Typical usage of PyO3 will not need this API, as [`Python::with_gil`] and</span>
-    <span class="doccomment">/// [`Python::acquire_gil`] automatically create a `GILPool` where appropriate.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Advanced uses of PyO3 which perform long-running tasks which never free the GIL may need</span>
-    <span class="doccomment">/// to use this API to clear memory, as PyO3 usually does not clear memory until the GIL is</span>
-    <span class="doccomment">/// released.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use pyo3::prelude::*;</span>
-    <span class="doccomment">/// Python::with_gil(|py| {</span>
-    <span class="doccomment">///     // Some long-running process like a webserver, which never releases the GIL.</span>
-    <span class="doccomment">///     loop {</span>
-    <span class="doccomment">///         // Create a new pool, so that PyO3 can clear memory at the end of the loop.</span>
-    <span class="doccomment">///         let pool = unsafe { py.new_pool() };</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///         // It is recommended to *always* immediately set py to the pool&#39;s Python, to help</span>
-    <span class="doccomment">///         // avoid creating references with invalid lifetimes.</span>
-    <span class="doccomment">///         let py = pool.python();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///         // do stuff...</span>
-    <span class="doccomment">/// #       break;  // Exit the loop so that doctest terminates!</span>
-    <span class="doccomment">///     }</span>
-    <span class="doccomment">/// });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Extreme care must be taken when using this API, as misuse can lead to accessing invalid</span>
-    <span class="doccomment">/// memory. In addition, the caller is responsible for guaranteeing that the GIL remains held</span>
-    <span class="doccomment">/// for the entire lifetime of the returned `GILPool`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Two best practices are required when using this API:</span>
-    <span class="doccomment">/// - From the moment `new_pool()` is called, only the `Python` token from the returned</span>
-    <span class="doccomment">///   `GILPool` (accessible using [`.python()`]) should be used in PyO3 APIs. All other older</span>
-    <span class="doccomment">///   `Python` tokens with longer lifetimes are unsafe to use until the `GILPool` is dropped,</span>
-    <span class="doccomment">///   because they can be used to create PyO3 owned references which have lifetimes which</span>
-    <span class="doccomment">///   outlive the `GILPool`.</span>
-    <span class="doccomment">/// - Similarly, methods on existing owned references will implicitly refer back to the</span>
-    <span class="doccomment">///   `Python` token which that reference was originally created with. If the returned values</span>
-    <span class="doccomment">///   from these methods are owned references they will inherit the same lifetime. As a result,</span>
-    <span class="doccomment">///   Rust&#39;s lifetime rules may allow them to outlive the `GILPool`, even though this is not</span>
-    <span class="doccomment">///   safe for reasons discussed above. Care must be taken to never access these return values</span>
-    <span class="doccomment">///   after the `GILPool` is dropped, unless they are converted to `Py&lt;T&gt;` *before* the pool</span>
-    <span class="doccomment">///   is dropped.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`.python()`]: crate::GILPool::python</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new_pool</span>(<span class="self">self</span>) -&gt; <span class="ident">GILPool</span> {
-        <span class="ident">GILPool::new</span>()
+    <span class="doccomment">/// Create a new pool for managing PyO3&#39;s owned references.
+    ///
+    /// When this `GILPool` is dropped, all PyO3 owned references created after this `GILPool` will
+    /// all have their Python reference counts decremented, potentially allowing Python to drop
+    /// the corresponding Python objects.
+    ///
+    /// Typical usage of PyO3 will not need this API, as [`Python::with_gil`] and
+    /// [`Python::acquire_gil`] automatically create a `GILPool` where appropriate.
+    ///
+    /// Advanced uses of PyO3 which perform long-running tasks which never free the GIL may need
+    /// to use this API to clear memory, as PyO3 usually does not clear memory until the GIL is
+    /// released.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use pyo3::prelude::*;
+    /// Python::with_gil(|py| {
+    ///     // Some long-running process like a webserver, which never releases the GIL.
+    ///     loop {
+    ///         // Create a new pool, so that PyO3 can clear memory at the end of the loop.
+    ///         let pool = unsafe { py.new_pool() };
+    ///
+    ///         // It is recommended to *always* immediately set py to the pool&#39;s Python, to help
+    ///         // avoid creating references with invalid lifetimes.
+    ///         let py = pool.python();
+    ///
+    ///         // do stuff...
+    /// #       break;  // Exit the loop so that doctest terminates!
+    ///     }
+    /// });
+    /// ```
+    ///
+    /// # Safety
+    ///
+    /// Extreme care must be taken when using this API, as misuse can lead to accessing invalid
+    /// memory. In addition, the caller is responsible for guaranteeing that the GIL remains held
+    /// for the entire lifetime of the returned `GILPool`.
+    ///
+    /// Two best practices are required when using this API:
+    /// - From the moment `new_pool()` is called, only the `Python` token from the returned
+    ///   `GILPool` (accessible using [`.python()`]) should be used in PyO3 APIs. All other older
+    ///   `Python` tokens with longer lifetimes are unsafe to use until the `GILPool` is dropped,
+    ///   because they can be used to create PyO3 owned references which have lifetimes which
+    ///   outlive the `GILPool`.
+    /// - Similarly, methods on existing owned references will implicitly refer back to the
+    ///   `Python` token which that reference was originally created with. If the returned values
+    ///   from these methods are owned references they will inherit the same lifetime. As a result,
+    ///   Rust&#39;s lifetime rules may allow them to outlive the `GILPool`, even though this is not
+    ///   safe for reasons discussed above. Care must be taken to never access these return values
+    ///   after the `GILPool` is dropped, unless they are converted to `Py&lt;T&gt;` *before* the pool
+    ///   is dropped.
+    ///
+    /// [`.python()`]: crate::GILPool::python
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub unsafe fn </span>new_pool(<span class="self">self</span>) -&gt; GILPool {
+        GILPool::new()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;unbound</span><span class="op">&gt;</span> <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;unbound</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Unsafely creates a Python token with an unbounded lifetime.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Many of PyO3 APIs use `Python&lt;&#39;_&gt;` as proof that the GIL is held, but this function can be</span>
-    <span class="doccomment">/// used to call them unsafely.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - This token and any borrowed Python references derived from it can only be safely used</span>
-    <span class="doccomment">/// whilst the currently executing thread is actually holding the GIL.</span>
-    <span class="doccomment">/// - This function creates a token with an *unbounded* lifetime. Safe code can assume that</span>
-    <span class="doccomment">/// holding a `Python&lt;&#39;py&gt;` token means the GIL is and stays acquired for the lifetime `&#39;py`.</span>
-    <span class="doccomment">/// If you let it or borrowed Python references escape to safe code you are</span>
-    <span class="doccomment">/// responsible for bounding the lifetime `&#39;unbound` appropriately. For more on unbounded</span>
-    <span class="doccomment">/// lifetimes, see the [nomicon].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [nomicon]: https://doc.rust-lang.org/nomicon/unbounded-lifetimes.html</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">assume_gil_acquired</span>() -&gt; <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;unbound</span><span class="op">&gt;</span> {
-        <span class="ident">Python</span>(<span class="ident">PhantomData</span>)
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;unbound</span>&gt; Python&lt;<span class="lifetime">&#39;unbound</span>&gt; {
+    <span class="doccomment">/// Unsafely creates a Python token with an unbounded lifetime.
+    ///
+    /// Many of PyO3 APIs use `Python&lt;&#39;_&gt;` as proof that the GIL is held, but this function can be
+    /// used to call them unsafely.
+    ///
+    /// # Safety
+    ///
+    /// - This token and any borrowed Python references derived from it can only be safely used
+    /// whilst the currently executing thread is actually holding the GIL.
+    /// - This function creates a token with an *unbounded* lifetime. Safe code can assume that
+    /// holding a `Python&lt;&#39;py&gt;` token means the GIL is and stays acquired for the lifetime `&#39;py`.
+    /// If you let it or borrowed Python references escape to safe code you are
+    /// responsible for bounding the lifetime `&#39;unbound` appropriately. For more on unbounded
+    /// lifetimes, see the [nomicon].
+    ///
+    /// [nomicon]: https://doc.rust-lang.org/nomicon/unbounded-lifetimes.html
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub unsafe fn </span>assume_gil_acquired() -&gt; Python&lt;<span class="lifetime">&#39;unbound</span>&gt; {
+        Python(PhantomData)
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<span class="ident">IntoPyDict</span>, <span class="ident">PyList</span>};
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Py</span>;
-    <span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::types::{IntoPyDict, PyList};
+    <span class="kw">use </span><span class="kw">crate</span>::Py;
+    <span class="kw">use </span>std::sync::Arc;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_eval</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="comment">// Make sure builtin names are accessible</span>
-            <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">py</span>
-                .<span class="ident">eval</span>(<span class="string">&quot;min(1, 2)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">print</span>(<span class="ident">py</span>))
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">extract</span>()
-                .<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">v</span>, <span class="number">1</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_eval() {
+        Python::with_gil(|py| {
+            <span class="comment">// Make sure builtin names are accessible
+            </span><span class="kw">let </span>v: i32 = py
+                .eval(<span class="string">&quot;min(1, 2)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
+                .map_err(|e| e.print(py))
+                .unwrap()
+                .extract()
+                .unwrap();
+            <span class="macro">assert_eq!</span>(v, <span class="number">1</span>);
 
-            <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> [(<span class="string">&quot;foo&quot;</span>, <span class="number">13</span>)].<span class="ident">into_py_dict</span>(<span class="ident">py</span>);
+            <span class="kw">let </span>d = [(<span class="string">&quot;foo&quot;</span>, <span class="number">13</span>)].into_py_dict(py);
 
-            <span class="comment">// Inject our own global namespace</span>
-            <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">py</span>
-                .<span class="ident">eval</span>(<span class="string">&quot;foo + 29&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">d</span>), <span class="prelude-val">None</span>)
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">extract</span>()
-                .<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">v</span>, <span class="number">42</span>);
+            <span class="comment">// Inject our own global namespace
+            </span><span class="kw">let </span>v: i32 = py
+                .eval(<span class="string">&quot;foo + 29&quot;</span>, <span class="prelude-val">Some</span>(d), <span class="prelude-val">None</span>)
+                .unwrap()
+                .extract()
+                .unwrap();
+            <span class="macro">assert_eq!</span>(v, <span class="number">42</span>);
 
-            <span class="comment">// Inject our own local namespace</span>
-            <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">py</span>
-                .<span class="ident">eval</span>(<span class="string">&quot;foo + 29&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">d</span>))
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">extract</span>()
-                .<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">v</span>, <span class="number">42</span>);
+            <span class="comment">// Inject our own local namespace
+            </span><span class="kw">let </span>v: i32 = py
+                .eval(<span class="string">&quot;foo + 29&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(d))
+                .unwrap()
+                .extract()
+                .unwrap();
+            <span class="macro">assert_eq!</span>(v, <span class="number">42</span>);
 
-            <span class="comment">// Make sure builtin names are still accessible when using a local namespace</span>
-            <span class="kw">let</span> <span class="ident">v</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="ident">py</span>
-                .<span class="ident">eval</span>(<span class="string">&quot;min(foo, 2)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">d</span>))
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">extract</span>()
-                .<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">v</span>, <span class="number">2</span>);
+            <span class="comment">// Make sure builtin names are still accessible when using a local namespace
+            </span><span class="kw">let </span>v: i32 = py
+                .eval(<span class="string">&quot;min(foo, 2)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(d))
+                .unwrap()
+                .extract()
+                .unwrap();
+            <span class="macro">assert_eq!</span>(v, <span class="number">2</span>);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>))]</span> <span class="comment">// We are building wasm Python with pthreads disabled</span>
-    <span class="kw">fn</span> <span class="ident">test_allow_threads_releases_and_acquires_gil</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">std::sync::Arc::new</span>(<span class="ident">std::sync::Barrier::new</span>(<span class="number">2</span>));
+    <span class="attribute">#[test]</span>
+    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span> <span class="comment">// We are building wasm Python with pthreads disabled
+    </span><span class="kw">fn </span>test_allow_threads_releases_and_acquires_gil() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>b = std::sync::Arc::new(std::sync::Barrier::new(<span class="number">2</span>));
 
-            <span class="kw">let</span> <span class="ident">b2</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">clone</span>();
-            <span class="ident">std::thread::spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">b2</span>.<span class="ident">wait</span>()));
+            <span class="kw">let </span>b2 = b.clone();
+            std::thread::spawn(<span class="kw">move </span>|| Python::with_gil(|<span class="kw">_</span>| b2.wait()));
 
-            <span class="ident">py</span>.<span class="ident">allow_threads</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="comment">// If allow_threads does not release the GIL, this will deadlock because</span>
-                <span class="comment">// the thread spawned above will never be able to acquire the GIL.</span>
-                <span class="ident">b</span>.<span class="ident">wait</span>();
+            py.allow_threads(|| {
+                <span class="comment">// If allow_threads does not release the GIL, this will deadlock because
+                // the thread spawned above will never be able to acquire the GIL.
+                </span>b.wait();
             });
 
-            <span class="kw">unsafe</span> {
-                <span class="comment">// If the GIL is not reacquired at the end of allow_threads, this call</span>
-                <span class="comment">// will crash the Python interpreter.</span>
-                <span class="kw">let</span> <span class="ident">tstate</span> <span class="op">=</span> <span class="ident">ffi::PyEval_SaveThread</span>();
-                <span class="ident">ffi::PyEval_RestoreThread</span>(<span class="ident">tstate</span>);
+            <span class="kw">unsafe </span>{
+                <span class="comment">// If the GIL is not reacquired at the end of allow_threads, this call
+                // will crash the Python interpreter.
+                </span><span class="kw">let </span>tstate = ffi::PyEval_SaveThread();
+                ffi::PyEval_RestoreThread(tstate);
             }
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_allow_threads_panics_safely</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">std::panic::catch_unwind</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">py</span> <span class="op">=</span> <span class="ident">Python::assume_gil_acquired</span>();
-                <span class="ident">py</span>.<span class="ident">allow_threads</span>(<span class="op">|</span><span class="op">|</span> {
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_allow_threads_panics_safely() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>result = std::panic::catch_unwind(|| <span class="kw">unsafe </span>{
+                <span class="kw">let </span>py = Python::assume_gil_acquired();
+                py.allow_threads(|| {
                     <span class="macro">panic!</span>(<span class="string">&quot;There was a panic!&quot;</span>);
                 });
             });
 
-            <span class="comment">// Check panic was caught</span>
-            <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+            <span class="comment">// Check panic was caught
+            </span><span class="macro">assert!</span>(result.is_err());
 
-            <span class="comment">// If allow_threads is implemented correctly, this thread still owns the GIL here</span>
-            <span class="comment">// so the following Python calls should not cause crashes.</span>
-            <span class="kw">let</span> <span class="ident">list</span> <span class="op">=</span> <span class="ident">PyList::new</span>(<span class="ident">py</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
-            <span class="macro">assert_eq!</span>(<span class="ident">list</span>.<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>(), <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
+            <span class="comment">// If allow_threads is implemented correctly, this thread still owns the GIL here
+            // so the following Python calls should not cause crashes.
+            </span><span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
+            <span class="macro">assert_eq!</span>(list.extract::&lt;Vec&lt;i32&gt;&gt;().unwrap(), <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_allow_threads_pass_stuff_in</span>() {
-        <span class="kw">let</span> <span class="ident">list</span>: <span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyList</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">list</span> <span class="op">=</span> <span class="ident">PyList::new</span>(<span class="ident">py</span>, <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]);
-            <span class="ident">list</span>.<span class="ident">into</span>()
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_allow_threads_pass_stuff_in() {
+        <span class="kw">let </span>list: Py&lt;PyList&gt; = Python::with_gil(|py| {
+            <span class="kw">let </span>list = PyList::new(py, <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]);
+            list.into()
         });
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
-        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">String::from</span>(<span class="string">&quot;foo&quot;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>v = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+        <span class="kw">let </span>a = Arc::new(String::from(<span class="string">&quot;foo&quot;</span>));
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="ident">py</span>.<span class="ident">allow_threads</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="ident">drop</span>((<span class="ident">list</span>, <span class="kw-2">&amp;mut</span> <span class="ident">v</span>, <span class="ident">a</span>));
+        Python::with_gil(|py| {
+            py.allow_threads(|| {
+                drop((list, <span class="kw-2">&amp;mut </span>v, a));
             });
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-    <span class="kw">fn</span> <span class="ident">test_acquire_gil</span>() {
-        <span class="kw">const</span> <span class="ident">GIL_NOT_HELD</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">const</span> <span class="ident">GIL_HELD</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
+    <span class="attribute">#[test]</span>
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+    <span class="kw">fn </span>test_acquire_gil() {
+        <span class="kw">const </span>GIL_NOT_HELD: c_int = <span class="number">0</span>;
+        <span class="kw">const </span>GIL_HELD: c_int = <span class="number">1</span>;
 
-        <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident"><span class="kw">crate</span>::ffi::PyGILState_Check</span>() };
-        <span class="macro">assert_eq!</span>(<span class="ident">state</span>, <span class="ident">GIL_NOT_HELD</span>);
+        <span class="kw">let </span>state = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::ffi::PyGILState_Check() };
+        <span class="macro">assert_eq!</span>(state, GIL_NOT_HELD);
 
-        {
-            <span class="kw">let</span> <span class="ident">gil</span> <span class="op">=</span> <span class="ident">Python::acquire_gil</span>();
-            <span class="kw">let</span> <span class="ident">_py</span> <span class="op">=</span> <span class="ident">gil</span>.<span class="ident">python</span>();
-            <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident"><span class="kw">crate</span>::ffi::PyGILState_Check</span>() };
-            <span class="macro">assert_eq!</span>(<span class="ident">state</span>, <span class="ident">GIL_HELD</span>);
-            <span class="ident">drop</span>(<span class="ident">gil</span>);
-        }
+        Python::with_gil(|<span class="kw">_</span>| {
+            <span class="kw">let </span>state = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::ffi::PyGILState_Check() };
+            <span class="macro">assert_eq!</span>(state, GIL_HELD);
+        });
 
-        <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident"><span class="kw">crate</span>::ffi::PyGILState_Check</span>() };
-        <span class="macro">assert_eq!</span>(<span class="ident">state</span>, <span class="ident">GIL_NOT_HELD</span>);
+        <span class="kw">let </span>state = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::ffi::PyGILState_Check() };
+        <span class="macro">assert_eq!</span>(state, GIL_NOT_HELD);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

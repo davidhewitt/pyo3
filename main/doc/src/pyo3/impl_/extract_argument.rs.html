@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/impl_/extract_argument.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>extract_argument.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/impl_/extract_argument.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>extract_argument.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -841,843 +835,842 @@
 <span id="835">835</span>
 <span id="836">836</span>
 <span id="837">837</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">exceptions::PyTypeError</span>,
-    <span class="ident">ffi</span>,
-    <span class="ident">pyclass::boolean_struct::False</span>,
-    <span class="ident">types</span>::{<span class="ident">PyDict</span>, <span class="ident">PyString</span>, <span class="ident">PyTuple</span>},
-    <span class="ident">FromPyObject</span>, <span class="ident">PyAny</span>, <span class="ident">PyClass</span>, <span class="ident">PyErr</span>, <span class="ident">PyRef</span>, <span class="ident">PyRefMut</span>, <span class="ident">PyResult</span>, <span class="ident">PyTypeInfo</span>, <span class="ident">Python</span>,
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{
+    exceptions::PyTypeError,
+    ffi,
+    pyclass::boolean_struct::False,
+    types::{PyDict, PyString, PyTuple},
+    FromPyObject, PyAny, PyClass, PyErr, PyRef, PyRefMut, PyResult, PyTypeInfo, Python,
 };
 
-<span class="doccomment">/// A trait which is used to help PyO3 macros extract function arguments.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `#[pyclass]` structs need to extract as `PyRef&lt;T&gt;` and `PyRefMut&lt;T&gt;`</span>
-<span class="doccomment">/// wrappers rather than extracting `&amp;T` and `&amp;mut T` directly. The `Holder` type is used</span>
-<span class="doccomment">/// to hold these temporary wrappers - the way the macro is constructed, these wrappers</span>
-<span class="doccomment">/// will be dropped as soon as the pyfunction call ends.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// There exists a trivial blanket implementation for `T: FromPyObject` with `Holder = ()`.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">PyFunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span><span class="op">&gt;</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;a</span> {
-    <span class="kw">type</span> <span class="ident">Holder</span>: <span class="ident">FunctionArgumentHolder</span>;
-    <span class="kw">fn</span> <span class="ident">extract</span>(<span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>, <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::Holder</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+<span class="doccomment">/// A trait which is used to help PyO3 macros extract function arguments.
+///
+/// `#[pyclass]` structs need to extract as `PyRef&lt;T&gt;` and `PyRefMut&lt;T&gt;`
+/// wrappers rather than extracting `&amp;T` and `&amp;mut T` directly. The `Holder` type is used
+/// to hold these temporary wrappers - the way the macro is constructed, these wrappers
+/// will be dropped as soon as the pyfunction call ends.
+///
+/// There exists a trivial blanket implementation for `T: FromPyObject` with `Holder = ()`.
+</span><span class="kw">pub trait </span>PyFunctionArgument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>&gt;: Sized + <span class="lifetime">&#39;a </span>{
+    <span class="kw">type </span>Holder: FunctionArgumentHolder;
+    <span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny, holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self</span>::Holder) -&gt; PyResult&lt;<span class="self">Self</span>&gt;;
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">PyFunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">FromPyObject</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, T&gt; PyFunctionArgument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span>T
+<span class="kw">where
+    </span>T: FromPyObject&lt;<span class="lifetime">&#39;py</span>&gt; + <span class="lifetime">&#39;a</span>,
 {
-    <span class="kw">type</span> <span class="ident">Holder</span> <span class="op">=</span> ();
+    <span class="kw">type </span>Holder = ();
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">extract</span>(<span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> ()) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">obj</span>.<span class="ident">extract</span>()
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>()) -&gt; PyResult&lt;<span class="self">Self</span>&gt; {
+        obj.extract()
     }
 }
 
-<span class="doccomment">/// Trait for types which can be a function argument holder - they should</span>
-<span class="doccomment">/// to be able to const-initialize to an empty value.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">FunctionArgumentHolder</span>: <span class="ident">Sized</span> {
-    <span class="kw">const</span> <span class="ident">INIT</span>: <span class="self">Self</span>;
+<span class="doccomment">/// Trait for types which can be a function argument holder - they should
+/// to be able to const-initialize to an empty value.
+</span><span class="kw">pub trait </span>FunctionArgumentHolder: Sized {
+    <span class="kw">const </span>INIT: <span class="self">Self</span>;
 }
 
-<span class="kw">impl</span> <span class="ident">FunctionArgumentHolder</span> <span class="kw">for</span> () {
-    <span class="kw">const</span> <span class="ident">INIT</span>: <span class="self">Self</span> <span class="op">=</span> ();
+<span class="kw">impl </span>FunctionArgumentHolder <span class="kw">for </span>() {
+    <span class="kw">const </span>INIT: <span class="self">Self </span>= ();
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">FunctionArgumentHolder</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">const</span> <span class="ident">INIT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+<span class="kw">impl</span>&lt;T&gt; FunctionArgumentHolder <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+    <span class="kw">const </span>INIT: <span class="self">Self </span>= <span class="prelude-val">None</span>;
 }
 
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_pyclass_ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>: <span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">PyClass</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-    <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PyRef</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">option_insert</span>))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub fn </span>extract_pyclass_ref&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>: <span class="lifetime">&#39;a</span>, T: PyClass&gt;(
+    obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+    holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;PyRef&lt;<span class="lifetime">&#39;py</span>, T&gt;&gt;,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt; {
+    <span class="attribute">#[cfg(not(option_insert))]</span>
     {
-        <span class="kw-2">*</span><span class="ident">holder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">obj</span>.<span class="ident">extract</span>()<span class="question-mark">?</span>);
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">holder</span>.<span class="ident">as_deref</span>().<span class="ident">unwrap</span>());
+        <span class="kw-2">*</span>holder = <span class="prelude-val">Some</span>(obj.extract()<span class="question-mark">?</span>);
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(holder.as_deref().unwrap());
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">option_insert</span>)]</span>
-    <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">holder</span>.<span class="ident">insert</span>(<span class="ident">obj</span>.<span class="ident">extract</span>()<span class="question-mark">?</span>))
+    <span class="attribute">#[cfg(option_insert)]</span>
+    <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;*</span>holder.insert(obj.extract()<span class="question-mark">?</span>))
 }
 
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_pyclass_ref_mut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>: <span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">PyClass</span><span class="op">&lt;</span><span class="ident">Frozen</span> <span class="op">=</span> <span class="ident">False</span><span class="op">&gt;</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-    <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PyRefMut</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">option_insert</span>))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub fn </span>extract_pyclass_ref_mut&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>: <span class="lifetime">&#39;a</span>, T: PyClass&lt;Frozen = False&gt;&gt;(
+    obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+    holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;PyRefMut&lt;<span class="lifetime">&#39;py</span>, T&gt;&gt;,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T&gt; {
+    <span class="attribute">#[cfg(not(option_insert))]</span>
     {
-        <span class="kw-2">*</span><span class="ident">holder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">obj</span>.<span class="ident">extract</span>()<span class="question-mark">?</span>);
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">holder</span>.<span class="ident">as_deref_mut</span>().<span class="ident">unwrap</span>());
+        <span class="kw-2">*</span>holder = <span class="prelude-val">Some</span>(obj.extract()<span class="question-mark">?</span>);
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(holder.as_deref_mut().unwrap());
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">option_insert</span>)]</span>
-    <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">holder</span>.<span class="ident">insert</span>(<span class="ident">obj</span>.<span class="ident">extract</span>()<span class="question-mark">?</span>))
+    <span class="attribute">#[cfg(option_insert)]</span>
+    <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;mut *</span>holder.insert(obj.extract()<span class="question-mark">?</span>))
 }
 
-<span class="doccomment">/// The standard implementation of how PyO3 extracts a `#[pyfunction]` or `#[pymethod]` function argument.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_argument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-    <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T::Holder</span>,
-    <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">PyFunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+<span class="doccomment">/// The standard implementation of how PyO3 extracts a `#[pyfunction]` or `#[pymethod]` function argument.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub fn </span>extract_argument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, T&gt;(
+    obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+    holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T::Holder,
+    arg_name: <span class="kw-2">&amp;</span>str,
+) -&gt; PyResult&lt;T&gt;
+<span class="kw">where
+    </span>T: PyFunctionArgument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>&gt;,
 {
-    <span class="kw">match</span> <span class="ident">PyFunctionArgument::extract</span>(<span class="ident">obj</span>, <span class="ident">holder</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">argument_extraction_error</span>(<span class="ident">obj</span>.<span class="ident">py</span>(), <span class="ident">arg_name</span>, <span class="ident">e</span>)),
+    <span class="kw">match </span>PyFunctionArgument::extract(obj, holder) {
+        <span class="prelude-val">Ok</span>(value) =&gt; <span class="prelude-val">Ok</span>(value),
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(argument_extraction_error(obj.py(), arg_name, e)),
     }
 }
 
-<span class="doccomment">/// Alternative to [`extract_argument`] used for `Option&lt;T&gt;` arguments (because they are implicitly treated</span>
-<span class="doccomment">/// as optional if at the end of the positional parameters).</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_optional_argument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span>,
-    <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T::Holder</span>,
-    <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">PyFunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Alternative to [`extract_argument`] used for `Option&lt;T&gt;` arguments (because they are implicitly treated
+/// as optional if at the end of the positional parameters).
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub fn </span>extract_optional_argument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, T&gt;(
+    obj: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt;,
+    holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T::Holder,
+    arg_name: <span class="kw-2">&amp;</span>str,
+) -&gt; PyResult&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt;
+<span class="kw">where
+    </span>T: PyFunctionArgument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>&gt;,
 {
-    <span class="kw">match</span> <span class="ident">obj</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">obj</span>) =&gt; {
-            <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">is_none</span>() {
+    <span class="kw">match </span>obj {
+        <span class="prelude-val">Some</span>(obj) =&gt; {
+            <span class="kw">if </span>obj.is_none() {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
-            } <span class="kw">else</span> {
-                <span class="ident">extract_argument</span>(<span class="ident">obj</span>, <span class="ident">holder</span>, <span class="ident">arg_name</span>).<span class="ident">map</span>(<span class="prelude-val">Some</span>)
+            } <span class="kw">else </span>{
+                extract_argument(obj, holder, arg_name).map(<span class="prelude-val">Some</span>)
             }
         }
-        <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
     }
 }
 
-<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a default value provided by an annotation.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_argument_with_default</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span>,
-    <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T::Holder</span>,
-    <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">default</span>: <span class="kw">fn</span>() -&gt; <span class="ident">T</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">PyFunctionArgument</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a default value provided by an annotation.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub fn </span>extract_argument_with_default&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>, T&gt;(
+    obj: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt;,
+    holder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T::Holder,
+    arg_name: <span class="kw-2">&amp;</span>str,
+    default: <span class="kw">fn</span>() -&gt; T,
+) -&gt; PyResult&lt;T&gt;
+<span class="kw">where
+    </span>T: PyFunctionArgument&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;py</span>&gt;,
 {
-    <span class="kw">match</span> <span class="ident">obj</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">obj</span>) =&gt; <span class="ident">extract_argument</span>(<span class="ident">obj</span>, <span class="ident">holder</span>, <span class="ident">arg_name</span>),
-        <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">default</span>()),
+    <span class="kw">match </span>obj {
+        <span class="prelude-val">Some</span>(obj) =&gt; extract_argument(obj, holder, arg_name),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(default()),
     }
 }
 
-<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a `#[pyo3(from_py_with)]` annotation.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">/// - `obj` must not be None (this helper is only used for required function arguments).</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_py_with</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-    <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">extractor</span>: <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="comment">// Safety: obj is not None (see safety</span>
-    <span class="kw">match</span> <span class="ident">extractor</span>(<span class="ident">obj</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">argument_extraction_error</span>(<span class="ident">obj</span>.<span class="ident">py</span>(), <span class="ident">arg_name</span>, <span class="ident">e</span>)),
+<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a `#[pyo3(from_py_with)]` annotation.
+///
+/// # Safety
+/// - `obj` must not be None (this helper is only used for required function arguments).
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub fn </span>from_py_with&lt;<span class="lifetime">&#39;py</span>, T&gt;(
+    obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+    arg_name: <span class="kw-2">&amp;</span>str,
+    extractor: <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny) -&gt; PyResult&lt;T&gt;,
+) -&gt; PyResult&lt;T&gt; {
+    <span class="comment">// Safety: obj is not None (see safety
+    </span><span class="kw">match </span>extractor(obj) {
+        <span class="prelude-val">Ok</span>(value) =&gt; <span class="prelude-val">Ok</span>(value),
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(argument_extraction_error(obj.py(), arg_name, e)),
     }
 }
 
-<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a `#[pyo3(from_py_with)]` annotation and also a default value.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_py_with_with_default</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-    <span class="ident">obj</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span>,
-    <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">extractor</span>: <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">default</span>: <span class="kw">fn</span>() -&gt; <span class="ident">T</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">match</span> <span class="ident">obj</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">obj</span>) =&gt; <span class="ident">from_py_with</span>(<span class="ident">obj</span>, <span class="ident">arg_name</span>, <span class="ident">extractor</span>),
-        <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">default</span>()),
+<span class="doccomment">/// Alternative to [`extract_argument`] used when the argument has a `#[pyo3(from_py_with)]` annotation and also a default value.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub fn </span>from_py_with_with_default&lt;<span class="lifetime">&#39;py</span>, T&gt;(
+    obj: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt;,
+    arg_name: <span class="kw-2">&amp;</span>str,
+    extractor: <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny) -&gt; PyResult&lt;T&gt;,
+    default: <span class="kw">fn</span>() -&gt; T,
+) -&gt; PyResult&lt;T&gt; {
+    <span class="kw">match </span>obj {
+        <span class="prelude-val">Some</span>(obj) =&gt; from_py_with(obj, arg_name, extractor),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(default()),
     }
 }
 
-<span class="doccomment">/// Adds the argument name to the error message of an error which occurred during argument extraction.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Only modifies TypeError. (Cannot guarantee all exceptions have constructors from</span>
-<span class="doccomment">/// single string.)</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">cold</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">argument_extraction_error</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">arg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">error</span>: <span class="ident">PyErr</span>) -&gt; <span class="ident">PyErr</span> {
-    <span class="kw">if</span> <span class="ident">error</span>.<span class="ident">get_type</span>(<span class="ident">py</span>).<span class="ident">is</span>(<span class="ident">PyTypeError::type_object</span>(<span class="ident">py</span>)) {
-        <span class="kw">let</span> <span class="ident">remapped_error</span> <span class="op">=</span>
-            <span class="ident">PyTypeError::new_err</span>(<span class="macro">format!</span>(<span class="string">&quot;argument &#39;{}&#39;: {}&quot;</span>, <span class="ident">arg_name</span>, <span class="ident">error</span>.<span class="ident">value</span>(<span class="ident">py</span>)));
-        <span class="ident">remapped_error</span>.<span class="ident">set_cause</span>(<span class="ident">py</span>, <span class="ident">error</span>.<span class="ident">cause</span>(<span class="ident">py</span>));
-        <span class="ident">remapped_error</span>
-    } <span class="kw">else</span> {
-        <span class="ident">error</span>
+<span class="doccomment">/// Adds the argument name to the error message of an error which occurred during argument extraction.
+///
+/// Only modifies TypeError. (Cannot guarantee all exceptions have constructors from
+/// single string.)
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="attribute">#[cold]</span>
+<span class="kw">pub fn </span>argument_extraction_error(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, arg_name: <span class="kw-2">&amp;</span>str, error: PyErr) -&gt; PyErr {
+    <span class="kw">if </span>error.get_type(py).is(PyTypeError::type_object(py)) {
+        <span class="kw">let </span>remapped_error =
+            PyTypeError::new_err(<span class="macro">format!</span>(<span class="string">&quot;argument &#39;{}&#39;: {}&quot;</span>, arg_name, error.value(py)));
+        remapped_error.set_cause(py, error.cause(py));
+        remapped_error
+    } <span class="kw">else </span>{
+        error
     }
 }
 
-<span class="doccomment">/// Unwraps the Option&lt;&amp;PyAny&gt; produced by the FunctionDescription `extract_arguments_` methods.</span>
-<span class="doccomment">/// They check if required methods are all provided.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">/// `argument` must not be `None`</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unwrap_required_argument</span>(<span class="ident">argument</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">PyAny</span> {
-    <span class="kw">match</span> <span class="ident">argument</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">value</span>) =&gt; <span class="ident">value</span>,
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">debug_assertions</span>)]</span>
-        <span class="prelude-val">None</span> =&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;required method argument was not extracted&quot;</span>),
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">debug_assertions</span>))]</span>
-        <span class="prelude-val">None</span> =&gt; <span class="ident">std::hint::unreachable_unchecked</span>(),
+<span class="doccomment">/// Unwraps the Option&lt;&amp;PyAny&gt; produced by the FunctionDescription `extract_arguments_` methods.
+/// They check if required methods are all provided.
+///
+/// # Safety
+/// `argument` must not be `None`
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>unwrap_required_argument(argument: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;) -&gt; <span class="kw-2">&amp;</span>PyAny {
+    <span class="kw">match </span>argument {
+        <span class="prelude-val">Some</span>(value) =&gt; value,
+        <span class="attribute">#[cfg(debug_assertions)]</span>
+        <span class="prelude-val">None </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;required method argument was not extracted&quot;</span>),
+        <span class="attribute">#[cfg(not(debug_assertions))]</span>
+        <span class="prelude-val">None </span>=&gt; std::hint::unreachable_unchecked(),
     }
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeywordOnlyParameterDescription</span> {
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="kw">pub</span> <span class="ident">required</span>: <span class="ident">bool</span>,
+<span class="kw">pub struct </span>KeywordOnlyParameterDescription {
+    <span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    <span class="kw">pub </span>required: bool,
 }
 
-<span class="doccomment">/// Function argument specification for a `#[pyfunction]` or `#[pymethod]`.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FunctionDescription</span> {
-    <span class="kw">pub</span> <span class="ident">cls_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">func_name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="kw">pub</span> <span class="ident">positional_parameter_names</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>],
-    <span class="kw">pub</span> <span class="ident">positional_only_parameters</span>: <span class="ident">usize</span>,
-    <span class="kw">pub</span> <span class="ident">required_positional_parameters</span>: <span class="ident">usize</span>,
-    <span class="kw">pub</span> <span class="ident">keyword_only_parameters</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">KeywordOnlyParameterDescription</span>],
+<span class="doccomment">/// Function argument specification for a `#[pyfunction]` or `#[pymethod]`.
+</span><span class="kw">pub struct </span>FunctionDescription {
+    <span class="kw">pub </span>cls_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;,
+    <span class="kw">pub </span>func_name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    <span class="kw">pub </span>positional_parameter_names: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str],
+    <span class="kw">pub </span>positional_only_parameters: usize,
+    <span class="kw">pub </span>required_positional_parameters: usize,
+    <span class="kw">pub </span>keyword_only_parameters: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[KeywordOnlyParameterDescription],
 }
 
-<span class="kw">impl</span> <span class="ident">FunctionDescription</span> {
-    <span class="kw">fn</span> <span class="ident">full_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">cls_name</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">cls_name</span> {
-            <span class="macro">format!</span>(<span class="string">&quot;{}.{}()&quot;</span>, <span class="ident">cls_name</span>, <span class="self">self</span>.<span class="ident">func_name</span>)
-        } <span class="kw">else</span> {
-            <span class="macro">format!</span>(<span class="string">&quot;{}()&quot;</span>, <span class="self">self</span>.<span class="ident">func_name</span>)
+<span class="kw">impl </span>FunctionDescription {
+    <span class="kw">fn </span>full_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(cls_name) = <span class="self">self</span>.cls_name {
+            <span class="macro">format!</span>(<span class="string">&quot;{}.{}()&quot;</span>, cls_name, <span class="self">self</span>.func_name)
+        } <span class="kw">else </span>{
+            <span class="macro">format!</span>(<span class="string">&quot;{}()&quot;</span>, <span class="self">self</span>.func_name)
         }
     }
 
-    <span class="doccomment">/// Equivalent of `extract_arguments_tuple_dict` which uses the Python C-API &quot;fastcall&quot; convention.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">/// - `args` must be a pointer to a C-style array of valid `ffi::PyObject` pointers.</span>
-    <span class="doccomment">/// - `kwnames` must be a pointer to a PyTuple, or NULL.</span>
-    <span class="doccomment">/// - `nargs + kwnames.len()` is the total length of the `args` array.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_arguments_fastcall</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">V</span>, <span class="ident">K</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Equivalent of `extract_arguments_tuple_dict` which uses the Python C-API &quot;fastcall&quot; convention.
+    ///
+    /// # Safety
+    /// - `args` must be a pointer to a C-style array of valid `ffi::PyObject` pointers.
+    /// - `kwnames` must be a pointer to a PyTuple, or NULL.
+    /// - `nargs + kwnames.len()` is the total length of the `args` array.
+    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+    <span class="kw">pub unsafe fn </span>extract_arguments_fastcall&lt;<span class="lifetime">&#39;py</span>, V, K&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-        <span class="ident">nargs</span>: <span class="ident">ffi::Py_ssize_t</span>,
-        <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-        <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> [<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span>],
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>(<span class="ident">V::Varargs</span>, <span class="ident">K::Varkeywords</span>)<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">V</span>: <span class="ident">VarargsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">K</span>: <span class="ident">VarkeywordsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+        py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
+        args: <span class="kw-2">*const *mut </span>ffi::PyObject,
+        nargs: ffi::Py_ssize_t,
+        kwnames: <span class="kw-2">*mut </span>ffi::PyObject,
+        output: <span class="kw-2">&amp;mut </span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt;],
+    ) -&gt; PyResult&lt;(V::Varargs, K::Varkeywords)&gt;
+    <span class="kw">where
+        </span>V: VarargsHandler&lt;<span class="lifetime">&#39;py</span>&gt;,
+        K: VarkeywordsHandler&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="comment">// Safety: Option&lt;&amp;PyAny&gt; has the same memory layout as `*mut ffi::PyObject`</span>
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>;
-        <span class="kw">let</span> <span class="ident">positional_args_provided</span> <span class="op">=</span> <span class="ident">nargs</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">let</span> <span class="ident">args_slice</span> <span class="op">=</span> <span class="ident">std::slice::from_raw_parts</span>(<span class="ident">args</span>, <span class="ident">positional_args_provided</span>);
+        <span class="comment">// Safety: Option&lt;&amp;PyAny&gt; has the same memory layout as `*mut ffi::PyObject`
+        </span><span class="kw">let </span>args = args <span class="kw">as </span><span class="kw-2">*const </span><span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;;
+        <span class="kw">let </span>positional_args_provided = nargs <span class="kw">as </span>usize;
+        <span class="kw">let </span>args_slice = std::slice::from_raw_parts(args, positional_args_provided);
 
-        <span class="kw">let</span> <span class="ident">num_positional_parameters</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>();
+        <span class="kw">let </span>num_positional_parameters = <span class="self">self</span>.positional_parameter_names.len();
 
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">positional_only_parameters</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">num_positional_parameters</span>);
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">required_positional_parameters</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">num_positional_parameters</span>);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.positional_only_parameters &lt;= num_positional_parameters);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.required_positional_parameters &lt;= num_positional_parameters);
         <span class="macro">debug_assert_eq!</span>(
-            <span class="ident">output</span>.<span class="ident">len</span>(),
-            <span class="ident">num_positional_parameters</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">keyword_only_parameters</span>.<span class="ident">len</span>()
+            output.len(),
+            num_positional_parameters + <span class="self">self</span>.keyword_only_parameters.len()
         );
 
-        <span class="kw">let</span> <span class="ident">varargs</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">positional_args_provided</span> <span class="op">&gt;</span> <span class="ident">num_positional_parameters</span> {
-            <span class="kw">let</span> (<span class="ident">positional_parameters</span>, <span class="ident">varargs</span>) <span class="op">=</span> <span class="ident">args_slice</span>.<span class="ident">split_at</span>(<span class="ident">num_positional_parameters</span>);
-            <span class="ident">output</span>[..<span class="ident">num_positional_parameters</span>].<span class="ident">copy_from_slice</span>(<span class="ident">positional_parameters</span>);
-            <span class="ident">V::handle_varargs_fastcall</span>(<span class="ident">py</span>, <span class="ident">varargs</span>, <span class="self">self</span>)<span class="question-mark">?</span>
-        } <span class="kw">else</span> {
-            <span class="ident">output</span>[..<span class="ident">positional_args_provided</span>].<span class="ident">copy_from_slice</span>(<span class="ident">args_slice</span>);
-            <span class="ident">V::handle_varargs_fastcall</span>(<span class="ident">py</span>, <span class="kw-2">&amp;</span>[], <span class="self">self</span>)<span class="question-mark">?</span>
-        };
+        <span class="kw">let </span>varargs = <span class="kw">if </span>positional_args_provided &gt; num_positional_parameters {
+            <span class="kw">let </span>(positional_parameters, varargs) = args_slice.split_at(num_positional_parameters);
+            output[..num_positional_parameters].copy_from_slice(positional_parameters);
+            V::handle_varargs_fastcall(py, varargs, <span class="self">self</span>)<span class="question-mark">?
+        </span>} <span class="kw">else </span>{
+            output[..positional_args_provided].copy_from_slice(args_slice);
+            V::handle_varargs_fastcall(py, <span class="kw-2">&amp;</span>[], <span class="self">self</span>)<span class="question-mark">?
+        </span>};
 
-        <span class="comment">// Handle keyword arguments</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">varkeywords</span> <span class="op">=</span> <span class="ident">Default::default</span>();
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">kwnames</span>) <span class="op">=</span> <span class="ident">py</span>.<span class="ident">from_borrowed_ptr_or_opt</span>::<span class="op">&lt;</span><span class="ident">PyTuple</span><span class="op">&gt;</span>(<span class="ident">kwnames</span>) {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">positional_only_keyword_arguments</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="comment">// Handle keyword arguments
+        </span><span class="kw">let </span><span class="kw-2">mut </span>varkeywords = Default::default();
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(kwnames) = py.from_borrowed_ptr_or_opt::&lt;PyTuple&gt;(kwnames) {
+            <span class="kw">let </span><span class="kw-2">mut </span>positional_only_keyword_arguments = Vec::new();
 
-            <span class="comment">// Safety: &amp;PyAny has the same memory layout as `*mut ffi::PyObject`</span>
-            <span class="kw">let</span> <span class="ident">kwargs</span> <span class="op">=</span>
-                <span class="ident">::std::slice::from_raw_parts</span>((<span class="ident">args</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw-2">&amp;</span><span class="ident">PyAny</span>).<span class="ident">offset</span>(<span class="ident">nargs</span>), <span class="ident">kwnames</span>.<span class="ident">len</span>());
+            <span class="comment">// Safety: &amp;PyAny has the same memory layout as `*mut ffi::PyObject`
+            </span><span class="kw">let </span>kwargs =
+                ::std::slice::from_raw_parts((args <span class="kw">as </span><span class="kw-2">*const &amp;</span>PyAny).offset(nargs), kwnames.len());
 
-            <span class="kw">for</span> (<span class="ident">kwarg_name_py</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) <span class="kw">in</span> <span class="ident">kwnames</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">kwargs</span>) {
-                <span class="comment">// All keyword arguments should be UTF8 strings, but we&#39;ll check, just in case.</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">kwarg_name</span>) <span class="op">=</span> <span class="ident">kwarg_name_py</span>.<span class="ident">downcast</span>::<span class="op">&lt;</span><span class="ident">PyString</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">to_str</span>() {
-                    <span class="comment">// Try to place parameter in keyword only parameters</span>
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">find_keyword_parameter_in_keyword_only</span>(<span class="ident">kwarg_name</span>) {
-                        <span class="kw">if</span> <span class="ident">output</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">num_positional_parameters</span>]
-                            .<span class="ident">replace</span>(<span class="ident">value</span>)
-                            .<span class="ident">is_some</span>()
+            <span class="kw">for </span>(kwarg_name_py, <span class="kw-2">&amp;</span>value) <span class="kw">in </span>kwnames.iter().zip(kwargs) {
+                <span class="comment">// All keyword arguments should be UTF8 strings, but we&#39;ll check, just in case.
+                </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(kwarg_name) = kwarg_name_py.downcast::&lt;PyString&gt;()<span class="question-mark">?</span>.to_str() {
+                    <span class="comment">// Try to place parameter in keyword only parameters
+                    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.find_keyword_parameter_in_keyword_only(kwarg_name) {
+                        <span class="kw">if </span>output[i + num_positional_parameters]
+                            .replace(value)
+                            .is_some()
                         {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">multiple_values_for_argument</span>(<span class="ident">kwarg_name</span>));
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.multiple_values_for_argument(kwarg_name));
                         }
                         <span class="kw">continue</span>;
                     }
 
-                    <span class="comment">// Repeat for positional parameters</span>
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">find_keyword_parameter_in_positional</span>(<span class="ident">kwarg_name</span>) {
-                        <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">positional_only_parameters</span> {
-                            <span class="ident">positional_only_keyword_arguments</span>.<span class="ident">push</span>(<span class="ident">kwarg_name</span>);
-                        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">output</span>[<span class="ident">i</span>].<span class="ident">replace</span>(<span class="ident">value</span>).<span class="ident">is_some</span>() {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">multiple_values_for_argument</span>(<span class="ident">kwarg_name</span>));
+                    <span class="comment">// Repeat for positional parameters
+                    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.find_keyword_parameter_in_positional(kwarg_name) {
+                        <span class="kw">if </span>i &lt; <span class="self">self</span>.positional_only_parameters {
+                            positional_only_keyword_arguments.push(kwarg_name);
+                        } <span class="kw">else if </span>output[i].replace(value).is_some() {
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.multiple_values_for_argument(kwarg_name));
                         }
                         <span class="kw">continue</span>;
                     }
                 };
 
-                <span class="ident">K::handle_unexpected_keyword</span>(<span class="kw-2">&amp;mut</span> <span class="ident">varkeywords</span>, <span class="ident">kwarg_name_py</span>, <span class="ident">value</span>, <span class="self">self</span>)<span class="question-mark">?</span>
-            }
+                K::handle_unexpected_keyword(<span class="kw-2">&amp;mut </span>varkeywords, kwarg_name_py, value, <span class="self">self</span>)<span class="question-mark">?
+            </span>}
 
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">positional_only_keyword_arguments</span>.<span class="ident">is_empty</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="self">self</span>.<span class="ident">positional_only_keyword_arguments</span>(<span class="kw-2">&amp;</span><span class="ident">positional_only_keyword_arguments</span>)
+            <span class="kw">if </span>!positional_only_keyword_arguments.is_empty() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(
+                    <span class="self">self</span>.positional_only_keyword_arguments(<span class="kw-2">&amp;</span>positional_only_keyword_arguments)
                 );
             }
         }
 
-        <span class="comment">// Once all inputs have been processed, check that all required arguments have been provided.</span>
+        <span class="comment">// Once all inputs have been processed, check that all required arguments have been provided.
 
-        <span class="self">self</span>.<span class="ident">ensure_no_missing_required_positional_arguments</span>(<span class="ident">output</span>, <span class="ident">positional_args_provided</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">ensure_no_missing_required_keyword_arguments</span>(<span class="ident">output</span>)<span class="question-mark">?</span>;
+        </span><span class="self">self</span>.ensure_no_missing_required_positional_arguments(output, positional_args_provided)<span class="question-mark">?</span>;
+        <span class="self">self</span>.ensure_no_missing_required_keyword_arguments(output)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>((<span class="ident">varargs</span>, <span class="ident">varkeywords</span>))
+        <span class="prelude-val">Ok</span>((varargs, varkeywords))
     }
 
-    <span class="doccomment">/// Extracts the `args` and `kwargs` provided into `output`, according to this function</span>
-    <span class="doccomment">/// definition.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `output` must have the same length as this function has positional and keyword-only</span>
-    <span class="doccomment">/// parameters (as per the `positional_parameter_names` and `keyword_only_parameters`</span>
-    <span class="doccomment">/// respectively).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Unexpected, duplicate or invalid arguments will cause this function to return `TypeError`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">/// - `args` must be a pointer to a PyTuple.</span>
-    <span class="doccomment">/// - `kwargs` must be a pointer to a PyDict, or NULL.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_arguments_tuple_dict</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span>, <span class="ident">V</span>, <span class="ident">K</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Extracts the `args` and `kwargs` provided into `output`, according to this function
+    /// definition.
+    ///
+    /// `output` must have the same length as this function has positional and keyword-only
+    /// parameters (as per the `positional_parameter_names` and `keyword_only_parameters`
+    /// respectively).
+    ///
+    /// Unexpected, duplicate or invalid arguments will cause this function to return `TypeError`.
+    ///
+    /// # Safety
+    /// - `args` must be a pointer to a PyTuple.
+    /// - `kwargs` must be a pointer to a PyDict, or NULL.
+    </span><span class="kw">pub unsafe fn </span>extract_arguments_tuple_dict&lt;<span class="lifetime">&#39;py</span>, V, K&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-        <span class="ident">kwargs</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-        <span class="ident">output</span>: <span class="kw-2">&amp;mut</span> [<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span><span class="op">&gt;</span>],
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>(<span class="ident">V::Varargs</span>, <span class="ident">K::Varkeywords</span>)<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">V</span>: <span class="ident">VarargsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">K</span>: <span class="ident">VarkeywordsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
+        py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
+        args: <span class="kw-2">*mut </span>ffi::PyObject,
+        kwargs: <span class="kw-2">*mut </span>ffi::PyObject,
+        output: <span class="kw-2">&amp;mut </span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny&gt;],
+    ) -&gt; PyResult&lt;(V::Varargs, K::Varkeywords)&gt;
+    <span class="kw">where
+        </span>V: VarargsHandler&lt;<span class="lifetime">&#39;py</span>&gt;,
+        K: VarkeywordsHandler&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">py</span>.<span class="ident">from_borrowed_ptr</span>::<span class="op">&lt;</span><span class="ident">PyTuple</span><span class="op">&gt;</span>(<span class="ident">args</span>);
-        <span class="kw">let</span> <span class="ident">kwargs</span>: <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDict</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">py</span>.<span class="ident">from_borrowed_ptr_or_opt</span>(<span class="ident">kwargs</span>);
+        <span class="kw">let </span>args = py.from_borrowed_ptr::&lt;PyTuple&gt;(args);
+        <span class="kw">let </span>kwargs: ::std::option::Option&lt;<span class="kw-2">&amp;</span>PyDict&gt; = py.from_borrowed_ptr_or_opt(kwargs);
 
-        <span class="kw">let</span> <span class="ident">num_positional_parameters</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>();
+        <span class="kw">let </span>num_positional_parameters = <span class="self">self</span>.positional_parameter_names.len();
 
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">positional_only_parameters</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">num_positional_parameters</span>);
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">required_positional_parameters</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">num_positional_parameters</span>);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.positional_only_parameters &lt;= num_positional_parameters);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.required_positional_parameters &lt;= num_positional_parameters);
         <span class="macro">debug_assert_eq!</span>(
-            <span class="ident">output</span>.<span class="ident">len</span>(),
-            <span class="ident">num_positional_parameters</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">keyword_only_parameters</span>.<span class="ident">len</span>()
+            output.len(),
+            num_positional_parameters + <span class="self">self</span>.keyword_only_parameters.len()
         );
 
-        <span class="comment">// Copy positional arguments into output</span>
-        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">arg</span>) <span class="kw">in</span> <span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">take</span>(<span class="ident">num_positional_parameters</span>).<span class="ident">enumerate</span>() {
-            <span class="ident">output</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">arg</span>);
+        <span class="comment">// Copy positional arguments into output
+        </span><span class="kw">for </span>(i, arg) <span class="kw">in </span>args.iter().take(num_positional_parameters).enumerate() {
+            output[i] = <span class="prelude-val">Some</span>(arg);
         }
 
-        <span class="comment">// If any arguments remain, push them to varargs (if possible) or error</span>
-        <span class="kw">let</span> <span class="ident">varargs</span> <span class="op">=</span> <span class="ident">V::handle_varargs_tuple</span>(<span class="ident">args</span>, <span class="self">self</span>)<span class="question-mark">?</span>;
+        <span class="comment">// If any arguments remain, push them to varargs (if possible) or error
+        </span><span class="kw">let </span>varargs = V::handle_varargs_tuple(args, <span class="self">self</span>)<span class="question-mark">?</span>;
 
-        <span class="comment">// Handle keyword arguments</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">varkeywords</span> <span class="op">=</span> <span class="ident">Default::default</span>();
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">kwargs</span>) <span class="op">=</span> <span class="ident">kwargs</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">positional_only_keyword_arguments</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-            <span class="kw">for</span> (<span class="ident">kwarg_name_py</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">kwargs</span> {
-                <span class="comment">// All keyword arguments should be UTF8 strings, but we&#39;ll check, just in case.</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">kwarg_name</span>) <span class="op">=</span> <span class="ident">kwarg_name_py</span>.<span class="ident">downcast</span>::<span class="op">&lt;</span><span class="ident">PyString</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">to_str</span>() {
-                    <span class="comment">// Try to place parameter in keyword only parameters</span>
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">find_keyword_parameter_in_keyword_only</span>(<span class="ident">kwarg_name</span>) {
-                        <span class="kw">if</span> <span class="ident">output</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">num_positional_parameters</span>]
-                            .<span class="ident">replace</span>(<span class="ident">value</span>)
-                            .<span class="ident">is_some</span>()
+        <span class="comment">// Handle keyword arguments
+        </span><span class="kw">let </span><span class="kw-2">mut </span>varkeywords = Default::default();
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(kwargs) = kwargs {
+            <span class="kw">let </span><span class="kw-2">mut </span>positional_only_keyword_arguments = Vec::new();
+            <span class="kw">for </span>(kwarg_name_py, value) <span class="kw">in </span>kwargs {
+                <span class="comment">// All keyword arguments should be UTF8 strings, but we&#39;ll check, just in case.
+                </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(kwarg_name) = kwarg_name_py.downcast::&lt;PyString&gt;()<span class="question-mark">?</span>.to_str() {
+                    <span class="comment">// Try to place parameter in keyword only parameters
+                    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.find_keyword_parameter_in_keyword_only(kwarg_name) {
+                        <span class="kw">if </span>output[i + num_positional_parameters]
+                            .replace(value)
+                            .is_some()
                         {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">multiple_values_for_argument</span>(<span class="ident">kwarg_name</span>));
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.multiple_values_for_argument(kwarg_name));
                         }
                         <span class="kw">continue</span>;
                     }
 
-                    <span class="comment">// Repeat for positional parameters</span>
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">find_keyword_parameter_in_positional</span>(<span class="ident">kwarg_name</span>) {
-                        <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">positional_only_parameters</span> {
-                            <span class="ident">positional_only_keyword_arguments</span>.<span class="ident">push</span>(<span class="ident">kwarg_name</span>);
-                        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">output</span>[<span class="ident">i</span>].<span class="ident">replace</span>(<span class="ident">value</span>).<span class="ident">is_some</span>() {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">multiple_values_for_argument</span>(<span class="ident">kwarg_name</span>));
+                    <span class="comment">// Repeat for positional parameters
+                    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.find_keyword_parameter_in_positional(kwarg_name) {
+                        <span class="kw">if </span>i &lt; <span class="self">self</span>.positional_only_parameters {
+                            positional_only_keyword_arguments.push(kwarg_name);
+                        } <span class="kw">else if </span>output[i].replace(value).is_some() {
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.multiple_values_for_argument(kwarg_name));
                         }
                         <span class="kw">continue</span>;
                     }
                 };
 
-                <span class="ident">K::handle_unexpected_keyword</span>(<span class="kw-2">&amp;mut</span> <span class="ident">varkeywords</span>, <span class="ident">kwarg_name_py</span>, <span class="ident">value</span>, <span class="self">self</span>)<span class="question-mark">?</span>
-            }
+                K::handle_unexpected_keyword(<span class="kw-2">&amp;mut </span>varkeywords, kwarg_name_py, value, <span class="self">self</span>)<span class="question-mark">?
+            </span>}
 
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">positional_only_keyword_arguments</span>.<span class="ident">is_empty</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="self">self</span>.<span class="ident">positional_only_keyword_arguments</span>(<span class="kw-2">&amp;</span><span class="ident">positional_only_keyword_arguments</span>)
+            <span class="kw">if </span>!positional_only_keyword_arguments.is_empty() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(
+                    <span class="self">self</span>.positional_only_keyword_arguments(<span class="kw-2">&amp;</span>positional_only_keyword_arguments)
                 );
             }
         }
 
-        <span class="comment">// Once all inputs have been processed, check that all required arguments have been provided.</span>
+        <span class="comment">// Once all inputs have been processed, check that all required arguments have been provided.
 
-        <span class="self">self</span>.<span class="ident">ensure_no_missing_required_positional_arguments</span>(<span class="ident">output</span>, <span class="ident">args</span>.<span class="ident">len</span>())<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">ensure_no_missing_required_keyword_arguments</span>(<span class="ident">output</span>)<span class="question-mark">?</span>;
+        </span><span class="self">self</span>.ensure_no_missing_required_positional_arguments(output, args.len())<span class="question-mark">?</span>;
+        <span class="self">self</span>.ensure_no_missing_required_keyword_arguments(output)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>((<span class="ident">varargs</span>, <span class="ident">varkeywords</span>))
+        <span class="prelude-val">Ok</span>((varargs, varkeywords))
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">find_keyword_parameter_in_positional</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">kwarg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">positional_parameter_names</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">param_name</span><span class="op">|</span> <span class="ident">param_name</span> <span class="op">==</span> <span class="ident">kwarg_name</span>)
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>find_keyword_parameter_in_positional(<span class="kw-2">&amp;</span><span class="self">self</span>, kwarg_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>.positional_parameter_names
+            .iter()
+            .position(|<span class="kw-2">&amp;</span>param_name| param_name == kwarg_name)
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">find_keyword_parameter_in_keyword_only</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">kwarg_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="comment">// Compare the keyword name against each parameter in turn. This is exactly the same method</span>
-        <span class="comment">// which CPython uses to map keyword names. Although it&#39;s O(num_parameters), the number of</span>
-        <span class="comment">// parameters is expected to be small so it&#39;s not worth constructing a mapping.</span>
-        <span class="self">self</span>.<span class="ident">keyword_only_parameters</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">position</span>(<span class="op">|</span><span class="ident">param_desc</span><span class="op">|</span> <span class="ident">param_desc</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">kwarg_name</span>)
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>find_keyword_parameter_in_keyword_only(<span class="kw-2">&amp;</span><span class="self">self</span>, kwarg_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="comment">// Compare the keyword name against each parameter in turn. This is exactly the same method
+        // which CPython uses to map keyword names. Although it&#39;s O(num_parameters), the number of
+        // parameters is expected to be small so it&#39;s not worth constructing a mapping.
+        </span><span class="self">self</span>.keyword_only_parameters
+            .iter()
+            .position(|param_desc| param_desc.name == kwarg_name)
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">ensure_no_missing_required_positional_arguments</span>(
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>ensure_no_missing_required_positional_arguments(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">output</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>],
-        <span class="ident">positional_args_provided</span>: <span class="ident">usize</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">positional_args_provided</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">required_positional_parameters</span> {
-            <span class="kw">for</span> <span class="ident">out</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">output</span>[<span class="ident">positional_args_provided</span>..<span class="self">self</span>.<span class="ident">required_positional_parameters</span>] {
-                <span class="kw">if</span> <span class="ident">out</span>.<span class="ident">is_none</span>() {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">missing_required_positional_arguments</span>(<span class="ident">output</span>));
+        output: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;],
+        positional_args_provided: usize,
+    ) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">if </span>positional_args_provided &lt; <span class="self">self</span>.required_positional_parameters {
+            <span class="kw">for </span>out <span class="kw">in </span><span class="kw-2">&amp;</span>output[positional_args_provided..<span class="self">self</span>.required_positional_parameters] {
+                <span class="kw">if </span>out.is_none() {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.missing_required_positional_arguments(output));
                 }
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">ensure_no_missing_required_keyword_arguments</span>(
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>ensure_no_missing_required_keyword_arguments(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">output</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>],
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">keyword_output</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">output</span>[<span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>()..];
-        <span class="kw">for</span> (<span class="ident">param</span>, <span class="ident">out</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">keyword_only_parameters</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">keyword_output</span>) {
-            <span class="kw">if</span> <span class="ident">param</span>.<span class="ident">required</span> <span class="op">&amp;&amp;</span> <span class="ident">out</span>.<span class="ident">is_none</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">missing_required_keyword_arguments</span>(<span class="ident">keyword_output</span>));
+        output: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;],
+    ) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">let </span>keyword_output = <span class="kw-2">&amp;</span>output[<span class="self">self</span>.positional_parameter_names.len()..];
+        <span class="kw">for </span>(param, out) <span class="kw">in </span><span class="self">self</span>.keyword_only_parameters.iter().zip(keyword_output) {
+            <span class="kw">if </span>param.required &amp;&amp; out.is_none() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.missing_required_keyword_arguments(keyword_output));
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">too_many_positional_arguments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">args_provided</span>: <span class="ident">usize</span>) -&gt; <span class="ident">PyErr</span> {
-        <span class="kw">let</span> <span class="ident">was</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">args_provided</span> <span class="op">==</span> <span class="number">1</span> { <span class="string">&quot;was&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;were&quot;</span> };
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">required_positional_parameters</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>() {
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>too_many_positional_arguments(<span class="kw-2">&amp;</span><span class="self">self</span>, args_provided: usize) -&gt; PyErr {
+        <span class="kw">let </span>was = <span class="kw">if </span>args_provided == <span class="number">1 </span>{ <span class="string">&quot;was&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;were&quot; </span>};
+        <span class="kw">let </span>msg = <span class="kw">if </span><span class="self">self</span>.required_positional_parameters != <span class="self">self</span>.positional_parameter_names.len() {
             <span class="macro">format!</span>(
                 <span class="string">&quot;{} takes from {} to {} positional arguments but {} {} given&quot;</span>,
-                <span class="self">self</span>.<span class="ident">full_name</span>(),
-                <span class="self">self</span>.<span class="ident">required_positional_parameters</span>,
-                <span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>(),
-                <span class="ident">args_provided</span>,
-                <span class="ident">was</span>
+                <span class="self">self</span>.full_name(),
+                <span class="self">self</span>.required_positional_parameters,
+                <span class="self">self</span>.positional_parameter_names.len(),
+                args_provided,
+                was
             )
-        } <span class="kw">else</span> {
+        } <span class="kw">else </span>{
             <span class="macro">format!</span>(
                 <span class="string">&quot;{} takes {} positional arguments but {} {} given&quot;</span>,
-                <span class="self">self</span>.<span class="ident">full_name</span>(),
-                <span class="self">self</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>(),
-                <span class="ident">args_provided</span>,
-                <span class="ident">was</span>
+                <span class="self">self</span>.full_name(),
+                <span class="self">self</span>.positional_parameter_names.len(),
+                args_provided,
+                was
             )
         };
-        <span class="ident">PyTypeError::new_err</span>(<span class="ident">msg</span>)
+        PyTypeError::new_err(msg)
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">multiple_values_for_argument</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">argument</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">PyErr</span> {
-        <span class="ident">PyTypeError::new_err</span>(<span class="macro">format!</span>(
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>multiple_values_for_argument(<span class="kw-2">&amp;</span><span class="self">self</span>, argument: <span class="kw-2">&amp;</span>str) -&gt; PyErr {
+        PyTypeError::new_err(<span class="macro">format!</span>(
             <span class="string">&quot;{} got multiple values for argument &#39;{}&#39;&quot;</span>,
-            <span class="self">self</span>.<span class="ident">full_name</span>(),
-            <span class="ident">argument</span>
+            <span class="self">self</span>.full_name(),
+            argument
         ))
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">unexpected_keyword_argument</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">argument</span>: <span class="kw-2">&amp;</span><span class="ident">PyAny</span>) -&gt; <span class="ident">PyErr</span> {
-        <span class="ident">PyTypeError::new_err</span>(<span class="macro">format!</span>(
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>unexpected_keyword_argument(<span class="kw-2">&amp;</span><span class="self">self</span>, argument: <span class="kw-2">&amp;</span>PyAny) -&gt; PyErr {
+        PyTypeError::new_err(<span class="macro">format!</span>(
             <span class="string">&quot;{} got an unexpected keyword argument &#39;{}&#39;&quot;</span>,
-            <span class="self">self</span>.<span class="ident">full_name</span>(),
-            <span class="ident">argument</span>
+            <span class="self">self</span>.full_name(),
+            argument
         ))
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">positional_only_keyword_arguments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">parameter_names</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) -&gt; <span class="ident">PyErr</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">msg</span> <span class="op">=</span> <span class="macro">format!</span>(
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>positional_only_keyword_arguments(<span class="kw-2">&amp;</span><span class="self">self</span>, parameter_names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; PyErr {
+        <span class="kw">let </span><span class="kw-2">mut </span>msg = <span class="macro">format!</span>(
             <span class="string">&quot;{} got some positional-only arguments passed as keyword arguments: &quot;</span>,
-            <span class="self">self</span>.<span class="ident">full_name</span>()
+            <span class="self">self</span>.full_name()
         );
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">msg</span>, <span class="ident">parameter_names</span>);
-        <span class="ident">PyTypeError::new_err</span>(<span class="ident">msg</span>)
+        push_parameter_list(<span class="kw-2">&amp;mut </span>msg, parameter_names);
+        PyTypeError::new_err(msg)
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">missing_required_arguments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">argument_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">parameter_names</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) -&gt; <span class="ident">PyErr</span> {
-        <span class="kw">let</span> <span class="ident">arguments</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">parameter_names</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> {
-            <span class="string">&quot;argument&quot;</span>
-        } <span class="kw">else</span> {
-            <span class="string">&quot;arguments&quot;</span>
-        };
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">msg</span> <span class="op">=</span> <span class="macro">format!</span>(
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>missing_required_arguments(<span class="kw-2">&amp;</span><span class="self">self</span>, argument_type: <span class="kw-2">&amp;</span>str, parameter_names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; PyErr {
+        <span class="kw">let </span>arguments = <span class="kw">if </span>parameter_names.len() == <span class="number">1 </span>{
+            <span class="string">&quot;argument&quot;
+        </span>} <span class="kw">else </span>{
+            <span class="string">&quot;arguments&quot;
+        </span>};
+        <span class="kw">let </span><span class="kw-2">mut </span>msg = <span class="macro">format!</span>(
             <span class="string">&quot;{} missing {} required {} {}: &quot;</span>,
-            <span class="self">self</span>.<span class="ident">full_name</span>(),
-            <span class="ident">parameter_names</span>.<span class="ident">len</span>(),
-            <span class="ident">argument_type</span>,
-            <span class="ident">arguments</span>,
+            <span class="self">self</span>.full_name(),
+            parameter_names.len(),
+            argument_type,
+            arguments,
         );
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">msg</span>, <span class="ident">parameter_names</span>);
-        <span class="ident">PyTypeError::new_err</span>(<span class="ident">msg</span>)
+        push_parameter_list(<span class="kw-2">&amp;mut </span>msg, parameter_names);
+        PyTypeError::new_err(msg)
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">missing_required_keyword_arguments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">keyword_outputs</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>]) -&gt; <span class="ident">PyErr</span> {
-        <span class="macro">debug_assert_eq!</span>(<span class="self">self</span>.<span class="ident">keyword_only_parameters</span>.<span class="ident">len</span>(), <span class="ident">keyword_outputs</span>.<span class="ident">len</span>());
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>missing_required_keyword_arguments(<span class="kw-2">&amp;</span><span class="self">self</span>, keyword_outputs: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;]) -&gt; PyErr {
+        <span class="macro">debug_assert_eq!</span>(<span class="self">self</span>.keyword_only_parameters.len(), keyword_outputs.len());
 
-        <span class="kw">let</span> <span class="ident">missing_keyword_only_arguments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">keyword_only_parameters</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">zip</span>(<span class="ident">keyword_outputs</span>)
-            .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">keyword_desc</span>, <span class="ident">out</span>)<span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">keyword_desc</span>.<span class="ident">required</span> <span class="op">&amp;&amp;</span> <span class="ident">out</span>.<span class="ident">is_none</span>() {
-                    <span class="prelude-val">Some</span>(<span class="ident">keyword_desc</span>.<span class="ident">name</span>)
-                } <span class="kw">else</span> {
-                    <span class="prelude-val">None</span>
-                }
+        <span class="kw">let </span>missing_keyword_only_arguments: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self
+            </span>.keyword_only_parameters
+            .iter()
+            .zip(keyword_outputs)
+            .filter_map(|(keyword_desc, out)| {
+                <span class="kw">if </span>keyword_desc.required &amp;&amp; out.is_none() {
+                    <span class="prelude-val">Some</span>(keyword_desc.name)
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">None
+                </span>}
             })
-            .<span class="ident">collect</span>();
+            .collect();
 
-        <span class="macro">debug_assert!</span>(<span class="op">!</span><span class="ident">missing_keyword_only_arguments</span>.<span class="ident">is_empty</span>());
-        <span class="self">self</span>.<span class="ident">missing_required_arguments</span>(<span class="string">&quot;keyword&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">missing_keyword_only_arguments</span>)
+        <span class="macro">debug_assert!</span>(!missing_keyword_only_arguments.is_empty());
+        <span class="self">self</span>.missing_required_arguments(<span class="string">&quot;keyword&quot;</span>, <span class="kw-2">&amp;</span>missing_keyword_only_arguments)
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">missing_required_positional_arguments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>]) -&gt; <span class="ident">PyErr</span> {
-        <span class="kw">let</span> <span class="ident">missing_positional_arguments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">positional_parameter_names</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">take</span>(<span class="self">self</span>.<span class="ident">required_positional_parameters</span>)
-            .<span class="ident">zip</span>(<span class="ident">output</span>)
-            .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">param</span>, <span class="ident">out</span>)<span class="op">|</span> <span class="kw">if</span> <span class="ident">out</span>.<span class="ident">is_none</span>() { <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">param</span>) } <span class="kw">else</span> { <span class="prelude-val">None</span> })
-            .<span class="ident">collect</span>();
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>missing_required_positional_arguments(<span class="kw-2">&amp;</span><span class="self">self</span>, output: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;]) -&gt; PyErr {
+        <span class="kw">let </span>missing_positional_arguments: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self
+            </span>.positional_parameter_names
+            .iter()
+            .take(<span class="self">self</span>.required_positional_parameters)
+            .zip(output)
+            .filter_map(|(param, out)| <span class="kw">if </span>out.is_none() { <span class="prelude-val">Some</span>(<span class="kw-2">*</span>param) } <span class="kw">else </span>{ <span class="prelude-val">None </span>})
+            .collect();
 
-        <span class="macro">debug_assert!</span>(<span class="op">!</span><span class="ident">missing_positional_arguments</span>.<span class="ident">is_empty</span>());
-        <span class="self">self</span>.<span class="ident">missing_required_arguments</span>(<span class="string">&quot;positional&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">missing_positional_arguments</span>)
+        <span class="macro">debug_assert!</span>(!missing_positional_arguments.is_empty());
+        <span class="self">self</span>.missing_required_arguments(<span class="string">&quot;positional&quot;</span>, <span class="kw-2">&amp;</span>missing_positional_arguments)
     }
 }
 
-<span class="doccomment">/// A trait used to control whether to accept varargs in FunctionDescription::extract_argument_(method) functions.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">VarargsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Varargs</span>;
-    <span class="doccomment">/// Called by `FunctionDescription::extract_arguments_fastcall` with any additional arguments.</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_fastcall</span>(
-        <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">varargs</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>],
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Called by `FunctionDescription::extract_arguments_tuple_dict` with the original tuple.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Additional arguments are those in the tuple slice starting from `function_description.positional_parameter_names.len()`.</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_tuple</span>(
-        <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyTuple</span>,
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span>;
+<span class="doccomment">/// A trait used to control whether to accept varargs in FunctionDescription::extract_argument_(method) functions.
+</span><span class="kw">pub trait </span>VarargsHandler&lt;<span class="lifetime">&#39;py</span>&gt; {
+    <span class="kw">type </span>Varargs;
+    <span class="doccomment">/// Called by `FunctionDescription::extract_arguments_fastcall` with any additional arguments.
+    </span><span class="kw">fn </span>handle_varargs_fastcall(
+        py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
+        varargs: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;],
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt;;
+    <span class="doccomment">/// Called by `FunctionDescription::extract_arguments_tuple_dict` with the original tuple.
+    ///
+    /// Additional arguments are those in the tuple slice starting from `function_description.positional_parameter_names.len()`.
+    </span><span class="kw">fn </span>handle_varargs_tuple(
+        args: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyTuple,
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt;;
 }
 
-<span class="doccomment">/// Marker struct which indicates varargs are not allowed.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NoVarargs</span>;
+<span class="doccomment">/// Marker struct which indicates varargs are not allowed.
+</span><span class="kw">pub struct </span>NoVarargs;
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">VarargsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NoVarargs</span> {
-    <span class="kw">type</span> <span class="ident">Varargs</span> <span class="op">=</span> ();
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; VarargsHandler&lt;<span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span>NoVarargs {
+    <span class="kw">type </span>Varargs = ();
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_fastcall</span>(
-        <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">varargs</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>],
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">extra_arguments</span> <span class="op">=</span> <span class="ident">varargs</span>.<span class="ident">len</span>();
-        <span class="kw">if</span> <span class="ident">extra_arguments</span> <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">function_description</span>.<span class="ident">too_many_positional_arguments</span>(
-                <span class="ident">function_description</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">extra_arguments</span>,
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_varargs_fastcall(
+        _py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
+        varargs: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;],
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt; {
+        <span class="kw">let </span>extra_arguments = varargs.len();
+        <span class="kw">if </span>extra_arguments &gt; <span class="number">0 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(function_description.too_many_positional_arguments(
+                function_description.positional_parameter_names.len() + extra_arguments,
             ));
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_tuple</span>(
-        <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyTuple</span>,
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">positional_parameter_count</span> <span class="op">=</span> <span class="ident">function_description</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>();
-        <span class="kw">let</span> <span class="ident">provided_args_count</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">len</span>();
-        <span class="kw">if</span> <span class="ident">provided_args_count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">positional_parameter_count</span> {
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_varargs_tuple(
+        args: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyTuple,
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt; {
+        <span class="kw">let </span>positional_parameter_count = function_description.positional_parameter_names.len();
+        <span class="kw">let </span>provided_args_count = args.len();
+        <span class="kw">if </span>provided_args_count &lt;= positional_parameter_count {
             <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">function_description</span>.<span class="ident">too_many_positional_arguments</span>(<span class="ident">provided_args_count</span>))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(function_description.too_many_positional_arguments(provided_args_count))
         }
     }
 }
 
-<span class="doccomment">/// Marker struct which indicates varargs should be collected into a `PyTuple`.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TupleVarargs</span>;
+<span class="doccomment">/// Marker struct which indicates varargs should be collected into a `PyTuple`.
+</span><span class="kw">pub struct </span>TupleVarargs;
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">VarargsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">TupleVarargs</span> {
-    <span class="kw">type</span> <span class="ident">Varargs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyTuple</span>;
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_fastcall</span>(
-        <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>,
-        <span class="ident">varargs</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>],
-        <span class="ident">_function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">PyTuple::new</span>(<span class="ident">py</span>, <span class="ident">varargs</span>))
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; VarargsHandler&lt;<span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span>TupleVarargs {
+    <span class="kw">type </span>Varargs = <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyTuple;
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_varargs_fastcall(
+        py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
+        varargs: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;],
+        _function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt; {
+        <span class="prelude-val">Ok</span>(PyTuple::new(py, varargs))
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_varargs_tuple</span>(
-        <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyTuple</span>,
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Varargs</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">positional_parameters</span> <span class="op">=</span> <span class="ident">function_description</span>.<span class="ident">positional_parameter_names</span>.<span class="ident">len</span>();
-        <span class="prelude-val">Ok</span>(<span class="ident">args</span>.<span class="ident">get_slice</span>(<span class="ident">positional_parameters</span>, <span class="ident">args</span>.<span class="ident">len</span>()))
-    }
-}
-
-<span class="doccomment">/// A trait used to control whether to accept unrecognised keywords in FunctionDescription::extract_argument_(method) functions.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">VarkeywordsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Varkeywords</span>: <span class="ident">Default</span>;
-    <span class="kw">fn</span> <span class="ident">handle_unexpected_keyword</span>(
-        <span class="ident">varkeywords</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="self">Self</span>::Varkeywords</span>,
-        <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-}
-
-<span class="doccomment">/// Marker struct which indicates unknown keywords are not permitted.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NoVarkeywords</span>;
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">VarkeywordsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NoVarkeywords</span> {
-    <span class="kw">type</span> <span class="ident">Varkeywords</span> <span class="op">=</span> ();
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_unexpected_keyword</span>(
-        <span class="ident">_varkeywords</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="self">Self</span>::Varkeywords</span>,
-        <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">_value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">function_description</span>.<span class="ident">unexpected_keyword_argument</span>(<span class="ident">name</span>))
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_varargs_tuple(
+        args: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyTuple,
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;<span class="self">Self</span>::Varargs&gt; {
+        <span class="kw">let </span>positional_parameters = function_description.positional_parameter_names.len();
+        <span class="prelude-val">Ok</span>(args.get_slice(positional_parameters, args.len()))
     }
 }
 
-<span class="doccomment">/// Marker struct which indicates unknown keywords should be collected into a `PyDict`.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DictVarkeywords</span>;
+<span class="doccomment">/// A trait used to control whether to accept unrecognised keywords in FunctionDescription::extract_argument_(method) functions.
+</span><span class="kw">pub trait </span>VarkeywordsHandler&lt;<span class="lifetime">&#39;py</span>&gt; {
+    <span class="kw">type </span>Varkeywords: Default;
+    <span class="kw">fn </span>handle_unexpected_keyword(
+        varkeywords: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Varkeywords,
+        name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;()&gt;;
+}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="ident">VarkeywordsHandler</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DictVarkeywords</span> {
-    <span class="kw">type</span> <span class="ident">Varkeywords</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyDict</span><span class="op">&gt;</span>;
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">handle_unexpected_keyword</span>(
-        <span class="ident">varkeywords</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="self">Self</span>::Varkeywords</span>,
-        <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyAny</span>,
-        <span class="ident">_function_description</span>: <span class="kw-2">&amp;</span><span class="ident">FunctionDescription</span>,
-    ) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">varkeywords</span>
-            .<span class="ident">get_or_insert_with</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">PyDict::new</span>(<span class="ident">name</span>.<span class="ident">py</span>()))
-            .<span class="ident">set_item</span>(<span class="ident">name</span>, <span class="ident">value</span>)
+<span class="doccomment">/// Marker struct which indicates unknown keywords are not permitted.
+</span><span class="kw">pub struct </span>NoVarkeywords;
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; VarkeywordsHandler&lt;<span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span>NoVarkeywords {
+    <span class="kw">type </span>Varkeywords = ();
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_unexpected_keyword(
+        _varkeywords: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Varkeywords,
+        name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        _value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;()&gt; {
+        <span class="prelude-val">Err</span>(function_description.unexpected_keyword_argument(name))
     }
 }
 
-<span class="kw">fn</span> <span class="ident">push_parameter_list</span>(<span class="ident">msg</span>: <span class="kw-2">&amp;mut</span> <span class="ident">String</span>, <span class="ident">parameter_names</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) {
-    <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">parameter</span>) <span class="kw">in</span> <span class="ident">parameter_names</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-        <span class="kw">if</span> <span class="ident">i</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">if</span> <span class="ident">parameter_names</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">2</span> {
-                <span class="ident">msg</span>.<span class="ident">push</span>(<span class="string">&#39;,&#39;</span>);
+<span class="doccomment">/// Marker struct which indicates unknown keywords should be collected into a `PyDict`.
+</span><span class="kw">pub struct </span>DictVarkeywords;
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; VarkeywordsHandler&lt;<span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span>DictVarkeywords {
+    <span class="kw">type </span>Varkeywords = <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyDict&gt;;
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>handle_unexpected_keyword(
+        varkeywords: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Varkeywords,
+        name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny,
+        _function_description: <span class="kw-2">&amp;</span>FunctionDescription,
+    ) -&gt; PyResult&lt;()&gt; {
+        varkeywords
+            .get_or_insert_with(|| PyDict::new(name.py()))
+            .set_item(name, value)
+    }
+}
+
+<span class="kw">fn </span>push_parameter_list(msg: <span class="kw-2">&amp;mut </span>String, parameter_names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) {
+    <span class="kw">for </span>(i, parameter) <span class="kw">in </span>parameter_names.iter().enumerate() {
+        <span class="kw">if </span>i != <span class="number">0 </span>{
+            <span class="kw">if </span>parameter_names.len() &gt; <span class="number">2 </span>{
+                msg.push(<span class="string">&#39;,&#39;</span>);
             }
 
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">parameter_names</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
-                <span class="ident">msg</span>.<span class="ident">push_str</span>(<span class="string">&quot; and &quot;</span>)
-            } <span class="kw">else</span> {
-                <span class="ident">msg</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>)
+            <span class="kw">if </span>i == parameter_names.len() - <span class="number">1 </span>{
+                msg.push_str(<span class="string">&quot; and &quot;</span>)
+            } <span class="kw">else </span>{
+                msg.push(<span class="string">&#39; &#39;</span>)
             }
         }
 
-        <span class="ident">msg</span>.<span class="ident">push</span>(<span class="string">&#39;\&#39;&#39;</span>);
-        <span class="ident">msg</span>.<span class="ident">push_str</span>(<span class="ident">parameter</span>);
-        <span class="ident">msg</span>.<span class="ident">push</span>(<span class="string">&#39;\&#39;&#39;</span>);
+        msg.push(<span class="string">&#39;\&#39;&#39;</span>);
+        msg.push_str(parameter);
+        msg.push(<span class="string">&#39;\&#39;&#39;</span>);
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">types</span>::{<span class="ident">IntoPyDict</span>, <span class="ident">PyTuple</span>},
-        <span class="ident">AsPyPointer</span>, <span class="ident">PyAny</span>, <span class="ident">Python</span>, <span class="ident">ToPyObject</span>,
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use crate</span>::{
+        types::{IntoPyDict, PyTuple},
+        AsPyPointer, PyAny, Python, ToPyObject,
     };
 
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">push_parameter_list</span>, <span class="ident">FunctionDescription</span>, <span class="ident">NoVarargs</span>, <span class="ident">NoVarkeywords</span>};
+    <span class="kw">use super</span>::{push_parameter_list, FunctionDescription, NoVarargs, NoVarkeywords};
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">unexpected_keyword_argument</span>() {
-        <span class="kw">let</span> <span class="ident">function_description</span> <span class="op">=</span> <span class="ident">FunctionDescription</span> {
-            <span class="ident">cls_name</span>: <span class="prelude-val">None</span>,
-            <span class="ident">func_name</span>: <span class="string">&quot;example&quot;</span>,
-            <span class="ident">positional_parameter_names</span>: <span class="kw-2">&amp;</span>[],
-            <span class="ident">positional_only_parameters</span>: <span class="number">0</span>,
-            <span class="ident">required_positional_parameters</span>: <span class="number">0</span>,
-            <span class="ident">keyword_only_parameters</span>: <span class="kw-2">&amp;</span>[],
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>unexpected_keyword_argument() {
+        <span class="kw">let </span>function_description = FunctionDescription {
+            cls_name: <span class="prelude-val">None</span>,
+            func_name: <span class="string">&quot;example&quot;</span>,
+            positional_parameter_names: <span class="kw-2">&amp;</span>[],
+            positional_only_parameters: <span class="number">0</span>,
+            required_positional_parameters: <span class="number">0</span>,
+            keyword_only_parameters: <span class="kw-2">&amp;</span>[],
         };
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-                <span class="ident">function_description</span>
-                    .<span class="ident">extract_arguments_tuple_dict</span>::<span class="op">&lt;</span><span class="ident">NoVarargs</span>, <span class="ident">NoVarkeywords</span><span class="op">&gt;</span>(
-                        <span class="ident">py</span>,
-                        <span class="ident">PyTuple::new</span>(<span class="ident">py</span>, <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span><span class="ident">::new</span>()).<span class="ident">as_ptr</span>(),
-                        [(<span class="string">&quot;foo&quot;</span>.<span class="ident">to_object</span>(<span class="ident">py</span>).<span class="ident">into_ref</span>(<span class="ident">py</span>), <span class="number">0u8</span>)]
-                            .<span class="ident">into_py_dict</span>(<span class="ident">py</span>)
-                            .<span class="ident">as_ptr</span>(),
-                        <span class="kw-2">&amp;mut</span> [],
+        Python::with_gil(|py| {
+            <span class="kw">let </span>err = <span class="kw">unsafe </span>{
+                function_description
+                    .extract_arguments_tuple_dict::&lt;NoVarargs, NoVarkeywords&gt;(
+                        py,
+                        PyTuple::new(py, Vec::&lt;<span class="kw-2">&amp;</span>PyAny&gt;::new()).as_ptr(),
+                        [(<span class="string">&quot;foo&quot;</span>.to_object(py).into_ref(py), <span class="number">0u8</span>)]
+                            .into_py_dict(py)
+                            .as_ptr(),
+                        <span class="kw-2">&amp;mut </span>[],
                     )
-                    .<span class="ident">unwrap_err</span>()
+                    .unwrap_err()
             };
             <span class="macro">assert_eq!</span>(
-                <span class="ident">err</span>.<span class="ident">to_string</span>(),
-                <span class="string">&quot;TypeError: example() got an unexpected keyword argument &#39;foo&#39;&quot;</span>
-            );
+                err.to_string(),
+                <span class="string">&quot;TypeError: example() got an unexpected keyword argument &#39;foo&#39;&quot;
+            </span>);
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">keyword_not_string</span>() {
-        <span class="kw">let</span> <span class="ident">function_description</span> <span class="op">=</span> <span class="ident">FunctionDescription</span> {
-            <span class="ident">cls_name</span>: <span class="prelude-val">None</span>,
-            <span class="ident">func_name</span>: <span class="string">&quot;example&quot;</span>,
-            <span class="ident">positional_parameter_names</span>: <span class="kw-2">&amp;</span>[],
-            <span class="ident">positional_only_parameters</span>: <span class="number">0</span>,
-            <span class="ident">required_positional_parameters</span>: <span class="number">0</span>,
-            <span class="ident">keyword_only_parameters</span>: <span class="kw-2">&amp;</span>[],
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>keyword_not_string() {
+        <span class="kw">let </span>function_description = FunctionDescription {
+            cls_name: <span class="prelude-val">None</span>,
+            func_name: <span class="string">&quot;example&quot;</span>,
+            positional_parameter_names: <span class="kw-2">&amp;</span>[],
+            positional_only_parameters: <span class="number">0</span>,
+            required_positional_parameters: <span class="number">0</span>,
+            keyword_only_parameters: <span class="kw-2">&amp;</span>[],
         };
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-                <span class="ident">function_description</span>
-                    .<span class="ident">extract_arguments_tuple_dict</span>::<span class="op">&lt;</span><span class="ident">NoVarargs</span>, <span class="ident">NoVarkeywords</span><span class="op">&gt;</span>(
-                        <span class="ident">py</span>,
-                        <span class="ident">PyTuple::new</span>(<span class="ident">py</span>, <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span><span class="ident">::new</span>()).<span class="ident">as_ptr</span>(),
-                        [(<span class="number">1u8</span>.<span class="ident">to_object</span>(<span class="ident">py</span>).<span class="ident">into_ref</span>(<span class="ident">py</span>), <span class="number">1u8</span>)]
-                            .<span class="ident">into_py_dict</span>(<span class="ident">py</span>)
-                            .<span class="ident">as_ptr</span>(),
-                        <span class="kw-2">&amp;mut</span> [],
+        Python::with_gil(|py| {
+            <span class="kw">let </span>err = <span class="kw">unsafe </span>{
+                function_description
+                    .extract_arguments_tuple_dict::&lt;NoVarargs, NoVarkeywords&gt;(
+                        py,
+                        PyTuple::new(py, Vec::&lt;<span class="kw-2">&amp;</span>PyAny&gt;::new()).as_ptr(),
+                        [(<span class="number">1u8</span>.to_object(py).into_ref(py), <span class="number">1u8</span>)]
+                            .into_py_dict(py)
+                            .as_ptr(),
+                        <span class="kw-2">&amp;mut </span>[],
                     )
-                    .<span class="ident">unwrap_err</span>()
+                    .unwrap_err()
             };
             <span class="macro">assert_eq!</span>(
-                <span class="ident">err</span>.<span class="ident">to_string</span>(),
-                <span class="string">&quot;TypeError: &#39;int&#39; object cannot be converted to &#39;PyString&#39;&quot;</span>
-            );
+                err.to_string(),
+                <span class="string">&quot;TypeError: &#39;int&#39; object cannot be converted to &#39;PyString&#39;&quot;
+            </span>);
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">missing_required_arguments</span>() {
-        <span class="kw">let</span> <span class="ident">function_description</span> <span class="op">=</span> <span class="ident">FunctionDescription</span> {
-            <span class="ident">cls_name</span>: <span class="prelude-val">None</span>,
-            <span class="ident">func_name</span>: <span class="string">&quot;example&quot;</span>,
-            <span class="ident">positional_parameter_names</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>],
-            <span class="ident">positional_only_parameters</span>: <span class="number">0</span>,
-            <span class="ident">required_positional_parameters</span>: <span class="number">2</span>,
-            <span class="ident">keyword_only_parameters</span>: <span class="kw-2">&amp;</span>[],
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>missing_required_arguments() {
+        <span class="kw">let </span>function_description = FunctionDescription {
+            cls_name: <span class="prelude-val">None</span>,
+            func_name: <span class="string">&quot;example&quot;</span>,
+            positional_parameter_names: <span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>],
+            positional_only_parameters: <span class="number">0</span>,
+            required_positional_parameters: <span class="number">2</span>,
+            keyword_only_parameters: <span class="kw-2">&amp;</span>[],
         };
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="prelude-val">None</span>, <span class="prelude-val">None</span>];
-            <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-                <span class="ident">function_description</span>.<span class="ident">extract_arguments_tuple_dict</span>::<span class="op">&lt;</span><span class="ident">NoVarargs</span>, <span class="ident">NoVarkeywords</span><span class="op">&gt;</span>(
-                    <span class="ident">py</span>,
-                    <span class="ident">PyTuple::new</span>(<span class="ident">py</span>, <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span><span class="ident">::new</span>()).<span class="ident">as_ptr</span>(),
-                    <span class="ident">std::ptr::null_mut</span>(),
-                    <span class="kw-2">&amp;mut</span> <span class="ident">output</span>,
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>output = [<span class="prelude-val">None</span>, <span class="prelude-val">None</span>];
+            <span class="kw">let </span>err = <span class="kw">unsafe </span>{
+                function_description.extract_arguments_tuple_dict::&lt;NoVarargs, NoVarkeywords&gt;(
+                    py,
+                    PyTuple::new(py, Vec::&lt;<span class="kw-2">&amp;</span>PyAny&gt;::new()).as_ptr(),
+                    std::ptr::null_mut(),
+                    <span class="kw-2">&amp;mut </span>output,
                 )
             }
-            .<span class="ident">unwrap_err</span>();
+            .unwrap_err();
             <span class="macro">assert_eq!</span>(
-                <span class="ident">err</span>.<span class="ident">to_string</span>(),
-                <span class="string">&quot;TypeError: example() missing 2 required positional arguments: &#39;foo&#39; and &#39;bar&#39;&quot;</span>
-            );
+                err.to_string(),
+                <span class="string">&quot;TypeError: example() missing 2 required positional arguments: &#39;foo&#39; and &#39;bar&#39;&quot;
+            </span>);
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">push_parameter_list_empty</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::new</span>();
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">s</span>, <span class="kw-2">&amp;</span>[]);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>push_parameter_list_empty() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s = String::new();
+        push_parameter_list(<span class="kw-2">&amp;mut </span>s, <span class="kw-2">&amp;</span>[]);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s, <span class="string">&quot;&quot;</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">push_parameter_list_one</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::new</span>();
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;&#39;a&#39;&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>push_parameter_list_one() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s = String::new();
+        push_parameter_list(<span class="kw-2">&amp;mut </span>s, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s, <span class="string">&quot;&#39;a&#39;&quot;</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">push_parameter_list_two</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::new</span>();
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;&#39;a&#39; and &#39;b&#39;&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>push_parameter_list_two() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s = String::new();
+        push_parameter_list(<span class="kw-2">&amp;mut </span>s, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s, <span class="string">&quot;&#39;a&#39; and &#39;b&#39;&quot;</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">push_parameter_list_three</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::new</span>();
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;&#39;a&#39;, &#39;b&#39;, and &#39;c&#39;&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>push_parameter_list_three() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s = String::new();
+        push_parameter_list(<span class="kw-2">&amp;mut </span>s, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s, <span class="string">&quot;&#39;a&#39;, &#39;b&#39;, and &#39;c&#39;&quot;</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">push_parameter_list_four</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String::new</span>();
-        <span class="ident">push_parameter_list</span>(<span class="kw-2">&amp;mut</span> <span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>]);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, and &#39;d&#39;&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>push_parameter_list_four() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s = String::new();
+        push_parameter_list(<span class="kw-2">&amp;mut </span>s, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s, <span class="string">&quot;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, and &#39;d&#39;&quot;</span>);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

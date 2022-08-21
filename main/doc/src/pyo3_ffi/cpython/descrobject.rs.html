@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/descrobject.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>descrobject.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/descrobject.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>descrobject.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -82,84 +76,83 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">PyGetSetDef</span>, <span class="ident">PyMethodDef</span>, <span class="ident">PyObject</span>, <span class="ident">PyTypeObject</span>};
-<span class="kw">use</span> <span class="ident">std::os::raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_void</span>};
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{PyGetSetDef, PyMethodDef, PyObject, PyTypeObject};
+<span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">wrapperfunc</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>
-    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-        <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">wrapped</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-<span class="op">&gt;</span>;
+<span class="kw">pub type </span>wrapperfunc = <span class="prelude-ty">Option</span>&lt;
+    <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+        slf: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*mut </span>PyObject,
+        wrapped: <span class="kw-2">*mut </span>c_void,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject,
+&gt;;
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">wrapperfunc_kwds</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>
-    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-        <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">wrapped</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
-        <span class="ident">kwds</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-<span class="op">&gt;</span>;
+<span class="kw">pub type </span>wrapperfunc_kwds = <span class="prelude-ty">Option</span>&lt;
+    <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+        slf: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*mut </span>PyObject,
+        wrapped: <span class="kw-2">*mut </span>c_void,
+        kwds: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject,
+&gt;;
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">wrapperbase</span> {
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    <span class="kw">pub</span> <span class="ident">offset</span>: <span class="ident">c_int</span>,
-    <span class="kw">pub</span> <span class="ident">function</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
-    <span class="kw">pub</span> <span class="ident">wrapper</span>: <span class="ident">wrapperfunc</span>,
-    <span class="kw">pub</span> <span class="ident">doc</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">c_int</span>,
-    <span class="kw">pub</span> <span class="ident">name_strobj</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>wrapperbase {
+    <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
+    <span class="kw">pub </span>offset: c_int,
+    <span class="kw">pub </span>function: <span class="kw-2">*mut </span>c_void,
+    <span class="kw">pub </span>wrapper: wrapperfunc,
+    <span class="kw">pub </span>doc: <span class="kw-2">*const </span>c_char,
+    <span class="kw">pub </span>flags: c_int,
+    <span class="kw">pub </span>name_strobj: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyWrapperFlag_KEYWORDS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">pub const </span>PyWrapperFlag_KEYWORDS: c_int = <span class="number">1</span>;
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyDescrObject</span> {
-    <span class="kw">pub</span> <span class="ident">ob_base</span>: <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_type</span>: <span class="kw-2">*mut</span> <span class="ident">PyTypeObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_qualname</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>PyDescrObject {
+    <span class="kw">pub </span>ob_base: PyObject,
+    <span class="kw">pub </span>d_type: <span class="kw-2">*mut </span>PyTypeObject,
+    <span class="kw">pub </span>d_name: <span class="kw-2">*mut </span>PyObject,
+    <span class="kw">pub </span>d_qualname: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="comment">// skipped non-limited PyDescr_TYPE</span>
-<span class="comment">// skipped non-limited PyDescr_NAME</span>
+<span class="comment">// skipped non-limited PyDescr_TYPE
+// skipped non-limited PyDescr_NAME
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyMethodDescrObject</span> {
-    <span class="kw">pub</span> <span class="ident">d_common</span>: <span class="ident">PyDescrObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_method</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>), <span class="ident">Py_3_8</span>))]</span>
-    <span class="kw">pub</span> <span class="ident">vectorcall</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::vectorcallfunc</span><span class="op">&gt;</span>,
+</span><span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>PyMethodDescrObject {
+    <span class="kw">pub </span>d_common: PyDescrObject,
+    <span class="kw">pub </span>d_method: <span class="kw-2">*mut </span>PyMethodDef,
+    <span class="attribute">#[cfg(all(not(PyPy), Py_3_8))]</span>
+    <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyMemberDescrObject</span> {
-    <span class="kw">pub</span> <span class="ident">d_common</span>: <span class="ident">PyDescrObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_member</span>: <span class="kw-2">*mut</span> <span class="ident">PyGetSetDef</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>PyMemberDescrObject {
+    <span class="kw">pub </span>d_common: PyDescrObject,
+    <span class="kw">pub </span>d_member: <span class="kw-2">*mut </span>PyGetSetDef,
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyGetSetDescrObject</span> {
-    <span class="kw">pub</span> <span class="ident">d_common</span>: <span class="ident">PyDescrObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_getset</span>: <span class="kw-2">*mut</span> <span class="ident">PyGetSetDef</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>PyGetSetDescrObject {
+    <span class="kw">pub </span>d_common: PyDescrObject,
+    <span class="kw">pub </span>d_getset: <span class="kw-2">*mut </span>PyGetSetDef,
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyWrapperDescrObject</span> {
-    <span class="kw">pub</span> <span class="ident">d_common</span>: <span class="ident">PyDescrObject</span>,
-    <span class="kw">pub</span> <span class="ident">d_base</span>: <span class="kw-2">*mut</span> <span class="ident">wrapperbase</span>,
-    <span class="kw">pub</span> <span class="ident">d_wrapped</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="kw">pub struct </span>PyWrapperDescrObject {
+    <span class="kw">pub </span>d_common: PyDescrObject,
+    <span class="kw">pub </span>d_base: <span class="kw-2">*mut </span>wrapperbase,
+    <span class="kw">pub </span>d_wrapped: <span class="kw-2">*mut </span>c_void,
 }
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">windows</span>, <span class="ident">link</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">_PyMethodWrapper_Type</span>: <span class="ident">PyTypeObject</span>;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="kw">pub static </span><span class="kw-2">mut </span>_PyMethodWrapper_Type: PyTypeObject;
 }
 
-<span class="comment">// skipped non-limited PyDescr_NewWrapper</span>
-<span class="comment">// skipped non-limited PyDescr_IsData</span>
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+<span class="comment">// skipped non-limited PyDescr_NewWrapper
+// skipped non-limited PyDescr_IsData
+</span></code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/pystate.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pystate.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/pystate.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pystate.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -107,109 +101,112 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
-</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PyThreadState</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">PyFrameObject</span>, <span class="ident">PyInterpreterState</span>, <span class="ident">PyObject</span>};
-<span class="kw">use</span> <span class="ident">std::os::raw::c_int</span>;
+<span id="104">104</span>
+<span id="105">105</span>
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::PyThreadState;
+<span class="kw">use crate</span>::{PyFrameObject, PyInterpreterState, PyObject};
+<span class="kw">use </span>std::os::raw::c_int;
 
-<span class="comment">// skipped _PyInterpreterState_RequiresIDRef</span>
-<span class="comment">// skipped _PyInterpreterState_RequireIDRef</span>
+<span class="comment">// skipped _PyInterpreterState_RequiresIDRef
+// skipped _PyInterpreterState_RequireIDRef
 
-<span class="comment">// skipped _PyInterpreterState_GetMainModule</span>
+// skipped _PyInterpreterState_GetMainModule
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Py_tracefunc</span> <span class="op">=</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="ident">obj</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">frame</span>: <span class="kw-2">*mut</span> <span class="ident">PyFrameObject</span>,
-    <span class="ident">what</span>: <span class="ident">c_int</span>,
-    <span class="ident">arg</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="ident">c_int</span>;
+</span><span class="kw">pub type </span>Py_tracefunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    obj: <span class="kw-2">*mut </span>PyObject,
+    frame: <span class="kw-2">*mut </span>PyFrameObject,
+    what: c_int,
+    arg: <span class="kw-2">*mut </span>PyObject,
+) -&gt; c_int;
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_CALL</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_EXCEPTION</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_LINE</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">2</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_RETURN</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">3</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_C_CALL</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">4</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_C_EXCEPTION</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">5</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_C_RETURN</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">6</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PyTrace_OPCODE</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">7</span>;
+<span class="kw">pub const </span>PyTrace_CALL: c_int = <span class="number">0</span>;
+<span class="kw">pub const </span>PyTrace_EXCEPTION: c_int = <span class="number">1</span>;
+<span class="kw">pub const </span>PyTrace_LINE: c_int = <span class="number">2</span>;
+<span class="kw">pub const </span>PyTrace_RETURN: c_int = <span class="number">3</span>;
+<span class="kw">pub const </span>PyTrace_C_CALL: c_int = <span class="number">4</span>;
+<span class="kw">pub const </span>PyTrace_C_EXCEPTION: c_int = <span class="number">5</span>;
+<span class="kw">pub const </span>PyTrace_C_RETURN: c_int = <span class="number">6</span>;
+<span class="kw">pub const </span>PyTrace_OPCODE: c_int = <span class="number">7</span>;
 
-<span class="comment">// skipped PyTraceInfo</span>
-<span class="comment">// skipped CFrame</span>
+<span class="comment">// skipped PyTraceInfo
+// skipped CFrame
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">_PyErr_StackItem</span> {
-    <span class="kw">pub</span> <span class="ident">exc_type</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">exc_value</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">exc_traceback</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">previous_item</span>: <span class="kw-2">*mut</span> <span class="ident">_PyErr_StackItem</span>,
+</span><span class="attribute">#[cfg(not(PyPy))]</span>
+<span class="attribute">#[repr(C)]</span>
+<span class="attribute">#[derive(Clone, Copy)]</span>
+<span class="kw">pub struct </span>_PyErr_StackItem {
+    <span class="attribute">#[cfg(not(Py_3_11))]</span>
+    <span class="kw">pub </span>exc_type: <span class="kw-2">*mut </span>PyObject,
+    <span class="kw">pub </span>exc_value: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(Py_3_11))]</span>
+    <span class="kw">pub </span>exc_traceback: <span class="kw-2">*mut </span>PyObject,
+    <span class="kw">pub </span>previous_item: <span class="kw-2">*mut </span>_PyErr_StackItem,
 }
 
-<span class="comment">// skipped _PyStackChunk</span>
-<span class="comment">// skipped _ts (aka PyThreadState)</span>
+<span class="comment">// skipped _PyStackChunk
+// skipped _ts (aka PyThreadState)
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="comment">// skipped _PyThreadState_Prealloc</span>
-    <span class="comment">// skipped _PyThreadState_UncheckedGet</span>
-    <span class="comment">// skipped _PyThreadState_GetDict</span>
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="comment">// skipped _PyThreadState_Prealloc
+    // skipped _PyThreadState_UncheckedGet
+    // skipped _PyThreadState_GetDict
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyGILState_Check&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyGILState_Check</span>() -&gt; <span class="ident">c_int</span>;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Check&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyGILState_Check() -&gt; c_int;
 
-    <span class="comment">// skipped _PyGILState_GetInterpreterStateUnsafe</span>
-    <span class="comment">// skipped _PyThread_CurrentFrames</span>
-    <span class="comment">// skipped _PyThread_CurrentExceptions</span>
+    <span class="comment">// skipped _PyGILState_GetInterpreterStateUnsafe
+    // skipped _PyThread_CurrentFrames
+    // skipped _PyThread_CurrentExceptions
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyInterpreterState_Main</span>() -&gt; <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyInterpreterState_Head&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyInterpreterState_Head</span>() -&gt; <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyInterpreterState_Next&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyInterpreterState_Next</span>(<span class="ident">interp</span>: <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>;
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyInterpreterState_ThreadHead</span>(<span class="ident">interp</span>: <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>;
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyThreadState_Next</span>(<span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>;
+    </span><span class="attribute">#[cfg(not(PyPy))]</span>
+    <span class="kw">pub fn </span>PyInterpreterState_Main() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Head&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyInterpreterState_Head() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Next&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyInterpreterState_Next(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg(not(PyPy))]</span>
+    <span class="kw">pub fn </span>PyInterpreterState_ThreadHead(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg(not(PyPy))]</span>
+    <span class="kw">pub fn </span>PyThreadState_Next(tstate: <span class="kw-2">*mut </span>PyThreadState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyThreadState_DeleteCurrent&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyThreadState_DeleteCurrent</span>();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_DeleteCurrent&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyThreadState_DeleteCurrent();
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">_PyFrameEvalFunction</span> <span class="op">=</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="kw-2">*mut</span> <span class="ident"><span class="kw">crate</span>::PyThreadState</span>,
-    <span class="kw-2">*mut</span> <span class="ident"><span class="kw">crate</span>::PyFrameObject</span>,
-    <span class="ident">c_int</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident"><span class="kw">crate</span>::object::PyObject</span>;
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="kw">pub type </span>_PyFrameEvalFunction = <span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    <span class="kw-2">*mut </span><span class="kw">crate</span>::PyThreadState,
+    <span class="kw-2">*mut </span><span class="kw">crate</span>::PyFrameObject,
+    c_int,
+) -&gt; <span class="kw-2">*mut </span><span class="kw">crate</span>::object::PyObject;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="doccomment">/// Get the frame evaluation function.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PyInterpreterState_GetEvalFrameFunc</span>(
-        <span class="ident">interp</span>: <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>,
-    ) -&gt; <span class="ident">_PyFrameEvalFunction</span>;
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="doccomment">/// Get the frame evaluation function.
+    </span><span class="kw">pub fn </span>_PyInterpreterState_GetEvalFrameFunc(
+        interp: <span class="kw-2">*mut </span>PyInterpreterState,
+    ) -&gt; _PyFrameEvalFunction;
 
-    <span class="doccomment">///Set the frame evaluation function.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PyInterpreterState_SetEvalFrameFunc</span>(
-        <span class="ident">interp</span>: <span class="kw-2">*mut</span> <span class="ident">PyInterpreterState</span>,
-        <span class="ident">eval_frame</span>: <span class="ident">_PyFrameEvalFunction</span>,
+    <span class="doccomment">///Set the frame evaluation function.
+    </span><span class="kw">pub fn </span>_PyInterpreterState_SetEvalFrameFunc(
+        interp: <span class="kw-2">*mut </span>PyInterpreterState,
+        eval_frame: _PyFrameEvalFunction,
     );
 }
 
-<span class="comment">// skipped _PyInterpreterState_GetConfig</span>
-<span class="comment">// skipped _PyInterpreterState_GetConfigCopy</span>
-<span class="comment">// skipped _PyInterpreterState_SetConfig</span>
-<span class="comment">// skipped _Py_GetConfig</span>
+<span class="comment">// skipped _PyInterpreterState_GetConfig
+// skipped _PyInterpreterState_GetConfigCopy
+// skipped _PyInterpreterState_SetConfig
+// skipped _Py_GetConfig
 
-<span class="comment">// skipped _PyCrossInterpreterData</span>
-<span class="comment">// skipped _PyObject_GetCrossInterpreterData</span>
-<span class="comment">// skipped _PyCrossInterpreterData_NewObject</span>
-<span class="comment">// skipped _PyCrossInterpreterData_Release</span>
-<span class="comment">// skipped _PyObject_CheckCrossInterpreterData</span>
-<span class="comment">// skipped crossinterpdatafunc</span>
-<span class="comment">// skipped _PyCrossInterpreterData_RegisterClass</span>
-<span class="comment">// skipped _PyCrossInterpreterData_Lookup</span>
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+// skipped _PyCrossInterpreterData
+// skipped _PyObject_GetCrossInterpreterData
+// skipped _PyCrossInterpreterData_NewObject
+// skipped _PyCrossInterpreterData_Release
+// skipped _PyObject_CheckCrossInterpreterData
+// skipped crossinterpdatafunc
+// skipped _PyCrossInterpreterData_RegisterClass
+// skipped _PyCrossInterpreterData_Lookup
+</span></code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

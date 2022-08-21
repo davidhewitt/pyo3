@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/types/mapping.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mapping.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/types/mapping.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mapping.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -328,330 +322,395 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::err</span>::{<span class="ident">PyDowncastError</span>, <span class="ident">PyErr</span>, <span class="ident">PyResult</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<span class="ident">PyAny</span>, <span class="ident">PySequence</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ffi</span>, <span class="ident">AsPyPointer</span>, <span class="ident">IntoPyPointer</span>, <span class="ident">Py</span>, <span class="ident">PyNativeType</span>, <span class="ident">PyTryFrom</span>, <span class="ident">Python</span>, <span class="ident">ToPyObject</span>};
+</span><span class="kw">use </span><span class="kw">crate</span>::err::{PyDowncastError, PyErr, PyResult};
+<span class="kw">use </span><span class="kw">crate</span>::once_cell::GILOnceCell;
+<span class="kw">use </span><span class="kw">crate</span>::type_object::PyTypeInfo;
+<span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PySequence, PyType};
+<span class="kw">use crate</span>::{
+    ffi, AsPyPointer, IntoPy, IntoPyPointer, Py, PyNativeType, PyTryFrom, Python, ToPyObject,
+};
 
-<span class="doccomment">/// Represents a reference to a Python object supporting the mapping protocol.</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyMapping</span>(<span class="ident">PyAny</span>);
-<span class="macro">pyobject_native_type_named!</span>(<span class="ident">PyMapping</span>);
-<span class="macro">pyobject_native_type_extract!</span>(<span class="ident">PyMapping</span>);
+<span class="kw">static </span>MAPPING_ABC: GILOnceCell&lt;PyResult&lt;Py&lt;PyType&gt;&gt;&gt; = GILOnceCell::new();
 
-<span class="kw">impl</span> <span class="ident">PyMapping</span> {
-    <span class="doccomment">/// Returns the number of objects in the mapping.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to the Python expression `len(self)`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ffi::PyMapping_Size</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()) };
-        <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">PyErr::fetch</span>(<span class="self">self</span>.<span class="ident">py</span>()))
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">v</span> <span class="kw">as</span> <span class="ident">usize</span>)
+<span class="doccomment">/// Represents a reference to a Python object supporting the mapping protocol.
+</span><span class="attribute">#[repr(transparent)]</span>
+<span class="kw">pub struct </span>PyMapping(PyAny);
+<span class="macro">pyobject_native_type_named!</span>(PyMapping);
+<span class="macro">pyobject_native_type_extract!</span>(PyMapping);
+
+<span class="kw">impl </span>PyMapping {
+    <span class="doccomment">/// Returns the number of objects in the mapping.
+    ///
+    /// This is equivalent to the Python expression `len(self)`.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;usize&gt; {
+        <span class="kw">let </span>v = <span class="kw">unsafe </span>{ ffi::PyMapping_Size(<span class="self">self</span>.as_ptr()) };
+        <span class="kw">if </span>v == -<span class="number">1 </span>{
+            <span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>.py()))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(v <span class="kw">as </span>usize)
         }
     }
 
-    <span class="doccomment">/// Returns whether the mapping is empty.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">len</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span> <span class="op">==</span> <span class="number">0</span>)
+    <span class="doccomment">/// Returns whether the mapping is empty.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;bool&gt; {
+        <span class="self">self</span>.len().map(|l| l == <span class="number">0</span>)
     }
 
-    <span class="doccomment">/// Determines if the mapping contains the specified key.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to the Python expression `key in self`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">K</span>: <span class="ident">ToPyObject</span>,
+    <span class="doccomment">/// Determines if the mapping contains the specified key.
+    ///
+    /// This is equivalent to the Python expression `key in self`.
+    </span><span class="kw">pub fn </span>contains&lt;K&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K) -&gt; PyResult&lt;bool&gt;
+    <span class="kw">where
+        </span>K: ToPyObject,
     {
-        <span class="ident">PyAny::contains</span>(<span class="self">self</span>, <span class="ident">key</span>)
+        PyAny::contains(<span class="self">self</span>, key)
     }
 
-    <span class="doccomment">/// Gets the item in self with key `key`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an `Err` if the item with specified key is not found, usually `KeyError`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to the Python expression `self[key]`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_item</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyAny</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">K</span>: <span class="ident">ToPyObject</span>,
+    <span class="doccomment">/// Gets the item in self with key `key`.
+    ///
+    /// Returns an `Err` if the item with specified key is not found, usually `KeyError`.
+    ///
+    /// This is equivalent to the Python expression `self[key]`.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>get_item&lt;K&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt;
+    <span class="kw">where
+        </span>K: ToPyObject,
     {
-        <span class="ident">PyAny::get_item</span>(<span class="self">self</span>, <span class="ident">key</span>)
+        PyAny::get_item(<span class="self">self</span>, key)
     }
 
-    <span class="doccomment">/// Sets the item in self with key `key`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to the Python expression `self[key] = value`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_item</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>, <span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">K</span>: <span class="ident">ToPyObject</span>,
-        <span class="ident">V</span>: <span class="ident">ToPyObject</span>,
+    <span class="doccomment">/// Sets the item in self with key `key`.
+    ///
+    /// This is equivalent to the Python expression `self[key] = value`.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>set_item&lt;K, V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K, value: V) -&gt; PyResult&lt;()&gt;
+    <span class="kw">where
+        </span>K: ToPyObject,
+        V: ToPyObject,
     {
-        <span class="ident">PyAny::set_item</span>(<span class="self">self</span>, <span class="ident">key</span>, <span class="ident">value</span>)
+        PyAny::set_item(<span class="self">self</span>, key, value)
     }
 
-    <span class="doccomment">/// Deletes the item with key `key`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to the Python statement `del self[key]`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">del_item</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">K</span>: <span class="ident">ToPyObject</span>,
+    <span class="doccomment">/// Deletes the item with key `key`.
+    ///
+    /// This is equivalent to the Python statement `del self[key]`.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>del_item&lt;K&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K) -&gt; PyResult&lt;()&gt;
+    <span class="kw">where
+        </span>K: ToPyObject,
     {
-        <span class="ident">PyAny::del_item</span>(<span class="self">self</span>, <span class="ident">key</span>)
+        PyAny::del_item(<span class="self">self</span>, key)
     }
 
-    <span class="doccomment">/// Returns a sequence containing all keys in the mapping.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keys</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PySequence</span><span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> {
-            <span class="self">self</span>.<span class="ident">py</span>()
-                .<span class="ident">from_owned_ptr_or_err</span>(<span class="ident">ffi::PyMapping_Keys</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()))
+    <span class="doccomment">/// Returns a sequence containing all keys in the mapping.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>keys(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+        <span class="kw">unsafe </span>{
+            <span class="self">self</span>.py()
+                .from_owned_ptr_or_err(ffi::PyMapping_Keys(<span class="self">self</span>.as_ptr()))
         }
     }
 
-    <span class="doccomment">/// Returns a sequence containing all values in the mapping.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">values</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PySequence</span><span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> {
-            <span class="self">self</span>.<span class="ident">py</span>()
-                .<span class="ident">from_owned_ptr_or_err</span>(<span class="ident">ffi::PyMapping_Values</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()))
+    <span class="doccomment">/// Returns a sequence containing all values in the mapping.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>values(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+        <span class="kw">unsafe </span>{
+            <span class="self">self</span>.py()
+                .from_owned_ptr_or_err(ffi::PyMapping_Values(<span class="self">self</span>.as_ptr()))
         }
     }
 
-    <span class="doccomment">/// Returns a sequence of tuples of all (key, value) pairs in the mapping.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">items</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PySequence</span><span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> {
-            <span class="self">self</span>.<span class="ident">py</span>()
-                .<span class="ident">from_owned_ptr_or_err</span>(<span class="ident">ffi::PyMapping_Items</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()))
+    <span class="doccomment">/// Returns a sequence of tuples of all (key, value) pairs in the mapping.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>items(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+        <span class="kw">unsafe </span>{
+            <span class="self">self</span>.py()
+                .from_owned_ptr_or_err(ffi::PyMapping_Items(<span class="self">self</span>.as_ptr()))
         }
+    }
+
+    <span class="doccomment">/// Register a pyclass as a subclass of `collections.abc.Mapping` (from the Python standard
+    /// library). This is equvalent to `collections.abc.Mapping.register(T)` in Python.
+    /// This registration is required for a pyclass to be downcastable from `PyAny` to `PyMapping`.
+    </span><span class="kw">pub fn </span>register&lt;T: PyTypeInfo&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">let </span>ty = T::type_object(py);
+        get_mapping_abc(py)<span class="question-mark">?</span>.call_method1(<span class="string">&quot;register&quot;</span>, (ty,))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">PyTryFrom</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PyMapping</span> {
-    <span class="kw">fn</span> <span class="ident">try_from</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyAny</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyMapping</span>, <span class="ident">PyDowncastError</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">into</span>();
-        <span class="kw">unsafe</span> {
-            <span class="kw">if</span> <span class="ident">ffi::PyMapping_Check</span>(<span class="ident">value</span>.<span class="ident">as_ptr</span>()) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="prelude-val">Ok</span>(<span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from_unchecked</span>(<span class="ident">value</span>))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">PyDowncastError::new</span>(<span class="ident">value</span>, <span class="string">&quot;Mapping&quot;</span>))
+<span class="kw">fn </span>get_mapping_abc(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>PyType, PyErr&gt; {
+    MAPPING_ABC
+        .get_or_init(py, || {
+            <span class="prelude-val">Ok</span>(py
+                .import(<span class="string">&quot;collections.abc&quot;</span>)<span class="question-mark">?
+                </span>.getattr(<span class="string">&quot;Mapping&quot;</span>)<span class="question-mark">?
+                </span>.downcast::&lt;PyType&gt;()<span class="question-mark">?
+                </span>.into_py(py))
+        })
+        .as_ref()
+        .map_or_else(|e| <span class="prelude-val">Err</span>(e.clone_ref(py)), |t| <span class="prelude-val">Ok</span>(t.as_ref(py)))
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; PyTryFrom&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>PyMapping {
+    <span class="doccomment">/// Downcasting to `PyMapping` requires the concrete class to be a subclass (or registered
+    /// subclass) of `collections.abc.Mapping` (from the Python standard library) - i.e.
+    /// `isinstance(&lt;class&gt;, collections.abc.Mapping) == True`.
+    </span><span class="kw">fn </span>try_from&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyMapping, PyDowncastError&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+        <span class="kw">let </span>value = value.into();
+
+        <span class="comment">// TODO: surface specific errors in this chain to the user
+        </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(abc) = get_mapping_abc(value.py()) {
+            <span class="kw">if </span>value.is_instance(abc).unwrap_or(<span class="bool-val">false</span>) {
+                <span class="kw">unsafe </span>{ <span class="kw">return </span><span class="prelude-val">Ok</span>(&lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from_unchecked(value)) }
             }
         }
+
+        <span class="prelude-val">Err</span>(PyDowncastError::new(value, <span class="string">&quot;Mapping&quot;</span>))
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_from_exact</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyAny</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyMapping</span>, <span class="ident">PyDowncastError</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">value</span>)
+    <span class="attribute">#[inline]</span>
+    <span class="kw">fn </span>try_from_exact&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyMapping, PyDowncastError&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+        &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(value)
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">try_from_unchecked</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyAny</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">PyMapping</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">into</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">PyMapping</span>;
-        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyMapping</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Borrows a GIL-bound reference to the PyMapping. By binding to the GIL lifetime, this</span>
-    <span class="doccomment">/// allows the GIL-bound reference to not require `Python` for any of its methods.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ref</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyMapping</span> {
-        <span class="kw">let</span> <span class="ident">any</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">PyAny</span>;
-        <span class="kw">unsafe</span> { <span class="ident">PyNativeType::unchecked_downcast</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">any</span>) }
-    }
-
-    <span class="doccomment">/// Similar to [`as_ref`](#method.as_ref), and also consumes this `Py` and registers the</span>
-    <span class="doccomment">/// Python object reference in PyO3&#39;s object storage. The reference count for the Python</span>
-    <span class="doccomment">/// object will not be decreased until the GIL lifetime ends.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_ref</span>(<span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">PyMapping</span> {
-        <span class="kw">unsafe</span> { <span class="ident">py</span>.<span class="ident">from_owned_ptr</span>(<span class="self">self</span>.<span class="ident">into_ptr</span>()) }
+    <span class="attribute">#[inline]</span>
+    <span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyMapping {
+        <span class="kw">let </span>ptr = value.into() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>PyMapping;
+        <span class="kw-2">&amp;*</span>ptr
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std::collections::HashMap</span>;
+<span class="kw">impl </span>Py&lt;PyMapping&gt; {
+    <span class="doccomment">/// Borrows a GIL-bound reference to the PyMapping. By binding to the GIL lifetime, this
+    /// allows the GIL-bound reference to not require `Python` for any of its methods.
+    </span><span class="kw">pub fn </span>as_ref&lt;<span class="lifetime">&#39;py</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyMapping {
+        <span class="kw">let </span>any = <span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>PyAny;
+        <span class="kw">unsafe </span>{ PyNativeType::unchecked_downcast(<span class="kw-2">&amp;*</span>any) }
+    }
 
-    <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">exceptions::PyKeyError</span>,
-        <span class="ident">types</span>::{<span class="ident">PyDict</span>, <span class="ident">PyTuple</span>},
-        <span class="ident">Python</span>,
+    <span class="doccomment">/// Similar to [`as_ref`](#method.as_ref), and also consumes this `Py` and registers the
+    /// Python object reference in PyO3&#39;s object storage. The reference count for the Python
+    /// object will not be decreased until the GIL lifetime ends.
+    </span><span class="kw">pub fn </span>into_ref(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyMapping {
+        <span class="kw">unsafe </span>{ py.from_owned_ptr(<span class="self">self</span>.into_ptr()) }
+    }
+}
+
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::collections::HashMap;
+
+    <span class="kw">use crate</span>::{
+        exceptions::PyKeyError,
+        types::{PyDict, PyTuple},
+        Python,
     };
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_len</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="ident">mapping</span>.<span class="ident">len</span>().<span class="ident">unwrap</span>());
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">is_empty</span>().<span class="ident">unwrap</span>());
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_len() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="macro">assert_eq!</span>(<span class="number">0</span>, mapping.len().unwrap());
+            <span class="macro">assert!</span>(mapping.is_empty().unwrap());
 
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping2</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="ident">mapping2</span>.<span class="ident">len</span>().<span class="ident">unwrap</span>());
-            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">mapping2</span>.<span class="ident">is_empty</span>().<span class="ident">unwrap</span>());
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping2 = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="macro">assert_eq!</span>(<span class="number">1</span>, mapping2.len().unwrap());
+            <span class="macro">assert!</span>(!mapping2.is_empty().unwrap());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_contains</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="string">&quot;key0&quot;</span>, <span class="number">1234</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="ident">mapping</span>.<span class="ident">set_item</span>(<span class="string">&quot;key1&quot;</span>, <span class="string">&quot;foo&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_contains() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="string">&quot;key0&quot;</span>, <span class="number">1234</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            mapping.set_item(<span class="string">&quot;key1&quot;</span>, <span class="string">&quot;foo&quot;</span>).unwrap();
 
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">contains</span>(<span class="string">&quot;key0&quot;</span>).<span class="ident">unwrap</span>());
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">contains</span>(<span class="string">&quot;key1&quot;</span>).<span class="ident">unwrap</span>());
-            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">mapping</span>.<span class="ident">contains</span>(<span class="string">&quot;key2&quot;</span>).<span class="ident">unwrap</span>());
+            <span class="macro">assert!</span>(mapping.contains(<span class="string">&quot;key0&quot;</span>).unwrap());
+            <span class="macro">assert!</span>(mapping.contains(<span class="string">&quot;key1&quot;</span>).unwrap());
+            <span class="macro">assert!</span>(!mapping.contains(<span class="string">&quot;key2&quot;</span>).unwrap());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_get_item</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_get_item() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
             <span class="macro">assert_eq!</span>(
                 <span class="number">32</span>,
-                <span class="ident">mapping</span>.<span class="ident">get_item</span>(<span class="number">7i32</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                mapping.get_item(<span class="number">7i32</span>).unwrap().extract::&lt;i32&gt;().unwrap()
             );
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>
-                .<span class="ident">get_item</span>(<span class="number">8i32</span>)
-                .<span class="ident">unwrap_err</span>()
-                .<span class="ident">is_instance_of</span>::<span class="op">&lt;</span><span class="ident">PyKeyError</span><span class="op">&gt;</span>(<span class="ident">py</span>));
+            <span class="macro">assert!</span>(mapping
+                .get_item(<span class="number">8i32</span>)
+                .unwrap_err()
+                .is_instance_of::&lt;PyKeyError&gt;(py));
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_set_item</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">set_item</span>(<span class="number">7i32</span>, <span class="number">42i32</span>).<span class="ident">is_ok</span>()); <span class="comment">// change</span>
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">set_item</span>(<span class="number">8i32</span>, <span class="number">123i32</span>).<span class="ident">is_ok</span>()); <span class="comment">// insert</span>
-            <span class="macro">assert_eq!</span>(
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_set_item() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="macro">assert!</span>(mapping.set_item(<span class="number">7i32</span>, <span class="number">42i32</span>).is_ok()); <span class="comment">// change
+            </span><span class="macro">assert!</span>(mapping.set_item(<span class="number">8i32</span>, <span class="number">123i32</span>).is_ok()); <span class="comment">// insert
+            </span><span class="macro">assert_eq!</span>(
                 <span class="number">42i32</span>,
-                <span class="ident">mapping</span>.<span class="ident">get_item</span>(<span class="number">7i32</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                mapping.get_item(<span class="number">7i32</span>).unwrap().extract::&lt;i32&gt;().unwrap()
             );
             <span class="macro">assert_eq!</span>(
                 <span class="number">123i32</span>,
-                <span class="ident">mapping</span>.<span class="ident">get_item</span>(<span class="number">8i32</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+                mapping.get_item(<span class="number">8i32</span>).unwrap().extract::&lt;i32&gt;().unwrap()
             );
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_del_item</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>.<span class="ident">del_item</span>(<span class="number">7i32</span>).<span class="ident">is_ok</span>());
-            <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="ident">mapping</span>.<span class="ident">len</span>().<span class="ident">unwrap</span>());
-            <span class="macro">assert!</span>(<span class="ident">mapping</span>
-                .<span class="ident">get_item</span>(<span class="number">7i32</span>)
-                .<span class="ident">unwrap_err</span>()
-                .<span class="ident">is_instance_of</span>::<span class="op">&lt;</span><span class="ident">PyKeyError</span><span class="op">&gt;</span>(<span class="ident">py</span>));
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_del_item() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="macro">assert!</span>(mapping.del_item(<span class="number">7i32</span>).is_ok());
+            <span class="macro">assert_eq!</span>(<span class="number">0</span>, mapping.len().unwrap());
+            <span class="macro">assert!</span>(mapping
+                .get_item(<span class="number">7i32</span>)
+                .unwrap_err()
+                .is_instance_of::&lt;PyKeyError&gt;(py));
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_items</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">8</span>, <span class="number">42</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">9</span>, <span class="number">123</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">key_sum</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value_sum</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">items</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>().<span class="ident">unwrap</span>() {
-                <span class="kw">let</span> <span class="ident">tuple</span> <span class="op">=</span> <span class="ident">el</span>.<span class="ident">unwrap</span>().<span class="ident">cast_as</span>::<span class="op">&lt;</span><span class="ident">PyTuple</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-                <span class="ident">key_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">tuple</span>.<span class="ident">get_item</span>(<span class="number">0</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-                <span class="ident">value_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">tuple</span>.<span class="ident">get_item</span>(<span class="number">1</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_items() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            v.insert(<span class="number">8</span>, <span class="number">42</span>);
+            v.insert(<span class="number">9</span>, <span class="number">123</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>key_sum = <span class="number">0</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>value_sum = <span class="number">0</span>;
+            <span class="kw">for </span>el <span class="kw">in </span>mapping.items().unwrap().iter().unwrap() {
+                <span class="kw">let </span>tuple = el.unwrap().cast_as::&lt;PyTuple&gt;().unwrap();
+                key_sum += tuple.get_item(<span class="number">0</span>).unwrap().extract::&lt;i32&gt;().unwrap();
+                value_sum += tuple.get_item(<span class="number">1</span>).unwrap().extract::&lt;i32&gt;().unwrap();
             }
-            <span class="macro">assert_eq!</span>(<span class="number">7</span> <span class="op">+</span> <span class="number">8</span> <span class="op">+</span> <span class="number">9</span>, <span class="ident">key_sum</span>);
-            <span class="macro">assert_eq!</span>(<span class="number">32</span> <span class="op">+</span> <span class="number">42</span> <span class="op">+</span> <span class="number">123</span>, <span class="ident">value_sum</span>);
+            <span class="macro">assert_eq!</span>(<span class="number">7 </span>+ <span class="number">8 </span>+ <span class="number">9</span>, key_sum);
+            <span class="macro">assert_eq!</span>(<span class="number">32 </span>+ <span class="number">42 </span>+ <span class="number">123</span>, value_sum);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_keys</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">8</span>, <span class="number">42</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">9</span>, <span class="number">123</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">key_sum</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">keys</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>().<span class="ident">unwrap</span>() {
-                <span class="ident">key_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">el</span>.<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_keys() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            v.insert(<span class="number">8</span>, <span class="number">42</span>);
+            v.insert(<span class="number">9</span>, <span class="number">123</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>key_sum = <span class="number">0</span>;
+            <span class="kw">for </span>el <span class="kw">in </span>mapping.keys().unwrap().iter().unwrap() {
+                key_sum += el.unwrap().extract::&lt;i32&gt;().unwrap();
             }
-            <span class="macro">assert_eq!</span>(<span class="number">7</span> <span class="op">+</span> <span class="number">8</span> <span class="op">+</span> <span class="number">9</span>, <span class="ident">key_sum</span>);
+            <span class="macro">assert_eq!</span>(<span class="number">7 </span>+ <span class="number">8 </span>+ <span class="number">9</span>, key_sum);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_values</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">7</span>, <span class="number">32</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">8</span>, <span class="number">42</span>);
-            <span class="ident">v</span>.<span class="ident">insert</span>(<span class="number">9</span>, <span class="number">123</span>);
-            <span class="kw">let</span> <span class="ident">ob</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_object</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">PyMapping</span> <span class="kw">as</span> <span class="ident">PyTryFrom</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">ob</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>)).<span class="ident">unwrap</span>();
-            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values_sum</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">values</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>().<span class="ident">unwrap</span>() {
-                <span class="ident">values_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">el</span>.<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_values() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
+            v.insert(<span class="number">7</span>, <span class="number">32</span>);
+            v.insert(<span class="number">8</span>, <span class="number">42</span>);
+            v.insert(<span class="number">9</span>, <span class="number">123</span>);
+            <span class="kw">let </span>ob = v.to_object(py);
+            <span class="kw">let </span>mapping = &lt;PyMapping <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
+            <span class="comment">// Can&#39;t just compare against a vector of tuples since we don&#39;t have a guaranteed ordering.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>values_sum = <span class="number">0</span>;
+            <span class="kw">for </span>el <span class="kw">in </span>mapping.values().unwrap().iter().unwrap() {
+                values_sum += el.unwrap().extract::&lt;i32&gt;().unwrap();
             }
-            <span class="macro">assert_eq!</span>(<span class="number">32</span> <span class="op">+</span> <span class="number">42</span> <span class="op">+</span> <span class="number">123</span>, <span class="ident">values_sum</span>);
+            <span class="macro">assert_eq!</span>(<span class="number">32 </span>+ <span class="number">42 </span>+ <span class="number">123</span>, values_sum);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_as_ref</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">mapping</span>: <span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyMapping</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">PyDict::new</span>(<span class="ident">py</span>).<span class="ident">as_mapping</span>().<span class="ident">into</span>();
-            <span class="kw">let</span> <span class="ident">mapping_ref</span>: <span class="kw-2">&amp;</span><span class="ident">PyMapping</span> <span class="op">=</span> <span class="ident">mapping</span>.<span class="ident">as_ref</span>(<span class="ident">py</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">mapping_ref</span>.<span class="ident">len</span>().<span class="ident">unwrap</span>(), <span class="number">0</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_as_ref() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>mapping: Py&lt;PyMapping&gt; = PyDict::new(py).as_mapping().into();
+            <span class="kw">let </span>mapping_ref: <span class="kw-2">&amp;</span>PyMapping = mapping.as_ref(py);
+            <span class="macro">assert_eq!</span>(mapping_ref.len().unwrap(), <span class="number">0</span>);
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_into_ref</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">bare_mapping</span> <span class="op">=</span> <span class="ident">PyDict::new</span>(<span class="ident">py</span>).<span class="ident">as_mapping</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">bare_mapping</span>.<span class="ident">get_refcnt</span>(), <span class="number">1</span>);
-            <span class="kw">let</span> <span class="ident">mapping</span>: <span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyMapping</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">bare_mapping</span>.<span class="ident">into</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">bare_mapping</span>.<span class="ident">get_refcnt</span>(), <span class="number">2</span>);
-            <span class="kw">let</span> <span class="ident">mapping_ref</span> <span class="op">=</span> <span class="ident">mapping</span>.<span class="ident">into_ref</span>(<span class="ident">py</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">mapping_ref</span>.<span class="ident">len</span>().<span class="ident">unwrap</span>(), <span class="number">0</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">mapping_ref</span>.<span class="ident">get_refcnt</span>(), <span class="number">2</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_into_ref() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>bare_mapping = PyDict::new(py).as_mapping();
+            <span class="macro">assert_eq!</span>(bare_mapping.get_refcnt(), <span class="number">1</span>);
+            <span class="kw">let </span>mapping: Py&lt;PyMapping&gt; = bare_mapping.into();
+            <span class="macro">assert_eq!</span>(bare_mapping.get_refcnt(), <span class="number">2</span>);
+            <span class="kw">let </span>mapping_ref = mapping.into_ref(py);
+            <span class="macro">assert_eq!</span>(mapping_ref.len().unwrap(), <span class="number">0</span>);
+            <span class="macro">assert_eq!</span>(mapping_ref.get_refcnt(), <span class="number">2</span>);
         })
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

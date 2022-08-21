@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/abstract_.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>abstract_.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/abstract_.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>abstract_.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -332,334 +326,333 @@
 <span id="326">326</span>
 <span id="327">327</span>
 <span id="328">328</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">PyObject</span>, <span class="ident">Py_ssize_t</span>};
-<span class="kw">use</span> <span class="ident">std::os::raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>};
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{PyObject, Py_ssize_t};
+<span class="kw">use </span>std::os::raw::{c_char, c_int};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_11</span>))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Py_buffer</span>;
+<span class="attribute">#[cfg(not(Py_3_11))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::Py_buffer;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">pyport::PY_SSIZE_T_MAX</span>, <span class="ident">vectorcallfunc</span>, <span class="ident">PyCallable_Check</span>, <span class="ident">PyThreadState</span>, <span class="ident">PyThreadState_GET</span>,
-    <span class="ident">PyTuple_Check</span>, <span class="ident">PyType_HasFeature</span>, <span class="ident">Py_TPFLAGS_HAVE_VECTORCALL</span>,
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="kw">use crate</span>::{
+    pyport::PY_SSIZE_T_MAX, vectorcallfunc, PyCallable_Check, PyThreadState, PyThreadState_GET,
+    PyTuple_Check, PyType_HasFeature, Py_TPFLAGS_HAVE_VECTORCALL,
 };
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_8</span>)]</span>
-<span class="kw">use</span> <span class="ident">libc::size_t</span>;
+<span class="attribute">#[cfg(Py_3_8)]</span>
+<span class="kw">use </span>libc::size_t;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PyStack_AsDict</span>(<span class="ident">values</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+    <span class="kw">pub fn </span>_PyStack_AsDict(values: <span class="kw-2">*const *mut </span>PyObject, kwnames: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="kw">const</span> <span class="ident">_PY_FASTCALL_SMALL_STACK</span>: <span class="ident">size_t</span> <span class="op">=</span> <span class="number">5</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="kw">const </span>_PY_FASTCALL_SMALL_STACK: size_t = <span class="number">5</span>;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_Py_CheckFunctionResult</span>(
-        <span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>,
-        <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">result</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">where_</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+    <span class="kw">pub fn </span>_Py_CheckFunctionResult(
+        tstate: <span class="kw-2">*mut </span>PyThreadState,
+        callable: <span class="kw-2">*mut </span>PyObject,
+        result: <span class="kw-2">*mut </span>PyObject,
+        where_: <span class="kw-2">*const </span>c_char,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PyObject_MakeTpCall</span>(
-        <span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>,
-        <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">nargs</span>: <span class="ident">Py_ssize_t</span>,
-        <span class="ident">keywords</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+    <span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+    <span class="kw">pub fn </span>_PyObject_MakeTpCall(
+        tstate: <span class="kw-2">*mut </span>PyThreadState,
+        callable: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*const *mut </span>PyObject,
+        nargs: Py_ssize_t,
+        keywords: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="kw">const</span> <span class="ident">PY_VECTORCALL_ARGUMENTS_OFFSET</span>: <span class="ident">Py_ssize_t</span> <span class="op">=</span>
-    <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="number">8</span> <span class="op">*</span> <span class="ident">std::mem::size_of</span>::<span class="op">&lt;</span><span class="ident">Py_ssize_t</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">Py_ssize_t</span> <span class="op">-</span> <span class="number">1</span>);
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="kw">const </span>PY_VECTORCALL_ARGUMENTS_OFFSET: Py_ssize_t =
+    <span class="number">1 </span>&lt;&lt; (<span class="number">8 </span>* std::mem::size_of::&lt;Py_ssize_t&gt;() <span class="kw">as </span>Py_ssize_t - <span class="number">1</span>);
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyVectorcall_NARGS</span>(<span class="ident">n</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">Py_ssize_t</span> {
-    <span class="macro">assert!</span>(<span class="ident">n</span> <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">PY_SSIZE_T_MAX</span> <span class="kw">as</span> <span class="ident">size_t</span>));
-    (<span class="ident">n</span> <span class="kw">as</span> <span class="ident">Py_ssize_t</span>) <span class="op">&amp;</span> <span class="op">!</span><span class="ident">PY_VECTORCALL_ARGUMENTS_OFFSET</span>
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyVectorcall_NARGS(n: size_t) -&gt; Py_ssize_t {
+    <span class="macro">assert!</span>(n &lt;= (PY_SSIZE_T_MAX <span class="kw">as </span>size_t));
+    (n <span class="kw">as </span>Py_ssize_t) &amp; !PY_VECTORCALL_ARGUMENTS_OFFSET
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyVectorcall_Function</span>(<span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vectorcallfunc</span><span class="op">&gt;</span> {
-    <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">callable</span>.<span class="ident">is_null</span>());
-    <span class="kw">let</span> <span class="ident">tp</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::Py_TYPE</span>(<span class="ident">callable</span>);
-    <span class="kw">if</span> <span class="ident">PyType_HasFeature</span>(<span class="ident">tp</span>, <span class="ident">Py_TPFLAGS_HAVE_VECTORCALL</span>) <span class="op">==</span> <span class="number">0</span> {
-        <span class="kw">return</span> <span class="prelude-val">None</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyVectorcall_Function(callable: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;vectorcallfunc&gt; {
+    <span class="macro">assert!</span>(!callable.is_null());
+    <span class="kw">let </span>tp = <span class="kw">crate</span>::Py_TYPE(callable);
+    <span class="kw">if </span>PyType_HasFeature(tp, Py_TPFLAGS_HAVE_VECTORCALL) == <span class="number">0 </span>{
+        <span class="kw">return </span><span class="prelude-val">None</span>;
     }
-    <span class="macro">assert!</span>(<span class="ident">PyCallable_Check</span>(<span class="ident">callable</span>) <span class="op">&gt;</span> <span class="number">0</span>);
-    <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">tp</span>).<span class="ident">tp_vectorcall_offset</span>;
-    <span class="macro">assert!</span>(<span class="ident">offset</span> <span class="op">&gt;</span> <span class="number">0</span>);
-    <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> (<span class="ident">callable</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">c_char</span>).<span class="ident">offset</span>(<span class="ident">offset</span>) <span class="kw">as</span> <span class="kw-2">*const</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vectorcallfunc</span><span class="op">&gt;</span>;
-    <span class="kw-2">*</span><span class="ident">ptr</span>
+    <span class="macro">assert!</span>(PyCallable_Check(callable) &gt; <span class="number">0</span>);
+    <span class="kw">let </span>offset = (<span class="kw-2">*</span>tp).tp_vectorcall_offset;
+    <span class="macro">assert!</span>(offset &gt; <span class="number">0</span>);
+    <span class="kw">let </span>ptr = (callable <span class="kw">as </span><span class="kw-2">*const </span>c_char).offset(offset) <span class="kw">as </span><span class="kw-2">*const </span><span class="prelude-ty">Option</span>&lt;vectorcallfunc&gt;;
+    <span class="kw-2">*</span>ptr
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_PyObject_VectorcallTstate</span>(
-    <span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>,
-    <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargsf</span>: <span class="ident">size_t</span>,
-    <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="macro">assert!</span>(<span class="ident">kwnames</span>.<span class="ident">is_null</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">PyTuple_Check</span>(<span class="ident">kwnames</span>) <span class="op">&gt;</span> <span class="number">0</span>);
-    <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">args</span>.<span class="ident">is_null</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">PyVectorcall_NARGS</span>(<span class="ident">nargsf</span>) <span class="op">==</span> <span class="number">0</span>);
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>_PyObject_VectorcallTstate(
+    tstate: <span class="kw-2">*mut </span>PyThreadState,
+    callable: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargsf: size_t,
+    kwnames: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    <span class="macro">assert!</span>(kwnames.is_null() || PyTuple_Check(kwnames) &gt; <span class="number">0</span>);
+    <span class="macro">assert!</span>(!args.is_null() || PyVectorcall_NARGS(nargsf) == <span class="number">0</span>);
 
-    <span class="kw">match</span> <span class="ident">PyVectorcall_Function</span>(<span class="ident">callable</span>) {
-        <span class="prelude-val">None</span> =&gt; {
-            <span class="kw">let</span> <span class="ident">nargs</span> <span class="op">=</span> <span class="ident">PyVectorcall_NARGS</span>(<span class="ident">nargsf</span>);
-            <span class="ident">_PyObject_MakeTpCall</span>(<span class="ident">tstate</span>, <span class="ident">callable</span>, <span class="ident">args</span>, <span class="ident">nargs</span>, <span class="ident">kwnames</span>)
+    <span class="kw">match </span>PyVectorcall_Function(callable) {
+        <span class="prelude-val">None </span>=&gt; {
+            <span class="kw">let </span>nargs = PyVectorcall_NARGS(nargsf);
+            _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames)
         }
-        <span class="prelude-val">Some</span>(<span class="ident">func</span>) =&gt; {
-            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">func</span>(<span class="ident">callable</span>, <span class="ident">args</span>, <span class="ident">nargsf</span>, <span class="ident">kwnames</span>);
-            <span class="ident">_Py_CheckFunctionResult</span>(<span class="ident">tstate</span>, <span class="ident">callable</span>, <span class="ident">res</span>, <span class="ident">std::ptr::null_mut</span>())
+        <span class="prelude-val">Some</span>(func) =&gt; {
+            <span class="kw">let </span>res = func(callable, args, nargsf, kwnames);
+            _Py_CheckFunctionResult(tstate, callable, res, std::ptr::null_mut())
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyObject_Vectorcall</span>(
-    <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargsf</span>: <span class="ident">size_t</span>,
-    <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">_PyObject_VectorcallTstate</span>(<span class="ident">PyThreadState_GET</span>(), <span class="ident">callable</span>, <span class="ident">args</span>, <span class="ident">nargsf</span>, <span class="ident">kwnames</span>)
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyObject_Vectorcall(
+    callable: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargsf: size_t,
+    kwnames: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    _PyObject_VectorcallTstate(PyThreadState_GET(), callable, args, nargsf, kwnames)
 }
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_8</span>))]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;_PyPyObject_Vectorcall&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_Vectorcall</span>(
-        <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">nargsf</span>: <span class="ident">size_t</span>,
-        <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(all(PyPy, Py_3_8))]</span>
+    <span class="attribute">#[cfg_attr(not(Py_3_9), link_name = <span class="string">&quot;_PyPyObject_Vectorcall&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyObject_Vectorcall(
+        callable: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*const *mut </span>PyObject,
+        nargsf: size_t,
+        kwnames: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>))]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>), <span class="ident">not</span>(<span class="ident">Py_3_9</span>)), <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;_PyObject_VectorcallDict&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">PyPy</span>, <span class="ident">not</span>(<span class="ident">Py_3_9</span>)), <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;_PyPyObject_VectorcallDict&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">all</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_9</span>), <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyObject_VectorcallDict&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_VectorcallDict</span>(
-        <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">nargsf</span>: <span class="ident">size_t</span>,
-        <span class="ident">kwdict</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+    <span class="attribute">#[cfg(all(Py_3_8))]</span>
+    <span class="attribute">#[cfg_attr(all(not(PyPy), not(Py_3_9)), link_name = <span class="string">&quot;_PyObject_VectorcallDict&quot;</span>)]</span>
+    <span class="attribute">#[cfg_attr(all(PyPy, not(Py_3_9)), link_name = <span class="string">&quot;_PyPyObject_VectorcallDict&quot;</span>)]</span>
+    <span class="attribute">#[cfg_attr(all(PyPy, Py_3_9), link_name = <span class="string">&quot;PyPyObject_VectorcallDict&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyObject_VectorcallDict(
+        callable: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*const *mut </span>PyObject,
+        nargsf: size_t,
+        kwdict: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>))]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">Py_3_9</span>, <span class="ident">PyPy</span>)), <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;_PyVectorcall_Call&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyVectorcall_Call&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyVectorcall_Call</span>(
-        <span class="ident">callable</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">tuple</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">dict</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+    <span class="attribute">#[cfg(all(Py_3_8))]</span>
+    <span class="attribute">#[cfg_attr(not(any(Py_3_9, PyPy)), link_name = <span class="string">&quot;_PyVectorcall_Call&quot;</span>)]</span>
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyVectorcall_Call&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyVectorcall_Call(
+        callable: <span class="kw-2">*mut </span>PyObject,
+        tuple: <span class="kw-2">*mut </span>PyObject,
+        dict: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_PyObject_FastCallTstate</span>(
-    <span class="ident">tstate</span>: <span class="kw-2">*mut</span> <span class="ident">PyThreadState</span>,
-    <span class="ident">func</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargs</span>: <span class="ident">Py_ssize_t</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">_PyObject_VectorcallTstate</span>(<span class="ident">tstate</span>, <span class="ident">func</span>, <span class="ident">args</span>, <span class="ident">nargs</span> <span class="kw">as</span> <span class="ident">size_t</span>, <span class="ident">std::ptr::null_mut</span>())
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>_PyObject_FastCallTstate(
+    tstate: <span class="kw-2">*mut </span>PyThreadState,
+    func: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargs: Py_ssize_t,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    _PyObject_VectorcallTstate(tstate, func, args, nargs <span class="kw">as </span>size_t, std::ptr::null_mut())
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_PyObject_FastCall</span>(
-    <span class="ident">func</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargs</span>: <span class="ident">Py_ssize_t</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">_PyObject_FastCallTstate</span>(<span class="ident">PyThreadState_GET</span>(), <span class="ident">func</span>, <span class="ident">args</span>, <span class="ident">nargs</span>)
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>_PyObject_FastCall(
+    func: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargs: Py_ssize_t,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    _PyObject_FastCallTstate(PyThreadState_GET(), func, args, nargs)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_PyObject_CallNoArg</span>(<span class="ident">func</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">_PyObject_VectorcallTstate</span>(
-        <span class="ident">PyThreadState_GET</span>(),
-        <span class="ident">func</span>,
-        <span class="ident">std::ptr::null_mut</span>(),
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>_PyObject_CallNoArg(func: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+    _PyObject_VectorcallTstate(
+        PyThreadState_GET(),
+        func,
+        std::ptr::null_mut(),
         <span class="number">0</span>,
-        <span class="ident">std::ptr::null_mut</span>(),
+        std::ptr::null_mut(),
     )
 }
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">PyPy</span>)]</span>
-    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;_PyPyObject_CallNoArg&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PyObject_CallNoArg</span>(<span class="ident">func</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(PyPy)]</span>
+    <span class="attribute">#[link_name = <span class="string">&quot;_PyPyObject_CallNoArg&quot;</span>]</span>
+    <span class="kw">pub fn </span>_PyObject_CallNoArg(func: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyObject_CallOneArg</span>(<span class="ident">func</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">arg</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">arg</span>.<span class="ident">is_null</span>());
-    <span class="kw">let</span> <span class="ident">_args</span> <span class="op">=</span> [<span class="ident">std::ptr::null_mut</span>(), <span class="ident">arg</span>];
-    <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">_args</span>.<span class="ident">as_ptr</span>().<span class="ident">offset</span>(<span class="number">1</span>); <span class="comment">// For PY_VECTORCALL_ARGUMENTS_OFFSET</span>
-    <span class="kw">let</span> <span class="ident">tstate</span> <span class="op">=</span> <span class="ident">PyThreadState_GET</span>();
-    <span class="kw">let</span> <span class="ident">nargsf</span> <span class="op">=</span> <span class="number">1</span> <span class="op">|</span> <span class="ident">PY_VECTORCALL_ARGUMENTS_OFFSET</span>;
-    <span class="ident">_PyObject_VectorcallTstate</span>(<span class="ident">tstate</span>, <span class="ident">func</span>, <span class="ident">args</span>, <span class="ident">nargsf</span> <span class="kw">as</span> <span class="ident">size_t</span>, <span class="ident">std::ptr::null_mut</span>())
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyObject_CallOneArg(func: <span class="kw-2">*mut </span>PyObject, arg: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+    <span class="macro">assert!</span>(!arg.is_null());
+    <span class="kw">let </span>_args = [std::ptr::null_mut(), arg];
+    <span class="kw">let </span>args = _args.as_ptr().offset(<span class="number">1</span>); <span class="comment">// For PY_VECTORCALL_ARGUMENTS_OFFSET
+    </span><span class="kw">let </span>tstate = PyThreadState_GET();
+    <span class="kw">let </span>nargsf = <span class="number">1 </span>| PY_VECTORCALL_ARGUMENTS_OFFSET;
+    _PyObject_VectorcallTstate(tstate, func, args, nargsf <span class="kw">as </span>size_t, std::ptr::null_mut())
 }
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_VectorcallMethod</span>(
-        <span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">nargsf</span>: <span class="ident">size_t</span>,
-        <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
+    <span class="kw">pub fn </span>PyObject_VectorcallMethod(
+        name: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*const *mut </span>PyObject,
+        nargsf: size_t,
+        kwnames: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyObject_CallMethodNoArgs</span>(
-    <span class="ident">self_</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">PyObject_VectorcallMethod</span>(
-        <span class="ident">name</span>,
-        <span class="kw-2">&amp;</span><span class="ident">self_</span>,
-        <span class="number">1</span> <span class="op">|</span> <span class="ident">PY_VECTORCALL_ARGUMENTS_OFFSET</span> <span class="kw">as</span> <span class="ident">size_t</span>,
-        <span class="ident">std::ptr::null_mut</span>(),
+<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyObject_CallMethodNoArgs(
+    self_: <span class="kw-2">*mut </span>PyObject,
+    name: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    PyObject_VectorcallMethod(
+        name,
+        <span class="kw-2">&amp;</span>self_,
+        <span class="number">1 </span>| PY_VECTORCALL_ARGUMENTS_OFFSET <span class="kw">as </span>size_t,
+        std::ptr::null_mut(),
     )
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyObject_CallMethodOneArg</span>(
-    <span class="ident">self_</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">arg</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> [<span class="ident">self_</span>, <span class="ident">arg</span>];
-    <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">arg</span>.<span class="ident">is_null</span>());
-    <span class="ident">PyObject_VectorcallMethod</span>(
-        <span class="ident">name</span>,
-        <span class="ident">args</span>.<span class="ident">as_ptr</span>(),
-        <span class="number">2</span> <span class="op">|</span> <span class="ident">PY_VECTORCALL_ARGUMENTS_OFFSET</span> <span class="kw">as</span> <span class="ident">size_t</span>,
-        <span class="ident">std::ptr::null_mut</span>(),
+<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
+<span class="attribute">#[inline(always)]</span>
+<span class="kw">pub unsafe fn </span>PyObject_CallMethodOneArg(
+    self_: <span class="kw-2">*mut </span>PyObject,
+    name: <span class="kw-2">*mut </span>PyObject,
+    arg: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    <span class="kw">let </span>args = [self_, arg];
+    <span class="macro">assert!</span>(!arg.is_null());
+    PyObject_VectorcallMethod(
+        name,
+        args.as_ptr(),
+        <span class="number">2 </span>| PY_VECTORCALL_ARGUMENTS_OFFSET <span class="kw">as </span>size_t,
+        std::ptr::null_mut(),
     )
 }
 
-<span class="comment">// skipped _PyObject_VectorcallMethodId</span>
-<span class="comment">// skipped _PyObject_CallMethodIdNoArgs</span>
-<span class="comment">// skipped _PyObject_CallMethodIdOneArg</span>
+<span class="comment">// skipped _PyObject_VectorcallMethodId
+// skipped _PyObject_CallMethodIdNoArgs
+// skipped _PyObject_CallMethodIdOneArg
 
-<span class="comment">// skipped _PyObject_HasLen</span>
+// skipped _PyObject_HasLen
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyObject_LengthHint&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_LengthHint</span>(<span class="ident">o</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">arg1</span>: <span class="ident">Py_ssize_t</span>) -&gt; <span class="ident">Py_ssize_t</span>;
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_LengthHint&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyObject_LengthHint(o: <span class="kw-2">*mut </span>PyObject, arg1: Py_ssize_t) -&gt; Py_ssize_t;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_11</span>))]</span> <span class="comment">// moved to src/buffer.rs from 3.11</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">PyPy</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_CheckBuffer</span>(<span class="ident">obj</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span>;
+    <span class="attribute">#[cfg(not(Py_3_11))]</span> <span class="comment">// moved to src/buffer.rs from 3.11
+    </span><span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
+    <span class="kw">pub fn </span>PyObject_CheckBuffer(obj: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">Py_3_9</span>, <span class="ident">PyPy</span>)))]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyObject_CheckBuffer</span>(<span class="ident">o</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span> {
-    <span class="kw">let</span> <span class="ident">tp_as_buffer</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident"><span class="kw">crate</span>::Py_TYPE</span>(<span class="ident">o</span>)).<span class="ident">tp_as_buffer</span>;
-    (<span class="op">!</span><span class="ident">tp_as_buffer</span>.<span class="ident">is_null</span>() <span class="op">&amp;&amp;</span> (<span class="kw-2">*</span><span class="ident">tp_as_buffer</span>).<span class="ident">bf_getbuffer</span>.<span class="ident">is_some</span>()) <span class="kw">as</span> <span class="ident">c_int</span>
+<span class="attribute">#[cfg(not(any(Py_3_9, PyPy)))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyObject_CheckBuffer(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+    <span class="kw">let </span>tp_as_buffer = (<span class="kw-2">*</span><span class="kw">crate</span>::Py_TYPE(o)).tp_as_buffer;
+    (!tp_as_buffer.is_null() &amp;&amp; (<span class="kw-2">*</span>tp_as_buffer).bf_getbuffer.is_some()) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_11</span>))]</span> <span class="comment">// moved to src/buffer.rs from 3.11</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyObject_GetBuffer&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_GetBuffer</span>(<span class="ident">obj</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>, <span class="ident">flags</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">c_int</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_GetPointer&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_GetPointer</span>(
-        <span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>,
-        <span class="ident">indices</span>: <span class="kw-2">*mut</span> <span class="ident">Py_ssize_t</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">std::os::raw::c_void</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_SizeFromFormat&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_SizeFromFormat</span>(<span class="ident">format</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="ident">Py_ssize_t</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_ToContiguous&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_ToContiguous</span>(
-        <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">std::os::raw::c_void</span>,
-        <span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>,
-        <span class="ident">len</span>: <span class="ident">Py_ssize_t</span>,
-        <span class="ident">order</span>: <span class="ident">c_char</span>,
-    ) -&gt; <span class="ident">c_int</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_FromContiguous&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_FromContiguous</span>(
-        <span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>,
-        <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">std::os::raw::c_void</span>,
-        <span class="ident">len</span>: <span class="ident">Py_ssize_t</span>,
-        <span class="ident">order</span>: <span class="ident">c_char</span>,
-    ) -&gt; <span class="ident">c_int</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyObject_CopyData</span>(<span class="ident">dest</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">src</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_IsContiguous&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_IsContiguous</span>(<span class="ident">view</span>: <span class="kw-2">*const</span> <span class="ident">Py_buffer</span>, <span class="ident">fort</span>: <span class="ident">c_char</span>) -&gt; <span class="ident">c_int</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_FillContiguousStrides</span>(
-        <span class="ident">ndims</span>: <span class="ident">c_int</span>,
-        <span class="ident">shape</span>: <span class="kw-2">*mut</span> <span class="ident">Py_ssize_t</span>,
-        <span class="ident">strides</span>: <span class="kw-2">*mut</span> <span class="ident">Py_ssize_t</span>,
-        <span class="ident">itemsize</span>: <span class="ident">c_int</span>,
-        <span class="ident">fort</span>: <span class="ident">c_char</span>,
+<span class="attribute">#[cfg(not(Py_3_11))]</span> <span class="comment">// moved to src/buffer.rs from 3.11
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetBuffer&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyObject_GetBuffer(obj: <span class="kw-2">*mut </span>PyObject, view: <span class="kw-2">*mut </span>Py_buffer, flags: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_GetPointer&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_GetPointer(
+        view: <span class="kw-2">*mut </span>Py_buffer,
+        indices: <span class="kw-2">*mut </span>Py_ssize_t,
+    ) -&gt; <span class="kw-2">*mut </span>std::os::raw::c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_SizeFromFormat&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_SizeFromFormat(format: <span class="kw-2">*const </span>c_char) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_ToContiguous&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_ToContiguous(
+        buf: <span class="kw-2">*mut </span>std::os::raw::c_void,
+        view: <span class="kw-2">*mut </span>Py_buffer,
+        len: Py_ssize_t,
+        order: c_char,
+    ) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_FromContiguous&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_FromContiguous(
+        view: <span class="kw-2">*mut </span>Py_buffer,
+        buf: <span class="kw-2">*mut </span>std::os::raw::c_void,
+        len: Py_ssize_t,
+        order: c_char,
+    ) -&gt; c_int;
+    <span class="kw">pub fn </span>PyObject_CopyData(dest: <span class="kw-2">*mut </span>PyObject, src: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_IsContiguous&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_IsContiguous(view: <span class="kw-2">*const </span>Py_buffer, fort: c_char) -&gt; c_int;
+    <span class="kw">pub fn </span>PyBuffer_FillContiguousStrides(
+        ndims: c_int,
+        shape: <span class="kw-2">*mut </span>Py_ssize_t,
+        strides: <span class="kw-2">*mut </span>Py_ssize_t,
+        itemsize: c_int,
+        fort: c_char,
     );
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_FillInfo&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_FillInfo</span>(
-        <span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>,
-        <span class="ident">o</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">std::os::raw::c_void</span>,
-        <span class="ident">len</span>: <span class="ident">Py_ssize_t</span>,
-        <span class="ident">readonly</span>: <span class="ident">c_int</span>,
-        <span class="ident">flags</span>: <span class="ident">c_int</span>,
-    ) -&gt; <span class="ident">c_int</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyBuffer_Release&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyBuffer_Release</span>(<span class="ident">view</span>: <span class="kw-2">*mut</span> <span class="ident">Py_buffer</span>);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_FillInfo&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_FillInfo(
+        view: <span class="kw-2">*mut </span>Py_buffer,
+        o: <span class="kw-2">*mut </span>PyObject,
+        buf: <span class="kw-2">*mut </span>std::os::raw::c_void,
+        len: Py_ssize_t,
+        readonly: c_int,
+        flags: c_int,
+    ) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBuffer_Release&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyBuffer_Release(view: <span class="kw-2">*mut </span>Py_buffer);
 }
 
-<span class="comment">// PyIter_Check defined in ffi/abstract_.rs</span>
-<span class="comment">// PyIndex_Check defined in ffi/abstract_.rs</span>
-<span class="comment">// Not defined here because this file is not compiled under the</span>
-<span class="comment">// limited API, but the macros need to be defined for 3.6, 3.7 which</span>
-<span class="comment">// predate the limited API changes.</span>
+<span class="comment">// PyIter_Check defined in ffi/abstract_.rs
+// PyIndex_Check defined in ffi/abstract_.rs
+// Not defined here because this file is not compiled under the
+// limited API, but the macros need to be defined for 3.6, 3.7 which
+// predate the limited API changes.
 
-<span class="comment">// skipped PySequence_ITEM</span>
+// skipped PySequence_ITEM
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PY_ITERSEARCH_COUNT</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">1</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PY_ITERSEARCH_INDEX</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">2</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PY_ITERSEARCH_CONTAINS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">3</span>;
+</span><span class="kw">pub const </span>PY_ITERSEARCH_COUNT: c_int = <span class="number">1</span>;
+<span class="kw">pub const </span>PY_ITERSEARCH_INDEX: c_int = <span class="number">2</span>;
+<span class="kw">pub const </span>PY_ITERSEARCH_CONTAINS: c_int = <span class="number">3</span>;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">_PySequence_IterSearch</span>(
-        <span class="ident">seq</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">obj</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">operation</span>: <span class="ident">c_int</span>,
-    ) -&gt; <span class="ident">Py_ssize_t</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(PyPy))]</span>
+    <span class="kw">pub fn </span>_PySequence_IterSearch(
+        seq: <span class="kw-2">*mut </span>PyObject,
+        obj: <span class="kw-2">*mut </span>PyObject,
+        operation: c_int,
+    ) -&gt; Py_ssize_t;
 }
 
-<span class="comment">// skipped _PyObject_RealIsInstance</span>
-<span class="comment">// skipped _PyObject_RealIsSubclass</span>
+<span class="comment">// skipped _PyObject_RealIsInstance
+// skipped _PyObject_RealIsSubclass
 
-<span class="comment">// skipped _PySequence_BytesToCharpArray</span>
+// skipped _PySequence_BytesToCharpArray
 
-<span class="comment">// skipped _Py_FreeCharPArray</span>
+// skipped _Py_FreeCharPArray
 
-<span class="comment">// skipped _Py_add_one_to_index_F</span>
-<span class="comment">// skipped _Py_add_one_to_index_C</span>
+// skipped _Py_add_one_to_index_F
+// skipped _Py_add_one_to_index_C
 
-<span class="comment">// skipped _Py_convert_optional_to_ssize_t</span>
+// skipped _Py_convert_optional_to_ssize_t
 
-<span class="comment">// skipped _PyNumber_Index(*mut PyObject o)</span>
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+// skipped _PyNumber_Index(*mut PyObject o)
+</span></code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

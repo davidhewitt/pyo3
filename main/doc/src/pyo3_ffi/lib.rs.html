@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -442,452 +436,443 @@
 <span id="436">436</span>
 <span id="437">437</span>
 <span id="438">438</span>
-<span id="439">439</span>
-<span id="440">440</span>
-<span id="441">441</span>
-<span id="442">442</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Raw FFI declarations for Python&#39;s C API.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! PyO3 can be used to write native Python modules or run Python code and modules from Rust.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate just provides low level bindings to the Python interpreter.</span>
-<span class="doccomment">//! It is meant for advanced users only - regular PyO3 users shouldn&#39;t</span>
-<span class="doccomment">//! need to interact with this crate at all.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The contents of this crate are not documented here, as it would entail</span>
-<span class="doccomment">//! basically copying the documentation from CPython. Consult the [Python/C API Reference</span>
-<span class="doccomment">//! Manual][capi] for up-to-date documentation.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Safety</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The functions in this crate lack individual safety documentation, but</span>
-<span class="doccomment">//! generally the following apply:</span>
-<span class="doccomment">//! - Pointer arguments have to point to a valid Python object of the correct type,</span>
-<span class="doccomment">//! although null pointers are sometimes valid input.</span>
-<span class="doccomment">//! - The vast majority can only be used safely while the GIL is held.</span>
-<span class="doccomment">//! - Some functions have additional safety requirements, consult the</span>
-<span class="doccomment">//! [Python/C API Reference Manual][capi]</span>
-<span class="doccomment">//! for more information.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Feature flags</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! PyO3 uses [feature flags] to enable you to opt-in to additional functionality. For a detailed</span>
-<span class="doccomment">//! description, see the [Features chapter of the guide].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Optional feature flags</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The following features customize PyO3&#39;s behavior:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - `abi3`: Restricts PyO3&#39;s API to a subset of the full Python API which is guaranteed by</span>
-<span class="doccomment">//! [PEP 384] to be forward-compatible with future Python versions.</span>
-<span class="doccomment">//! - `extension-module`: This will tell the linker to keep the Python symbols unresolved, so that</span>
-<span class="doccomment">//! your module can also be used with statically linked Python interpreters. Use this feature when</span>
-<span class="doccomment">//! building an extension module.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## `rustc` environment flags</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! PyO3 uses `rustc`&#39;s `--cfg` flags to enable or disable code used for different Python versions.</span>
-<span class="doccomment">//! If you want to do this for your own crate, you can do so with the [`pyo3-build-config`] crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - `Py_3_7`, `Py_3_8`, `Py_3_9`, `Py_3_10`: Marks code that is only enabled when</span>
-<span class="doccomment">//!  compiling for a given minimum Python version.</span>
-<span class="doccomment">//! - `Py_LIMITED_API`: Marks code enabled when the `abi3` feature flag is enabled.</span>
-<span class="doccomment">//! - `PyPy` - Marks code enabled when compiling for PyPy.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Minimum supported Rust and Python versions</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! PyO3 supports the following software versions:</span>
-<span class="doccomment">//!   - Python 3.7 and up (CPython and PyPy)</span>
-<span class="doccomment">//!   - Rust 1.48 and up</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Example: Building Python Native modules</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! PyO3 can be used to generate a native Python module. The easiest way to try this out for the</span>
-<span class="doccomment">//! first time is to use [`maturin`]. `maturin` is a tool for building and publishing Rust-based</span>
-<span class="doccomment">//! Python packages with minimal configuration. The following steps set up some files for an example</span>
-<span class="doccomment">//! Python module, install `maturin`, and then show how to build and import the Python module.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! First, create a new folder (let&#39;s call it `string_sum`) containing the following two files:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! **`Cargo.toml`**</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```toml</span>
-<span class="doccomment">//! [lib]</span>
-<span class="doccomment">//! name = &quot;string_sum&quot;</span>
-<span class="doccomment">//! # &quot;cdylib&quot; is necessary to produce a shared library for Python to import from.</span>
-<span class="doccomment">//! #</span>
-<span class="doccomment">//! # Downstream Rust code (including code in `bin/`, `examples/`, and `tests/`) will not be able</span>
-<span class="doccomment">//! # to `use string_sum;` unless the &quot;rlib&quot; or &quot;lib&quot; crate type is also included, e.g.:</span>
-<span class="doccomment">//! # crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]</span>
-<span class="doccomment">//! crate-type = [&quot;cdylib&quot;]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [dependencies.pyo3-ffi]</span>
-<span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">docsrs</span>), <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]</span>
-<span class="doccomment">//! features = [&quot;extension-module&quot;]</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! **`src/lib.rs`**</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use std::os::raw::c_char;</span>
-<span class="doccomment">//! use std::ptr;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! use pyo3_ffi::*;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! #[allow(non_snake_case)]</span>
-<span class="doccomment">//! #[no_mangle]</span>
-<span class="doccomment">//! pub unsafe extern &quot;C&quot; fn PyInit_string_sum() -&gt; *mut PyObject {</span>
-<span class="doccomment">//!     let init = PyModuleDef {</span>
-<span class="doccomment">//!         m_base: PyModuleDef_HEAD_INIT,</span>
-<span class="doccomment">//!         m_name: &quot;string_sum\0&quot;.as_ptr() as *const c_char,</span>
-<span class="doccomment">//!         m_doc: std::ptr::null(),</span>
-<span class="doccomment">//!         m_size: 0,</span>
-<span class="doccomment">//!         m_methods: std::ptr::null_mut(),</span>
-<span class="doccomment">//!         m_slots: std::ptr::null_mut(),</span>
-<span class="doccomment">//!         m_traverse: None,</span>
-<span class="doccomment">//!         m_clear: None,</span>
-<span class="doccomment">//!         m_free: None,</span>
-<span class="doccomment">//!     };</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let mptr = PyModule_Create(Box::into_raw(Box::new(init)));</span>
-<span class="doccomment">//!     let version = env!(&quot;CARGO_PKG_VERSION&quot;);</span>
-<span class="doccomment">//!     PyModule_AddObject(</span>
-<span class="doccomment">//!         mptr,</span>
-<span class="doccomment">//!         &quot;__version__\0&quot;.as_ptr() as *const c_char,</span>
-<span class="doccomment">//!         PyUnicode_FromStringAndSize(version.as_ptr() as *const c_char, version.len() as isize),</span>
-<span class="doccomment">//!     );</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let wrapped_sum_as_string = PyMethodDef {</span>
-<span class="doccomment">//!         ml_name: &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,</span>
-<span class="doccomment">//!         ml_meth: PyMethodDefPointer {</span>
-<span class="doccomment">//!             _PyCFunctionFast: sum_as_string</span>
-<span class="doccomment">//!         },</span>
-<span class="doccomment">//!         ml_flags: METH_FASTCALL,</span>
-<span class="doccomment">//!         ml_doc: &quot;returns the sum of two integers as a string\0&quot;.as_ptr() as *const c_char,</span>
-<span class="doccomment">//!     };</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // PyModule_AddObject can technically fail.</span>
-<span class="doccomment">//!     // For more involved applications error checking may be necessary</span>
-<span class="doccomment">//!     PyModule_AddObject(</span>
-<span class="doccomment">//!         mptr,</span>
-<span class="doccomment">//!         &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,</span>
-<span class="doccomment">//!         PyCFunction_NewEx(</span>
-<span class="doccomment">//!             Box::into_raw(Box::new(wrapped_sum_as_string)),</span>
-<span class="doccomment">//!             std::ptr::null_mut(),</span>
-<span class="doccomment">//!             PyUnicode_InternFromString(&quot;string_sum\0&quot;.as_ptr() as *const c_char),</span>
-<span class="doccomment">//!         ),</span>
-<span class="doccomment">//!     );</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let all = [&quot;__all__\0&quot;, &quot;__version__\0&quot;, &quot;sum_as_string\0&quot;];</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let pyall = PyTuple_New(all.len() as isize);</span>
-<span class="doccomment">//!     for (i, obj) in all.iter().enumerate() {</span>
-<span class="doccomment">//!         PyTuple_SET_ITEM(</span>
-<span class="doccomment">//!             pyall,</span>
-<span class="doccomment">//!             i as isize,</span>
-<span class="doccomment">//!             PyUnicode_InternFromString(obj.as_ptr() as *const c_char),</span>
-<span class="doccomment">//!         )</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     PyModule_AddObject(mptr, &quot;__all__\0&quot;.as_ptr() as *const c_char, pyall);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     mptr</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! pub unsafe extern &quot;C&quot; fn sum_as_string(</span>
-<span class="doccomment">//!     _self: *mut PyObject,</span>
-<span class="doccomment">//!     args: *mut *mut PyObject,</span>
-<span class="doccomment">//!     nargs: Py_ssize_t,</span>
-<span class="doccomment">//! ) -&gt; *mut PyObject {</span>
-<span class="doccomment">//!     if nargs != 2 {</span>
-<span class="doccomment">//!         return raise_type_error(&quot;sum_as_string() expected 2 positional arguments&quot;);</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let arg1 = *args;</span>
-<span class="doccomment">//!     if PyLong_Check(arg1) == 0 {</span>
-<span class="doccomment">//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 1&quot;);</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let arg1 = PyLong_AsLong(arg1);</span>
-<span class="doccomment">//!     if !PyErr_Occurred().is_null() {</span>
-<span class="doccomment">//!         return ptr::null_mut()</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let arg2 = *args.add(1);</span>
-<span class="doccomment">//!     if PyLong_Check(arg2) == 0 {</span>
-<span class="doccomment">//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 2&quot;);</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let arg2 = PyLong_AsLong(arg2);</span>
-<span class="doccomment">//!     if !PyErr_Occurred().is_null() {</span>
-<span class="doccomment">//!         return ptr::null_mut()</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!     let res = (arg1 + arg2).to_string();</span>
-<span class="doccomment">//!     PyUnicode_FromStringAndSize(res.as_ptr() as *const c_char, res.len() as isize)</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! #[cold]</span>
-<span class="doccomment">//! #[inline(never)]</span>
-<span class="doccomment">//! fn raise_type_error(msg: &amp;str) -&gt; *mut PyObject {</span>
-<span class="doccomment">//!     unsafe {</span>
-<span class="doccomment">//!         let err_msg =</span>
-<span class="doccomment">//!             PyUnicode_FromStringAndSize(msg.as_ptr() as *const c_char, msg.len() as isize);</span>
-<span class="doccomment">//!         PyErr_SetObject(PyExc_TypeError, err_msg);</span>
-<span class="doccomment">//!         Py_DECREF(err_msg);</span>
-<span class="doccomment">//!     };</span>
-<span class="doccomment">//!     std::ptr::null_mut()</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! With those two files in place, now `maturin` needs to be installed. This can be done using</span>
-<span class="doccomment">//! Python&#39;s package manager `pip`. First, load up a new Python `virtualenv`, and install `maturin`</span>
-<span class="doccomment">//! into it:</span>
-<span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! $ cd string_sum</span>
-<span class="doccomment">//! $ python -m venv .env</span>
-<span class="doccomment">//! $ source .env/bin/activate</span>
-<span class="doccomment">//! $ pip install maturin</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Now build and execute the module:</span>
-<span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! $ maturin develop</span>
-<span class="doccomment">//! # lots of progress output as maturin runs the compilation...</span>
-<span class="doccomment">//! $ python</span>
-<span class="doccomment">//! &gt;&gt;&gt; import string_sum</span>
-<span class="doccomment">//! &gt;&gt;&gt; string_sum.sum_as_string(5, 20)</span>
-<span class="doccomment">//! &#39;25&#39;</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! As well as with `maturin`, it is possible to build using [setuptools-rust] or</span>
-<span class="doccomment">//! [manually][manual_builds]. Both offer more flexibility than `maturin` but require further</span>
-<span class="doccomment">//! configuration.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Using Python from Rust</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! To embed Python into a Rust binary, you need to ensure that your Python installation contains a</span>
-<span class="doccomment">//! shared library. The following steps demonstrate how to ensure this (for Ubuntu).</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! To install the Python shared library on Ubuntu:</span>
-<span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! sudo apt install python3-dev</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! While most projects use the safe wrapper provided by pyo3,</span>
-<span class="doccomment">//! you can take a look at the [`orjson`] library as an example on how to use `pyo3-ffi` directly.</span>
-<span class="doccomment">//! For those well versed in C and Rust the [tutorials] from the CPython documentation</span>
-<span class="doccomment">//! can be easily converted to rust as well.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [tutorials]: https://docs.python.org/3/extending/</span>
-<span class="doccomment">//! [`orjson`]: https://github.com/ijl/orjson</span>
-<span class="doccomment">//! [capi]: https://docs.python.org/3/c-api/index.html</span>
-<span class="doccomment">//! [`maturin`]: https://github.com/PyO3/maturin &quot;Build and publish crates with pyo3, rust-cpython and cffi bindings as well as rust binaries as python packages&quot;</span>
-<span class="doccomment">//! [`pyo3-build-config`]: https://docs.rs/pyo3-build-config</span>
-<span class="doccomment">//! [feature flags]: https://doc.rust-lang.org/cargo/reference/features.html &quot;Features - The Cargo Book&quot;</span>
-<span class="doccomment">//! [manual_builds]: https://pyo3.rs/latest/building_and_distribution.html#manual-builds &quot;Manual builds - Building and Distribution - PyO3 user guide&quot;</span>
-<span class="doccomment">//! [setuptools-rust]: https://github.com/PyO3/setuptools-rust &quot;Setuptools plugin for Rust extensions&quot;</span>
-<span class="doccomment">//! [PEP 384]: https://www.python.org/dev/peps/pep-0384 &quot;PEP 384 -- Defining a Stable ABI&quot;</span>
-<span class="doccomment">//! [Features chapter of the guide]: https://pyo3.rs/latest/features.html#features-reference &quot;Features Reference - PyO3 user guide&quot;</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Raw FFI declarations for Python&#39;s C API.
+//!
+//! PyO3 can be used to write native Python modules or run Python code and modules from Rust.
+//!
+//! This crate just provides low level bindings to the Python interpreter.
+//! It is meant for advanced users only - regular PyO3 users shouldn&#39;t
+//! need to interact with this crate at all.
+//!
+//! The contents of this crate are not documented here, as it would entail
+//! basically copying the documentation from CPython. Consult the [Python/C API Reference
+//! Manual][capi] for up-to-date documentation.
+//!
+//! # Safety
+//!
+//! The functions in this crate lack individual safety documentation, but
+//! generally the following apply:
+//! - Pointer arguments have to point to a valid Python object of the correct type,
+//! although null pointers are sometimes valid input.
+//! - The vast majority can only be used safely while the GIL is held.
+//! - Some functions have additional safety requirements, consult the
+//! [Python/C API Reference Manual][capi]
+//! for more information.
+//!
+//!
+//! # Feature flags
+//!
+//! PyO3 uses [feature flags] to enable you to opt-in to additional functionality. For a detailed
+//! description, see the [Features chapter of the guide].
+//!
+//! ## Optional feature flags
+//!
+//! The following features customize PyO3&#39;s behavior:
+//!
+//! - `abi3`: Restricts PyO3&#39;s API to a subset of the full Python API which is guaranteed by
+//! [PEP 384] to be forward-compatible with future Python versions.
+//! - `extension-module`: This will tell the linker to keep the Python symbols unresolved, so that
+//! your module can also be used with statically linked Python interpreters. Use this feature when
+//! building an extension module.
+//!
+//! ## `rustc` environment flags
+//!
+//! PyO3 uses `rustc`&#39;s `--cfg` flags to enable or disable code used for different Python versions.
+//! If you want to do this for your own crate, you can do so with the [`pyo3-build-config`] crate.
+//!
+//! - `Py_3_7`, `Py_3_8`, `Py_3_9`, `Py_3_10`: Marks code that is only enabled when
+//!  compiling for a given minimum Python version.
+//! - `Py_LIMITED_API`: Marks code enabled when the `abi3` feature flag is enabled.
+//! - `PyPy` - Marks code enabled when compiling for PyPy.
+//!
+//! # Minimum supported Rust and Python versions
+//!
+//! PyO3 supports the following software versions:
+//!   - Python 3.7 and up (CPython and PyPy)
+//!   - Rust 1.48 and up
+//!
+//! # Example: Building Python Native modules
+//!
+//! PyO3 can be used to generate a native Python module. The easiest way to try this out for the
+//! first time is to use [`maturin`]. `maturin` is a tool for building and publishing Rust-based
+//! Python packages with minimal configuration. The following steps set up some files for an example
+//! Python module, install `maturin`, and then show how to build and import the Python module.
+//!
+//! First, create a new folder (let&#39;s call it `string_sum`) containing the following two files:
+//!
+//! **`Cargo.toml`**
+//!
+//! ```toml
+//! [lib]
+//! name = &quot;string_sum&quot;
+//! # &quot;cdylib&quot; is necessary to produce a shared library for Python to import from.
+//! #
+//! # Downstream Rust code (including code in `bin/`, `examples/`, and `tests/`) will not be able
+//! # to `use string_sum;` unless the &quot;rlib&quot; or &quot;lib&quot; crate type is also included, e.g.:
+//! # crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
+//! crate-type = [&quot;cdylib&quot;]
+//!
+//! [dependencies.pyo3-ffi]
+</span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]</span>
+<span class="attribute">#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]</span>
+<span class="doccomment">//! features = [&quot;extension-module&quot;]
+//! ```
+//!
+//! **`src/lib.rs`**
+//! ```rust
+//! use std::os::raw::c_char;
+//! use std::ptr;
+//!
+//! use pyo3_ffi::*;
+//!
+//! #[allow(non_snake_case)]
+//! #[no_mangle]
+//! pub unsafe extern &quot;C&quot; fn PyInit_string_sum() -&gt; *mut PyObject {
+//!     let init = PyModuleDef {
+//!         m_base: PyModuleDef_HEAD_INIT,
+//!         m_name: &quot;string_sum\0&quot;.as_ptr() as *const c_char,
+//!         m_doc: std::ptr::null(),
+//!         m_size: 0,
+//!         m_methods: std::ptr::null_mut(),
+//!         m_slots: std::ptr::null_mut(),
+//!         m_traverse: None,
+//!         m_clear: None,
+//!         m_free: None,
+//!     };
+//!
+//!     let mptr = PyModule_Create(Box::into_raw(Box::new(init)));
+//!     let version = env!(&quot;CARGO_PKG_VERSION&quot;);
+//!     PyModule_AddObject(
+//!         mptr,
+//!         &quot;__version__\0&quot;.as_ptr() as *const c_char,
+//!         PyUnicode_FromStringAndSize(version.as_ptr() as *const c_char, version.len() as isize),
+//!     );
+//!
+//!     let wrapped_sum_as_string = PyMethodDef {
+//!         ml_name: &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,
+//!         ml_meth: PyMethodDefPointer {
+//!             _PyCFunctionFast: sum_as_string
+//!         },
+//!         ml_flags: METH_FASTCALL,
+//!         ml_doc: &quot;returns the sum of two integers as a string\0&quot;.as_ptr() as *const c_char,
+//!     };
+//!
+//!     // PyModule_AddObject can technically fail.
+//!     // For more involved applications error checking may be necessary
+//!     PyModule_AddObject(
+//!         mptr,
+//!         &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,
+//!         PyCFunction_NewEx(
+//!             Box::into_raw(Box::new(wrapped_sum_as_string)),
+//!             std::ptr::null_mut(),
+//!             PyUnicode_InternFromString(&quot;string_sum\0&quot;.as_ptr() as *const c_char),
+//!         ),
+//!     );
+//!
+//!     let all = [&quot;__all__\0&quot;, &quot;__version__\0&quot;, &quot;sum_as_string\0&quot;];
+//!
+//!     let pyall = PyTuple_New(all.len() as isize);
+//!     for (i, obj) in all.iter().enumerate() {
+//!         PyTuple_SET_ITEM(
+//!             pyall,
+//!             i as isize,
+//!             PyUnicode_InternFromString(obj.as_ptr() as *const c_char),
+//!         )
+//!     }
+//!
+//!     PyModule_AddObject(mptr, &quot;__all__\0&quot;.as_ptr() as *const c_char, pyall);
+//!
+//!     mptr
+//! }
+//!
+//! pub unsafe extern &quot;C&quot; fn sum_as_string(
+//!     _self: *mut PyObject,
+//!     args: *mut *mut PyObject,
+//!     nargs: Py_ssize_t,
+//! ) -&gt; *mut PyObject {
+//!     if nargs != 2 {
+//!         return raise_type_error(&quot;sum_as_string() expected 2 positional arguments&quot;);
+//!     }
+//!
+//!     let arg1 = *args;
+//!     if PyLong_Check(arg1) == 0 {
+//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 1&quot;);
+//!     }
+//!
+//!     let arg1 = PyLong_AsLong(arg1);
+//!     if !PyErr_Occurred().is_null() {
+//!         return ptr::null_mut()
+//!     }
+//!
+//!     let arg2 = *args.add(1);
+//!     if PyLong_Check(arg2) == 0 {
+//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 2&quot;);
+//!     }
+//!
+//!     let arg2 = PyLong_AsLong(arg2);
+//!     if !PyErr_Occurred().is_null() {
+//!         return ptr::null_mut()
+//!     }
+//!     let res = (arg1 + arg2).to_string();
+//!     PyUnicode_FromStringAndSize(res.as_ptr() as *const c_char, res.len() as isize)
+//! }
+//!
+//! #[cold]
+//! #[inline(never)]
+//! fn raise_type_error(msg: &amp;str) -&gt; *mut PyObject {
+//!     unsafe {
+//!         let err_msg =
+//!             PyUnicode_FromStringAndSize(msg.as_ptr() as *const c_char, msg.len() as isize);
+//!         PyErr_SetObject(PyExc_TypeError, err_msg);
+//!         Py_DECREF(err_msg);
+//!     };
+//!     std::ptr::null_mut()
+//! }
+//! ```
+//!
+//! With those two files in place, now `maturin` needs to be installed. This can be done using
+//! Python&#39;s package manager `pip`. First, load up a new Python `virtualenv`, and install `maturin`
+//! into it:
+//! ```bash
+//! $ cd string_sum
+//! $ python -m venv .env
+//! $ source .env/bin/activate
+//! $ pip install maturin
+//! ```
+//!
+//! Now build and execute the module:
+//! ```bash
+//! $ maturin develop
+//! # lots of progress output as maturin runs the compilation...
+//! $ python
+//! &gt;&gt;&gt; import string_sum
+//! &gt;&gt;&gt; string_sum.sum_as_string(5, 20)
+//! &#39;25&#39;
+//! ```
+//!
+//! As well as with `maturin`, it is possible to build using [setuptools-rust] or
+//! [manually][manual_builds]. Both offer more flexibility than `maturin` but require further
+//! configuration.
+//!
+//!
+//! # Using Python from Rust
+//!
+//! To embed Python into a Rust binary, you need to ensure that your Python installation contains a
+//! shared library. The following steps demonstrate how to ensure this (for Ubuntu).
+//!
+//! To install the Python shared library on Ubuntu:
+//! ```bash
+//! sudo apt install python3-dev
+//! ```
+//!
+//! While most projects use the safe wrapper provided by pyo3,
+//! you can take a look at the [`orjson`] library as an example on how to use `pyo3-ffi` directly.
+//! For those well versed in C and Rust the [tutorials] from the CPython documentation
+//! can be easily converted to rust as well.
+//!
+//! [tutorials]: https://docs.python.org/3/extending/
+//! [`orjson`]: https://github.com/ijl/orjson
+//! [capi]: https://docs.python.org/3/c-api/index.html
+//! [`maturin`]: https://github.com/PyO3/maturin &quot;Build and publish crates with pyo3, rust-cpython and cffi bindings as well as rust binaries as python packages&quot;
+//! [`pyo3-build-config`]: https://docs.rs/pyo3-build-config
+//! [feature flags]: https://doc.rust-lang.org/cargo/reference/features.html &quot;Features - The Cargo Book&quot;
+//! [manual_builds]: https://pyo3.rs/latest/building_and_distribution.html#manual-builds &quot;Manual builds - Building and Distribution - PyO3 user guide&quot;
+//! [setuptools-rust]: https://github.com/PyO3/setuptools-rust &quot;Setuptools plugin for Rust extensions&quot;
+//! [PEP 384]: https://www.python.org/dev/peps/pep-0384 &quot;PEP 384 -- Defining a Stable ABI&quot;
+//! [Features chapter of the guide]: https://pyo3.rs/latest/features.html#features-reference &quot;Features Reference - PyO3 user guide&quot;
 
-<span class="attribute">#![<span class="ident">allow</span>(
-    <span class="ident">missing_docs</span>,
-    <span class="ident">non_camel_case_types</span>,
-    <span class="ident">non_snake_case</span>,
-    <span class="ident">non_upper_case_globals</span>,
-    <span class="ident">clippy::upper_case_acronyms</span>,
-    <span class="ident">clippy::missing_safety_doc</span>
+</span><span class="attribute">#![allow(
+    missing_docs,
+    non_camel_case_types,
+    non_snake_case,
+    non_upper_case_globals,
+    clippy::upper_case_acronyms,
+    clippy::missing_safety_doc
 )]</span>
-<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">elided_lifetimes_in_paths</span>, <span class="ident">unused_lifetimes</span>)]</span>
+<span class="attribute">#![warn(elided_lifetimes_in_paths, unused_lifetimes)]</span>
 
-<span class="comment">// Until `extern type` is stabilized, use the recommended approach to</span>
-<span class="comment">// model opaque types:</span>
-<span class="comment">// https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs</span>
-<span class="macro">macro_rules!</span> <span class="ident">opaque_struct</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>) =&gt; {
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>([<span class="ident">u8</span>; <span class="number">0</span>]);
+<span class="comment">// Until `extern type` is stabilized, use the recommended approach to
+// model opaque types:
+// https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
+</span><span class="macro">macro_rules!</span> opaque_struct {
+    (<span class="macro-nonterminal">$name</span>:ident) =&gt; {
+        <span class="attribute">#[repr(C)]</span>
+        <span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>([u8; <span class="number">0</span>]);
     };
 }
 
-<span class="macro">macro_rules!</span> <span class="ident">addr_of_mut_shim</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">place</span>:<span class="ident">expr</span>) =&gt; {{
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">addr_of</span>)]</span>
+<span class="macro">macro_rules!</span> addr_of_mut_shim {
+    (<span class="macro-nonterminal">$place</span>:expr) =&gt; {{
+        <span class="attribute">#[cfg(addr_of)]</span>
         {
-            <span class="macro">::std::ptr::addr_of_mut!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">place</span>)
+            <span class="macro">::std::ptr::addr_of_mut!</span>(<span class="macro-nonterminal">$place</span>)
         }
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">addr_of</span>))]</span>
+        <span class="attribute">#[cfg(not(addr_of))]</span>
         {
-            <span class="kw-2">&amp;mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">place</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>
-        }
+            <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$place </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
+        </span>}
     }};
 }
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::abstract_</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::bltinmodule</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::boolobject</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_11</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::buffer</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::bytearrayobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::bytesobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::ceval</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::code</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::codecs</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::compile</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::complexobject</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::context</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::datetime</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::descrobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::dictobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::enumobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::fileobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::fileutils</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::floatobject</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::funcobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::import</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::intrcheck</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::iterobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::listobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::longobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::marshal</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::memoryobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::methodobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::modsupport</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::moduleobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::object</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::objimpl</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::osmodule</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_LIMITED_API</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pyarena</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pycapsule</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pyerrors</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pyframe</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pyhash</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pylifecycle</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pymem</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pyport</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pystate</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pystrtod</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pythonrun</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::rangeobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::setobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sliceobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::structseq</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sysmodule</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::traceback</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::tupleobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::typeslots</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::unicodeobject</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::warnings</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::weakrefobject</span>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::abstract_::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::bltinmodule::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::boolobject::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(Py_3_11)]</span>
+<span class="kw">pub use </span><span class="self">self</span>::buffer::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::bytearrayobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::bytesobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::ceval::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::code::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::codecs::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::compile::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::complexobject::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub use </span><span class="self">self</span>::context::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+<span class="kw">pub use </span><span class="self">self</span>::datetime::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::descrobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::dictobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::enumobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::fileobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::fileutils::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::floatobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::import::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::intrcheck::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::iterobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::listobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::longobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::marshal::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::memoryobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::methodobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::modsupport::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::moduleobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::object::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::objimpl::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::osmodule::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
+<span class="kw">pub use </span><span class="self">self</span>::pyarena::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pycapsule::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pyerrors::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pyframe::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pyhash::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pylifecycle::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pymem::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pyport::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pystate::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pystrtod::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::pythonrun::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::rangeobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::setobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::sliceobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::structseq::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::sysmodule::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::traceback::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::tupleobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::typeslots::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::unicodeobject::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::warnings::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="self">self</span>::weakrefobject::<span class="kw-2">*</span>;
 
-<span class="kw">mod</span> <span class="ident">abstract_</span>;
-<span class="comment">// skipped asdl.h</span>
-<span class="comment">// skipped ast.h</span>
-<span class="kw">mod</span> <span class="ident">bltinmodule</span>;
-<span class="kw">mod</span> <span class="ident">boolobject</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_11</span>)]</span>
-<span class="kw">mod</span> <span class="ident">buffer</span>;
-<span class="kw">mod</span> <span class="ident">bytearrayobject</span>;
-<span class="kw">mod</span> <span class="ident">bytesobject</span>;
-<span class="comment">// skipped cellobject.h</span>
-<span class="kw">mod</span> <span class="ident">ceval</span>;
-<span class="comment">// skipped classobject.h</span>
-<span class="kw">mod</span> <span class="ident">code</span>;
-<span class="kw">mod</span> <span class="ident">codecs</span>;
-<span class="kw">mod</span> <span class="ident">compile</span>;
-<span class="kw">mod</span> <span class="ident">complexobject</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_8</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">mod</span> <span class="ident">context</span>; <span class="comment">// It&#39;s actually 3.7.1, but no cfg for patches.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">datetime</span>;
-<span class="kw">mod</span> <span class="ident">descrobject</span>;
-<span class="kw">mod</span> <span class="ident">dictobject</span>;
-<span class="comment">// skipped dynamic_annotations.h</span>
-<span class="kw">mod</span> <span class="ident">enumobject</span>;
-<span class="comment">// skipped errcode.h</span>
-<span class="comment">// skipped exports.h</span>
-<span class="kw">mod</span> <span class="ident">fileobject</span>;
-<span class="kw">mod</span> <span class="ident">fileutils</span>;
-<span class="kw">mod</span> <span class="ident">floatobject</span>;
-<span class="comment">// skipped empty frameobject.h</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">funcobject</span>;
-<span class="comment">// skipped genericaliasobject.h</span>
-<span class="kw">mod</span> <span class="ident">import</span>;
-<span class="comment">// skipped interpreteridobject.h</span>
-<span class="kw">mod</span> <span class="ident">intrcheck</span>;
-<span class="kw">mod</span> <span class="ident">iterobject</span>;
-<span class="kw">mod</span> <span class="ident">listobject</span>;
-<span class="comment">// skipped longintrepr.h</span>
-<span class="kw">mod</span> <span class="ident">longobject</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">marshal</span>;
-<span class="kw">mod</span> <span class="ident">memoryobject</span>;
-<span class="kw">mod</span> <span class="ident">methodobject</span>;
-<span class="kw">mod</span> <span class="ident">modsupport</span>;
-<span class="kw">mod</span> <span class="ident">moduleobject</span>;
-<span class="comment">// skipped namespaceobject.h</span>
-<span class="kw">mod</span> <span class="ident">object</span>;
-<span class="kw">mod</span> <span class="ident">objimpl</span>;
-<span class="comment">// skipped odictobject.h</span>
-<span class="comment">// skipped opcode.h</span>
-<span class="comment">// skipped osdefs.h</span>
-<span class="kw">mod</span> <span class="ident">osmodule</span>;
-<span class="comment">// skipped parser_interface.h</span>
-<span class="comment">// skipped patchlevel.h</span>
-<span class="comment">// skipped picklebufobject.h</span>
-<span class="comment">// skipped pyctype.h</span>
-<span class="comment">// skipped py_curses.h</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_LIMITED_API</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">mod</span> <span class="ident">pyarena</span>;
-<span class="kw">mod</span> <span class="ident">pycapsule</span>;
-<span class="comment">// skipped pydecimal.h</span>
-<span class="comment">// skipped pydtrace.h</span>
-<span class="kw">mod</span> <span class="ident">pyerrors</span>;
-<span class="comment">// skipped pyexpat.h</span>
-<span class="comment">// skipped pyfpe.h</span>
-<span class="kw">mod</span> <span class="ident">pyframe</span>;
-<span class="kw">mod</span> <span class="ident">pyhash</span>;
-<span class="kw">mod</span> <span class="ident">pylifecycle</span>;
-<span class="comment">// skipped pymacconfig.h</span>
-<span class="comment">// skipped pymacro.h</span>
-<span class="comment">// skipped pymath.h</span>
-<span class="kw">mod</span> <span class="ident">pymem</span>;
-<span class="kw">mod</span> <span class="ident">pyport</span>;
-<span class="kw">mod</span> <span class="ident">pystate</span>;
-<span class="kw">mod</span> <span class="ident">pythonrun</span>;
-<span class="comment">// skipped pystrhex.h</span>
-<span class="comment">// skipped pystrcmp.h</span>
-<span class="kw">mod</span> <span class="ident">pystrtod</span>;
-<span class="comment">// skipped pythread.h</span>
-<span class="comment">// skipped pytime.h</span>
-<span class="kw">mod</span> <span class="ident">rangeobject</span>;
-<span class="kw">mod</span> <span class="ident">setobject</span>;
-<span class="kw">mod</span> <span class="ident">sliceobject</span>;
-<span class="kw">mod</span> <span class="ident">structseq</span>;
-<span class="kw">mod</span> <span class="ident">sysmodule</span>;
-<span class="kw">mod</span> <span class="ident">traceback</span>;
-<span class="comment">// skipped tracemalloc.h</span>
-<span class="kw">mod</span> <span class="ident">tupleobject</span>;
-<span class="kw">mod</span> <span class="ident">typeslots</span>;
-<span class="kw">mod</span> <span class="ident">unicodeobject</span>;
-<span class="kw">mod</span> <span class="ident">warnings</span>;
-<span class="kw">mod</span> <span class="ident">weakrefobject</span>;
+<span class="kw">mod </span>abstract_;
+<span class="comment">// skipped asdl.h
+// skipped ast.h
+</span><span class="kw">mod </span>bltinmodule;
+<span class="kw">mod </span>boolobject;
+<span class="attribute">#[cfg(Py_3_11)]</span>
+<span class="kw">mod </span>buffer;
+<span class="kw">mod </span>bytearrayobject;
+<span class="kw">mod </span>bytesobject;
+<span class="comment">// skipped cellobject.h
+</span><span class="kw">mod </span>ceval;
+<span class="comment">// skipped classobject.h
+</span><span class="kw">mod </span>code;
+<span class="kw">mod </span>codecs;
+<span class="kw">mod </span>compile;
+<span class="kw">mod </span>complexobject;
+<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]</span>
+<span class="kw">mod </span>context; <span class="comment">// It&#39;s actually 3.7.1, but no cfg for patches.
+</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>datetime;
+<span class="kw">mod </span>descrobject;
+<span class="kw">mod </span>dictobject;
+<span class="comment">// skipped dynamic_annotations.h
+</span><span class="kw">mod </span>enumobject;
+<span class="comment">// skipped errcode.h
+// skipped exports.h
+</span><span class="kw">mod </span>fileobject;
+<span class="kw">mod </span>fileutils;
+<span class="kw">mod </span>floatobject;
+<span class="comment">// skipped empty frameobject.h
+// skipped genericaliasobject.h
+</span><span class="kw">mod </span>import;
+<span class="comment">// skipped interpreteridobject.h
+</span><span class="kw">mod </span>intrcheck;
+<span class="kw">mod </span>iterobject;
+<span class="kw">mod </span>listobject;
+<span class="comment">// skipped longintrepr.h
+</span><span class="kw">mod </span>longobject;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>marshal;
+<span class="kw">mod </span>memoryobject;
+<span class="kw">mod </span>methodobject;
+<span class="kw">mod </span>modsupport;
+<span class="kw">mod </span>moduleobject;
+<span class="comment">// skipped namespaceobject.h
+</span><span class="kw">mod </span>object;
+<span class="kw">mod </span>objimpl;
+<span class="comment">// skipped odictobject.h
+// skipped opcode.h
+// skipped osdefs.h
+</span><span class="kw">mod </span>osmodule;
+<span class="comment">// skipped parser_interface.h
+// skipped patchlevel.h
+// skipped picklebufobject.h
+// skipped pyctype.h
+// skipped py_curses.h
+</span><span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
+<span class="kw">mod </span>pyarena;
+<span class="kw">mod </span>pycapsule;
+<span class="comment">// skipped pydecimal.h
+// skipped pydtrace.h
+</span><span class="kw">mod </span>pyerrors;
+<span class="comment">// skipped pyexpat.h
+// skipped pyfpe.h
+</span><span class="kw">mod </span>pyframe;
+<span class="kw">mod </span>pyhash;
+<span class="kw">mod </span>pylifecycle;
+<span class="comment">// skipped pymacconfig.h
+// skipped pymacro.h
+// skipped pymath.h
+</span><span class="kw">mod </span>pymem;
+<span class="kw">mod </span>pyport;
+<span class="kw">mod </span>pystate;
+<span class="kw">mod </span>pythonrun;
+<span class="comment">// skipped pystrhex.h
+// skipped pystrcmp.h
+</span><span class="kw">mod </span>pystrtod;
+<span class="comment">// skipped pythread.h
+// skipped pytime.h
+</span><span class="kw">mod </span>rangeobject;
+<span class="kw">mod </span>setobject;
+<span class="kw">mod </span>sliceobject;
+<span class="kw">mod </span>structseq;
+<span class="kw">mod </span>sysmodule;
+<span class="kw">mod </span>traceback;
+<span class="comment">// skipped tracemalloc.h
+</span><span class="kw">mod </span>tupleobject;
+<span class="kw">mod </span>typeslots;
+<span class="kw">mod </span>unicodeobject;
+<span class="kw">mod </span>warnings;
+<span class="kw">mod </span>weakrefobject;
 
-<span class="comment">// Additional headers that are not exported by Python.h</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">structmember</span>;
+<span class="comment">// Additional headers that are not exported by Python.h
+</span><span class="kw">pub mod </span>structmember;
 
-<span class="comment">// &quot;Limited API&quot; definitions matching Python&#39;s `include/cpython` directory.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">mod</span> <span class="ident">cpython</span>;
+<span class="comment">// &quot;Limited API&quot; definitions matching Python&#39;s `include/cpython` directory.
+</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+<span class="kw">mod </span>cpython;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::cpython</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+<span class="kw">pub use </span><span class="self">self</span>::cpython::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

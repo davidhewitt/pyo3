@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/pyclass.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pyclass.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/pyclass.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pyclass.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -646,658 +640,647 @@
 <span id="640">640</span>
 <span id="641">641</span>
 <span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-</pre><pre class="rust"><code><span class="doccomment">//! `PyClass` and related traits.</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">callback::IntoPyCallbackOutput</span>,
-    <span class="ident">exceptions::PyTypeError</span>,
-    <span class="ident">ffi</span>,
-    <span class="ident">impl_::pyclass</span>::{
-        <span class="ident">assign_sequence_item_from_mapping</span>, <span class="ident">get_sequence_item_from_mapping</span>, <span class="ident">tp_dealloc</span>, <span class="ident">PyClassImpl</span>,
-        <span class="ident">PyClassItemsIter</span>,
+</pre><pre class="rust"><code><span class="doccomment">//! `PyClass` and related traits.
+</span><span class="kw">use crate</span>::{
+    callback::IntoPyCallbackOutput,
+    exceptions::PyTypeError,
+    ffi,
+    impl_::pyclass::{
+        assign_sequence_item_from_mapping, get_sequence_item_from_mapping, tp_dealloc, PyClassImpl,
+        PyClassItemsIter,
     },
-    <span class="ident">IntoPy</span>, <span class="ident">IntoPyPointer</span>, <span class="ident">PyCell</span>, <span class="ident">PyErr</span>, <span class="ident">PyMethodDefType</span>, <span class="ident">PyObject</span>, <span class="ident">PyResult</span>, <span class="ident">PyTypeInfo</span>, <span class="ident">Python</span>,
+    IntoPy, IntoPyPointer, PyCell, PyErr, PyMethodDefType, PyObject, PyResult, PyTypeInfo, Python,
 };
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">cmp::Ordering</span>,
-    <span class="ident">convert::TryInto</span>,
-    <span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>},
-    <span class="ident">os::raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_uint</span>, <span class="ident">c_void</span>},
-    <span class="ident">ptr</span>,
+<span class="kw">use </span>std::{
+    cmp::Ordering,
+    collections::HashMap,
+    convert::TryInto,
+    ffi::{CStr, CString},
+    os::raw::{c_char, c_int, c_ulong, c_void},
+    ptr,
 };
 
-<span class="doccomment">/// Types that can be used as Python classes.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The `#[pyclass]` attribute implements this trait for your Rust struct -</span>
-<span class="doccomment">/// you shouldn&#39;t implement this trait directly.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">PyClass</span>:
-    <span class="ident">PyTypeInfo</span><span class="op">&lt;</span><span class="ident">AsRefTarget</span> <span class="op">=</span> <span class="ident">PyCell</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">PyClassImpl</span><span class="op">&lt;</span><span class="ident">Layout</span> <span class="op">=</span> <span class="ident">PyCell</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span>
+<span class="doccomment">/// Types that can be used as Python classes.
+///
+/// The `#[pyclass]` attribute implements this trait for your Rust struct -
+/// you shouldn&#39;t implement this trait directly.
+</span><span class="kw">pub trait </span>PyClass:
+    PyTypeInfo&lt;AsRefTarget = PyCell&lt;<span class="self">Self</span>&gt;&gt; + PyClassImpl&lt;Layout = PyCell&lt;<span class="self">Self</span>&gt;&gt;
 {
-    <span class="doccomment">/// Whether the pyclass is frozen.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be enabled via `#[pyclass(frozen)]`.</span>
-    <span class="kw">type</span> <span class="ident">Frozen</span>: <span class="ident">Frozen</span>;
+    <span class="doccomment">/// Whether the pyclass is frozen.
+    ///
+    /// This can be enabled via `#[pyclass(frozen)]`.
+    </span><span class="kw">type </span>Frozen: Frozen;
 }
 
-<span class="kw">fn</span> <span class="ident">into_raw</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">vec</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">c_void</span> {
-    <span class="ident">Box::into_raw</span>(<span class="ident">vec</span>.<span class="ident">into_boxed_slice</span>()) <span class="kw">as</span> <span class="kw">_</span>
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">create_type_object</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">PyClass</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>create_type_object&lt;T&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">*mut </span>ffi::PyTypeObject
+<span class="kw">where
+    </span>T: PyClass,
 {
-    <span class="kw">match</span> <span class="kw">unsafe</span> {
-        <span class="ident">create_type_object_impl</span>(
-            <span class="ident">py</span>,
-            <span class="ident">T::DOC</span>,
-            <span class="ident">T::MODULE</span>,
-            <span class="ident">T::NAME</span>,
-            <span class="ident">T::BaseType::type_object_raw</span>(<span class="ident">py</span>),
-            <span class="ident">std::mem::size_of</span>::<span class="op">&lt;</span><span class="ident">T::Layout</span><span class="op">&gt;</span>(),
-            <span class="ident">tp_dealloc</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-            <span class="ident">T::dict_offset</span>(),
-            <span class="ident">T::weaklist_offset</span>(),
-            <span class="ident">T::items_iter</span>,
-            <span class="ident">T::IS_BASETYPE</span>,
-            <span class="ident">T::IS_MAPPING</span>,
-        )
+    <span class="kw">match unsafe </span>{
+        PyTypeBuilder::default()
+            .type_doc(T::DOC)
+            .offsets(T::dict_offset(), T::weaklist_offset())
+            .slot(ffi::Py_tp_base, T::BaseType::type_object_raw(py))
+            .slot(ffi::Py_tp_dealloc, tp_dealloc::&lt;T&gt; <span class="kw">as </span><span class="kw-2">*mut </span>c_void)
+            .set_is_basetype(T::IS_BASETYPE)
+            .set_is_mapping(T::IS_MAPPING)
+            .set_is_sequence(T::IS_SEQUENCE)
+            .class_items(T::items_iter())
+            .build(py, T::NAME, T::MODULE, std::mem::size_of::&lt;T::Layout&gt;())
     } {
-        <span class="prelude-val">Ok</span>(<span class="ident">type_object</span>) =&gt; <span class="ident">type_object</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="ident">type_object_creation_failed</span>(<span class="ident">py</span>, <span class="ident">e</span>, <span class="ident">T::NAME</span>),
+        <span class="prelude-val">Ok</span>(type_object) =&gt; type_object,
+        <span class="prelude-val">Err</span>(e) =&gt; type_object_creation_failed(py, e, T::NAME),
     }
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_type_object_impl</span>(
-    <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    <span class="ident">tp_doc</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">module_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">base_type_object</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span>,
-    <span class="ident">basicsize</span>: <span class="ident">usize</span>,
-    <span class="ident">tp_dealloc</span>: <span class="ident">ffi::destructor</span>,
-    <span class="ident">dict_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-    <span class="ident">weaklist_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-    <span class="ident">get_items_iter</span>: <span class="kw">fn</span>() -&gt; <span class="ident">PyClassItemsIter</span>,
-    <span class="ident">is_basetype</span>: <span class="ident">bool</span>,
-    <span class="ident">is_mapping</span>: <span class="ident">bool</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">slots</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+<span class="kw">type </span>PyTypeBuilderCleanup = Box&lt;<span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span>PyTypeBuilder, <span class="kw-2">*mut </span>ffi::PyTypeObject)&gt;;
 
-    <span class="kw">fn</span> <span class="ident">push_slot</span>(<span class="ident">slots</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ffi::PyType_Slot</span><span class="op">&gt;</span>, <span class="ident">slot</span>: <span class="ident">c_int</span>, <span class="ident">pfunc</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>) {
-        <span class="ident">slots</span>.<span class="ident">push</span>(<span class="ident">ffi::PyType_Slot</span> { <span class="ident">slot</span>, <span class="ident">pfunc</span> });
-    }
+<span class="attribute">#[derive(Default)]</span>
+<span class="kw">struct </span>PyTypeBuilder {
+    slots: Vec&lt;ffi::PyType_Slot&gt;,
+    method_defs: Vec&lt;ffi::PyMethodDef&gt;,
+    property_defs_map: HashMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, ffi::PyGetSetDef&gt;,
+    <span class="doccomment">/// Used to patch the type objects for the things there&#39;s no
+    /// PyType_FromSpec API for... there&#39;s no reason this should work,
+    /// except for that it does and we have tests.
+    </span>cleanup: Vec&lt;PyTypeBuilderCleanup&gt;,
+    is_mapping: bool,
+    is_sequence: bool,
+    has_new: bool,
+    has_dealloc: bool,
+    has_getitem: bool,
+    has_setitem: bool,
+    has_traverse: bool,
+    has_clear: bool,
+    has_dict: bool,
+    class_flags: c_ulong,
+    <span class="comment">// Before Python 3.9, need to patch in buffer methods manually (they don&#39;t work in slots)
+    </span><span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
+    buffer_procs: ffi::PyBufferProcs,
+}
 
-    <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_base</span>, <span class="ident">base_type_object</span> <span class="kw">as</span> <span class="kw">_</span>);
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">doc</span>) <span class="op">=</span> <span class="ident">py_class_doc</span>(<span class="ident">tp_doc</span>) {
-        <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_doc</span>, <span class="ident">doc</span> <span class="kw">as</span> <span class="kw">_</span>);
-    }
-
-    <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_dealloc</span>, <span class="ident">tp_dealloc</span> <span class="kw">as</span> <span class="kw">_</span>);
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-    {
-        <span class="kw">let</span> <span class="ident">members</span> <span class="op">=</span> <span class="ident">py_class_members</span>(<span class="ident">dict_offset</span>, <span class="ident">weaklist_offset</span>);
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">members</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_members</span>, <span class="ident">into_raw</span>(<span class="ident">members</span>))
-        }
-    }
-
-    <span class="kw">let</span> <span class="ident">PyClassInfo</span> {
-        <span class="ident">method_defs</span>,
-        <span class="ident">property_defs</span>,
-    } <span class="op">=</span> <span class="ident">method_defs_to_pyclass_info</span>(<span class="ident">get_items_iter</span>(), <span class="ident">dict_offset</span>.<span class="ident">is_none</span>());
-
-    <span class="comment">// normal methods</span>
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">method_defs</span>.<span class="ident">is_empty</span>() {
-        <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_methods</span>, <span class="ident">into_raw</span>(<span class="ident">method_defs</span>));
-    }
-
-    <span class="comment">// properties</span>
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">property_defs</span>.<span class="ident">is_empty</span>() {
-        <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_getset</span>, <span class="ident">into_raw</span>(<span class="ident">property_defs</span>));
-    }
-
-    <span class="comment">// protocol methods</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_new</span> <span class="op">=</span> <span class="bool-val">false</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_getitem</span> <span class="op">=</span> <span class="bool-val">false</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_setitem</span> <span class="op">=</span> <span class="bool-val">false</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_traverse</span> <span class="op">=</span> <span class="bool-val">false</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_clear</span> <span class="op">=</span> <span class="bool-val">false</span>;
-
-    <span class="comment">// Before Python 3.9, need to patch in buffer methods manually (they don&#39;t work in slots)</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer_procs</span>: <span class="ident">ffi::PyBufferProcs</span> <span class="op">=</span> <span class="ident">Default::default</span>();
-
-    <span class="kw">for</span> <span class="ident">items</span> <span class="kw">in</span> <span class="ident">get_items_iter</span>() {
-        <span class="kw">for</span> <span class="ident">slot</span> <span class="kw">in</span> <span class="ident">items</span>.<span class="ident">slots</span> {
-            <span class="kw">match</span> <span class="ident">slot</span>.<span class="ident">slot</span> {
-                <span class="ident">ffi::Py_tp_new</span> =&gt; <span class="ident">has_new</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">ffi::Py_mp_subscript</span> =&gt; <span class="ident">has_getitem</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">ffi::Py_mp_ass_subscript</span> =&gt; <span class="ident">has_setitem</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">ffi::Py_tp_traverse</span> =&gt; <span class="ident">has_traverse</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">ffi::Py_tp_clear</span> =&gt; <span class="ident">has_clear</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-                <span class="ident">ffi::Py_bf_getbuffer</span> =&gt; {
-                    <span class="comment">// Safety: slot.pfunc is a valid function pointer</span>
-                    <span class="ident">buffer_procs</span>.<span class="ident">bf_getbuffer</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">std::mem::transmute</span>(<span class="ident">slot</span>.<span class="ident">pfunc</span>));
-                }
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-                <span class="ident">ffi::Py_bf_releasebuffer</span> =&gt; {
-                    <span class="comment">// Safety: slot.pfunc is a valid function pointer</span>
-                    <span class="ident">buffer_procs</span>.<span class="ident">bf_releasebuffer</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">std::mem::transmute</span>(<span class="ident">slot</span>.<span class="ident">pfunc</span>));
-                }
-                <span class="kw">_</span> =&gt; {}
+<span class="kw">impl </span>PyTypeBuilder {
+    <span class="doccomment">/// # Safety
+    /// The given pointer must be of the correct type for the given slot
+    </span><span class="kw">unsafe fn </span>push_slot&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, slot: c_int, pfunc: <span class="kw-2">*mut </span>T) {
+        <span class="kw">match </span>slot {
+            ffi::Py_tp_new =&gt; <span class="self">self</span>.has_new = <span class="bool-val">true</span>,
+            ffi::Py_tp_dealloc =&gt; <span class="self">self</span>.has_dealloc = <span class="bool-val">true</span>,
+            ffi::Py_mp_subscript =&gt; <span class="self">self</span>.has_getitem = <span class="bool-val">true</span>,
+            ffi::Py_mp_ass_subscript =&gt; <span class="self">self</span>.has_setitem = <span class="bool-val">true</span>,
+            ffi::Py_tp_traverse =&gt; {
+                <span class="self">self</span>.has_traverse = <span class="bool-val">true</span>;
+                <span class="self">self</span>.class_flags |= ffi::Py_TPFLAGS_HAVE_GC;
             }
-        }
-        <span class="ident">slots</span>.<span class="ident">extend_from_slice</span>(<span class="ident">items</span>.<span class="ident">slots</span>);
-    }
-
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">is_mapping</span> {
-        <span class="comment">// If mapping methods implemented, define sequence methods get implemented too.</span>
-        <span class="comment">// CPython does the same for Python `class` statements.</span>
-
-        <span class="comment">// NB we don&#39;t implement sq_length to avoid annoying CPython behaviour of automatically adding</span>
-        <span class="comment">// the length to negative indices.</span>
-
-        <span class="comment">// Don&#39;t add these methods for &quot;pure&quot; mappings.</span>
-
-        <span class="kw">if</span> <span class="ident">has_getitem</span> {
-            <span class="ident">push_slot</span>(
-                <span class="kw-2">&amp;mut</span> <span class="ident">slots</span>,
-                <span class="ident">ffi::Py_sq_item</span>,
-                <span class="ident">get_sequence_item_from_mapping</span> <span class="kw">as</span> <span class="kw">_</span>,
-            );
-        }
-
-        <span class="kw">if</span> <span class="ident">has_setitem</span> {
-            <span class="ident">push_slot</span>(
-                <span class="kw-2">&amp;mut</span> <span class="ident">slots</span>,
-                <span class="ident">ffi::Py_sq_ass_item</span>,
-                <span class="ident">assign_sequence_item_from_mapping</span> <span class="kw">as</span> <span class="kw">_</span>,
-            );
-        }
-    }
-
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">has_new</span> {
-        <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="ident">ffi::Py_tp_new</span>, <span class="ident">no_constructor_defined</span> <span class="kw">as</span> <span class="kw">_</span>);
-    }
-
-    <span class="kw">if</span> <span class="ident">has_clear</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">has_traverse</span> {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PyTypeError::new_err</span>(<span class="macro">format!</span>(
-            <span class="string">&quot;`#[pyclass]` {} implements __clear__ without __traverse__&quot;</span>,
-            <span class="ident">name</span>
-        )));
-    }
-
-    <span class="comment">// Add empty sentinel at the end</span>
-    <span class="ident">push_slot</span>(<span class="kw-2">&amp;mut</span> <span class="ident">slots</span>, <span class="number">0</span>, <span class="ident">ptr::null_mut</span>());
-
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">ffi::PyType_Spec</span> {
-        <span class="ident">name</span>: <span class="ident">py_class_qualified_name</span>(<span class="ident">module_name</span>, <span class="ident">name</span>)<span class="question-mark">?</span>,
-        <span class="ident">basicsize</span>: <span class="ident">basicsize</span> <span class="kw">as</span> <span class="ident">c_int</span>,
-        <span class="ident">itemsize</span>: <span class="number">0</span>,
-        <span class="ident">flags</span>: <span class="ident">py_class_flags</span>(<span class="ident">has_traverse</span>, <span class="ident">is_basetype</span>),
-        <span class="ident">slots</span>: <span class="ident">slots</span>.<span class="ident">as_mut_ptr</span>(),
-    };
-
-    <span class="kw">let</span> <span class="ident">type_object</span> <span class="op">=</span> <span class="ident">ffi::PyType_FromSpec</span>(<span class="kw-2">&amp;mut</span> <span class="ident">spec</span>);
-    <span class="kw">if</span> <span class="ident">type_object</span>.<span class="ident">is_null</span>() {
-        <span class="prelude-val">Err</span>(<span class="ident">PyErr::fetch</span>(<span class="ident">py</span>))
-    } <span class="kw">else</span> {
-        <span class="ident">tp_init_additional</span>(
-            <span class="ident">type_object</span> <span class="kw">as</span> <span class="kw">_</span>,
-            <span class="ident">tp_doc</span>,
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-            <span class="kw-2">&amp;</span><span class="ident">buffer_procs</span>,
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-            <span class="ident">dict_offset</span>,
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-            <span class="ident">weaklist_offset</span>,
-        );
-        <span class="prelude-val">Ok</span>(<span class="ident">type_object</span> <span class="kw">as</span> <span class="kw">_</span>)
-    }
-}
-
-<span class="attribute">#[<span class="ident">cold</span>]</span>
-<span class="kw">fn</span> <span class="ident">type_object_creation_failed</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">e</span>: <span class="ident">PyErr</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) -&gt; <span class="op">!</span> {
-    <span class="ident">e</span>.<span class="ident">print</span>(<span class="ident">py</span>);
-    <span class="macro">panic!</span>(<span class="string">&quot;An error occurred while initializing class {}&quot;</span>, <span class="ident">name</span>)
-}
-
-<span class="doccomment">/// Additional type initializations necessary before Python 3.10</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>), <span class="ident">not</span>(<span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">tp_init_additional</span>(
-    <span class="ident">_type_object</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span>,
-    <span class="ident">_tp_doc</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span> <span class="ident">buffer_procs</span>: <span class="kw-2">&amp;</span><span class="ident">ffi::PyBufferProcs</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span> <span class="ident">dict_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span> <span class="ident">weaklist_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-) {
-    <span class="comment">// Just patch the type objects for the things there&#39;s no</span>
-    <span class="comment">// PyType_FromSpec API for... there&#39;s no reason this should work,</span>
-    <span class="comment">// except for that it does and we have tests.</span>
-
-    <span class="comment">// Running this causes PyPy to segfault.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>), <span class="ident">not</span>(<span class="ident">Py_3_10</span>)))]</span>
-    {
-        <span class="kw">if</span> <span class="ident">_tp_doc</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;\0&quot;</span> {
-            <span class="comment">// Until CPython 3.10, tp_doc was treated specially for</span>
-            <span class="comment">// heap-types, and it removed the text_signature value from it.</span>
-            <span class="comment">// We go in after the fact and replace tp_doc with something</span>
-            <span class="comment">// that _does_ include the text_signature value!</span>
-            <span class="ident">ffi::PyObject_Free</span>((<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_doc</span> <span class="kw">as</span> <span class="kw">_</span>);
-            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">ffi::PyObject_Malloc</span>(<span class="ident">_tp_doc</span>.<span class="ident">len</span>());
-            <span class="ident">data</span>.<span class="ident">copy_from</span>(<span class="ident">_tp_doc</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">_tp_doc</span>.<span class="ident">len</span>());
-            (<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_doc</span> <span class="op">=</span> <span class="ident">data</span> <span class="kw">as</span> <span class="kw">_</span>;
-        }
-    }
-
-    <span class="comment">// Setting buffer protocols, tp_dictoffset and tp_weaklistoffset via slots doesn&#39;t work until</span>
-    <span class="comment">// Python 3.9, so on older versions we must manually fixup the type object.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-    {
-        (<span class="kw-2">*</span>(<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_as_buffer</span>).<span class="ident">bf_getbuffer</span> <span class="op">=</span> <span class="ident">buffer_procs</span>.<span class="ident">bf_getbuffer</span>;
-        (<span class="kw-2">*</span>(<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_as_buffer</span>).<span class="ident">bf_releasebuffer</span> <span class="op">=</span> <span class="ident">buffer_procs</span>.<span class="ident">bf_releasebuffer</span>;
-
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dict_offset</span>) <span class="op">=</span> <span class="ident">dict_offset</span> {
-            (<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_dictoffset</span> <span class="op">=</span> <span class="ident">dict_offset</span>;
-        }
-
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">weaklist_offset</span>) <span class="op">=</span> <span class="ident">weaklist_offset</span> {
-            (<span class="kw-2">*</span><span class="ident">_type_object</span>).<span class="ident">tp_weaklistoffset</span> <span class="op">=</span> <span class="ident">weaklist_offset</span>;
-        }
-    }
-}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">Py_LIMITED_API</span>, <span class="ident">Py_3_10</span>))]</span>
-<span class="kw">fn</span> <span class="ident">tp_init_additional</span>(
-    <span class="ident">_type_object</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span>,
-    <span class="ident">_tp_doc</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>), <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span> <span class="ident">_buffer_procs</span>: <span class="kw-2">&amp;</span><span class="ident">ffi::PyBufferProcs</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span> <span class="ident">_dict_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span> <span class="ident">_weaklist_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ffi::Py_ssize_t</span><span class="op">&gt;</span>,
-) {
-}
-
-<span class="kw">fn</span> <span class="ident">py_class_doc</span>(<span class="ident">class_doc</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">c_char</span><span class="op">&gt;</span> {
-    <span class="kw">match</span> <span class="ident">class_doc</span> {
-        <span class="string">&quot;\0&quot;</span> =&gt; <span class="prelude-val">None</span>,
-        <span class="ident">s</span> =&gt; {
-            <span class="comment">// To pass *mut pointer to python safely, leak a CString in whichever case</span>
-            <span class="kw">let</span> <span class="ident">cstring</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>().<span class="ident">last</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) {
-                <span class="ident">CStr::from_bytes_with_nul</span>(<span class="ident">s</span>.<span class="ident">as_bytes</span>())
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;doc contains interior nul byte: {:?} in {}&quot;</span>, <span class="ident">e</span>, <span class="ident">s</span>))
-                    .<span class="ident">to_owned</span>()
-            } <span class="kw">else</span> {
-                <span class="ident">CString::new</span>(<span class="ident">s</span>)
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic!</span>(<span class="string">&quot;doc contains interior nul byte: {:?} in {}&quot;</span>, <span class="ident">e</span>, <span class="ident">s</span>))
-            };
-            <span class="prelude-val">Some</span>(<span class="ident">cstring</span>.<span class="ident">into_raw</span>())
-        }
-    }
-}
-
-<span class="kw">fn</span> <span class="ident">py_class_qualified_name</span>(<span class="ident">module_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">class_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">c_char</span><span class="op">&gt;</span> {
-    <span class="prelude-val">Ok</span>(<span class="ident">CString::new</span>(<span class="macro">format!</span>(
-        <span class="string">&quot;{}.{}&quot;</span>,
-        <span class="ident">module_name</span>.<span class="ident">unwrap_or</span>(<span class="string">&quot;builtins&quot;</span>),
-        <span class="ident">class_name</span>
-    ))<span class="question-mark">?</span>
-    .<span class="ident">into_raw</span>())
-}
-
-<span class="kw">fn</span> <span class="ident">py_class_flags</span>(<span class="ident">is_gc</span>: <span class="ident">bool</span>, <span class="ident">is_basetype</span>: <span class="ident">bool</span>) -&gt; <span class="ident">c_uint</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flags</span> <span class="op">=</span> <span class="ident">ffi::Py_TPFLAGS_DEFAULT</span>;
-
-    <span class="kw">if</span> <span class="ident">is_gc</span> {
-        <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="ident">ffi::Py_TPFLAGS_HAVE_GC</span>;
-    }
-
-    <span class="kw">if</span> <span class="ident">is_basetype</span> {
-        <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="ident">ffi::Py_TPFLAGS_BASETYPE</span>;
-    }
-
-    <span class="comment">// `c_ulong` and `c_uint` have the same size</span>
-    <span class="comment">// on some platforms (like windows)</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::useless_conversion</span>)]</span>
-    <span class="ident">flags</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
-}
-
-<span class="kw">struct</span> <span class="ident">PyClassInfo</span> {
-    <span class="ident">method_defs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ffi::PyMethodDef</span><span class="op">&gt;</span>,
-    <span class="ident">property_defs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ffi::PyGetSetDef</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">fn</span> <span class="ident">method_defs_to_pyclass_info</span>(<span class="ident">items_iter</span>: <span class="ident">PyClassItemsIter</span>, <span class="ident">has_dict</span>: <span class="ident">bool</span>) -&gt; <span class="ident">PyClassInfo</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">method_defs</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">property_defs_map</span> <span class="op">=</span> <span class="ident">std::collections::HashMap::new</span>();
-
-    <span class="kw">for</span> <span class="ident">items</span> <span class="kw">in</span> <span class="ident">items_iter</span> {
-        <span class="kw">for</span> <span class="ident">def</span> <span class="kw">in</span> <span class="ident">items</span>.<span class="ident">methods</span> {
-            <span class="kw">match</span> <span class="ident">def</span> {
-                <span class="ident">PyMethodDefType::Getter</span>(<span class="ident">getter</span>) =&gt; {
-                    <span class="ident">getter</span>.<span class="ident">copy_to</span>(
-                        <span class="ident">property_defs_map</span>
-                            .<span class="ident">entry</span>(<span class="ident">getter</span>.<span class="ident">name</span>)
-                            .<span class="ident">or_insert</span>(<span class="ident">PY_GET_SET_DEF_INIT</span>),
-                    );
-                }
-                <span class="ident">PyMethodDefType::Setter</span>(<span class="ident">setter</span>) =&gt; {
-                    <span class="ident">setter</span>.<span class="ident">copy_to</span>(
-                        <span class="ident">property_defs_map</span>
-                            .<span class="ident">entry</span>(<span class="ident">setter</span>.<span class="ident">name</span>)
-                            .<span class="ident">or_insert</span>(<span class="ident">PY_GET_SET_DEF_INIT</span>),
-                    );
-                }
-                <span class="ident">PyMethodDefType::Method</span>(<span class="ident">def</span>)
-                <span class="op">|</span> <span class="ident">PyMethodDefType::Class</span>(<span class="ident">def</span>)
-                <span class="op">|</span> <span class="ident">PyMethodDefType::Static</span>(<span class="ident">def</span>) =&gt; <span class="ident">method_defs</span>.<span class="ident">push</span>(<span class="ident">def</span>.<span class="ident">as_method_def</span>().<span class="ident">unwrap</span>()),
-                <span class="ident">PyMethodDefType::ClassAttribute</span>(<span class="kw">_</span>) =&gt; {}
+            ffi::Py_tp_clear =&gt; <span class="self">self</span>.has_clear = <span class="bool-val">true</span>,
+            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
+            ffi::Py_bf_getbuffer =&gt; {
+                <span class="comment">// Safety: slot.pfunc is a valid function pointer
+                </span><span class="self">self</span>.buffer_procs.bf_getbuffer = <span class="prelude-val">Some</span>(std::mem::transmute(pfunc));
             }
+            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
+            ffi::Py_bf_releasebuffer =&gt; {
+                <span class="comment">// Safety: slot.pfunc is a valid function pointer
+                </span><span class="self">self</span>.buffer_procs.bf_releasebuffer = <span class="prelude-val">Some</span>(std::mem::transmute(pfunc));
+            }
+            <span class="kw">_ </span>=&gt; {}
         }
-    }
 
-    <span class="comment">// TODO: use into_values when on MSRV Rust &gt;= 1.54</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">property_defs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">property_defs_map</span>
-        .<span class="ident">into_iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">value</span>)<span class="op">|</span> <span class="ident">value</span>)
-        .<span class="ident">collect</span>();
-
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">method_defs</span>.<span class="ident">is_empty</span>() {
-        <span class="comment">// Safety: Python expects a zeroed entry to mark the end of the defs</span>
-        <span class="ident">method_defs</span>.<span class="ident">push</span>(<span class="kw">unsafe</span> { <span class="ident">std::mem::zeroed</span>() });
-    }
-
-    <span class="comment">// PyPy doesn&#39;t automatically add __dict__ getter / setter.</span>
-    <span class="comment">// PyObject_GenericGetDict not in the limited API until Python 3.10.</span>
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">has_dict</span> {
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">all</span>(<span class="ident">Py_LIMITED_API</span>, <span class="ident">not</span>(<span class="ident">Py_3_10</span>)))))]</span>
-        <span class="ident">property_defs</span>.<span class="ident">push</span>(<span class="ident">ffi::PyGetSetDef</span> {
-            <span class="ident">name</span>: <span class="string">&quot;__dict__\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">c_char</span>,
-            <span class="ident">get</span>: <span class="prelude-val">Some</span>(<span class="ident">ffi::PyObject_GenericGetDict</span>),
-            <span class="ident">set</span>: <span class="prelude-val">Some</span>(<span class="ident">ffi::PyObject_GenericSetDict</span>),
-            <span class="ident">doc</span>: <span class="ident">ptr::null</span>(),
-            <span class="ident">closure</span>: <span class="ident">ptr::null_mut</span>(),
+        <span class="self">self</span>.slots.push(ffi::PyType_Slot {
+            slot,
+            pfunc: pfunc <span class="kw">as _</span>,
         });
     }
 
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">property_defs</span>.<span class="ident">is_empty</span>() {
-        <span class="comment">// Safety: Python expects a zeroed entry to mark the end of the defs</span>
-        <span class="ident">property_defs</span>.<span class="ident">push</span>(<span class="kw">unsafe</span> { <span class="ident">std::mem::zeroed</span>() });
-    }
-
-    <span class="ident">PyClassInfo</span> {
-        <span class="ident">method_defs</span>,
-        <span class="ident">property_defs</span>,
-    }
-}
-
-<span class="doccomment">/// Generates the __dictoffset__ and __weaklistoffset__ members, to set tp_dictoffset and</span>
-<span class="doccomment">/// tp_weaklistoffset.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Only works on Python 3.9 and up.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="kw">fn</span> <span class="ident">py_class_members</span>(
-    <span class="ident">dict_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>,
-    <span class="ident">weaklist_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ffi::structmember::PyMemberDef</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">offset_def</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">offset</span>: <span class="ident">ffi::Py_ssize_t</span>) -&gt; <span class="ident">ffi::structmember::PyMemberDef</span> {
-        <span class="ident">ffi::structmember::PyMemberDef</span> {
-            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>,
-            <span class="ident">type_code</span>: <span class="ident">ffi::structmember::T_PYSSIZET</span>,
-            <span class="ident">offset</span>,
-            <span class="ident">flags</span>: <span class="ident">ffi::structmember::READONLY</span>,
-            <span class="ident">doc</span>: <span class="ident">std::ptr::null_mut</span>(),
+    <span class="doccomment">/// # Safety
+    /// It is the caller&#39;s responsibility that `data` is of the correct type for the given slot.
+    </span><span class="kw">unsafe fn </span>push_raw_vec_slot&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, slot: c_int, <span class="kw-2">mut </span>data: Vec&lt;T&gt;) {
+        <span class="kw">if </span>!data.is_empty() {
+            <span class="comment">// Python expects a zeroed entry to mark the end of the defs
+            </span>data.push(std::mem::zeroed());
+            <span class="self">self</span>.push_slot(slot, Box::into_raw(data.into_boxed_slice()) <span class="kw">as </span><span class="kw-2">*mut </span>c_void);
         }
     }
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">members</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+    <span class="doccomment">/// # Safety
+    /// The given pointer must be of the correct type for the given slot
+    </span><span class="kw">unsafe fn </span>slot&lt;T&gt;(<span class="kw-2">mut </span><span class="self">self</span>, slot: c_int, pfunc: <span class="kw-2">*mut </span>T) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.push_slot(slot, pfunc);
+        <span class="self">self
+    </span>}
 
-    <span class="comment">// __dict__ support</span>
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dict_offset</span>) <span class="op">=</span> <span class="ident">dict_offset</span> {
-        <span class="ident">members</span>.<span class="ident">push</span>(<span class="ident">offset_def</span>(<span class="string">&quot;__dictoffset__\0&quot;</span>, <span class="ident">dict_offset</span>));
-    }
+    <span class="kw">fn </span>pymethod_def(<span class="kw-2">&amp;mut </span><span class="self">self</span>, def: <span class="kw-2">&amp;</span>PyMethodDefType) {
+        <span class="kw">const </span>PY_GET_SET_DEF_INIT: ffi::PyGetSetDef = ffi::PyGetSetDef {
+            name: ptr::null_mut(),
+            get: <span class="prelude-val">None</span>,
+            set: <span class="prelude-val">None</span>,
+            doc: ptr::null(),
+            closure: ptr::null_mut(),
+        };
 
-    <span class="comment">// weakref support</span>
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">weaklist_offset</span>) <span class="op">=</span> <span class="ident">weaklist_offset</span> {
-        <span class="ident">members</span>.<span class="ident">push</span>(<span class="ident">offset_def</span>(<span class="string">&quot;__weaklistoffset__\0&quot;</span>, <span class="ident">weaklist_offset</span>));
-    }
-
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">members</span>.<span class="ident">is_empty</span>() {
-        <span class="comment">// Safety: Python expects a zeroed entry to mark the end of the defs</span>
-        <span class="ident">members</span>.<span class="ident">push</span>(<span class="kw">unsafe</span> { <span class="ident">std::mem::zeroed</span>() });
-    }
-
-    <span class="ident">members</span>
-}
-
-<span class="kw">const</span> <span class="ident">PY_GET_SET_DEF_INIT</span>: <span class="ident">ffi::PyGetSetDef</span> <span class="op">=</span> <span class="ident">ffi::PyGetSetDef</span> {
-    <span class="ident">name</span>: <span class="ident">ptr::null_mut</span>(),
-    <span class="ident">get</span>: <span class="prelude-val">None</span>,
-    <span class="ident">set</span>: <span class="prelude-val">None</span>,
-    <span class="ident">doc</span>: <span class="ident">ptr::null</span>(),
-    <span class="ident">closure</span>: <span class="ident">ptr::null_mut</span>(),
-};
-
-<span class="doccomment">/// Operators for the `__richcmp__` method</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CompareOp</span> {
-    <span class="doccomment">/// The *less than* operator.</span>
-    <span class="ident">Lt</span> <span class="op">=</span> <span class="ident">ffi::Py_LT</span> <span class="kw">as</span> <span class="ident">isize</span>,
-    <span class="doccomment">/// The *less than or equal to* operator.</span>
-    <span class="ident">Le</span> <span class="op">=</span> <span class="ident">ffi::Py_LE</span> <span class="kw">as</span> <span class="ident">isize</span>,
-    <span class="doccomment">/// The equality operator.</span>
-    <span class="ident">Eq</span> <span class="op">=</span> <span class="ident">ffi::Py_EQ</span> <span class="kw">as</span> <span class="ident">isize</span>,
-    <span class="doccomment">/// The *not equal to* operator.</span>
-    <span class="ident">Ne</span> <span class="op">=</span> <span class="ident">ffi::Py_NE</span> <span class="kw">as</span> <span class="ident">isize</span>,
-    <span class="doccomment">/// The *greater than* operator.</span>
-    <span class="ident">Gt</span> <span class="op">=</span> <span class="ident">ffi::Py_GT</span> <span class="kw">as</span> <span class="ident">isize</span>,
-    <span class="doccomment">/// The *greater than or equal to* operator.</span>
-    <span class="ident">Ge</span> <span class="op">=</span> <span class="ident">ffi::Py_GE</span> <span class="kw">as</span> <span class="ident">isize</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">CompareOp</span> {
-    <span class="doccomment">/// Conversion from the C enum.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_raw</span>(<span class="ident">op</span>: <span class="ident">c_int</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">op</span> {
-            <span class="ident">ffi::Py_LT</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Lt</span>),
-            <span class="ident">ffi::Py_LE</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Le</span>),
-            <span class="ident">ffi::Py_EQ</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Eq</span>),
-            <span class="ident">ffi::Py_NE</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Ne</span>),
-            <span class="ident">ffi::Py_GT</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Gt</span>),
-            <span class="ident">ffi::Py_GE</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">CompareOp::Ge</span>),
-            <span class="kw">_</span> =&gt; <span class="prelude-val">None</span>,
+        <span class="kw">match </span>def {
+            PyMethodDefType::Getter(getter) =&gt; {
+                getter.copy_to(
+                    <span class="self">self</span>.property_defs_map
+                        .entry(getter.name)
+                        .or_insert(PY_GET_SET_DEF_INIT),
+                );
+            }
+            PyMethodDefType::Setter(setter) =&gt; {
+                setter.copy_to(
+                    <span class="self">self</span>.property_defs_map
+                        .entry(setter.name)
+                        .or_insert(PY_GET_SET_DEF_INIT),
+                );
+            }
+            PyMethodDefType::Method(def)
+            | PyMethodDefType::Class(def)
+            | PyMethodDefType::Static(def) =&gt; <span class="self">self</span>.method_defs.push(def.as_method_def().unwrap()),
+            <span class="comment">// These class attributes are added after the type gets created by LazyStaticType
+            </span>PyMethodDefType::ClassAttribute(<span class="kw">_</span>) =&gt; {}
         }
     }
 
-    <span class="doccomment">/// Returns if a Rust [`std::cmp::Ordering`] matches this ordering query.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Usage example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use pyo3::prelude::*;</span>
-    <span class="doccomment">/// # use pyo3::class::basic::CompareOp;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #[pyclass]</span>
-    <span class="doccomment">/// struct Size {</span>
-    <span class="doccomment">///     size: usize</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #[pymethods]</span>
-    <span class="doccomment">/// impl Size {</span>
-    <span class="doccomment">///     fn __richcmp__(&amp;self, other: &amp;Size, op: CompareOp) -&gt; bool {</span>
-    <span class="doccomment">///         op.matches(self.size.cmp(&amp;other.size))</span>
-    <span class="doccomment">///     }</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">matches</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">result</span>: <span class="ident">Ordering</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CompareOp::Eq</span> =&gt; <span class="ident">result</span> <span class="op">==</span> <span class="ident">Ordering::Equal</span>,
-            <span class="ident">CompareOp::Ne</span> =&gt; <span class="ident">result</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Ordering::Equal</span>,
-            <span class="ident">CompareOp::Lt</span> =&gt; <span class="ident">result</span> <span class="op">==</span> <span class="ident">Ordering::Less</span>,
-            <span class="ident">CompareOp::Le</span> =&gt; <span class="ident">result</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Ordering::Greater</span>,
-            <span class="ident">CompareOp::Gt</span> =&gt; <span class="ident">result</span> <span class="op">==</span> <span class="ident">Ordering::Greater</span>,
-            <span class="ident">CompareOp::Ge</span> =&gt; <span class="ident">result</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Ordering::Less</span>,
+    <span class="kw">fn </span>finalize_methods_and_properties(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">let </span>method_defs = std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.method_defs);
+        <span class="comment">// Safety: Py_tp_methods expects a raw vec of PyMethodDef
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.push_raw_vec_slot(ffi::Py_tp_methods, method_defs) };
+
+        <span class="kw">let </span>property_defs = std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.property_defs_map);
+        <span class="comment">// TODO: use into_values when on MSRV Rust &gt;= 1.54
+        </span><span class="attribute">#[allow(unused_mut)]</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>property_defs: Vec&lt;<span class="kw">_</span>&gt; = property_defs.into_iter().map(|(<span class="kw">_</span>, value)| value).collect();
+
+        <span class="comment">// PyPy doesn&#39;t automatically add __dict__ getter / setter.
+        // PyObject_GenericGetDict not in the limited API until Python 3.10.
+        </span><span class="kw">if </span><span class="self">self</span>.has_dict {
+            <span class="attribute">#[cfg(not(any(PyPy, all(Py_LIMITED_API, not(Py_3_10)))))]</span>
+            property_defs.push(ffi::PyGetSetDef {
+                name: <span class="string">&quot;__dict__\0&quot;</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>c_char,
+                get: <span class="prelude-val">Some</span>(ffi::PyObject_GenericGetDict),
+                set: <span class="prelude-val">Some</span>(ffi::PyObject_GenericSetDict),
+                doc: ptr::null(),
+                closure: ptr::null_mut(),
+            });
+        }
+
+        <span class="comment">// Safety: Py_tp_members expects a raw vec of PyGetSetDef
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.push_raw_vec_slot(ffi::Py_tp_getset, property_defs) };
+
+        <span class="comment">// If mapping methods implemented, define sequence methods get implemented too.
+        // CPython does the same for Python `class` statements.
+
+        // NB we don&#39;t implement sq_length to avoid annoying CPython behaviour of automatically adding
+        // the length to negative indices.
+
+        // Don&#39;t add these methods for &quot;pure&quot; mappings.
+
+        </span><span class="kw">if </span>!<span class="self">self</span>.is_mapping &amp;&amp; <span class="self">self</span>.has_getitem {
+            <span class="comment">// Safety: This is the correct slot type for Py_sq_item
+            </span><span class="kw">unsafe </span>{
+                <span class="self">self</span>.push_slot(
+                    ffi::Py_sq_item,
+                    get_sequence_item_from_mapping <span class="kw">as </span><span class="kw-2">*mut </span>c_void,
+                )
+            }
+        }
+
+        <span class="kw">if </span>!<span class="self">self</span>.is_mapping &amp;&amp; <span class="self">self</span>.has_setitem {
+            <span class="comment">// Safety: This is the correct slot type for Py_sq_ass_item
+            </span><span class="kw">unsafe </span>{
+                <span class="self">self</span>.push_slot(
+                    ffi::Py_sq_ass_item,
+                    assign_sequence_item_from_mapping <span class="kw">as </span><span class="kw-2">*mut </span>c_void,
+                )
+            }
+        }
+    }
+
+    <span class="kw">fn </span>set_is_basetype(<span class="kw-2">mut </span><span class="self">self</span>, is_basetype: bool) -&gt; <span class="self">Self </span>{
+        <span class="kw">if </span>is_basetype {
+            <span class="self">self</span>.class_flags |= ffi::Py_TPFLAGS_BASETYPE;
+        }
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>set_is_mapping(<span class="kw-2">mut </span><span class="self">self</span>, is_mapping: bool) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.is_mapping = is_mapping;
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>set_is_sequence(<span class="kw-2">mut </span><span class="self">self</span>, is_sequence: bool) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.is_sequence = is_sequence;
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// # Safety
+    /// All slots in the PyClassItemsIter should be correct
+    </span><span class="kw">unsafe fn </span>class_items(<span class="kw-2">mut </span><span class="self">self</span>, iter: PyClassItemsIter) -&gt; <span class="self">Self </span>{
+        <span class="kw">for </span>items <span class="kw">in </span>iter {
+            <span class="kw">for </span>slot <span class="kw">in </span>items.slots {
+                <span class="self">self</span>.push_slot(slot.slot, slot.pfunc);
+            }
+            <span class="kw">for </span>method <span class="kw">in </span>items.methods {
+                <span class="self">self</span>.pymethod_def(method);
+            }
+        }
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>type_doc(<span class="kw-2">mut </span><span class="self">self</span>, type_doc: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; <span class="self">Self </span>{
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(doc) = py_class_doc(type_doc) {
+            <span class="kw">unsafe </span>{ <span class="self">self</span>.push_slot(ffi::Py_tp_doc, doc) }
+        }
+
+        <span class="comment">// Running this causes PyPy to segfault.
+        </span><span class="attribute">#[cfg(all(not(PyPy), not(Py_LIMITED_API), not(Py_3_10)))]</span>
+        <span class="kw">if </span>type_doc != <span class="string">&quot;\0&quot; </span>{
+            <span class="comment">// Until CPython 3.10, tp_doc was treated specially for
+            // heap-types, and it removed the text_signature value from it.
+            // We go in after the fact and replace tp_doc with something
+            // that _does_ include the text_signature value!
+            </span><span class="self">self</span>.cleanup
+                .push(Box::new(<span class="kw">move </span>|_self, type_object| <span class="kw">unsafe </span>{
+                    ffi::PyObject_Free((<span class="kw-2">*</span>type_object).tp_doc <span class="kw">as _</span>);
+                    <span class="kw">let </span>data = ffi::PyObject_Malloc(type_doc.len());
+                    data.copy_from(type_doc.as_ptr() <span class="kw">as _</span>, type_doc.len());
+                    (<span class="kw-2">*</span>type_object).tp_doc = data <span class="kw">as _</span>;
+                }))
+        }
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>offsets(
+        <span class="kw-2">mut </span><span class="self">self</span>,
+        dict_offset: <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt;,
+        <span class="attribute">#[allow(unused_variables)]</span> weaklist_offset: <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.has_dict = dict_offset.is_some();
+
+        <span class="attribute">#[cfg(Py_3_9)]</span>
+        {
+            <span class="attribute">#[inline(always)]</span>
+            <span class="kw">fn </span>offset_def(
+                name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+                offset: ffi::Py_ssize_t,
+            ) -&gt; ffi::structmember::PyMemberDef {
+                ffi::structmember::PyMemberDef {
+                    name: name.as_ptr() <span class="kw">as _</span>,
+                    type_code: ffi::structmember::T_PYSSIZET,
+                    offset,
+                    flags: ffi::structmember::READONLY,
+                    doc: std::ptr::null_mut(),
+                }
+            }
+
+            <span class="kw">let </span><span class="kw-2">mut </span>members = Vec::new();
+
+            <span class="comment">// __dict__ support
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(dict_offset) = dict_offset {
+                members.push(offset_def(<span class="string">&quot;__dictoffset__\0&quot;</span>, dict_offset));
+            }
+
+            <span class="comment">// weakref support
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(weaklist_offset) = weaklist_offset {
+                members.push(offset_def(<span class="string">&quot;__weaklistoffset__\0&quot;</span>, weaklist_offset));
+            }
+
+            <span class="comment">// Safety: Py_tp_members expects a raw vec of PyMemberDef
+            </span><span class="kw">unsafe </span>{ <span class="self">self</span>.push_raw_vec_slot(ffi::Py_tp_members, members) };
+        }
+
+        <span class="comment">// Setting buffer protocols, tp_dictoffset and tp_weaklistoffset via slots doesn&#39;t work until
+        // Python 3.9, so on older versions we must manually fixup the type object.
+        </span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(Py_3_9)))]</span>
+        {
+            <span class="self">self</span>.cleanup
+                .push(Box::new(<span class="kw">move </span>|builder, type_object| <span class="kw">unsafe </span>{
+                    (<span class="kw-2">*</span>(<span class="kw-2">*</span>type_object).tp_as_buffer).bf_getbuffer = builder.buffer_procs.bf_getbuffer;
+                    (<span class="kw-2">*</span>(<span class="kw-2">*</span>type_object).tp_as_buffer).bf_releasebuffer =
+                        builder.buffer_procs.bf_releasebuffer;
+
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(dict_offset) = dict_offset {
+                        (<span class="kw-2">*</span>type_object).tp_dictoffset = dict_offset;
+                    }
+
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(weaklist_offset) = weaklist_offset {
+                        (<span class="kw-2">*</span>type_object).tp_weaklistoffset = weaklist_offset;
+                    }
+                }));
+        }
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>build(
+        <span class="kw-2">mut </span><span class="self">self</span>,
+        py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
+        name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+        module_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;,
+        basicsize: usize,
+    ) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyTypeObject&gt; {
+        <span class="self">self</span>.finalize_methods_and_properties();
+
+        <span class="kw">if </span>!<span class="self">self</span>.has_new {
+            <span class="comment">// Safety: This is the correct slot type for Py_tp_new
+            </span><span class="kw">unsafe </span>{ <span class="self">self</span>.push_slot(ffi::Py_tp_new, no_constructor_defined <span class="kw">as </span><span class="kw-2">*mut </span>c_void) }
+        }
+
+        <span class="kw">if </span>!<span class="self">self</span>.has_dealloc {
+            <span class="macro">panic!</span>(<span class="string">&quot;PyTypeBuilder requires you to specify slot ffi::Py_tp_dealloc&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.has_clear &amp;&amp; !<span class="self">self</span>.has_traverse {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(PyTypeError::new_err(<span class="macro">format!</span>(
+                <span class="string">&quot;`#[pyclass]` {} implements __clear__ without __traverse__&quot;</span>,
+                name
+            )));
+        }
+
+        <span class="comment">// For sequences, implement sq_length instead of mp_length
+        </span><span class="kw">if </span><span class="self">self</span>.is_sequence {
+            <span class="kw">for </span>slot <span class="kw">in </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.slots {
+                <span class="kw">if </span>slot.slot == ffi::Py_mp_length {
+                    slot.slot = ffi::Py_sq_length;
+                }
+            }
+        }
+
+        <span class="comment">// Add empty sentinel at the end
+        // Safety: python expects this empty slot
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.push_slot(<span class="number">0</span>, ptr::null_mut::&lt;c_void&gt;()) }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>spec = ffi::PyType_Spec {
+            name: py_class_qualified_name(module_name, name)<span class="question-mark">?</span>,
+            basicsize: basicsize <span class="kw">as </span>c_int,
+            itemsize: <span class="number">0</span>,
+            <span class="comment">// `c_ulong` and `c_uint` have the same size
+            // on some platforms (like windows)
+            </span><span class="attribute">#[allow(clippy::useless_conversion)]</span>
+            flags: (ffi::Py_TPFLAGS_DEFAULT | <span class="self">self</span>.class_flags)
+                .try_into()
+                .unwrap(),
+            slots: <span class="self">self</span>.slots.as_mut_ptr(),
+        };
+
+        <span class="comment">// Safety: We&#39;ve correctly setup the PyType_Spec at this point
+        </span><span class="kw">let </span>type_object = <span class="kw">unsafe </span>{ ffi::PyType_FromSpec(<span class="kw-2">&amp;mut </span>spec) };
+        <span class="kw">if </span>type_object.is_null() {
+            <span class="prelude-val">Err</span>(PyErr::fetch(py))
+        } <span class="kw">else </span>{
+            <span class="kw">for </span>cleanup <span class="kw">in </span>std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.cleanup) {
+                cleanup(<span class="kw-2">&amp;</span><span class="self">self</span>, type_object <span class="kw">as _</span>);
+            }
+
+            <span class="prelude-val">Ok</span>(type_object <span class="kw">as _</span>)
         }
     }
 }
 
-<span class="doccomment">/// Output of `__next__` which can either `yield` the next value in the iteration, or</span>
-<span class="doccomment">/// `return` a value to raise `StopIteration` in Python.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See [`PyIterProtocol`](trait.PyIterProtocol.html) for an example.</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IterNextOutput</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The value yielded by the iterator.</span>
-    <span class="ident">Yield</span>(<span class="ident">T</span>),
-    <span class="doccomment">/// The `StopIteration` object.</span>
-    <span class="ident">Return</span>(<span class="ident">U</span>),
+<span class="attribute">#[cold]</span>
+<span class="kw">fn </span>type_object_creation_failed(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, e: PyErr, name: <span class="kw-2">&amp;</span>str) -&gt; ! {
+    e.print(py);
+    <span class="macro">panic!</span>(<span class="string">&quot;An error occurred while initializing class {}&quot;</span>, name)
 }
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PyIterNextOutput</span> <span class="op">=</span> <span class="ident">IterNextOutput</span><span class="op">&lt;</span><span class="ident">PyObject</span>, <span class="ident">PyObject</span><span class="op">&gt;</span>;
-
-<span class="kw">impl</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PyIterNextOutput</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">IterNextOutput::Yield</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">o</span>.<span class="ident">into_ptr</span>()),
-            <span class="ident">IterNextOutput::Return</span>(<span class="ident">opt</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::exceptions::PyStopIteration::new_err</span>((<span class="ident">opt</span>,))),
+<span class="kw">fn </span>py_class_doc(class_doc: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">*mut </span>c_char&gt; {
+    <span class="kw">match </span>class_doc {
+        <span class="string">&quot;\0&quot; </span>=&gt; <span class="prelude-val">None</span>,
+        s =&gt; {
+            <span class="comment">// To pass *mut pointer to python safely, leak a CString in whichever case
+            </span><span class="kw">let </span>cstring = <span class="kw">if </span>s.as_bytes().last() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) {
+                CStr::from_bytes_with_nul(s.as_bytes())
+                    .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">&quot;doc contains interior nul byte: {:?} in {}&quot;</span>, e, s))
+                    .to_owned()
+            } <span class="kw">else </span>{
+                CString::new(s)
+                    .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">&quot;doc contains interior nul byte: {:?} in {}&quot;</span>, e, s))
+            };
+            <span class="prelude-val">Some</span>(cstring.into_raw())
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="ident">PyIterNextOutput</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">IterNextOutput</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
-    <span class="ident">U</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
+<span class="kw">fn </span>py_class_qualified_name(module_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;, class_name: <span class="kw-2">&amp;</span>str) -&gt; PyResult&lt;<span class="kw-2">*mut </span>c_char&gt; {
+    <span class="prelude-val">Ok</span>(CString::new(<span class="macro">format!</span>(
+        <span class="string">&quot;{}.{}&quot;</span>,
+        module_name.unwrap_or(<span class="string">&quot;builtins&quot;</span>),
+        class_name
+    ))<span class="question-mark">?
+    </span>.into_raw())
+}
+
+<span class="doccomment">/// Operators for the `__richcmp__` method
+</span><span class="attribute">#[derive(Debug, Clone, Copy)]</span>
+<span class="kw">pub enum </span>CompareOp {
+    <span class="doccomment">/// The *less than* operator.
+    </span>Lt = ffi::Py_LT <span class="kw">as </span>isize,
+    <span class="doccomment">/// The *less than or equal to* operator.
+    </span>Le = ffi::Py_LE <span class="kw">as </span>isize,
+    <span class="doccomment">/// The equality operator.
+    </span>Eq = ffi::Py_EQ <span class="kw">as </span>isize,
+    <span class="doccomment">/// The *not equal to* operator.
+    </span>Ne = ffi::Py_NE <span class="kw">as </span>isize,
+    <span class="doccomment">/// The *greater than* operator.
+    </span>Gt = ffi::Py_GT <span class="kw">as </span>isize,
+    <span class="doccomment">/// The *greater than or equal to* operator.
+    </span>Ge = ffi::Py_GE <span class="kw">as </span>isize,
+}
+
+<span class="kw">impl </span>CompareOp {
+    <span class="doccomment">/// Conversion from the C enum.
+    </span><span class="kw">pub fn </span>from_raw(op: c_int) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>op {
+            ffi::Py_LT =&gt; <span class="prelude-val">Some</span>(CompareOp::Lt),
+            ffi::Py_LE =&gt; <span class="prelude-val">Some</span>(CompareOp::Le),
+            ffi::Py_EQ =&gt; <span class="prelude-val">Some</span>(CompareOp::Eq),
+            ffi::Py_NE =&gt; <span class="prelude-val">Some</span>(CompareOp::Ne),
+            ffi::Py_GT =&gt; <span class="prelude-val">Some</span>(CompareOp::Gt),
+            ffi::Py_GE =&gt; <span class="prelude-val">Some</span>(CompareOp::Ge),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Returns if a Rust [`std::cmp::Ordering`] matches this ordering query.
+    ///
+    /// Usage example:
+    ///
+    /// ```rust
+    /// # use pyo3::prelude::*;
+    /// # use pyo3::class::basic::CompareOp;
+    ///
+    /// #[pyclass]
+    /// struct Size {
+    ///     size: usize
+    /// }
+    ///
+    /// #[pymethods]
+    /// impl Size {
+    ///     fn __richcmp__(&amp;self, other: &amp;Size, op: CompareOp) -&gt; bool {
+    ///         op.matches(self.size.cmp(&amp;other.size))
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, result: Ordering) -&gt; bool {
+        <span class="kw">match </span><span class="self">self </span>{
+            CompareOp::Eq =&gt; result == Ordering::Equal,
+            CompareOp::Ne =&gt; result != Ordering::Equal,
+            CompareOp::Lt =&gt; result == Ordering::Less,
+            CompareOp::Le =&gt; result != Ordering::Greater,
+            CompareOp::Gt =&gt; result == Ordering::Greater,
+            CompareOp::Ge =&gt; result != Ordering::Less,
+        }
+    }
+}
+
+<span class="doccomment">/// Output of `__next__` which can either `yield` the next value in the iteration, or
+/// `return` a value to raise `StopIteration` in Python.
+///
+/// See [`PyIterProtocol`](trait.PyIterProtocol.html) for an example.
+</span><span class="kw">pub enum </span>IterNextOutput&lt;T, U&gt; {
+    <span class="doccomment">/// The value yielded by the iterator.
+    </span>Yield(T),
+    <span class="doccomment">/// The `StopIteration` object.
+    </span>Return(U),
+}
+
+<span class="kw">pub type </span>PyIterNextOutput = IterNextOutput&lt;PyObject, PyObject&gt;;
+
+<span class="kw">impl </span>IntoPyCallbackOutput&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; <span class="kw">for </span>PyIterNextOutput {
+    <span class="kw">fn </span>convert(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            IterNextOutput::Yield(o) =&gt; <span class="prelude-val">Ok</span>(o.into_ptr()),
+            IterNextOutput::Return(opt) =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::exceptions::PyStopIteration::new_err((opt,))),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;T, U&gt; IntoPyCallbackOutput&lt;PyIterNextOutput&gt; <span class="kw">for </span>IterNextOutput&lt;T, U&gt;
+<span class="kw">where
+    </span>T: IntoPy&lt;PyObject&gt;,
+    U: IntoPy&lt;PyObject&gt;,
 {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">PyIterNextOutput</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">IterNextOutput::Yield</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">IterNextOutput::Yield</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
-            <span class="ident">IterNextOutput::Return</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">IterNextOutput::Return</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
+    <span class="kw">fn </span>convert(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyIterNextOutput&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            IterNextOutput::Yield(o) =&gt; <span class="prelude-val">Ok</span>(IterNextOutput::Yield(o.into_py(py))),
+            IterNextOutput::Return(o) =&gt; <span class="prelude-val">Ok</span>(IterNextOutput::Return(o.into_py(py))),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="ident">PyIterNextOutput</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
+<span class="kw">impl</span>&lt;T&gt; IntoPyCallbackOutput&lt;PyIterNextOutput&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt;
+<span class="kw">where
+    </span>T: IntoPy&lt;PyObject&gt;,
 {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">PyIterNextOutput</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">PyIterNextOutput::Yield</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">PyIterNextOutput::Return</span>(<span class="ident">py</span>.<span class="prelude-val">None</span>())),
+    <span class="kw">fn </span>convert(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyIterNextOutput&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="prelude-val">Some</span>(o) =&gt; <span class="prelude-val">Ok</span>(PyIterNextOutput::Yield(o.into_py(py))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(PyIterNextOutput::Return(py.<span class="prelude-val">None</span>())),
         }
     }
 }
 
-<span class="doccomment">/// Output of `__anext__`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// &lt;https://docs.python.org/3/reference/expressions.html#agen.__anext__&gt;</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IterANextOutput</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// An expression which the generator yielded.</span>
-    <span class="ident">Yield</span>(<span class="ident">T</span>),
-    <span class="doccomment">/// A `StopAsyncIteration` object.</span>
-    <span class="ident">Return</span>(<span class="ident">U</span>),
+<span class="doccomment">/// Output of `__anext__`.
+///
+/// &lt;https://docs.python.org/3/reference/expressions.html#agen.__anext__&gt;
+</span><span class="kw">pub enum </span>IterANextOutput&lt;T, U&gt; {
+    <span class="doccomment">/// An expression which the generator yielded.
+    </span>Yield(T),
+    <span class="doccomment">/// A `StopAsyncIteration` object.
+    </span>Return(U),
 }
 
-<span class="doccomment">/// An [IterANextOutput] of Python objects.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PyIterANextOutput</span> <span class="op">=</span> <span class="ident">IterANextOutput</span><span class="op">&lt;</span><span class="ident">PyObject</span>, <span class="ident">PyObject</span><span class="op">&gt;</span>;
+<span class="doccomment">/// An [IterANextOutput] of Python objects.
+</span><span class="kw">pub type </span>PyIterANextOutput = IterANextOutput&lt;PyObject, PyObject&gt;;
 
-<span class="kw">impl</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PyIterANextOutput</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">IterANextOutput::Yield</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">o</span>.<span class="ident">into_ptr</span>()),
-            <span class="ident">IterANextOutput::Return</span>(<span class="ident">opt</span>) =&gt; {
-                <span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::exceptions::PyStopAsyncIteration::new_err</span>((<span class="ident">opt</span>,)))
+<span class="kw">impl </span>IntoPyCallbackOutput&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; <span class="kw">for </span>PyIterANextOutput {
+    <span class="kw">fn </span>convert(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            IterANextOutput::Yield(o) =&gt; <span class="prelude-val">Ok</span>(o.into_ptr()),
+            IterANextOutput::Return(opt) =&gt; {
+                <span class="prelude-val">Err</span>(<span class="kw">crate</span>::exceptions::PyStopAsyncIteration::new_err((opt,)))
             }
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="ident">PyIterANextOutput</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">IterANextOutput</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
-    <span class="ident">U</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
+<span class="kw">impl</span>&lt;T, U&gt; IntoPyCallbackOutput&lt;PyIterANextOutput&gt; <span class="kw">for </span>IterANextOutput&lt;T, U&gt;
+<span class="kw">where
+    </span>T: IntoPy&lt;PyObject&gt;,
+    U: IntoPy&lt;PyObject&gt;,
 {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">PyIterANextOutput</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">IterANextOutput::Yield</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">IterANextOutput::Yield</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
-            <span class="ident">IterANextOutput::Return</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">IterANextOutput::Return</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
+    <span class="kw">fn </span>convert(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyIterANextOutput&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            IterANextOutput::Yield(o) =&gt; <span class="prelude-val">Ok</span>(IterANextOutput::Yield(o.into_py(py))),
+            IterANextOutput::Return(o) =&gt; <span class="prelude-val">Ok</span>(IterANextOutput::Return(o.into_py(py))),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IntoPyCallbackOutput</span><span class="op">&lt;</span><span class="ident">PyIterANextOutput</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">IntoPy</span><span class="op">&lt;</span><span class="ident">PyObject</span><span class="op">&gt;</span>,
+<span class="kw">impl</span>&lt;T&gt; IntoPyCallbackOutput&lt;PyIterANextOutput&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt;
+<span class="kw">where
+    </span>T: IntoPy&lt;PyObject&gt;,
 {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="ident">PyIterANextOutput</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">o</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">PyIterANextOutput::Yield</span>(<span class="ident">o</span>.<span class="ident">into_py</span>(<span class="ident">py</span>))),
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">PyIterANextOutput::Return</span>(<span class="ident">py</span>.<span class="prelude-val">None</span>())),
+    <span class="kw">fn </span>convert(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyIterANextOutput&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="prelude-val">Some</span>(o) =&gt; <span class="prelude-val">Ok</span>(PyIterANextOutput::Yield(o.into_py(py))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(PyIterANextOutput::Return(py.<span class="prelude-val">None</span>())),
         }
     }
 }
 
-<span class="doccomment">/// Default new implementation</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">no_constructor_defined</span>(
-    <span class="ident">_subtype</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyTypeObject</span>,
-    <span class="ident">_args</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-    <span class="ident">_kwds</span>: <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">ffi::PyObject</span> {
-    <span class="macro">crate::callback_body!</span>(<span class="ident">py</span>, {
-        <span class="prelude-val">Err</span>::<span class="op">&lt;</span>(), <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident"><span class="kw">crate</span>::exceptions::PyTypeError::new_err</span>(
+<span class="doccomment">/// Default new implementation
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>no_constructor_defined(
+    _subtype: <span class="kw-2">*mut </span>ffi::PyTypeObject,
+    _args: <span class="kw-2">*mut </span>ffi::PyObject,
+    _kwds: <span class="kw-2">*mut </span>ffi::PyObject,
+) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    <span class="macro">crate::callback_body!</span>(py, {
+        <span class="prelude-val">Err</span>::&lt;(), <span class="kw">_</span>&gt;(<span class="kw">crate</span>::exceptions::PyTypeError::new_err(
             <span class="string">&quot;No constructor defined&quot;</span>,
         ))
     })
 }
 
-<span class="doccomment">/// A workaround for [associated const equality](https://github.com/rust-lang/rust/issues/92827).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This serves to have True / False values in the [`PyClass`] trait&#39;s `Frozen` type.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">boolean_struct</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">private</span> {
-        <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="doccomment">/// A workaround for [associated const equality](https://github.com/rust-lang/rust/issues/92827).
+///
+/// This serves to have True / False values in the [`PyClass`] trait&#39;s `Frozen` type.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub mod </span>boolean_struct {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>private {
+        <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-        <span class="doccomment">/// A way to &quot;seal&quot; the boolean traits.</span>
-        <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Boolean</span> {}
+        <span class="doccomment">/// A way to &quot;seal&quot; the boolean traits.
+        </span><span class="kw">pub trait </span>Boolean {}
 
-        <span class="kw">impl</span> <span class="ident">Boolean</span> <span class="kw">for</span> <span class="ident">True</span> {}
-        <span class="kw">impl</span> <span class="ident">Boolean</span> <span class="kw">for</span> <span class="ident">False</span> {}
+        <span class="kw">impl </span>Boolean <span class="kw">for </span>True {}
+        <span class="kw">impl </span>Boolean <span class="kw">for </span>False {}
     }
 
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">True</span>(());
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">False</span>(());
+    <span class="kw">pub struct </span>True(());
+    <span class="kw">pub struct </span>False(());
 }
 
-<span class="doccomment">/// A trait which is used to describe whether a `#[pyclass]` is frozen.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Frozen</span>: <span class="ident">boolean_struct::private::Boolean</span> {}
+<span class="doccomment">/// A trait which is used to describe whether a `#[pyclass]` is frozen.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub trait </span>Frozen: boolean_struct::private::Boolean {}
 
-<span class="kw">impl</span> <span class="ident">Frozen</span> <span class="kw">for</span> <span class="ident">boolean_struct::True</span> {}
-<span class="kw">impl</span> <span class="ident">Frozen</span> <span class="kw">for</span> <span class="ident">boolean_struct::False</span> {}
+<span class="kw">impl </span>Frozen <span class="kw">for </span>boolean_struct::True {}
+<span class="kw">impl </span>Frozen <span class="kw">for </span>boolean_struct::False {}
 
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_compare_op_matches</span>() {
-        <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::CompareOp</span>;
-        <span class="kw">use</span> <span class="ident">std::cmp::Ordering</span>;
+<span class="kw">mod </span>tests {
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_compare_op_matches() {
+        <span class="kw">use </span><span class="kw">super</span>::CompareOp;
+        <span class="kw">use </span>std::cmp::Ordering;
 
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Eq</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Equal</span>));
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Ne</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Less</span>));
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Ge</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Greater</span>));
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Gt</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Greater</span>));
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Le</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Equal</span>));
-        <span class="macro">assert!</span>(<span class="ident">CompareOp::Lt</span>.<span class="ident">matches</span>(<span class="ident">Ordering::Less</span>));
+        <span class="macro">assert!</span>(CompareOp::Eq.matches(Ordering::Equal));
+        <span class="macro">assert!</span>(CompareOp::Ne.matches(Ordering::Less));
+        <span class="macro">assert!</span>(CompareOp::Ge.matches(Ordering::Greater));
+        <span class="macro">assert!</span>(CompareOp::Gt.matches(Ordering::Greater));
+        <span class="macro">assert!</span>(CompareOp::Le.matches(Ordering::Equal));
+        <span class="macro">assert!</span>(CompareOp::Lt.matches(Ordering::Less));
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

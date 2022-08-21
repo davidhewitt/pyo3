@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/conversions/anyhow.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>anyhow.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/conversions/anyhow.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>anyhow.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -172,174 +166,173 @@
 <span id="166">166</span>
 <span id="167">167</span>
 <span id="168">168</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;anyhow&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;anyhow&quot;</span>)]</span>
 
-<span class="doccomment">//! A conversion from</span>
-<span class="doccomment">//! [anyhow](https://docs.rs/anyhow/ &quot;A trait object based error system for easy idiomatic error handling in Rust applications.&quot;)’s</span>
-<span class="doccomment">//! [`Error`](https://docs.rs/anyhow/latest/anyhow/struct.Error.html &quot;Anyhows `Error` type, a wrapper around a dynamic error type&quot;)</span>
-<span class="doccomment">//! type to [`PyErr`].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Use of an error handling library like [anyhow] is common in application code and when you just</span>
-<span class="doccomment">//! want error handling to be easy. If you are writing a library or you need more control over your</span>
-<span class="doccomment">//! errors you might want to design your own error type instead.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This implementation always creates a Python [`RuntimeError`]. You might find that you need to</span>
-<span class="doccomment">//! map the error from your Rust code into another Python exception. See [`PyErr::new`] for more</span>
-<span class="doccomment">//! information about that.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! For information about error handling in general, see the [Error handling] chapter of the Rust</span>
-<span class="doccomment">//! book.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Setup</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! To use this feature, add this to your **`Cargo.toml`**:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```toml</span>
-<span class="doccomment">//! [dependencies]</span>
-<span class="doccomment">//! ## change * to the version you want to use, ideally the latest.</span>
-<span class="doccomment">//! anyhow = &quot;*&quot;</span>
-<span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;anyhow\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(
-    <span class="ident">not</span>(<span class="ident">docsrs</span>),
-    <span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;anyhow\&quot;] }&quot;</span>
-)]</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Note that you must use compatible versions of anyhow and PyO3.</span>
-<span class="doccomment">//! The required anyhow version may vary based on the version of PyO3.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Example: Propagating a `PyErr` into [`anyhow::Error`]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use pyo3::prelude::*;</span>
-<span class="doccomment">//! use pyo3::wrap_pyfunction;</span>
-<span class="doccomment">//! use std::path::PathBuf;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // A wrapper around a Rust function.</span>
-<span class="doccomment">//! // The pyfunction macro performs the conversion to a PyErr</span>
-<span class="doccomment">//! #[pyfunction]</span>
-<span class="doccomment">//! fn py_open(filename: PathBuf) -&gt; anyhow::Result&lt;Vec&lt;u8&gt;&gt; {</span>
-<span class="doccomment">//!     let data = std::fs::read(filename)?;</span>
-<span class="doccomment">//!     Ok(data)</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     let error = Python::with_gil(|py| -&gt; PyResult&lt;Vec&lt;u8&gt;&gt; {</span>
-<span class="doccomment">//!         let fun = wrap_pyfunction!(py_open, py)?;</span>
-<span class="doccomment">//!         let text = fun.call1((&quot;foo.txt&quot;,))?.extract::&lt;Vec&lt;u8&gt;&gt;()?;</span>
-<span class="doccomment">//!         Ok(text)</span>
-<span class="doccomment">//!     }).unwrap_err();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     println!(&quot;{}&quot;, error);</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Example: Using `anyhow` in general</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Note that you don&#39;t need this feature to convert a [`PyErr`] into an [`anyhow::Error`], because</span>
-<span class="doccomment">//! it can already convert anything that implements [`Error`](std::error::Error):</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use pyo3::prelude::*;</span>
-<span class="doccomment">//! use pyo3::types::PyBytes;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // An example function that must handle multiple error types.</span>
-<span class="doccomment">//! //</span>
-<span class="doccomment">//! // To do this you usually need to design your own error type or use</span>
-<span class="doccomment">//! // `Box&lt;dyn Error&gt;`. `anyhow` is a convenient alternative for this.</span>
-<span class="doccomment">//! pub fn decompress(bytes: &amp;[u8]) -&gt; anyhow::Result&lt;String&gt; {</span>
-<span class="doccomment">//!     // An arbitrary example of a Python api you</span>
-<span class="doccomment">//!     // could call inside an application...</span>
-<span class="doccomment">//!     // This might return a `PyErr`.</span>
-<span class="doccomment">//!     let res = Python::with_gil(|py| {</span>
-<span class="doccomment">//!         let zlib = PyModule::import(py, &quot;zlib&quot;)?;</span>
-<span class="doccomment">//!         let decompress = zlib.getattr(&quot;decompress&quot;)?;</span>
-<span class="doccomment">//!         let bytes = PyBytes::new(py, bytes);</span>
-<span class="doccomment">//!         let value = decompress.call1((bytes,))?;</span>
-<span class="doccomment">//!         value.extract::&lt;Vec&lt;u8&gt;&gt;()</span>
-<span class="doccomment">//!     })?;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // This might be a `FromUtf8Error`.</span>
-<span class="doccomment">//!     let text = String::from_utf8(res)?;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     Ok(text)</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() -&gt; anyhow::Result&lt;()&gt; {</span>
-<span class="doccomment">//!     let bytes: &amp;[u8] = b&quot;x\x9c\x8b\xcc/U(\xce\xc8/\xcdIQ((\xcaOJL\xca\xa9T\</span>
-<span class="doccomment">//!                         (-NU(\xc9HU\xc8\xc9LJ\xcbI,IUH.\x02\x91\x99y\xc5%\</span>
-<span class="doccomment">//!                         \xa9\x89)z\x00\xf2\x15\x12\xfe&quot;;</span>
-<span class="doccomment">//!     let text = decompress(bytes)?;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     println!(&quot;The text is \&quot;{}\&quot;&quot;, text);</span>
-<span class="doccomment">//! # assert_eq!(text, &quot;You should probably use the libflate crate instead.&quot;);</span>
-<span class="doccomment">//!     Ok(())</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [`RuntimeError`]: https://docs.python.org/3/library/exceptions.html#RuntimeError &quot;Built-in Exceptions — Python documentation&quot;</span>
-<span class="doccomment">//! [Error handling]: https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html &quot;Recoverable Errors with Result - The Rust Programming Language&quot;</span>
+<span class="doccomment">//! A conversion from
+//! [anyhow](https://docs.rs/anyhow/ &quot;A trait object based error system for easy idiomatic error handling in Rust applications.&quot;)’s
+//! [`Error`](https://docs.rs/anyhow/latest/anyhow/struct.Error.html &quot;Anyhows `Error` type, a wrapper around a dynamic error type&quot;)
+//! type to [`PyErr`].
+//!
+//! Use of an error handling library like [anyhow] is common in application code and when you just
+//! want error handling to be easy. If you are writing a library or you need more control over your
+//! errors you might want to design your own error type instead.
+//!
+//! This implementation always creates a Python [`RuntimeError`]. You might find that you need to
+//! map the error from your Rust code into another Python exception. See [`PyErr::new`] for more
+//! information about that.
+//!
+//! For information about error handling in general, see the [Error handling] chapter of the Rust
+//! book.
+//!
+//! # Setup
+//!
+//! To use this feature, add this to your **`Cargo.toml`**:
+//!
+//! ```toml
+//! [dependencies]
+//! ## change * to the version you want to use, ideally the latest.
+//! anyhow = &quot;*&quot;
+</span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;anyhow\&quot;] }&quot;</span>)))]</span>
+<span class="attribute">#![cfg_attr(
+    not(docsrs),
+    doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;anyhow\&quot;] }&quot;
+</span>)]</span>
+<span class="doccomment">//! ```
+//!
+//! Note that you must use compatible versions of anyhow and PyO3.
+//! The required anyhow version may vary based on the version of PyO3.
+//!
+//! # Example: Propagating a `PyErr` into [`anyhow::Error`]
+//!
+//! ```rust
+//! use pyo3::prelude::*;
+//! use pyo3::wrap_pyfunction;
+//! use std::path::PathBuf;
+//!
+//! // A wrapper around a Rust function.
+//! // The pyfunction macro performs the conversion to a PyErr
+//! #[pyfunction]
+//! fn py_open(filename: PathBuf) -&gt; anyhow::Result&lt;Vec&lt;u8&gt;&gt; {
+//!     let data = std::fs::read(filename)?;
+//!     Ok(data)
+//! }
+//!
+//! fn main() {
+//!     let error = Python::with_gil(|py| -&gt; PyResult&lt;Vec&lt;u8&gt;&gt; {
+//!         let fun = wrap_pyfunction!(py_open, py)?;
+//!         let text = fun.call1((&quot;foo.txt&quot;,))?.extract::&lt;Vec&lt;u8&gt;&gt;()?;
+//!         Ok(text)
+//!     }).unwrap_err();
+//!
+//!     println!(&quot;{}&quot;, error);
+//! }
+//! ```
+//!
+//! # Example: Using `anyhow` in general
+//!
+//! Note that you don&#39;t need this feature to convert a [`PyErr`] into an [`anyhow::Error`], because
+//! it can already convert anything that implements [`Error`](std::error::Error):
+//!
+//! ```rust
+//! use pyo3::prelude::*;
+//! use pyo3::types::PyBytes;
+//!
+//! // An example function that must handle multiple error types.
+//! //
+//! // To do this you usually need to design your own error type or use
+//! // `Box&lt;dyn Error&gt;`. `anyhow` is a convenient alternative for this.
+//! pub fn decompress(bytes: &amp;[u8]) -&gt; anyhow::Result&lt;String&gt; {
+//!     // An arbitrary example of a Python api you
+//!     // could call inside an application...
+//!     // This might return a `PyErr`.
+//!     let res = Python::with_gil(|py| {
+//!         let zlib = PyModule::import(py, &quot;zlib&quot;)?;
+//!         let decompress = zlib.getattr(&quot;decompress&quot;)?;
+//!         let bytes = PyBytes::new(py, bytes);
+//!         let value = decompress.call1((bytes,))?;
+//!         value.extract::&lt;Vec&lt;u8&gt;&gt;()
+//!     })?;
+//!
+//!     // This might be a `FromUtf8Error`.
+//!     let text = String::from_utf8(res)?;
+//!
+//!     Ok(text)
+//! }
+//!
+//! fn main() -&gt; anyhow::Result&lt;()&gt; {
+//!     let bytes: &amp;[u8] = b&quot;x\x9c\x8b\xcc/U(\xce\xc8/\xcdIQ((\xcaOJL\xca\xa9T\
+//!                         (-NU(\xc9HU\xc8\xc9LJ\xcbI,IUH.\x02\x91\x99y\xc5%\
+//!                         \xa9\x89)z\x00\xf2\x15\x12\xfe&quot;;
+//!     let text = decompress(bytes)?;
+//!
+//!     println!(&quot;The text is \&quot;{}\&quot;&quot;, text);
+//! # assert_eq!(text, &quot;You should probably use the libflate crate instead.&quot;);
+//!     Ok(())
+//! }
+//! ```
+//!
+//! [`RuntimeError`]: https://docs.python.org/3/library/exceptions.html#RuntimeError &quot;Built-in Exceptions — Python documentation&quot;
+//! [Error handling]: https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html &quot;Recoverable Errors with Result - The Rust Programming Language&quot;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::exceptions::PyRuntimeError</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PyErr</span>;
+</span><span class="kw">use </span><span class="kw">crate</span>::exceptions::PyRuntimeError;
+<span class="kw">use </span><span class="kw">crate</span>::PyErr;
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">anyhow::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PyErr</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">anyhow::Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">PyRuntimeError::new_err</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">err</span>))
+<span class="kw">impl </span>From&lt;anyhow::Error&gt; <span class="kw">for </span>PyErr {
+    <span class="kw">fn </span>from(err: anyhow::Error) -&gt; <span class="self">Self </span>{
+        PyRuntimeError::new_err(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err))
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">test_anyhow</span> {
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::prelude</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::IntoPyDict</span>;
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>test_anyhow {
+    <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::types::IntoPyDict;
 
-    <span class="kw">use</span> <span class="ident">anyhow</span>::{<span class="ident">anyhow</span>, <span class="ident">bail</span>, <span class="ident">Context</span>, <span class="prelude-ty">Result</span>};
+    <span class="kw">use </span>anyhow::{anyhow, bail, Context, <span class="prelude-ty">Result</span>};
 
-    <span class="kw">fn</span> <span class="ident">f</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">std::io</span>;
-        <span class="macro">bail!</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::PermissionDenied</span>, <span class="string">&quot;oh no!&quot;</span>));
+    <span class="kw">fn </span>f() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">use </span>std::io;
+        <span class="macro">bail!</span>(io::Error::new(io::ErrorKind::PermissionDenied, <span class="string">&quot;oh no!&quot;</span>));
     }
 
-    <span class="kw">fn</span> <span class="ident">g</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">f</span>().<span class="ident">context</span>(<span class="string">&quot;f failed&quot;</span>)
+    <span class="kw">fn </span>g() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        f().context(<span class="string">&quot;f failed&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">h</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">g</span>().<span class="ident">context</span>(<span class="string">&quot;g failed&quot;</span>)
+    <span class="kw">fn </span>h() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        g().context(<span class="string">&quot;g failed&quot;</span>)
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_pyo3_exception_contents</span>() {
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">h</span>().<span class="ident">unwrap_err</span>();
-        <span class="kw">let</span> <span class="ident">expected_contents</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">err</span>);
-        <span class="kw">let</span> <span class="ident">pyerr</span> <span class="op">=</span> <span class="ident">PyErr::from</span>(<span class="ident">err</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_pyo3_exception_contents() {
+        <span class="kw">let </span>err = h().unwrap_err();
+        <span class="kw">let </span>expected_contents = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err);
+        <span class="kw">let </span>pyerr = PyErr::from(err);
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">locals</span> <span class="op">=</span> [(<span class="string">&quot;err&quot;</span>, <span class="ident">pyerr</span>)].<span class="ident">into_py_dict</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">pyerr</span> <span class="op">=</span> <span class="ident">py</span>.<span class="ident">run</span>(<span class="string">&quot;raise err&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">locals</span>)).<span class="ident">unwrap_err</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">pyerr</span>.<span class="ident">value</span>(<span class="ident">py</span>).<span class="ident">to_string</span>(), <span class="ident">expected_contents</span>);
+        Python::with_gil(|py| {
+            <span class="kw">let </span>locals = [(<span class="string">&quot;err&quot;</span>, pyerr)].into_py_dict(py);
+            <span class="kw">let </span>pyerr = py.run(<span class="string">&quot;raise err&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(locals)).unwrap_err();
+            <span class="macro">assert_eq!</span>(pyerr.value(py).to_string(), expected_contents);
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">k</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn </span>k() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
         <span class="prelude-val">Err</span>(<span class="macro">anyhow!</span>(<span class="string">&quot;Some sort of error&quot;</span>))
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_pyo3_exception_contents2</span>() {
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">k</span>().<span class="ident">unwrap_err</span>();
-        <span class="kw">let</span> <span class="ident">expected_contents</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">err</span>);
-        <span class="kw">let</span> <span class="ident">pyerr</span> <span class="op">=</span> <span class="ident">PyErr::from</span>(<span class="ident">err</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_pyo3_exception_contents2() {
+        <span class="kw">let </span>err = k().unwrap_err();
+        <span class="kw">let </span>expected_contents = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err);
+        <span class="kw">let </span>pyerr = PyErr::from(err);
 
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">locals</span> <span class="op">=</span> [(<span class="string">&quot;err&quot;</span>, <span class="ident">pyerr</span>)].<span class="ident">into_py_dict</span>(<span class="ident">py</span>);
-            <span class="kw">let</span> <span class="ident">pyerr</span> <span class="op">=</span> <span class="ident">py</span>.<span class="ident">run</span>(<span class="string">&quot;raise err&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">locals</span>)).<span class="ident">unwrap_err</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">pyerr</span>.<span class="ident">value</span>(<span class="ident">py</span>).<span class="ident">to_string</span>(), <span class="ident">expected_contents</span>);
+        Python::with_gil(|py| {
+            <span class="kw">let </span>locals = [(<span class="string">&quot;err&quot;</span>, pyerr)].into_py_dict(py);
+            <span class="kw">let </span>pyerr = py.run(<span class="string">&quot;raise err&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(locals)).unwrap_err();
+            <span class="macro">assert_eq!</span>(pyerr.value(py).to_string(), expected_contents);
         })
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

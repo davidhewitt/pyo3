@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/compile.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/cpython/compile.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3_ffi/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -97,99 +91,98 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
-</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::object::PyObject</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pyarena</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pythonrun</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PyCodeObject</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-<span class="kw">use</span> <span class="ident">std::os::raw::c_char</span>;
-<span class="kw">use</span> <span class="ident">std::os::raw::c_int</span>;
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::object::PyObject;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::pyarena::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::pythonrun::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+<span class="kw">use </span><span class="kw">crate</span>::PyCodeObject;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+<span class="kw">use </span>std::os::raw::c_char;
+<span class="kw">use </span>std::os::raw::c_int;
 
-<span class="comment">// skipped non-limited PyCF_MASK</span>
-<span class="comment">// skipped non-limited PyCF_MASK_OBSOLETE</span>
-<span class="comment">// skipped non-limited PyCF_SOURCE_IS_UTF8</span>
-<span class="comment">// skipped non-limited PyCF_DONT_IMPLY_DEDENT</span>
-<span class="comment">// skipped non-limited PyCF_ONLY_AST</span>
-<span class="comment">// skipped non-limited PyCF_IGNORE_COOKIE</span>
-<span class="comment">// skipped non-limited PyCF_TYPE_COMMENTS</span>
-<span class="comment">// skipped non-limited PyCF_ALLOW_TOP_LEVEL_AWAIT</span>
-<span class="comment">// skipped non-limited PyCF_COMPILE_MASK</span>
+<span class="comment">// skipped non-limited PyCF_MASK
+// skipped non-limited PyCF_MASK_OBSOLETE
+// skipped non-limited PyCF_SOURCE_IS_UTF8
+// skipped non-limited PyCF_DONT_IMPLY_DEDENT
+// skipped non-limited PyCF_ONLY_AST
+// skipped non-limited PyCF_IGNORE_COOKIE
+// skipped non-limited PyCF_TYPE_COMMENTS
+// skipped non-limited PyCF_ALLOW_TOP_LEVEL_AWAIT
+// skipped non-limited PyCF_COMPILE_MASK
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyCompilerFlags</span> {
-    <span class="kw">pub</span> <span class="ident">cf_flags</span>: <span class="ident">c_int</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_8</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cf_feature_version</span>: <span class="ident">c_int</span>,
+</span><span class="attribute">#[repr(C)]</span>
+<span class="attribute">#[derive(Copy, Clone)]</span>
+<span class="kw">pub struct </span>PyCompilerFlags {
+    <span class="kw">pub </span>cf_flags: c_int,
+    <span class="attribute">#[cfg(Py_3_8)]</span>
+    <span class="kw">pub </span>cf_feature_version: c_int,
 }
 
-<span class="comment">// skipped non-limited _PyCompilerFlags_INIT</span>
+<span class="comment">// skipped non-limited _PyCompilerFlags_INIT
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyFutureFeatures</span> {
-    <span class="kw">pub</span> <span class="ident">ff_features</span>: <span class="ident">c_int</span>,
-    <span class="kw">pub</span> <span class="ident">ff_lineno</span>: <span class="ident">c_int</span>,
+</span><span class="attribute">#[cfg(not(PyPy))]</span>
+<span class="attribute">#[repr(C)]</span>
+<span class="attribute">#[derive(Copy, Clone)]</span>
+<span class="kw">pub struct </span>PyFutureFeatures {
+    <span class="kw">pub </span>ff_features: c_int,
+    <span class="kw">pub </span>ff_lineno: c_int,
 }
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_NESTED_SCOPES</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;nested_scopes&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_GENERATORS</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;generators&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_DIVISION</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;division&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_ABSOLUTE_IMPORT</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;absolute_import&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_WITH_STATEMENT</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;with_statement&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_PRINT_FUNCTION</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;print_function&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_UNICODE_LITERALS</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;unicode_literals&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_BARRY_AS_BDFL</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;barry_as_FLUFL&quot;</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">FUTURE_GENERATOR_STOP</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;generator_stop&quot;</span>;
-<span class="comment">// skipped non-limited FUTURE_ANNOTATIONS</span>
+<span class="kw">pub const </span>FUTURE_NESTED_SCOPES: <span class="kw-2">&amp;</span>str = <span class="string">&quot;nested_scopes&quot;</span>;
+<span class="kw">pub const </span>FUTURE_GENERATORS: <span class="kw-2">&amp;</span>str = <span class="string">&quot;generators&quot;</span>;
+<span class="kw">pub const </span>FUTURE_DIVISION: <span class="kw-2">&amp;</span>str = <span class="string">&quot;division&quot;</span>;
+<span class="kw">pub const </span>FUTURE_ABSOLUTE_IMPORT: <span class="kw-2">&amp;</span>str = <span class="string">&quot;absolute_import&quot;</span>;
+<span class="kw">pub const </span>FUTURE_WITH_STATEMENT: <span class="kw-2">&amp;</span>str = <span class="string">&quot;with_statement&quot;</span>;
+<span class="kw">pub const </span>FUTURE_PRINT_FUNCTION: <span class="kw-2">&amp;</span>str = <span class="string">&quot;print_function&quot;</span>;
+<span class="kw">pub const </span>FUTURE_UNICODE_LITERALS: <span class="kw-2">&amp;</span>str = <span class="string">&quot;unicode_literals&quot;</span>;
+<span class="kw">pub const </span>FUTURE_BARRY_AS_BDFL: <span class="kw-2">&amp;</span>str = <span class="string">&quot;barry_as_FLUFL&quot;</span>;
+<span class="kw">pub const </span>FUTURE_GENERATOR_STOP: <span class="kw-2">&amp;</span>str = <span class="string">&quot;generator_stop&quot;</span>;
+<span class="comment">// skipped non-limited FUTURE_ANNOTATIONS
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyNode_Compile</span>(<span class="ident">arg1</span>: <span class="kw-2">*mut</span> <span class="ident">_node</span>, <span class="ident">arg2</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyCodeObject</span>;
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+    <span class="kw">pub fn </span>PyNode_Compile(arg1: <span class="kw-2">*mut </span>_node, arg2: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyAST_CompileEx</span>(
-        <span class="ident">_mod</span>: <span class="kw-2">*mut</span> <span class="ident">_mod</span>,
-        <span class="ident">filename</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">flags</span>: <span class="kw-2">*mut</span> <span class="ident">PyCompilerFlags</span>,
-        <span class="ident">optimize</span>: <span class="ident">c_int</span>,
-        <span class="ident">arena</span>: <span class="kw-2">*mut</span> <span class="ident">PyArena</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyCodeObject</span>;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+    <span class="kw">pub fn </span>PyAST_CompileEx(
+        _mod: <span class="kw-2">*mut </span>_mod,
+        filename: <span class="kw-2">*const </span>c_char,
+        flags: <span class="kw-2">*mut </span>PyCompilerFlags,
+        optimize: c_int,
+        arena: <span class="kw-2">*mut </span>PyArena,
+    ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyAST_CompileObject</span>(
-        <span class="ident">_mod</span>: <span class="kw-2">*mut</span> <span class="ident">_mod</span>,
-        <span class="ident">filename</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">flags</span>: <span class="kw-2">*mut</span> <span class="ident">PyCompilerFlags</span>,
-        <span class="ident">optimize</span>: <span class="ident">c_int</span>,
-        <span class="ident">arena</span>: <span class="kw-2">*mut</span> <span class="ident">PyArena</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyCodeObject</span>;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+    <span class="kw">pub fn </span>PyAST_CompileObject(
+        _mod: <span class="kw-2">*mut </span>_mod,
+        filename: <span class="kw-2">*mut </span>PyObject,
+        flags: <span class="kw-2">*mut </span>PyCompilerFlags,
+        optimize: c_int,
+        arena: <span class="kw-2">*mut </span>PyArena,
+    ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyFuture_FromAST</span>(<span class="ident">_mod</span>: <span class="kw-2">*mut</span> <span class="ident">_mod</span>, <span class="ident">filename</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyFutureFeatures</span>;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+    <span class="kw">pub fn </span>PyFuture_FromAST(_mod: <span class="kw-2">*mut </span>_mod, filename: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyFutureFeatures;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">PyPy</span>, <span class="ident">Py_3_10</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyFuture_FromASTObject</span>(
-        <span class="ident">_mod</span>: <span class="kw-2">*mut</span> <span class="ident">_mod</span>,
-        <span class="ident">filename</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyFutureFeatures</span>;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
+    <span class="kw">pub fn </span>PyFuture_FromASTObject(
+        _mod: <span class="kw-2">*mut </span>_mod,
+        filename: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyFutureFeatures;
 
-    <span class="comment">// skipped non-limited _Py_Mangle</span>
-    <span class="comment">// skipped non-limited PY_INVALID_STACK_EFFECT</span>
+    <span class="comment">// skipped non-limited _Py_Mangle
+    // skipped non-limited PY_INVALID_STACK_EFFECT
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCompile_OpcodeStackEffect</span>(<span class="ident">opcode</span>: <span class="ident">c_int</span>, <span class="ident">oparg</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">c_int</span>;
+    </span><span class="kw">pub fn </span>PyCompile_OpcodeStackEffect(opcode: c_int, oparg: c_int) -&gt; c_int;
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_8</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCompile_OpcodeStackEffectWithJump</span>(<span class="ident">opcode</span>: <span class="ident">c_int</span>, <span class="ident">oparg</span>: <span class="ident">c_int</span>, <span class="ident">jump</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">c_int</span>;
+    <span class="attribute">#[cfg(Py_3_8)]</span>
+    <span class="kw">pub fn </span>PyCompile_OpcodeStackEffectWithJump(opcode: c_int, oparg: c_int, jump: c_int) -&gt; c_int;
 
-    <span class="comment">// skipped non-limited _PyASTOptimizeState</span>
-    <span class="comment">// skipped non-limited _PyAST_Optimize</span>
-}
+    <span class="comment">// skipped non-limited _PyASTOptimizeState
+    // skipped non-limited _PyAST_Optimize
+</span>}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

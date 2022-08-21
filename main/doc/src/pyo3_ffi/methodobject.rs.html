@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/methodobject.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>methodobject.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/methodobject.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>methodobject.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -246,248 +240,247 @@
 <span id="240">240</span>
 <span id="241">241</span>
 <span id="242">242</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::object</span>::{<span class="ident">PyObject</span>, <span class="ident">PyTypeObject</span>, <span class="ident">Py_TYPE</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PyObject_TypeCheck</span>;
-<span class="kw">use</span> <span class="ident">std::os::raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_void</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">mem</span>, <span class="ident">ptr</span>};
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::{PyObject, PyTypeObject, Py_TYPE};
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="kw">use </span><span class="kw">crate</span>::PyObject_TypeCheck;
+<span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
+<span class="kw">use </span>std::{mem, ptr};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyCFunctionObject</span> {
-    <span class="kw">pub</span> <span class="ident">ob_base</span>: <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">m_ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>,
-    <span class="kw">pub</span> <span class="ident">m_self</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">m_module</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="kw">pub</span> <span class="ident">m_weakreflist</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">PyPy</span>))]</span>
-    <span class="kw">pub</span> <span class="ident">vectorcall</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::vectorcallfunc</span><span class="op">&gt;</span>,
+<span class="attribute">#[cfg(all(Py_3_9, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub struct </span>PyCFunctionObject {
+    <span class="kw">pub </span>ob_base: PyObject,
+    <span class="kw">pub </span>m_ml: <span class="kw-2">*mut </span>PyMethodDef,
+    <span class="kw">pub </span>m_self: <span class="kw-2">*mut </span>PyObject,
+    <span class="kw">pub </span>m_module: <span class="kw-2">*mut </span>PyObject,
+    <span class="kw">pub </span>m_weakreflist: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]</span>
+    <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
 }
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">windows</span>, <span class="ident">link</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyCFunction_Type&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">PyCFunction_Type</span>: <span class="ident">PyTypeObject</span>;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCFunction_Type&quot;</span>)]</span>
+    <span class="kw">pub static </span><span class="kw-2">mut </span>PyCFunction_Type: PyTypeObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyCFunction_CheckExact</span>(<span class="ident">op</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span> {
-    (<span class="ident">Py_TYPE</span>(<span class="ident">op</span>) <span class="op">==</span> <span class="macro">addr_of_mut_shim!</span>(<span class="ident">PyCFunction_Type</span>)) <span class="kw">as</span> <span class="ident">c_int</span>
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyCFunction_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+    (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyCFunction_Type)) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyCFunction_Check</span>(<span class="ident">op</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span> {
-    <span class="ident">PyObject_TypeCheck</span>(<span class="ident">op</span>, <span class="macro">addr_of_mut_shim!</span>(<span class="ident">PyCFunction_Type</span>))
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyCFunction_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+    PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyCFunction_Type))
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyCFunction_Check</span>(<span class="ident">op</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span> {
-    (<span class="ident">Py_TYPE</span>(<span class="ident">op</span>) <span class="op">==</span> <span class="macro">addr_of_mut_shim!</span>(<span class="ident">PyCFunction_Type</span>)) <span class="kw">as</span> <span class="ident">c_int</span>
+<span class="attribute">#[cfg(not(Py_3_9))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyCFunction_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+    (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyCFunction_Type)) <span class="kw">as </span>c_int
 }
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PyCFunction</span> <span class="op">=</span>
-    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>, <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">pub type </span>PyCFunction =
+    <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(slf: <span class="kw-2">*mut </span>PyObject, args: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">Py_3_10</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">_PyCFunctionFast</span> <span class="op">=</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargs</span>: <span class="ident"><span class="kw">crate</span>::pyport::Py_ssize_t</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub type </span>_PyCFunctionFast = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    slf: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*mut *mut </span>PyObject,
+    nargs: <span class="kw">crate</span>::pyport::Py_ssize_t,
+) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PyCFunctionWithKeywords</span> <span class="op">=</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">kwds</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">pub type </span>PyCFunctionWithKeywords = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    slf: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*mut </span>PyObject,
+    kwds: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">_PyCFunctionFastWithKeywords</span> <span class="op">=</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargs</span>: <span class="ident"><span class="kw">crate</span>::pyport::Py_ssize_t</span>,
-    <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+<span class="kw">pub type </span>_PyCFunctionFastWithKeywords = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    slf: <span class="kw-2">*mut </span>PyObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargs: <span class="kw">crate</span>::pyport::Py_ssize_t,
+    kwnames: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PyCMethod</span> <span class="op">=</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(
-    <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">defining_class</span>: <span class="kw-2">*mut</span> <span class="ident">PyTypeObject</span>,
-    <span class="ident">args</span>: <span class="kw-2">*const</span> <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">nargs</span>: <span class="ident"><span class="kw">crate</span>::pyport::Py_ssize_t</span>,
-    <span class="ident">kwnames</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="attribute">#[cfg(all(Py_3_9, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub type </span>PyCMethod = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+    slf: <span class="kw-2">*mut </span>PyObject,
+    defining_class: <span class="kw-2">*mut </span>PyTypeObject,
+    args: <span class="kw-2">*const *mut </span>PyObject,
+    nargs: <span class="kw">crate</span>::pyport::Py_ssize_t,
+    kwnames: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyCFunction_GetFunction&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_GetFunction</span>(<span class="ident">f</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PyCFunction</span><span class="op">&gt;</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_GetSelf</span>(<span class="ident">f</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_GetFlags</span>(<span class="ident">f</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">Py_3_9</span>, <span class="ident">deprecated</span>(<span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_Call</span>(
-        <span class="ident">f</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">args</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">kwds</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCFunction_GetFunction&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyCFunction_GetFunction(f: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;PyCFunction&gt;;
+    <span class="kw">pub fn </span>PyCFunction_GetSelf(f: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="kw">pub fn </span>PyCFunction_GetFlags(f: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
+    <span class="kw">pub fn </span>PyCFunction_Call(
+        f: <span class="kw-2">*mut </span>PyObject,
+        args: <span class="kw-2">*mut </span>PyObject,
+        kwds: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyMethodDef</span> {
-    <span class="kw">pub</span> <span class="ident">ml_name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    <span class="kw">pub</span> <span class="ident">ml_meth</span>: <span class="ident">PyMethodDefPointer</span>,
-    <span class="kw">pub</span> <span class="ident">ml_flags</span>: <span class="ident">c_int</span>,
-    <span class="kw">pub</span> <span class="ident">ml_doc</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
+<span class="attribute">#[repr(C)]</span>
+<span class="attribute">#[derive(Copy, Clone, PartialEq, Eq)]</span>
+<span class="kw">pub struct </span>PyMethodDef {
+    <span class="kw">pub </span>ml_name: <span class="kw-2">*const </span>c_char,
+    <span class="kw">pub </span>ml_meth: PyMethodDefPointer,
+    <span class="kw">pub </span>ml_flags: c_int,
+    <span class="kw">pub </span>ml_doc: <span class="kw-2">*const </span>c_char,
 }
 
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">PyMethodDef</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="ident">PyMethodDef</span> {
-        <span class="ident">PyMethodDef</span> {
-            <span class="ident">ml_name</span>: <span class="ident">ptr::null</span>(),
-            <span class="ident">ml_meth</span>: <span class="ident">PyMethodDefPointer</span> {
-                <span class="ident">Void</span>: <span class="ident">ptr::null_mut</span>(),
+<span class="kw">impl </span>Default <span class="kw">for </span>PyMethodDef {
+    <span class="kw">fn </span>default() -&gt; PyMethodDef {
+        PyMethodDef {
+            ml_name: ptr::null(),
+            ml_meth: PyMethodDefPointer {
+                Void: ptr::null_mut(),
             },
-            <span class="ident">ml_flags</span>: <span class="number">0</span>,
-            <span class="ident">ml_doc</span>: <span class="ident">ptr::null</span>(),
+            ml_flags: <span class="number">0</span>,
+            ml_doc: ptr::null(),
         }
     }
 }
 
-<span class="doccomment">/// Function types used to implement Python callables.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This function pointer must be accompanied by the correct [ml_flags](PyMethodDef::ml_flags),</span>
-<span class="doccomment">/// otherwise the behavior is undefined.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See the [Python C API documentation][1] for more information.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [1]: https://docs.python.org/3/c-api/structures.html#implementing-functions-and-methods</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">union</span> <span class="ident">PyMethodDefPointer</span> {
-    <span class="doccomment">/// This variant corresponds with [`METH_VARARGS`] *or* [`METH_NOARGS`] *or* [`METH_O`].</span>
-    <span class="kw">pub</span> <span class="ident">PyCFunction</span>: <span class="ident">PyCFunction</span>,
+<span class="doccomment">/// Function types used to implement Python callables.
+///
+/// This function pointer must be accompanied by the correct [ml_flags](PyMethodDef::ml_flags),
+/// otherwise the behavior is undefined.
+///
+/// See the [Python C API documentation][1] for more information.
+///
+/// [1]: https://docs.python.org/3/c-api/structures.html#implementing-functions-and-methods
+</span><span class="attribute">#[repr(C)]</span>
+<span class="attribute">#[derive(Copy, Clone, Eq)]</span>
+<span class="kw">pub union </span>PyMethodDefPointer {
+    <span class="doccomment">/// This variant corresponds with [`METH_VARARGS`] *or* [`METH_NOARGS`] *or* [`METH_O`].
+    </span><span class="kw">pub </span>PyCFunction: PyCFunction,
 
-    <span class="doccomment">/// This variant corresponds with [`METH_VARARGS`] | [`METH_KEYWORDS`].</span>
-    <span class="kw">pub</span> <span class="ident">PyCFunctionWithKeywords</span>: <span class="ident">PyCFunctionWithKeywords</span>,
+    <span class="doccomment">/// This variant corresponds with [`METH_VARARGS`] | [`METH_KEYWORDS`].
+    </span><span class="kw">pub </span>PyCFunctionWithKeywords: PyCFunctionWithKeywords,
 
-    <span class="doccomment">/// This variant corresponds with [`METH_FASTCALL`].</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">Py_3_10</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-    <span class="kw">pub</span> <span class="ident">_PyCFunctionFast</span>: <span class="ident">_PyCFunctionFast</span>,
+    <span class="doccomment">/// This variant corresponds with [`METH_FASTCALL`].
+    </span><span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]</span>
+    <span class="kw">pub </span>_PyCFunctionFast: _PyCFunctionFast,
 
-    <span class="doccomment">/// This variant corresponds with [`METH_FASTCALL`] | [`METH_KEYWORDS`].</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
-    <span class="kw">pub</span> <span class="ident">_PyCFunctionFastWithKeywords</span>: <span class="ident">_PyCFunctionFastWithKeywords</span>,
+    <span class="doccomment">/// This variant corresponds with [`METH_FASTCALL`] | [`METH_KEYWORDS`].
+    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
+    <span class="kw">pub </span>_PyCFunctionFastWithKeywords: _PyCFunctionFastWithKeywords,
 
-    <span class="doccomment">/// This variant corresponds with [`METH_METHOD`] | [`METH_FASTCALL`] | [`METH_KEYWORDS`].</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-    <span class="kw">pub</span> <span class="ident">PyCMethod</span>: <span class="ident">PyCMethod</span>,
+    <span class="doccomment">/// This variant corresponds with [`METH_METHOD`] | [`METH_FASTCALL`] | [`METH_KEYWORDS`].
+    </span><span class="attribute">#[cfg(all(Py_3_9, not(Py_LIMITED_API)))]</span>
+    <span class="kw">pub </span>PyCMethod: PyCMethod,
 
-    <span class="ident">Void</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
+    Void: <span class="kw-2">*mut </span>c_void,
 }
 
-<span class="kw">impl</span> <span class="ident">PyMethodDefPointer</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">c_void</span> {
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">Void</span> }
+<span class="kw">impl </span>PyMethodDefPointer {
+    <span class="kw">pub fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c_void {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.Void }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">as_ptr</span>().<span class="ident">is_null</span>()
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">PyMethodDefPointer</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">Void</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">Void</span> }
+    <span class="kw">pub fn </span>is_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.as_ptr().is_null()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Pointer</span> <span class="kw">for</span> <span class="ident">PyMethodDefPointer</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">Void</span> };
-        <span class="ident">std::fmt::Pointer::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">ptr</span>, <span class="ident">f</span>)
+<span class="kw">impl </span>PartialEq <span class="kw">for </span>PyMethodDefPointer {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.Void == other.Void }
     }
 }
 
-<span class="comment">// TODO: This can be a const assert on Rust 1.57</span>
-<span class="kw">const</span> <span class="kw">_</span>: () <span class="op">=</span>
-    [()][<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">PyMethodDefPointer</span><span class="op">&gt;</span>() <span class="op">-</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>()<span class="op">&gt;</span><span class="op">&gt;</span>()];
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyCFunction_New&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_New</span>(<span class="ident">ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>, <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyCFunction_NewEx&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_NewEx</span>(
-        <span class="ident">ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>,
-        <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">module</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">impl </span>std::fmt::Pointer <span class="kw">for </span>PyMethodDefPointer {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ <span class="self">self</span>.Void };
+        std::fmt::Pointer::fmt(<span class="kw-2">&amp;</span>ptr, f)
+    }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyCFunction_New</span>(<span class="ident">ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>, <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">PyCFunction_NewEx</span>(<span class="ident">ml</span>, <span class="ident">slf</span>, <span class="ident">std::ptr::null_mut</span>())
+<span class="comment">// TODO: This can be a const assert on Rust 1.57
+</span><span class="kw">const _</span>: () =
+    [()][mem::size_of::&lt;PyMethodDefPointer&gt;() - mem::size_of::&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>()&gt;&gt;()];
+
+<span class="attribute">#[cfg(not(Py_3_9))]</span>
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCFunction_New&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyCFunction_New(ml: <span class="kw-2">*mut </span>PyMethodDef, slf: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCFunction_NewEx&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyCFunction_NewEx(
+        ml: <span class="kw-2">*mut </span>PyMethodDef,
+        slf: <span class="kw-2">*mut </span>PyObject,
+        module: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyCFunction_NewEx</span>(
-    <span class="ident">ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>,
-    <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">module</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">PyCMethod_New</span>(<span class="ident">ml</span>, <span class="ident">slf</span>, <span class="ident">module</span>, <span class="ident">std::ptr::null_mut</span>())
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyCFunction_New(ml: <span class="kw-2">*mut </span>PyMethodDef, slf: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+    PyCFunction_NewEx(ml, slf, std::ptr::null_mut())
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">Py_3_9</span>)]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyCMethod_New&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCMethod_New</span>(
-        <span class="ident">ml</span>: <span class="kw-2">*mut</span> <span class="ident">PyMethodDef</span>,
-        <span class="ident">slf</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">module</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">cls</span>: <span class="kw-2">*mut</span> <span class="ident">PyTypeObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyCFunction_NewEx(
+    ml: <span class="kw-2">*mut </span>PyMethodDef,
+    slf: <span class="kw-2">*mut </span>PyObject,
+    module: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    PyCMethod_New(ml, slf, module, std::ptr::null_mut())
 }
 
-<span class="comment">/* Flag passed to newmethodobject */</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_VARARGS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0001</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_KEYWORDS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0002</span>;
-<span class="comment">/* METH_NOARGS and METH_O must not be combined with the flags above. */</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_NOARGS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0004</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_O</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0008</span>;
+<span class="attribute">#[cfg(Py_3_9)]</span>
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCMethod_New&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyCMethod_New(
+        ml: <span class="kw-2">*mut </span>PyMethodDef,
+        slf: <span class="kw-2">*mut </span>PyObject,
+        module: <span class="kw-2">*mut </span>PyObject,
+        cls: <span class="kw-2">*mut </span>PyTypeObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
+}
+
+<span class="comment">/* Flag passed to newmethodobject */
+</span><span class="kw">pub const </span>METH_VARARGS: c_int = <span class="number">0x0001</span>;
+<span class="kw">pub const </span>METH_KEYWORDS: c_int = <span class="number">0x0002</span>;
+<span class="comment">/* METH_NOARGS and METH_O must not be combined with the flags above. */
+</span><span class="kw">pub const </span>METH_NOARGS: c_int = <span class="number">0x0004</span>;
+<span class="kw">pub const </span>METH_O: c_int = <span class="number">0x0008</span>;
 
 <span class="comment">/* METH_CLASS and METH_STATIC are a little different; these control
 the construction of methods for a class.  These cannot be used for
-functions in modules. */</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_CLASS</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0010</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_STATIC</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0020</span>;
+functions in modules. */
+</span><span class="kw">pub const </span>METH_CLASS: c_int = <span class="number">0x0010</span>;
+<span class="kw">pub const </span>METH_STATIC: c_int = <span class="number">0x0020</span>;
 
 <span class="comment">/* METH_COEXIST allows a method to be entered eventhough a slot has
 already filled the entry.  When defined, the flag allows a separate
 method, &quot;__contains__&quot; for example, to coexist with a defined
-slot like sq_contains. */</span>
+slot like sq_contains. */
 
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_COEXIST</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0040</span>;
+</span><span class="kw">pub const </span>METH_COEXIST: c_int = <span class="number">0x0040</span>;
 
 <span class="comment">/* METH_FASTCALL indicates the PEP 590 Vectorcall calling format. It may
-be specified alone or with METH_KEYWORDS. */</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">Py_3_10</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_FASTCALL</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0080</span>;
+be specified alone or with METH_KEYWORDS. */
+</span><span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub const </span>METH_FASTCALL: c_int = <span class="number">0x0080</span>;
 
-<span class="comment">// skipped METH_STACKLESS</span>
+<span class="comment">// skipped METH_STACKLESS
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">Py_3_9</span>, <span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METH_METHOD</span>: <span class="ident">c_int</span> <span class="op">=</span> <span class="number">0x0200</span>;
+</span><span class="attribute">#[cfg(all(Py_3_9, not(Py_LIMITED_API)))]</span>
+<span class="kw">pub const </span>METH_METHOD: c_int = <span class="number">0x0200</span>;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyCFunction_ClearFreeList</span>() -&gt; <span class="ident">c_int</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(Py_3_9))]</span>
+    <span class="kw">pub fn </span>PyCFunction_ClearFreeList() -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

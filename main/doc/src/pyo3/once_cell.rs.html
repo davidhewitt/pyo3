@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/once_cell.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>once_cell.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/once_cell.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>once_cell.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -199,201 +193,200 @@
 <span id="193">193</span>
 <span id="194">194</span>
 <span id="195">195</span>
-</pre><pre class="rust"><code><span class="doccomment">//! A write-once cell mediated by the Python GIL.</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">types::PyString</span>, <span class="ident">Py</span>, <span class="ident">Python</span>};
-<span class="kw">use</span> <span class="ident">std::cell::UnsafeCell</span>;
+</pre><pre class="rust"><code><span class="doccomment">//! A write-once cell mediated by the Python GIL.
+</span><span class="kw">use crate</span>::{types::PyString, Py, Python};
+<span class="kw">use </span>std::cell::UnsafeCell;
 
-<span class="doccomment">/// A write-once cell similar to [`once_cell::OnceCell`](https://docs.rs/once_cell/1.4.0/once_cell/).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Unlike `once_cell::sync` which blocks threads to achieve thread safety, this implementation</span>
-<span class="doccomment">/// uses the Python GIL to mediate concurrent access. This helps in cases where `once_sync` or</span>
-<span class="doccomment">/// `lazy_static`&#39;s synchronization strategy can lead to deadlocks when interacting with the Python</span>
-<span class="doccomment">/// GIL. For an example, see [the FAQ section](https://pyo3.rs/latest/faq.html) of the guide.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The following example shows how to use `GILOnceCell` to share a reference to a Python list</span>
-<span class="doccomment">/// between threads:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use pyo3::once_cell::GILOnceCell;</span>
-<span class="doccomment">/// use pyo3::prelude::*;</span>
-<span class="doccomment">/// use pyo3::types::PyList;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// static LIST_CELL: GILOnceCell&lt;Py&lt;PyList&gt;&gt; = GILOnceCell::new();</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// pub fn get_shared_list(py: Python&lt;&#39;_&gt;) -&gt; &amp;PyList {</span>
-<span class="doccomment">///     LIST_CELL</span>
-<span class="doccomment">///         .get_or_init(py, || PyList::empty(py).into())</span>
-<span class="doccomment">///         .as_ref(py)</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// # Python::with_gil(|py| assert_eq!(get_shared_list(py).len(), 0));</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GILOnceCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="doccomment">/// A write-once cell similar to [`once_cell::OnceCell`](https://docs.rs/once_cell/1.4.0/once_cell/).
+///
+/// Unlike `once_cell::sync` which blocks threads to achieve thread safety, this implementation
+/// uses the Python GIL to mediate concurrent access. This helps in cases where `once_sync` or
+/// `lazy_static`&#39;s synchronization strategy can lead to deadlocks when interacting with the Python
+/// GIL. For an example, see [the FAQ section](https://pyo3.rs/latest/faq.html) of the guide.
+///
+/// # Examples
+///
+/// The following example shows how to use `GILOnceCell` to share a reference to a Python list
+/// between threads:
+///
+/// ```
+/// use pyo3::once_cell::GILOnceCell;
+/// use pyo3::prelude::*;
+/// use pyo3::types::PyList;
+///
+/// static LIST_CELL: GILOnceCell&lt;Py&lt;PyList&gt;&gt; = GILOnceCell::new();
+///
+/// pub fn get_shared_list(py: Python&lt;&#39;_&gt;) -&gt; &amp;PyList {
+///     LIST_CELL
+///         .get_or_init(py, || PyList::empty(py).into())
+///         .as_ref(py)
+/// }
+/// # Python::with_gil(|py| assert_eq!(get_shared_list(py).len(), 0));
+/// ```
+</span><span class="kw">pub struct </span>GILOnceCell&lt;T&gt;(UnsafeCell&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt;);
 
-<span class="comment">// T: Send is needed for Sync because the thread which drops the GILOnceCell can be different</span>
-<span class="comment">// to the thread which fills it.</span>
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">GILOnceCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">GILOnceCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="comment">// T: Send is needed for Sync because the thread which drops the GILOnceCell can be different
+// to the thread which fills it.
+</span><span class="kw">unsafe impl</span>&lt;T: Send + Sync&gt; Sync <span class="kw">for </span>GILOnceCell&lt;T&gt; {}
+<span class="kw">unsafe impl</span>&lt;T: Send&gt; Send <span class="kw">for </span>GILOnceCell&lt;T&gt; {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">GILOnceCell</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Create a `GILOnceCell` which does not yet contain a value.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span>(<span class="ident">UnsafeCell::new</span>(<span class="prelude-val">None</span>))
+<span class="kw">impl</span>&lt;T&gt; GILOnceCell&lt;T&gt; {
+    <span class="doccomment">/// Create a `GILOnceCell` which does not yet contain a value.
+    </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(UnsafeCell::new(<span class="prelude-val">None</span>))
     }
 
-    <span class="doccomment">/// Get a reference to the contained value, or `None` if the cell has not yet been written.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="comment">// Safe because if the cell has not yet been written, None is returned.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">get</span>() }.<span class="ident">as_ref</span>()
+    <span class="doccomment">/// Get a reference to the contained value, or `None` if the cell has not yet been written.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+        <span class="comment">// Safe because if the cell has not yet been written, None is returned.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>.get() }.as_ref()
     }
 
-    <span class="doccomment">/// Get a reference to the contained value, initializing it if needed using the provided</span>
-    <span class="doccomment">/// closure.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that:</span>
-    <span class="doccomment">///  1) reentrant initialization can cause a stack overflow.</span>
-    <span class="doccomment">///  2) if f() temporarily releases the GIL (e.g. by calling `Python::import`) then it is</span>
-    <span class="doccomment">///     possible (and well-defined) that a second thread may also call get_or_init and begin</span>
-    <span class="doccomment">///     calling `f()`. Even when this happens `GILOnceCell` guarantees that only **one** write</span>
-    <span class="doccomment">///     to the cell ever occurs - other threads will simply discard the value they compute and</span>
-    <span class="doccomment">///     return the result of the first complete computation.</span>
-    <span class="doccomment">///  3) if f() does not release the GIL and does not panic, it is guaranteed to be called</span>
-    <span class="doccomment">///     exactly once, even if multiple threads attempt to call `get_or_init`</span>
-    <span class="doccomment">///  4) if f() can panic but still does not release the GIL, it may be called multiple times,</span>
-    <span class="doccomment">///     but it is guaranteed that f() will never be called concurrently</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_or_init</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnOnce</span>() -&gt; <span class="ident">T</span>,
+    <span class="doccomment">/// Get a reference to the contained value, initializing it if needed using the provided
+    /// closure.
+    ///
+    /// Note that:
+    ///  1) reentrant initialization can cause a stack overflow.
+    ///  2) if f() temporarily releases the GIL (e.g. by calling `Python::import`) then it is
+    ///     possible (and well-defined) that a second thread may also call get_or_init and begin
+    ///     calling `f()`. Even when this happens `GILOnceCell` guarantees that only **one** write
+    ///     to the cell ever occurs - other threads will simply discard the value they compute and
+    ///     return the result of the first complete computation.
+    ///  3) if f() does not release the GIL and does not panic, it is guaranteed to be called
+    ///     exactly once, even if multiple threads attempt to call `get_or_init`
+    ///  4) if f() can panic but still does not release the GIL, it may be called multiple times,
+    ///     but it is guaranteed that f() will never be called concurrently
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>get_or_init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
+    <span class="kw">where
+        </span>F: FnOnce() -&gt; T,
     {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">py</span>) {
-            <span class="kw">return</span> <span class="ident">value</span>;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = <span class="self">self</span>.get(py) {
+            <span class="kw">return </span>value;
         }
 
-        <span class="self">self</span>.<span class="ident">init</span>(<span class="ident">py</span>, <span class="ident">f</span>)
+        <span class="self">self</span>.init(py, f)
     }
 
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">init</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnOnce</span>() -&gt; <span class="ident">T</span>,
+    <span class="attribute">#[cold]</span>
+    <span class="kw">fn </span>init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
+    <span class="kw">where
+        </span>F: FnOnce() -&gt; T,
     {
-        <span class="comment">// Note that f() could temporarily release the GIL, so it&#39;s possible that another thread</span>
-        <span class="comment">// writes to this GILOnceCell before f() finishes. That&#39;s fine; we&#39;ll just have to discard</span>
-        <span class="comment">// the value computed here and accept a bit of wasted computation.</span>
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">f</span>();
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">set</span>(<span class="ident">py</span>, <span class="ident">value</span>);
+        <span class="comment">// Note that f() could temporarily release the GIL, so it&#39;s possible that another thread
+        // writes to this GILOnceCell before f() finishes. That&#39;s fine; we&#39;ll just have to discard
+        // the value computed here and accept a bit of wasted computation.
+        </span><span class="kw">let </span>value = f();
+        <span class="kw">let _ </span>= <span class="self">self</span>.set(py, value);
 
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">py</span>).<span class="ident">unwrap</span>()
+        <span class="self">self</span>.get(py).unwrap()
     }
 
-    <span class="doccomment">/// Get the contents of the cell mutably. This is only possible if the reference to the cell is</span>
-    <span class="doccomment">/// unique.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="comment">// Safe because we have &amp;mut self</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">get</span>() }.<span class="ident">as_mut</span>()
+    <span class="doccomment">/// Get the contents of the cell mutably. This is only possible if the reference to the cell is
+    /// unique.
+    </span><span class="kw">pub fn </span>get_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>T&gt; {
+        <span class="comment">// Safe because we have &amp;mut self
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span><span class="self">self</span>.<span class="number">0</span>.get() }.as_mut()
     }
 
-    <span class="doccomment">/// Set the value in the cell.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the cell has already been written, `Err(value)` will be returned containing the new</span>
-    <span class="doccomment">/// value which was not written.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">value</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="comment">// Safe because GIL is held, so no other thread can be writing to this cell concurrently.</span>
-        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">get</span>() };
-        <span class="kw">if</span> <span class="ident">inner</span>.<span class="ident">is_some</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">value</span>);
+    <span class="doccomment">/// Set the value in the cell.
+    ///
+    /// If the cell has already been written, `Err(value)` will be returned containing the new
+    /// value which was not written.
+    </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, value: T) -&gt; <span class="prelude-ty">Result</span>&lt;(), T&gt; {
+        <span class="comment">// Safe because GIL is held, so no other thread can be writing to this cell concurrently.
+        </span><span class="kw">let </span>inner = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span><span class="self">self</span>.<span class="number">0</span>.get() };
+        <span class="kw">if </span>inner.is_some() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(value);
         }
 
-        <span class="kw-2">*</span><span class="ident">inner</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>);
+        <span class="kw-2">*</span>inner = <span class="prelude-val">Some</span>(value);
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="doccomment">/// Interns `text` as a Python string and stores a reference to it in static storage.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A reference to the same Python string is returned on each invocation.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Example: Using `intern!` to avoid needlessly recreating the same Python string</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use pyo3::intern;</span>
-<span class="doccomment">/// # use pyo3::{pyfunction, types::PyDict, wrap_pyfunction, PyResult, Python};</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #[pyfunction]</span>
-<span class="doccomment">/// fn create_dict(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;&amp;PyDict&gt; {</span>
-<span class="doccomment">///    let dict = PyDict::new(py);</span>
-<span class="doccomment">///    //             👇 A new `PyString` is created</span>
-<span class="doccomment">///    //                for every call of this function.</span>
-<span class="doccomment">///    dict.set_item(&quot;foo&quot;, 42)?;</span>
-<span class="doccomment">///    Ok(dict)</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #[pyfunction]</span>
-<span class="doccomment">/// fn create_dict_faster(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;&amp;PyDict&gt; {</span>
-<span class="doccomment">///    let dict = PyDict::new(py);</span>
-<span class="doccomment">///    //               👇 A `PyString` is created once and reused</span>
-<span class="doccomment">///    //                  for the lifetime of the program.</span>
-<span class="doccomment">///    dict.set_item(intern!(py, &quot;foo&quot;), 42)?;</span>
-<span class="doccomment">///    Ok(dict)</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// #</span>
-<span class="doccomment">/// # Python::with_gil(|py| {</span>
-<span class="doccomment">/// #     let fun_slow = wrap_pyfunction!(create_dict, py).unwrap();</span>
-<span class="doccomment">/// #     let dict = fun_slow.call0().unwrap();</span>
-<span class="doccomment">/// #     assert!(dict.contains(&quot;foo&quot;).unwrap());</span>
-<span class="doccomment">/// #     let fun = wrap_pyfunction!(create_dict_faster, py).unwrap();</span>
-<span class="doccomment">/// #     let dict = fun.call0().unwrap();</span>
-<span class="doccomment">/// #     assert!(dict.contains(&quot;foo&quot;).unwrap());</span>
-<span class="doccomment">/// # });</span>
-<span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">intern</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">py</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">text</span>: <span class="ident">expr</span>) =&gt; {{
-        <span class="kw">static</span> <span class="ident">INTERNED</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::once_cell::Interned</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::once_cell::Interned::new</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">text</span>);
-        <span class="ident">INTERNED</span>.<span class="ident">get</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">py</span>)
+<span class="doccomment">/// Interns `text` as a Python string and stores a reference to it in static storage.
+///
+/// A reference to the same Python string is returned on each invocation.
+///
+/// # Example: Using `intern!` to avoid needlessly recreating the same Python string
+///
+/// ```
+/// use pyo3::intern;
+/// # use pyo3::{pyfunction, types::PyDict, wrap_pyfunction, PyResult, Python};
+///
+/// #[pyfunction]
+/// fn create_dict(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;&amp;PyDict&gt; {
+///    let dict = PyDict::new(py);
+///    //             👇 A new `PyString` is created
+///    //                for every call of this function.
+///    dict.set_item(&quot;foo&quot;, 42)?;
+///    Ok(dict)
+/// }
+///
+/// #[pyfunction]
+/// fn create_dict_faster(py: Python&lt;&#39;_&gt;) -&gt; PyResult&lt;&amp;PyDict&gt; {
+///    let dict = PyDict::new(py);
+///    //               👇 A `PyString` is created once and reused
+///    //                  for the lifetime of the program.
+///    dict.set_item(intern!(py, &quot;foo&quot;), 42)?;
+///    Ok(dict)
+/// }
+/// #
+/// # Python::with_gil(|py| {
+/// #     let fun_slow = wrap_pyfunction!(create_dict, py).unwrap();
+/// #     let dict = fun_slow.call0().unwrap();
+/// #     assert!(dict.contains(&quot;foo&quot;).unwrap());
+/// #     let fun = wrap_pyfunction!(create_dict_faster, py).unwrap();
+/// #     let dict = fun.call0().unwrap();
+/// #     assert!(dict.contains(&quot;foo&quot;).unwrap());
+/// # });
+/// ```
+</span><span class="attribute">#[macro_export]</span>
+<span class="macro">macro_rules!</span> intern {
+    (<span class="macro-nonterminal">$py</span>: expr, <span class="macro-nonterminal">$text</span>: expr) =&gt; {{
+        <span class="kw">static </span>INTERNED: <span class="macro-nonterminal">$crate::once_cell::Interned </span>= <span class="macro-nonterminal">$crate::once_cell::Interned::new</span>(<span class="macro-nonterminal">$text</span>);
+        INTERNED.get(<span class="macro-nonterminal">$py</span>)
     }};
 }
 
-<span class="doccomment">/// Implementation detail for `intern!` macro.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Interned</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">GILOnceCell</span><span class="op">&lt;</span><span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyString</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="doccomment">/// Implementation detail for `intern!` macro.
+</span><span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub struct </span>Interned(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, GILOnceCell&lt;Py&lt;PyString&gt;&gt;);
 
-<span class="kw">impl</span> <span class="ident">Interned</span> {
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">Interned</span>(<span class="ident">value</span>, <span class="ident">GILOnceCell::new</span>())
+<span class="kw">impl </span>Interned {
+    <span class="kw">pub const fn </span>new(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; <span class="self">Self </span>{
+        Interned(value, GILOnceCell::new())
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;py</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py</span> <span class="ident">PyString</span> {
-        <span class="self">self</span>.<span class="number">1</span>
-            .<span class="ident">get_or_init</span>(<span class="ident">py</span>, <span class="op">|</span><span class="op">|</span> <span class="ident">PyString::intern</span>(<span class="ident">py</span>, <span class="self">self</span>.<span class="number">0</span>).<span class="ident">into</span>())
-            .<span class="ident">as_ref</span>(<span class="ident">py</span>)
+    <span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>get&lt;<span class="lifetime">&#39;py</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyString {
+        <span class="self">self</span>.<span class="number">1
+            </span>.get_or_init(py, || PyString::intern(py, <span class="self">self</span>.<span class="number">0</span>).into())
+            .as_ref(py)
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::PyDict</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::types::PyDict;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_intern</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">foo1</span> <span class="op">=</span> <span class="string">&quot;foo&quot;</span>;
-            <span class="kw">let</span> <span class="ident">foo2</span> <span class="op">=</span> <span class="macro">intern!</span>(<span class="ident">py</span>, <span class="string">&quot;foo&quot;</span>);
-            <span class="kw">let</span> <span class="ident">foo3</span> <span class="op">=</span> <span class="macro">intern!</span>(<span class="ident">py</span>, <span class="macro">stringify!</span>(<span class="ident">foo</span>));
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_intern() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>foo1 = <span class="string">&quot;foo&quot;</span>;
+            <span class="kw">let </span>foo2 = <span class="macro">intern!</span>(py, <span class="string">&quot;foo&quot;</span>);
+            <span class="kw">let </span>foo3 = <span class="macro">intern!</span>(py, <span class="macro">stringify!</span>(foo));
 
-            <span class="kw">let</span> <span class="ident">dict</span> <span class="op">=</span> <span class="ident">PyDict::new</span>(<span class="ident">py</span>);
-            <span class="ident">dict</span>.<span class="ident">set_item</span>(<span class="ident">foo1</span>, <span class="number">42_usize</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="ident">dict</span>.<span class="ident">contains</span>(<span class="ident">foo2</span>).<span class="ident">unwrap</span>());
-            <span class="macro">assert_eq!</span>(<span class="ident">dict</span>.<span class="ident">get_item</span>(<span class="ident">foo3</span>).<span class="ident">unwrap</span>().<span class="ident">extract</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>(), <span class="number">42</span>);
+            <span class="kw">let </span>dict = PyDict::new(py);
+            dict.set_item(foo1, <span class="number">42_usize</span>).unwrap();
+            <span class="macro">assert!</span>(dict.contains(foo2).unwrap());
+            <span class="macro">assert_eq!</span>(dict.get_item(foo3).unwrap().extract::&lt;usize&gt;().unwrap(), <span class="number">42</span>);
         });
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

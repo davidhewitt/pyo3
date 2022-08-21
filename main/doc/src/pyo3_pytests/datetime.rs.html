@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pytests/src/datetime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>datetime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_pytests/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_pytests/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_pytests/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pytests/src/datetime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>datetime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_pytests/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_pytests/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_pytests/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -223,225 +217,224 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_LIMITED_API</span>))]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]</span>
 
-<span class="kw">use</span> <span class="ident">pyo3::prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">pyo3::types</span>::{
-    <span class="ident">PyDate</span>, <span class="ident">PyDateAccess</span>, <span class="ident">PyDateTime</span>, <span class="ident">PyDelta</span>, <span class="ident">PyDeltaAccess</span>, <span class="ident">PyTime</span>, <span class="ident">PyTimeAccess</span>, <span class="ident">PyTuple</span>,
-    <span class="ident">PyTzInfo</span>, <span class="ident">PyTzInfoAccess</span>,
+<span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>pyo3::types::{
+    PyDate, PyDateAccess, PyDateTime, PyDelta, PyDeltaAccess, PyTime, PyTimeAccess, PyTuple,
+    PyTzInfo, PyTzInfoAccess,
 };
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">make_date</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">year</span>: <span class="ident">i32</span>, <span class="ident">month</span>: <span class="ident">u8</span>, <span class="ident">day</span>: <span class="ident">u8</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDate</span><span class="op">&gt;</span> {
-    <span class="ident">PyDate::new</span>(<span class="ident">py</span>, <span class="ident">year</span>, <span class="ident">month</span>, <span class="ident">day</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>make_date(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, year: i32, month: u8, day: u8) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
+    PyDate::new(py, year, month, day)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_date_tuple</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">d</span>: <span class="kw-2">&amp;</span><span class="ident">PyDate</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
-        <span class="kw-2">&amp;</span>[<span class="ident">d</span>.<span class="ident">get_year</span>(), <span class="ident">d</span>.<span class="ident">get_month</span>() <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">d</span>.<span class="ident">get_day</span>() <span class="kw">as</span> <span class="ident">i32</span>],
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_date_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, d: <span class="kw-2">&amp;</span>PyDate) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
+        <span class="kw-2">&amp;</span>[d.get_year(), d.get_month() <span class="kw">as </span>i32, d.get_day() <span class="kw">as </span>i32],
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">date_from_timestamp</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">timestamp</span>: <span class="ident">i64</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDate</span><span class="op">&gt;</span> {
-    <span class="ident">PyDate::from_timestamp</span>(<span class="ident">py</span>, <span class="ident">timestamp</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>date_from_timestamp(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, timestamp: i64) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
+    PyDate::from_timestamp(py, timestamp)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">make_time</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(
-    <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>,
-    <span class="ident">hour</span>: <span class="ident">u8</span>,
-    <span class="ident">minute</span>: <span class="ident">u8</span>,
-    <span class="ident">second</span>: <span class="ident">u8</span>,
-    <span class="ident">microsecond</span>: <span class="ident">u32</span>,
-    <span class="ident">tzinfo</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTime</span><span class="op">&gt;</span> {
-    <span class="ident">PyTime::new</span>(<span class="ident">py</span>, <span class="ident">hour</span>, <span class="ident">minute</span>, <span class="ident">second</span>, <span class="ident">microsecond</span>, <span class="ident">tzinfo</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>make_time&lt;<span class="lifetime">&#39;p</span>&gt;(
+    py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
+    hour: u8,
+    minute: u8,
+    second: u8,
+    microsecond: u32,
+    tzinfo: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt;,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTime&gt; {
+    PyTime::new(py, hour, minute, second, microsecond, tzinfo)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">time_with_fold</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(
-    <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>,
-    <span class="ident">hour</span>: <span class="ident">u8</span>,
-    <span class="ident">minute</span>: <span class="ident">u8</span>,
-    <span class="ident">second</span>: <span class="ident">u8</span>,
-    <span class="ident">microsecond</span>: <span class="ident">u32</span>,
-    <span class="ident">tzinfo</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span>,
-    <span class="ident">fold</span>: <span class="ident">bool</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTime</span><span class="op">&gt;</span> {
-    <span class="ident">PyTime::new_with_fold</span>(<span class="ident">py</span>, <span class="ident">hour</span>, <span class="ident">minute</span>, <span class="ident">second</span>, <span class="ident">microsecond</span>, <span class="ident">tzinfo</span>, <span class="ident">fold</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>time_with_fold&lt;<span class="lifetime">&#39;p</span>&gt;(
+    py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
+    hour: u8,
+    minute: u8,
+    second: u8,
+    microsecond: u32,
+    tzinfo: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt;,
+    fold: bool,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTime&gt; {
+    PyTime::new_with_fold(py, hour, minute, second, microsecond, tzinfo, fold)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_time_tuple</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyTime</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_time_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
         <span class="kw-2">&amp;</span>[
-            <span class="ident">dt</span>.<span class="ident">get_hour</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_minute</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_second</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_microsecond</span>(),
+            dt.get_hour() <span class="kw">as </span>u32,
+            dt.get_minute() <span class="kw">as </span>u32,
+            dt.get_second() <span class="kw">as </span>u32,
+            dt.get_microsecond(),
         ],
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_time_tuple_fold</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyTime</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_time_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
         <span class="kw-2">&amp;</span>[
-            <span class="ident">dt</span>.<span class="ident">get_hour</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_minute</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_second</span>() <span class="kw">as</span> <span class="ident">u32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_microsecond</span>(),
-            <span class="ident">dt</span>.<span class="ident">get_fold</span>() <span class="kw">as</span> <span class="ident">u32</span>,
+            dt.get_hour() <span class="kw">as </span>u32,
+            dt.get_minute() <span class="kw">as </span>u32,
+            dt.get_second() <span class="kw">as </span>u32,
+            dt.get_microsecond(),
+            dt.get_fold() <span class="kw">as </span>u32,
         ],
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">make_delta</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">days</span>: <span class="ident">i32</span>, <span class="ident">seconds</span>: <span class="ident">i32</span>, <span class="ident">microseconds</span>: <span class="ident">i32</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDelta</span><span class="op">&gt;</span> {
-    <span class="ident">PyDelta::new</span>(<span class="ident">py</span>, <span class="ident">days</span>, <span class="ident">seconds</span>, <span class="ident">microseconds</span>, <span class="bool-val">true</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>make_delta(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, days: i32, seconds: i32, microseconds: i32) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDelta&gt; {
+    PyDelta::new(py, days, seconds, microseconds, <span class="bool-val">true</span>)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_delta_tuple</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">delta</span>: <span class="kw-2">&amp;</span><span class="ident">PyDelta</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_delta_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, delta: <span class="kw-2">&amp;</span>PyDelta) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
         <span class="kw-2">&amp;</span>[
-            <span class="ident">delta</span>.<span class="ident">get_days</span>(),
-            <span class="ident">delta</span>.<span class="ident">get_seconds</span>(),
-            <span class="ident">delta</span>.<span class="ident">get_microseconds</span>(),
+            delta.get_days(),
+            delta.get_seconds(),
+            delta.get_microseconds(),
         ],
     )
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">make_datetime</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(
-    <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>,
-    <span class="ident">year</span>: <span class="ident">i32</span>,
-    <span class="ident">month</span>: <span class="ident">u8</span>,
-    <span class="ident">day</span>: <span class="ident">u8</span>,
-    <span class="ident">hour</span>: <span class="ident">u8</span>,
-    <span class="ident">minute</span>: <span class="ident">u8</span>,
-    <span class="ident">second</span>: <span class="ident">u8</span>,
-    <span class="ident">microsecond</span>: <span class="ident">u32</span>,
-    <span class="ident">tzinfo</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyDateTime</span><span class="op">&gt;</span> {
-    <span class="ident">PyDateTime::new</span>(
-        <span class="ident">py</span>,
-        <span class="ident">year</span>,
-        <span class="ident">month</span>,
-        <span class="ident">day</span>,
-        <span class="ident">hour</span>,
-        <span class="ident">minute</span>,
-        <span class="ident">second</span>,
-        <span class="ident">microsecond</span>,
-        <span class="ident">tzinfo</span>,
+<span class="attribute">#[allow(clippy::too_many_arguments)]</span>
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>make_datetime&lt;<span class="lifetime">&#39;p</span>&gt;(
+    py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
+    year: i32,
+    month: u8,
+    day: u8,
+    hour: u8,
+    minute: u8,
+    second: u8,
+    microsecond: u32,
+    tzinfo: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt;,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyDateTime&gt; {
+    PyDateTime::new(
+        py,
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+        microsecond,
+        tzinfo,
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_datetime_tuple</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_datetime_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
         <span class="kw-2">&amp;</span>[
-            <span class="ident">dt</span>.<span class="ident">get_year</span>(),
-            <span class="ident">dt</span>.<span class="ident">get_month</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_day</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_hour</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_minute</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_second</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_microsecond</span>() <span class="kw">as</span> <span class="ident">i32</span>,
+            dt.get_year(),
+            dt.get_month() <span class="kw">as </span>i32,
+            dt.get_day() <span class="kw">as </span>i32,
+            dt.get_hour() <span class="kw">as </span>i32,
+            dt.get_minute() <span class="kw">as </span>i32,
+            dt.get_second() <span class="kw">as </span>i32,
+            dt.get_microsecond() <span class="kw">as </span>i32,
         ],
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_datetime_tuple_fold</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyTuple</span> {
-    <span class="ident">PyTuple::new</span>(
-        <span class="ident">py</span>,
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_datetime_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+    PyTuple::new(
+        py,
         <span class="kw-2">&amp;</span>[
-            <span class="ident">dt</span>.<span class="ident">get_year</span>(),
-            <span class="ident">dt</span>.<span class="ident">get_month</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_day</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_hour</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_minute</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_second</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_microsecond</span>() <span class="kw">as</span> <span class="ident">i32</span>,
-            <span class="ident">dt</span>.<span class="ident">get_fold</span>() <span class="kw">as</span> <span class="ident">i32</span>,
+            dt.get_year(),
+            dt.get_month() <span class="kw">as </span>i32,
+            dt.get_day() <span class="kw">as </span>i32,
+            dt.get_hour() <span class="kw">as </span>i32,
+            dt.get_minute() <span class="kw">as </span>i32,
+            dt.get_second() <span class="kw">as </span>i32,
+            dt.get_microsecond() <span class="kw">as </span>i32,
+            dt.get_fold() <span class="kw">as </span>i32,
         ],
     )
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">datetime_from_timestamp</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(
-    <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>,
-    <span class="ident">ts</span>: <span class="ident">f64</span>,
-    <span class="ident">tz</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyDateTime</span><span class="op">&gt;</span> {
-    <span class="ident">PyDateTime::from_timestamp</span>(<span class="ident">py</span>, <span class="ident">ts</span>, <span class="ident">tz</span>)
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>datetime_from_timestamp&lt;<span class="lifetime">&#39;p</span>&gt;(
+    py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
+    ts: f64,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt;,
+) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyDateTime&gt; {
+    PyDateTime::from_timestamp(py, ts, tz)
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_datetime_tzinfo</span>(<span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span> {
-    <span class="ident">dt</span>.<span class="ident">get_tzinfo</span>()
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_datetime_tzinfo(dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
+    dt.get_tzinfo()
 }
 
-<span class="attribute">#[<span class="ident">pyfunction</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_time_tzinfo</span>(<span class="ident">dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyTime</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyTzInfo</span><span class="op">&gt;</span> {
-    <span class="ident">dt</span>.<span class="ident">get_tzinfo</span>()
+<span class="attribute">#[pyfunction]</span>
+<span class="kw">fn </span>get_time_tzinfo(dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
+    dt.get_tzinfo()
 }
 
-<span class="attribute">#[<span class="ident">pyclass</span>(<span class="ident">extends</span><span class="op">=</span><span class="ident">PyTzInfo</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TzClass</span> {}
+<span class="attribute">#[pyclass(extends=PyTzInfo)]</span>
+<span class="kw">pub struct </span>TzClass {}
 
-<span class="attribute">#[<span class="ident">pymethods</span>]</span>
-<span class="kw">impl</span> <span class="ident">TzClass</span> {
-    <span class="attribute">#[<span class="ident">new</span>]</span>
-    <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">TzClass</span> {}
+<span class="attribute">#[pymethods]</span>
+<span class="kw">impl </span>TzClass {
+    <span class="attribute">#[new]</span>
+    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        TzClass {}
     }
 
-    <span class="kw">fn</span> <span class="ident">utcoffset</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">_dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyDelta</span><span class="op">&gt;</span> {
-        <span class="ident">PyDelta::new</span>(<span class="ident">py</span>, <span class="number">0</span>, <span class="number">3600</span>, <span class="number">0</span>, <span class="bool-val">true</span>)
+    <span class="kw">fn </span>utcoffset&lt;<span class="lifetime">&#39;p</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, _dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyDelta&gt; {
+        PyDelta::new(py, <span class="number">0</span>, <span class="number">3600</span>, <span class="number">0</span>, <span class="bool-val">true</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">tzname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">_dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="ident">String</span> {
-        <span class="ident">String::from</span>(<span class="string">&quot;+01:00&quot;</span>)
+    <span class="kw">fn </span>tzname(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, _dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; String {
+        String::from(<span class="string">&quot;+01:00&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">dst</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">_dt</span>: <span class="kw-2">&amp;</span><span class="ident">PyDateTime</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyDelta</span><span class="op">&gt;</span> {
-        <span class="prelude-val">None</span>
-    }
+    <span class="kw">fn </span>dst(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, _dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyDelta&gt; {
+        <span class="prelude-val">None
+    </span>}
 }
 
-<span class="attribute">#[<span class="ident">pymodule</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">datetime</span>(<span class="ident">_py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PyModule</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">make_date</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_date_tuple</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">date_from_timestamp</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">make_time</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_time_tuple</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">make_delta</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_delta_tuple</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">make_datetime</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_datetime_tuple</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">datetime_from_timestamp</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_datetime_tzinfo</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_time_tzinfo</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+<span class="attribute">#[pymodule]</span>
+<span class="kw">pub fn </span>datetime(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(make_date, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_date_tuple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(date_from_timestamp, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(make_time, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_time_tuple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(make_delta, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_delta_tuple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(make_datetime, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_datetime_tuple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(datetime_from_timestamp, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_datetime_tzinfo, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_time_tzinfo, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">time_with_fold</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_time_tuple_fold</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
-    <span class="ident">m</span>.<span class="ident">add_function</span>(<span class="macro">wrap_pyfunction!</span>(<span class="ident">get_datetime_tuple_fold</span>, <span class="ident">m</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(time_with_fold, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_time_tuple_fold, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+    m.add_function(<span class="macro">wrap_pyfunction!</span>(get_datetime_tuple_fold, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
-    <span class="ident">m</span>.<span class="ident">add_class</span>::<span class="op">&lt;</span><span class="ident">TzClass</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+    m.add_class::&lt;TzClass&gt;()<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

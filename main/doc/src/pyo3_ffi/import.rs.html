@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/import.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>import.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `pyo3-ffi/src/import.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>import.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><script defer src="../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pyo3_ffi/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pyo3_ffi/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -85,87 +79,86 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::object::PyObject</span>;
-<span class="kw">use</span> <span class="ident">std::os::raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>};
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::PyObject;
+<span class="kw">use </span>std::os::raw::{c_char, c_int, c_long};
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_GetMagicNumber</span>() -&gt; <span class="ident">c_long</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_GetMagicTag</span>() -&gt; <span class="kw-2">*const</span> <span class="ident">c_char</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ExecCodeModule&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ExecCodeModule</span>(<span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>, <span class="ident">co</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ExecCodeModuleEx&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ExecCodeModuleEx</span>(
-        <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">co</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">pathname</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ExecCodeModuleWithPathnames</span>(
-        <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">co</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">pathname</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">cpathname</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ExecCodeModuleObject</span>(
-        <span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">co</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">pathname</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">cpathname</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_GetModuleDict&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_GetModuleDict</span>() -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="comment">// skipped Python 3.7 / ex-non-limited PyImport_GetModule</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_AddModuleObject</span>(<span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_AddModule&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_AddModule</span>(<span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ImportModule&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportModule</span>(<span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ImportModuleNoBlock&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportModuleNoBlock</span>(<span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ImportModuleLevel&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportModuleLevel</span>(
-        <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">globals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">locals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">fromlist</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">level</span>: <span class="ident">c_int</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ImportModuleLevelObject&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportModuleLevelObject</span>(
-        <span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">globals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">locals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">fromlist</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-        <span class="ident">level</span>: <span class="ident">c_int</span>,
-    ) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="kw">pub fn </span>PyImport_GetMagicNumber() -&gt; c_long;
+    <span class="kw">pub fn </span>PyImport_GetMagicTag() -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModule&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ExecCodeModule(name: <span class="kw-2">*const </span>c_char, co: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModuleEx&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ExecCodeModuleEx(
+        name: <span class="kw-2">*const </span>c_char,
+        co: <span class="kw-2">*mut </span>PyObject,
+        pathname: <span class="kw-2">*const </span>c_char,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="kw">pub fn </span>PyImport_ExecCodeModuleWithPathnames(
+        name: <span class="kw-2">*const </span>c_char,
+        co: <span class="kw-2">*mut </span>PyObject,
+        pathname: <span class="kw-2">*const </span>c_char,
+        cpathname: <span class="kw-2">*const </span>c_char,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="kw">pub fn </span>PyImport_ExecCodeModuleObject(
+        name: <span class="kw-2">*mut </span>PyObject,
+        co: <span class="kw-2">*mut </span>PyObject,
+        pathname: <span class="kw-2">*mut </span>PyObject,
+        cpathname: <span class="kw-2">*mut </span>PyObject,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_GetModuleDict&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_GetModuleDict() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="comment">// skipped Python 3.7 / ex-non-limited PyImport_GetModule
+    </span><span class="kw">pub fn </span>PyImport_AddModuleObject(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_AddModule&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_AddModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModule&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ImportModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleNoBlock&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ImportModuleNoBlock(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevel&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ImportModuleLevel(
+        name: <span class="kw-2">*const </span>c_char,
+        globals: <span class="kw-2">*mut </span>PyObject,
+        locals: <span class="kw-2">*mut </span>PyObject,
+        fromlist: <span class="kw-2">*mut </span>PyObject,
+        level: c_int,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevelObject&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ImportModuleLevelObject(
+        name: <span class="kw-2">*mut </span>PyObject,
+        globals: <span class="kw-2">*mut </span>PyObject,
+        locals: <span class="kw-2">*mut </span>PyObject,
+        fromlist: <span class="kw-2">*mut </span>PyObject,
+        level: c_int,
+    ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportModuleEx</span>(
-    <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-    <span class="ident">globals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">locals</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-    <span class="ident">fromlist</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>,
-) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span> {
-    <span class="ident">PyImport_ImportModuleLevel</span>(<span class="ident">name</span>, <span class="ident">globals</span>, <span class="ident">locals</span>, <span class="ident">fromlist</span>, <span class="number">0</span>)
+<span class="attribute">#[inline]</span>
+<span class="kw">pub unsafe fn </span>PyImport_ImportModuleEx(
+    name: <span class="kw-2">*const </span>c_char,
+    globals: <span class="kw-2">*mut </span>PyObject,
+    locals: <span class="kw-2">*mut </span>PyObject,
+    fromlist: <span class="kw-2">*mut </span>PyObject,
+) -&gt; <span class="kw-2">*mut </span>PyObject {
+    PyImport_ImportModuleLevel(name, globals, locals, fromlist, <span class="number">0</span>)
 }
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_GetImporter</span>(<span class="ident">path</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_Import&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_Import</span>(<span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">PyPy</span>, <span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;PyPyImport_ReloadModule&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ReloadModule</span>(<span class="ident">m</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span>;
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">Py_3_9</span>))]</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Removed in Python 3.9 as it was \&quot;For internal use only\&quot;.&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_Cleanup</span>();
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportFrozenModuleObject</span>(<span class="ident">name</span>: <span class="kw-2">*mut</span> <span class="ident">PyObject</span>) -&gt; <span class="ident">c_int</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_ImportFrozenModule</span>(<span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>) -&gt; <span class="ident">c_int</span>;
+<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="kw">pub fn </span>PyImport_GetImporter(path: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_Import&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_Import(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ReloadModule&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_ReloadModule(m: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(Py_3_9))]</span>
+    <span class="attribute">#[deprecated(note = <span class="string">&quot;Removed in Python 3.9 as it was \&quot;For internal use only\&quot;.&quot;</span>)]</span>
+    <span class="kw">pub fn </span>PyImport_Cleanup();
+    <span class="kw">pub fn </span>PyImport_ImportFrozenModuleObject(name: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="kw">pub fn </span>PyImport_ImportFrozenModule(name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">PyImport_AppendInittab</span>(
-        <span class="ident">name</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>,
-        <span class="ident">initfunc</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>() -&gt; <span class="kw-2">*mut</span> <span class="ident">PyObject</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">c_int</span>;
+    <span class="kw">pub fn </span>PyImport_AppendInittab(
+        name: <span class="kw-2">*const </span>c_char,
+        initfunc: <span class="prelude-ty">Option</span>&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <span class="kw-2">*mut </span>PyObject&gt;,
+    ) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>

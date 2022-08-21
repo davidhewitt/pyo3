@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/types/bytearray.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bytearray.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/types/bytearray.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bytearray.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><script defer src="../../../scrape-examples.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../pyo3/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../pyo3/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -378,380 +372,379 @@
 <span id="372">372</span>
 <span id="373">373</span>
 <span id="374">374</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::err</span>::{<span class="ident">PyErr</span>, <span class="ident">PyResult</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ffi</span>, <span class="ident">AsPyPointer</span>, <span class="ident">Py</span>, <span class="ident">PyAny</span>, <span class="ident">Python</span>};
-<span class="kw">use</span> <span class="ident">std::os::raw::c_char</span>;
-<span class="kw">use</span> <span class="ident">std::slice</span>;
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</span><span class="kw">use </span><span class="kw">crate</span>::err::{PyErr, PyResult};
+<span class="kw">use crate</span>::{ffi, AsPyPointer, Py, PyAny, Python};
+<span class="kw">use </span>std::os::raw::c_char;
+<span class="kw">use </span>std::slice;
 
-<span class="doccomment">/// Represents a Python `bytearray`.</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PyByteArray</span>(<span class="ident">PyAny</span>);
+<span class="doccomment">/// Represents a Python `bytearray`.
+</span><span class="attribute">#[repr(transparent)]</span>
+<span class="kw">pub struct </span>PyByteArray(PyAny);
 
-<span class="macro">pyobject_native_type_core!</span>(<span class="ident">PyByteArray</span>, <span class="ident">ffi::PyByteArray_Type</span>, #<span class="ident">checkfunction</span><span class="op">=</span><span class="ident">ffi::PyByteArray_Check</span>);
+<span class="macro">pyobject_native_type_core!</span>(PyByteArray, ffi::PyByteArray_Type, #checkfunction=ffi::PyByteArray_Check);
 
-<span class="kw">impl</span> <span class="ident">PyByteArray</span> {
-    <span class="doccomment">/// Creates a new Python bytearray object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The byte string is initialized by copying the data from the `&amp;[u8]`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">src</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyByteArray</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">c_char</span>;
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">ffi::Py_ssize_t</span>;
-        <span class="kw">unsafe</span> { <span class="ident">py</span>.<span class="ident">from_owned_ptr</span>::<span class="op">&lt;</span><span class="ident">PyByteArray</span><span class="op">&gt;</span>(<span class="ident">ffi::PyByteArray_FromStringAndSize</span>(<span class="ident">ptr</span>, <span class="ident">len</span>)) }
+<span class="kw">impl </span>PyByteArray {
+    <span class="doccomment">/// Creates a new Python bytearray object.
+    ///
+    /// The byte string is initialized by copying the data from the `&amp;[u8]`.
+    </span><span class="kw">pub fn </span>new&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, src: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyByteArray {
+        <span class="kw">let </span>ptr = src.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char;
+        <span class="kw">let </span>len = src.len() <span class="kw">as </span>ffi::Py_ssize_t;
+        <span class="kw">unsafe </span>{ py.from_owned_ptr::&lt;PyByteArray&gt;(ffi::PyByteArray_FromStringAndSize(ptr, len)) }
     }
 
-    <span class="doccomment">/// Creates a new Python `bytearray` object with an `init` closure to write its contents.</span>
-    <span class="doccomment">/// Before calling `init` the bytearray is zero-initialised.</span>
-    <span class="doccomment">/// * If Python raises a MemoryError on the allocation, `new_with` will return</span>
-    <span class="doccomment">///   it inside `Err`.</span>
-    <span class="doccomment">/// * If `init` returns `Err(e)`, `new_with` will return `Err(e)`.</span>
-    <span class="doccomment">/// * If `init` returns `Ok(())`, `new_with` will return `Ok(&amp;PyByteArray)`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use pyo3::{prelude::*, types::PyByteArray};</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # fn main() -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">///     let py_bytearray = PyByteArray::new_with(py, 10, |bytes: &amp;mut [u8]| {</span>
-    <span class="doccomment">///         bytes.copy_from_slice(b&quot;Hello Rust&quot;);</span>
-    <span class="doccomment">///         Ok(())</span>
-    <span class="doccomment">///     })?;</span>
-    <span class="doccomment">///     let bytearray: &amp;[u8] = unsafe { py_bytearray.as_bytes() };</span>
-    <span class="doccomment">///     assert_eq!(bytearray, b&quot;Hello Rust&quot;);</span>
-    <span class="doccomment">///     Ok(())</span>
-    <span class="doccomment">/// })</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">len</span>: <span class="ident">usize</span>, <span class="ident">init</span>: <span class="ident">F</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">PyByteArray</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="doccomment">/// Creates a new Python `bytearray` object with an `init` closure to write its contents.
+    /// Before calling `init` the bytearray is zero-initialised.
+    /// * If Python raises a MemoryError on the allocation, `new_with` will return
+    ///   it inside `Err`.
+    /// * If `init` returns `Err(e)`, `new_with` will return `Err(e)`.
+    /// * If `init` returns `Ok(())`, `new_with` will return `Ok(&amp;PyByteArray)`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use pyo3::{prelude::*, types::PyByteArray};
+    ///
+    /// # fn main() -&gt; PyResult&lt;()&gt; {
+    /// Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
+    ///     let py_bytearray = PyByteArray::new_with(py, 10, |bytes: &amp;mut [u8]| {
+    ///         bytes.copy_from_slice(b&quot;Hello Rust&quot;);
+    ///         Ok(())
+    ///     })?;
+    ///     let bytearray: &amp;[u8] = unsafe { py_bytearray.as_bytes() };
+    ///     assert_eq!(bytearray, b&quot;Hello Rust&quot;);
+    ///     Ok(())
+    /// })
+    /// # }
+    /// ```
+    </span><span class="kw">pub fn </span>new_with&lt;F&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, len: usize, init: F) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyByteArray&gt;
+    <span class="kw">where
+        </span>F: FnOnce(<span class="kw-2">&amp;mut </span>[u8]) -&gt; PyResult&lt;()&gt;,
     {
-        <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">pyptr</span> <span class="op">=</span>
-                <span class="ident">ffi::PyByteArray_FromStringAndSize</span>(<span class="ident">std::ptr::null</span>(), <span class="ident">len</span> <span class="kw">as</span> <span class="ident">ffi::Py_ssize_t</span>);
-            <span class="comment">// Check for an allocation error and return it</span>
-            <span class="kw">let</span> <span class="ident">pypybytearray</span>: <span class="ident">Py</span><span class="op">&lt;</span><span class="ident">PyByteArray</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Py::from_owned_ptr_or_err</span>(<span class="ident">py</span>, <span class="ident">pyptr</span>)<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">ffi::PyByteArray_AsString</span>(<span class="ident">pyptr</span>) <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>;
-            <span class="macro">debug_assert!</span>(<span class="op">!</span><span class="ident">buffer</span>.<span class="ident">is_null</span>());
-            <span class="comment">// Zero-initialise the uninitialised bytearray</span>
-            <span class="ident">std::ptr::write_bytes</span>(<span class="ident">buffer</span>, <span class="number">0u8</span>, <span class="ident">len</span>);
-            <span class="comment">// (Further) Initialise the bytearray in init</span>
-            <span class="comment">// If init returns an Err, pypybytearray will automatically deallocate the buffer</span>
-            <span class="ident">init</span>(<span class="ident">std::slice::from_raw_parts_mut</span>(<span class="ident">buffer</span>, <span class="ident">len</span>)).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">pypybytearray</span>.<span class="ident">into_ref</span>(<span class="ident">py</span>))
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>pyptr =
+                ffi::PyByteArray_FromStringAndSize(std::ptr::null(), len <span class="kw">as </span>ffi::Py_ssize_t);
+            <span class="comment">// Check for an allocation error and return it
+            </span><span class="kw">let </span>pypybytearray: Py&lt;PyByteArray&gt; = Py::from_owned_ptr_or_err(py, pyptr)<span class="question-mark">?</span>;
+            <span class="kw">let </span>buffer = ffi::PyByteArray_AsString(pyptr) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+            <span class="macro">debug_assert!</span>(!buffer.is_null());
+            <span class="comment">// Zero-initialise the uninitialised bytearray
+            </span>std::ptr::write_bytes(buffer, <span class="number">0u8</span>, len);
+            <span class="comment">// (Further) Initialise the bytearray in init
+            // If init returns an Err, pypybytearray will automatically deallocate the buffer
+            </span>init(std::slice::from_raw_parts_mut(buffer, len)).map(|<span class="kw">_</span>| pypybytearray.into_ref(py))
         }
     }
 
-    <span class="doccomment">/// Creates a new Python `bytearray` object from another Python object that</span>
-    <span class="doccomment">/// implements the buffer protocol.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">py</span>: <span class="ident">Python</span><span class="op">&lt;</span><span class="lifetime">&#39;p</span><span class="op">&gt;</span>, <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">I</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;p</span> <span class="ident">PyByteArray</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">AsPyPointer</span>,
+    <span class="doccomment">/// Creates a new Python `bytearray` object from another Python object that
+    /// implements the buffer protocol.
+    </span><span class="kw">pub fn </span>from&lt;<span class="lifetime">&#39;p</span>, I&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, src: <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>I) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyByteArray&gt;
+    <span class="kw">where
+        </span>I: AsPyPointer,
     {
-        <span class="kw">unsafe</span> { <span class="ident">py</span>.<span class="ident">from_owned_ptr_or_err</span>(<span class="ident">ffi::PyByteArray_FromObject</span>(<span class="ident">src</span>.<span class="ident">as_ptr</span>())) }
+        <span class="kw">unsafe </span>{ py.from_owned_ptr_or_err(ffi::PyByteArray_FromObject(src.as_ptr())) }
     }
 
-    <span class="doccomment">/// Gets the length of the bytearray.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
-        <span class="comment">// non-negative Py_ssize_t should always fit into Rust usize</span>
-        <span class="kw">unsafe</span> { <span class="ident">ffi::PyByteArray_Size</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="ident">usize</span> }
+    <span class="doccomment">/// Gets the length of the bytearray.
+    </span><span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="comment">// non-negative Py_ssize_t should always fit into Rust usize
+        </span><span class="kw">unsafe </span>{ ffi::PyByteArray_Size(<span class="self">self</span>.as_ptr()) <span class="kw">as </span>usize }
     }
 
-    <span class="doccomment">/// Checks if the bytearray is empty.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
+    <span class="doccomment">/// Checks if the bytearray is empty.
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.len() == <span class="number">0
+    </span>}
+
+    <span class="doccomment">/// Gets the start of the buffer containing the contents of the bytearray.
+    ///
+    /// # Safety
+    ///
+    /// See the safety requirements of [`PyByteArray::as_bytes`] and [`PyByteArray::as_bytes_mut`].
+    </span><span class="kw">pub fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>u8 {
+        <span class="kw">unsafe </span>{ ffi::PyByteArray_AsString(<span class="self">self</span>.as_ptr()) <span class="kw">as </span><span class="kw-2">*mut </span>u8 }
     }
 
-    <span class="doccomment">/// Gets the start of the buffer containing the contents of the bytearray.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the safety requirements of [`PyByteArray::as_bytes`] and [`PyByteArray::as_bytes_mut`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">u8</span> {
-        <span class="kw">unsafe</span> { <span class="ident">ffi::PyByteArray_AsString</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>()) <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span> }
+    <span class="doccomment">/// Extracts a slice of the `ByteArray`&#39;s entire buffer.
+    ///
+    /// # Safety
+    ///
+    /// Mutation of the `bytearray` invalidates the slice. If it is used afterwards, the behavior is
+    /// undefined.
+    ///
+    /// These mutations may occur in Python code as well as from Rust:
+    /// - Calling methods like [`PyByteArray::as_bytes_mut`] and [`PyByteArray::resize`] will
+    /// invalidate the slice.
+    /// - Actions like dropping objects or raising exceptions can invoke `__del__`methods or signal
+    /// handlers, which may execute arbitrary Python code. This means that if Python code has a
+    /// reference to the `bytearray` you cannot safely use the vast majority of PyO3&#39;s API whilst
+    /// using the slice.
+    ///
+    /// As a result, this slice should only be used for short-lived operations without executing any
+    /// Python code, such as copying into a Vec.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use pyo3::prelude::*;
+    /// use pyo3::exceptions::PyRuntimeError;
+    /// use pyo3::types::PyByteArray;
+    ///
+    /// #[pyfunction]
+    /// fn a_valid_function(bytes: &amp;PyByteArray) -&gt; PyResult&lt;()&gt; {
+    ///     let section = {
+    ///         // SAFETY: We promise to not let the interpreter regain control
+    ///         // or invoke any PyO3 APIs while using the slice.
+    ///         let slice = unsafe { bytes.as_bytes() };
+    ///
+    ///         // Copy only a section of `bytes` while avoiding
+    ///         // `to_vec` which copies the entire thing.
+    ///         let section = slice
+    ///             .get(6..11)
+    ///             .ok_or_else(|| PyRuntimeError::new_err(&quot;input is not long enough&quot;))?;
+    ///         Vec::from(section)
+    ///     };
+    ///
+    ///     // Now we can do things with `section` and call PyO3 APIs again.
+    ///     // ...
+    ///     # assert_eq!(&amp;section, b&quot;world&quot;);
+    ///
+    ///     Ok(())
+    /// }
+    /// # fn main() -&gt; PyResult&lt;()&gt; {
+    /// #     Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
+    /// #         let fun = wrap_pyfunction!(a_valid_function, py)?;
+    /// #         let locals = pyo3::types::PyDict::new(py);
+    /// #         locals.set_item(&quot;a_valid_function&quot;, fun)?;
+    /// #
+    /// #         py.run(
+    /// # r#&quot;b = bytearray(b&quot;hello world&quot;)
+    /// # a_valid_function(b)
+    /// #
+    /// # try:
+    /// #     a_valid_function(bytearray())
+    /// # except RuntimeError as e:
+    /// #     assert str(e) == &#39;input is not long enough&#39;&quot;#,
+    /// #             None,
+    /// #             Some(locals),
+    /// #         )?;
+    /// #
+    /// #         Ok(())
+    /// #     })
+    /// # }
+    /// ```
+    ///
+    /// # Incorrect usage
+    ///
+    /// The following `bug` function is unsound ⚠️
+    ///
+    /// ```rust,no_run
+    /// # use pyo3::prelude::*;
+    /// # use pyo3::types::PyByteArray;
+    ///
+    /// # #[allow(dead_code)]
+    /// #[pyfunction]
+    /// fn bug(py: Python&lt;&#39;_&gt;, bytes: &amp;PyByteArray) {
+    ///     let slice = unsafe { bytes.as_bytes() };
+    ///
+    ///     // This explicitly yields control back to the Python interpreter...
+    ///     // ...but it&#39;s not always this obvious. Many things do this implicitly.
+    ///     py.allow_threads(|| {
+    ///         // Python code could be mutating through its handle to `bytes`,
+    ///         // which makes reading it a data race, which is undefined behavior.
+    ///         println!(&quot;{:?}&quot;, slice[0]);
+    ///     });
+    ///
+    ///     // Python code might have mutated it, so we can not rely on the slice
+    ///     // remaining valid. As such this is also undefined behavior.
+    ///     println!(&quot;{:?}&quot;, slice[0]);
+    /// }
+    /// ```
+    </span><span class="kw">pub unsafe fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        slice::from_raw_parts(<span class="self">self</span>.data(), <span class="self">self</span>.len())
     }
 
-    <span class="doccomment">/// Extracts a slice of the `ByteArray`&#39;s entire buffer.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Mutation of the `bytearray` invalidates the slice. If it is used afterwards, the behavior is</span>
-    <span class="doccomment">/// undefined.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// These mutations may occur in Python code as well as from Rust:</span>
-    <span class="doccomment">/// - Calling methods like [`PyByteArray::as_bytes_mut`] and [`PyByteArray::resize`] will</span>
-    <span class="doccomment">/// invalidate the slice.</span>
-    <span class="doccomment">/// - Actions like dropping objects or raising exceptions can invoke `__del__`methods or signal</span>
-    <span class="doccomment">/// handlers, which may execute arbitrary Python code. This means that if Python code has a</span>
-    <span class="doccomment">/// reference to the `bytearray` you cannot safely use the vast majority of PyO3&#39;s API whilst</span>
-    <span class="doccomment">/// using the slice.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// As a result, this slice should only be used for short-lived operations without executing any</span>
-    <span class="doccomment">/// Python code, such as copying into a Vec.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// use pyo3::prelude::*;</span>
-    <span class="doccomment">/// use pyo3::exceptions::PyRuntimeError;</span>
-    <span class="doccomment">/// use pyo3::types::PyByteArray;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #[pyfunction]</span>
-    <span class="doccomment">/// fn a_valid_function(bytes: &amp;PyByteArray) -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">///     let section = {</span>
-    <span class="doccomment">///         // SAFETY: We promise to not let the interpreter regain control</span>
-    <span class="doccomment">///         // or invoke any PyO3 APIs while using the slice.</span>
-    <span class="doccomment">///         let slice = unsafe { bytes.as_bytes() };</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///         // Copy only a section of `bytes` while avoiding</span>
-    <span class="doccomment">///         // `to_vec` which copies the entire thing.</span>
-    <span class="doccomment">///         let section = slice</span>
-    <span class="doccomment">///             .get(6..11)</span>
-    <span class="doccomment">///             .ok_or_else(|| PyRuntimeError::new_err(&quot;input is not long enough&quot;))?;</span>
-    <span class="doccomment">///         Vec::from(section)</span>
-    <span class="doccomment">///     };</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     // Now we can do things with `section` and call PyO3 APIs again.</span>
-    <span class="doccomment">///     // ...</span>
-    <span class="doccomment">///     # assert_eq!(&amp;section, b&quot;world&quot;);</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     Ok(())</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// # fn main() -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// #     Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {</span>
-    <span class="doccomment">/// #         let fun = wrap_pyfunction!(a_valid_function, py)?;</span>
-    <span class="doccomment">/// #         let locals = pyo3::types::PyDict::new(py);</span>
-    <span class="doccomment">/// #         locals.set_item(&quot;a_valid_function&quot;, fun)?;</span>
-    <span class="doccomment">/// #</span>
-    <span class="doccomment">/// #         py.run(</span>
-    <span class="doccomment">/// # r#&quot;b = bytearray(b&quot;hello world&quot;)</span>
-    <span class="doccomment">/// # a_valid_function(b)</span>
-    <span class="doccomment">/// #</span>
-    <span class="doccomment">/// # try:</span>
-    <span class="doccomment">/// #     a_valid_function(bytearray())</span>
-    <span class="doccomment">/// # except RuntimeError as e:</span>
-    <span class="doccomment">/// #     assert str(e) == &#39;input is not long enough&#39;&quot;#,</span>
-    <span class="doccomment">/// #             None,</span>
-    <span class="doccomment">/// #             Some(locals),</span>
-    <span class="doccomment">/// #         )?;</span>
-    <span class="doccomment">/// #</span>
-    <span class="doccomment">/// #         Ok(())</span>
-    <span class="doccomment">/// #     })</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Incorrect usage</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The following `bug` function is unsound ⚠️</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust,no_run</span>
-    <span class="doccomment">/// # use pyo3::prelude::*;</span>
-    <span class="doccomment">/// # use pyo3::types::PyByteArray;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # #[allow(dead_code)]</span>
-    <span class="doccomment">/// #[pyfunction]</span>
-    <span class="doccomment">/// fn bug(py: Python&lt;&#39;_&gt;, bytes: &amp;PyByteArray) {</span>
-    <span class="doccomment">///     let slice = unsafe { bytes.as_bytes() };</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     // This explicitly yields control back to the Python interpreter...</span>
-    <span class="doccomment">///     // ...but it&#39;s not always this obvious. Many things do this implicitly.</span>
-    <span class="doccomment">///     py.allow_threads(|| {</span>
-    <span class="doccomment">///         // Python code could be mutating through its handle to `bytes`,</span>
-    <span class="doccomment">///         // which makes reading it a data race, which is undefined behavior.</span>
-    <span class="doccomment">///         println!(&quot;{:?}&quot;, slice[0]);</span>
-    <span class="doccomment">///     });</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     // Python code might have mutated it, so we can not rely on the slice</span>
-    <span class="doccomment">///     // remaining valid. As such this is also undefined behavior.</span>
-    <span class="doccomment">///     println!(&quot;{:?}&quot;, slice[0]);</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="ident">slice::from_raw_parts</span>(<span class="self">self</span>.<span class="ident">data</span>(), <span class="self">self</span>.<span class="ident">len</span>())
+    <span class="doccomment">/// Extracts a mutable slice of the `ByteArray`&#39;s entire buffer.
+    ///
+    /// # Safety
+    ///
+    /// Any other accesses of the `bytearray`&#39;s buffer invalidate the slice. If it is used
+    /// afterwards, the behavior is undefined. The safety requirements of [`PyByteArray::as_bytes`]
+    /// apply to this function as well.
+    </span><span class="attribute">#[allow(clippy::mut_from_ref)]</span>
+    <span class="kw">pub unsafe fn </span>as_bytes_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u8] {
+        slice::from_raw_parts_mut(<span class="self">self</span>.data(), <span class="self">self</span>.len())
     }
 
-    <span class="doccomment">/// Extracts a mutable slice of the `ByteArray`&#39;s entire buffer.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Any other accesses of the `bytearray`&#39;s buffer invalidate the slice. If it is used</span>
-    <span class="doccomment">/// afterwards, the behavior is undefined. The safety requirements of [`PyByteArray::as_bytes`]</span>
-    <span class="doccomment">/// apply to this function as well.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::mut_from_ref</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_bytes_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>] {
-        <span class="ident">slice::from_raw_parts_mut</span>(<span class="self">self</span>.<span class="ident">data</span>(), <span class="self">self</span>.<span class="ident">len</span>())
+    <span class="doccomment">/// Copies the contents of the bytearray to a Rust vector.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use pyo3::prelude::*;
+    /// # use pyo3::types::PyByteArray;
+    /// # Python::with_gil(|py| {
+    /// let bytearray = PyByteArray::new(py, b&quot;Hello World.&quot;);
+    /// let mut copied_message = bytearray.to_vec();
+    /// assert_eq!(b&quot;Hello World.&quot;, copied_message.as_slice());
+    ///
+    /// copied_message[11] = b&#39;!&#39;;
+    /// assert_eq!(b&quot;Hello World!&quot;, copied_message.as_slice());
+    ///
+    /// pyo3::py_run!(py, bytearray, &quot;assert bytearray == b&#39;Hello World.&#39;&quot;);
+    /// # });
+    /// ```
+    </span><span class="kw">pub fn </span>to_vec(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.as_bytes() }.to_vec()
     }
 
-    <span class="doccomment">/// Copies the contents of the bytearray to a Rust vector.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use pyo3::prelude::*;</span>
-    <span class="doccomment">/// # use pyo3::types::PyByteArray;</span>
-    <span class="doccomment">/// # Python::with_gil(|py| {</span>
-    <span class="doccomment">/// let bytearray = PyByteArray::new(py, b&quot;Hello World.&quot;);</span>
-    <span class="doccomment">/// let mut copied_message = bytearray.to_vec();</span>
-    <span class="doccomment">/// assert_eq!(b&quot;Hello World.&quot;, copied_message.as_slice());</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// copied_message[11] = b&#39;!&#39;;</span>
-    <span class="doccomment">/// assert_eq!(b&quot;Hello World!&quot;, copied_message.as_slice());</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// pyo3::py_run!(py, bytearray, &quot;assert bytearray == b&#39;Hello World.&#39;&quot;);</span>
-    <span class="doccomment">/// # });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_vec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">as_bytes</span>() }.<span class="ident">to_vec</span>()
-    }
-
-    <span class="doccomment">/// Resizes the bytearray object to the new length `len`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this will invalidate any pointers obtained by [PyByteArray::data], as well as</span>
-    <span class="doccomment">/// any (unsafe) slices obtained from [PyByteArray::as_bytes] and [PyByteArray::as_bytes_mut].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">len</span>: <span class="ident">usize</span>) -&gt; <span class="ident">PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">ffi::PyByteArray_Resize</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>(), <span class="ident">len</span> <span class="kw">as</span> <span class="ident">ffi::Py_ssize_t</span>);
-            <span class="kw">if</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span> {
+    <span class="doccomment">/// Resizes the bytearray object to the new length `len`.
+    ///
+    /// Note that this will invalidate any pointers obtained by [PyByteArray::data], as well as
+    /// any (unsafe) slices obtained from [PyByteArray::as_bytes] and [PyByteArray::as_bytes_mut].
+    </span><span class="kw">pub fn </span>resize(<span class="kw-2">&amp;</span><span class="self">self</span>, len: usize) -&gt; PyResult&lt;()&gt; {
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>result = ffi::PyByteArray_Resize(<span class="self">self</span>.as_ptr(), len <span class="kw">as </span>ffi::Py_ssize_t);
+            <span class="kw">if </span>result == <span class="number">0 </span>{
                 <span class="prelude-val">Ok</span>(())
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">PyErr::fetch</span>(<span class="self">self</span>.<span class="ident">py</span>()))
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>.py()))
             }
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::exceptions</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::PyByteArray</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">PyObject</span>, <span class="ident">Python</span>};
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">crate</span>::exceptions;
+    <span class="kw">use </span><span class="kw">crate</span>::types::PyByteArray;
+    <span class="kw">use crate</span>::{PyObject, Python};
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_len</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">src</span>.<span class="ident">len</span>(), <span class="ident">bytearray</span>.<span class="ident">len</span>());
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_len() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
+            <span class="macro">assert_eq!</span>(src.len(), bytearray.len());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_as_bytes</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_as_bytes() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
 
-            <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bytearray</span>.<span class="ident">as_bytes</span>() };
-            <span class="macro">assert_eq!</span>(<span class="ident">src</span>, <span class="ident">slice</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">bytearray</span>.<span class="ident">data</span>() <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>, <span class="ident">slice</span>.<span class="ident">as_ptr</span>());
+            <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ bytearray.as_bytes() };
+            <span class="macro">assert_eq!</span>(src, slice);
+            <span class="macro">assert_eq!</span>(bytearray.data() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>, slice.as_ptr());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_as_bytes_mut</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_as_bytes_mut() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
 
-            <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bytearray</span>.<span class="ident">as_bytes_mut</span>() };
-            <span class="macro">assert_eq!</span>(<span class="ident">src</span>, <span class="ident">slice</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">bytearray</span>.<span class="ident">data</span>(), <span class="ident">slice</span>.<span class="ident">as_mut_ptr</span>());
+            <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ bytearray.as_bytes_mut() };
+            <span class="macro">assert_eq!</span>(src, slice);
+            <span class="macro">assert_eq!</span>(bytearray.data(), slice.as_mut_ptr());
 
-            <span class="ident">slice</span>[<span class="number">0</span>..<span class="number">5</span>].<span class="ident">copy_from_slice</span>(<span class="string">b&quot;Hi...&quot;</span>);
+            slice[<span class="number">0</span>..<span class="number">5</span>].copy_from_slice(<span class="string">b&quot;Hi...&quot;</span>);
 
             <span class="macro">assert_eq!</span>(
-                <span class="ident">bytearray</span>.<span class="ident">str</span>().<span class="ident">unwrap</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>(),
-                <span class="string">&quot;bytearray(b&#39;Hi... Python&#39;)&quot;</span>
-            );
+                bytearray.str().unwrap().to_str().unwrap(),
+                <span class="string">&quot;bytearray(b&#39;Hi... Python&#39;)&quot;
+            </span>);
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_to_vec</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_to_vec() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
 
-            <span class="kw">let</span> <span class="ident">vec</span> <span class="op">=</span> <span class="ident">bytearray</span>.<span class="ident">to_vec</span>();
-            <span class="macro">assert_eq!</span>(<span class="ident">src</span>, <span class="ident">vec</span>.<span class="ident">as_slice</span>());
+            <span class="kw">let </span>vec = bytearray.to_vec();
+            <span class="macro">assert_eq!</span>(src, vec.as_slice());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_from</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_from() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
 
-            <span class="kw">let</span> <span class="ident">ba</span>: <span class="ident">PyObject</span> <span class="op">=</span> <span class="ident">bytearray</span>.<span class="ident">into</span>();
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::from</span>(<span class="ident">py</span>, <span class="kw-2">&amp;</span><span class="ident">ba</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let </span>ba: PyObject = bytearray.into();
+            <span class="kw">let </span>bytearray = PyByteArray::from(py, <span class="kw-2">&amp;</span>ba).unwrap();
 
-            <span class="macro">assert_eq!</span>(<span class="ident">src</span>, <span class="kw">unsafe</span> { <span class="ident">bytearray</span>.<span class="ident">as_bytes</span>() });
+            <span class="macro">assert_eq!</span>(src, <span class="kw">unsafe </span>{ bytearray.as_bytes() });
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_from_err</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">PyByteArray::from</span>(<span class="ident">py</span>, <span class="kw-2">&amp;</span><span class="ident">py</span>.<span class="prelude-val">None</span>()) {
-                <span class="macro">assert!</span>(<span class="ident">err</span>.<span class="ident">is_instance_of</span>::<span class="op">&lt;</span><span class="ident">exceptions::PyTypeError</span><span class="op">&gt;</span>(<span class="ident">py</span>));
-            } <span class="kw">else</span> {
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_from_err() {
+        Python::with_gil(|py| {
+            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = PyByteArray::from(py, <span class="kw-2">&amp;</span>py.<span class="prelude-val">None</span>()) {
+                <span class="macro">assert!</span>(err.is_instance_of::&lt;exceptions::PyTypeError&gt;(py));
+            } <span class="kw">else </span>{
                 <span class="macro">panic!</span>(<span class="string">&quot;error&quot;</span>);
             }
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_resize</span>() {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">src</span> <span class="op">=</span> <span class="string">b&quot;Hello Python&quot;</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new</span>(<span class="ident">py</span>, <span class="ident">src</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_resize() {
+        Python::with_gil(|py| {
+            <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
+            <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
 
-            <span class="ident">bytearray</span>.<span class="ident">resize</span>(<span class="number">20</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq!</span>(<span class="number">20</span>, <span class="ident">bytearray</span>.<span class="ident">len</span>());
+            bytearray.resize(<span class="number">20</span>).unwrap();
+            <span class="macro">assert_eq!</span>(<span class="number">20</span>, bytearray.len());
         });
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_byte_array_new_with</span>() -&gt; <span class="ident"><span class="kw">super</span>::PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> -&gt; <span class="ident"><span class="kw">super</span>::PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">py_bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new_with</span>(<span class="ident">py</span>, <span class="number">10</span>, <span class="op">|</span><span class="ident">b</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">|</span> {
-                <span class="ident">b</span>.<span class="ident">copy_from_slice</span>(<span class="string">b&quot;Hello Rust&quot;</span>);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_byte_array_new_with() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+        Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+            <span class="kw">let </span>py_bytearray = PyByteArray::new_with(py, <span class="number">10</span>, |b: <span class="kw-2">&amp;mut </span>[u8]| {
+                b.copy_from_slice(<span class="string">b&quot;Hello Rust&quot;</span>);
                 <span class="prelude-val">Ok</span>(())
             })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">py_bytearray</span>.<span class="ident">as_bytes</span>() };
-            <span class="macro">assert_eq!</span>(<span class="ident">bytearray</span>, <span class="string">b&quot;Hello Rust&quot;</span>);
+            <span class="kw">let </span>bytearray: <span class="kw-2">&amp;</span>[u8] = <span class="kw">unsafe </span>{ py_bytearray.as_bytes() };
+            <span class="macro">assert_eq!</span>(bytearray, <span class="string">b&quot;Hello Rust&quot;</span>);
             <span class="prelude-val">Ok</span>(())
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_byte_array_new_with_zero_initialised</span>() -&gt; <span class="ident"><span class="kw">super</span>::PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> -&gt; <span class="ident"><span class="kw">super</span>::PyResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">py_bytearray</span> <span class="op">=</span> <span class="ident">PyByteArray::new_with</span>(<span class="ident">py</span>, <span class="number">10</span>, <span class="op">|</span><span class="ident">_b</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">|</span> <span class="prelude-val">Ok</span>(()))<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">bytearray</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">py_bytearray</span>.<span class="ident">as_bytes</span>() };
-            <span class="macro">assert_eq!</span>(<span class="ident">bytearray</span>, <span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">10</span>]);
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_byte_array_new_with_zero_initialised() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+        Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+            <span class="kw">let </span>py_bytearray = PyByteArray::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| <span class="prelude-val">Ok</span>(()))<span class="question-mark">?</span>;
+            <span class="kw">let </span>bytearray: <span class="kw-2">&amp;</span>[u8] = <span class="kw">unsafe </span>{ py_bytearray.as_bytes() };
+            <span class="macro">assert_eq!</span>(bytearray, <span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">10</span>]);
             <span class="prelude-val">Ok</span>(())
         })
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_byte_array_new_with_error</span>() {
-        <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::exceptions::PyValueError</span>;
-        <span class="ident">Python::with_gil</span>(<span class="op">|</span><span class="ident">py</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">py_bytearray_result</span> <span class="op">=</span> <span class="ident">PyByteArray::new_with</span>(<span class="ident">py</span>, <span class="number">10</span>, <span class="op">|</span><span class="ident">_b</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">|</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">PyValueError::new_err</span>(<span class="string">&quot;Hello Crustaceans!&quot;</span>))
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_byte_array_new_with_error() {
+        <span class="kw">use </span><span class="kw">crate</span>::exceptions::PyValueError;
+        Python::with_gil(|py| {
+            <span class="kw">let </span>py_bytearray_result = PyByteArray::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| {
+                <span class="prelude-val">Err</span>(PyValueError::new_err(<span class="string">&quot;Hello Crustaceans!&quot;</span>))
             });
-            <span class="macro">assert!</span>(<span class="ident">py_bytearray_result</span>.<span class="ident">is_err</span>());
-            <span class="macro">assert!</span>(<span class="ident">py_bytearray_result</span>
-                .<span class="ident">err</span>()
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">is_instance_of</span>::<span class="op">&lt;</span><span class="ident">PyValueError</span><span class="op">&gt;</span>(<span class="ident">py</span>));
+            <span class="macro">assert!</span>(py_bytearray_result.is_err());
+            <span class="macro">assert!</span>(py_bytearray_result
+                .err()
+                .unwrap()
+                .is_instance_of::&lt;PyValueError&gt;(py));
         })
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (9a7b7d5e5 2022-07-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
