@@ -16,9 +16,6 @@
 <span id="16">16</span>
 <span id="17">17</span>
 <span id="18">18</span>
-<span id="19">19</span>
-<span id="20">20</span>
-<span id="21">21</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Internals of PyO3 which are accessed by code expanded from PyO3&#39;s procedural macros.
 //!
 //! Usage of any of these APIs in downstream code is implicitly acknowledging that these
@@ -28,16 +25,13 @@
 </span><span class="kw">pub mod </span>deprecations;
 <span class="kw">pub mod </span>extract_argument;
 <span class="kw">pub mod </span>freelist;
-<span class="attribute">#[doc(hidden)]</span>
 <span class="kw">pub mod </span>frompyobject;
 <span class="kw">pub mod </span>ghost;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>not_send;
 <span class="kw">pub mod </span>panic;
-<span class="attribute">#[doc(hidden)]</span>
+<span class="kw">pub mod </span>pycell;
 <span class="kw">pub mod </span>pyclass;
-<span class="attribute">#[doc(hidden)]</span>
 <span class="kw">pub mod </span>pyfunction;
-<span class="attribute">#[doc(hidden)]</span>
 <span class="kw">pub mod </span>pymethods;
 <span class="kw">pub mod </span>pymodule;
 </code></pre></div>

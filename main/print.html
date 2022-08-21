@@ -1823,7 +1823,7 @@ impl pyo3::impl_::pyclass::PyClassImpl for MyClass {
     type Layout = PyCell&lt;MyClass&gt;;
     type BaseType = PyAny;
     type ThreadChecker = pyo3::impl_::pyclass::ThreadCheckerStub&lt;MyClass&gt;;
-    type PyClassMutability = pyo3::pycell::MutableClass;
+    type PyClassMutability = &lt;&lt;pyo3::PyAny as pyo3::impl_::pyclass::PyClassBaseType&gt;::PyClassMutability as pyo3::impl_::pycell::PyClassMutability&gt;::MutableChild;
     type Dict = ::pyo3::impl_::pyclass::PyClassDummySlot;
     type WeakRef = ::pyo3::impl_::pyclass::PyClassDummySlot;
     type BaseNativeType = ::pyo3::PyAny;

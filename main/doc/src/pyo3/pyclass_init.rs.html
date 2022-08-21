@@ -296,13 +296,19 @@
 <span id="296">296</span>
 <span id="297">297</span>
 <span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Contains initialization utilities for `#[pyclass]`.
 </span><span class="kw">use </span><span class="kw">crate</span>::callback::IntoPyCallbackOutput;
 <span class="kw">use </span><span class="kw">crate</span>::impl_::pyclass::{PyClassBaseType, PyClassDict, PyClassThreadChecker, PyClassWeakRef};
 <span class="kw">use crate</span>::{ffi, PyCell, PyClass, PyErr, PyResult, Python};
 <span class="kw">use crate</span>::{
     ffi::PyTypeObject,
-    pycell::{PyCellContents, PyClassBorrowChecker, PyClassMutability},
+    pycell::{
+        impl_::{PyClassBorrowChecker, PyClassMutability},
+        PyCellContents,
+    },
     type_object::{get_tp_alloc, PyTypeInfo},
 };
 <span class="kw">use </span>std::{

@@ -1140,11 +1140,13 @@
 <span id="1140">1140</span>
 <span id="1141">1141</span>
 <span id="1142">1142</span>
+<span id="1143">1143</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{
     exceptions::{PyAttributeError, PyNotImplementedError},
     ffi,
     impl_::freelist::FreeList,
-    pycell::{GetBorrowChecker, PyCellLayout, PyClassMutability},
+    impl_::pycell::{GetBorrowChecker, PyClassMutability},
+    pycell::PyCellLayout,
     pyclass_init::PyObjectInit,
     type_object::PyLayout,
     Py, PyAny, PyCell, PyClass, PyErr, PyMethodDefType, PyNativeType, PyResult, PyTypeInfo, Python,
