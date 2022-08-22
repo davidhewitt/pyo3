@@ -1127,8 +1127,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::err::{PyDowncastError, PyErr, PyResult};
 <span class="kw">use </span><span class="kw">crate</span>::exceptions::PyTypeError;
 <span class="kw">use </span><span class="kw">crate</span>::type_object::PyTypeInfo;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::types::PySuper;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::types::PySuper;
 <span class="kw">use </span><span class="kw">crate</span>::types::{PyDict, PyIterator, PyList, PyString, PyTuple, PyType};
 <span class="kw">use crate</span>::{err, ffi, Py, PyNativeType, PyObject, Python};
 <span class="kw">use </span>std::cell::UnsafeCell;
@@ -1157,18 +1157,18 @@
 ///
 /// See [the guide](https://pyo3.rs/latest/types.html) for an explanation
 /// of the different Python object types.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyAny(UnsafeCell&lt;ffi::PyObject&gt;);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyAny(UnsafeCell&lt;ffi::PyObject&gt;);
 
 <span class="kw">impl </span><span class="kw">crate</span>::AsPyPointer <span class="kw">for </span>PyAny {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
         <span class="self">self</span>.<span class="number">0</span>.get()
     }
 }
 
-<span class="attribute">#[allow(non_snake_case)]</span>
-<span class="comment">// Copied here as the macro does not accept deprecated functions.
+<span class="attribute">#[allow(non_snake_case)]
+</span><span class="comment">// Copied here as the macro does not accept deprecated functions.
 // Originally ffi::object::PyObject_Check, but this is not in the Python C API.
 </span><span class="kw">fn </span>PyObject_Check(<span class="kw">_</span>: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; c_int {
     <span class="number">1
@@ -1215,8 +1215,8 @@
     /// the equality of two objects (the `==` operator), use [`eq`](PyAny::eq).
     ///
     /// This is equivalent to the Python expression `self is other`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is&lt;T: AsPyPointer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is&lt;T: AsPyPointer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool {
         <span class="self">self</span>.as_ptr() == other.as_ptr()
     }
 
@@ -1609,11 +1609,11 @@
     ///
     /// This is equivalent to the Python expression `help()`.
     </span><span class="kw">pub fn </span>call0(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
-        <span class="macro">cfg_if::cfg_if!</span> {
+        <span class="macro">cfg_if::cfg_if! </span>{
             <span class="kw">if </span><span class="attribute">#[cfg(all(
                 not(PyPy),
                 any(Py_3_10, all(not(Py_LIMITED_API), Py_3_9)) <span class="comment">// PyObject_CallNoArgs was added to python in 3.9 but to limited API in 3.10
-            </span>))]</span> {
+            </span>))] </span>{
                 <span class="comment">// Optimized path on python 3.9+
                 </span><span class="kw">unsafe </span>{
                     <span class="self">self</span>.py().from_owned_ptr_or_err(ffi::PyObject_CallNoArgs(<span class="self">self</span>.as_ptr()))
@@ -1744,8 +1744,8 @@
     <span class="kw">where
         </span>N: IntoPy&lt;Py&lt;PyString&gt;&gt;,
     {
-        <span class="macro">cfg_if::cfg_if!</span> {
-            <span class="kw">if </span><span class="attribute">#[cfg(all(Py_3_9, not(any(Py_LIMITED_API, PyPy))))]</span> {
+        <span class="macro">cfg_if::cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(all(Py_3_9, not(any(Py_LIMITED_API, PyPy))))] </span>{
                 <span class="kw">let </span>py = <span class="self">self</span>.py();
 
                 <span class="comment">// Optimized path on python 3.9+
@@ -1888,8 +1888,8 @@
     }
 
     <span class="doccomment">/// Returns the Python type pointer for this object.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_type_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyTypeObject {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_type_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyTypeObject {
         <span class="kw">unsafe </span>{ ffi::Py_TYPE(<span class="self">self</span>.as_ptr()) }
     }
 
@@ -2005,29 +2005,29 @@
     }
 
     <span class="doccomment">/// Returns a GIL marker constrained to the lifetime of this type.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>py(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>py(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
         PyNativeType::py(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Return a proxy object that delegates method calls to a parent or sibling class of type.
     ///
     /// This is equivalent to the Python expression `super()`
-    </span><span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>py_super(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySuper&gt; {
+    </span><span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>py_super(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySuper&gt; {
         PySuper::new(<span class="self">self</span>.get_type(), <span class="self">self</span>)
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{
         type_object::PyTypeInfo,
         types::{IntoPyDict, PyList, PyLong, PyModule},
         Python, ToPyObject,
     };
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_call_for_non_existing_method() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_call_for_non_existing_method() {
         Python::with_gil(|py| {
             <span class="kw">let </span>a = py.eval(<span class="string">&quot;42&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             a.call_method0(<span class="string">&quot;__str__&quot;</span>).unwrap(); <span class="comment">// ok
@@ -2037,8 +2037,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_call_with_kwargs() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_call_with_kwargs() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = <span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">7</span>].to_object(py);
             <span class="kw">let </span>dict = <span class="macro">vec!</span>[(<span class="string">&quot;reverse&quot;</span>, <span class="bool-val">true</span>)].into_py_dict(py);
@@ -2047,8 +2047,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_call_method0() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_call_method0() {
         Python::with_gil(|py| {
             <span class="kw">let </span>module = PyModule::from_code(
                 py,
@@ -2074,16 +2074,16 @@ class SimpleClass:
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_type() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_type() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = py.eval(<span class="string">&quot;42&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="macro">assert_eq!</span>(obj.get_type().as_type_ptr(), obj.get_type_ptr());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_dir() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_dir() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = py.eval(<span class="string">&quot;42&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>dir = py
@@ -2100,16 +2100,16 @@ class SimpleClass:
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_nan_eq() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_nan_eq() {
         Python::with_gil(|py| {
             <span class="kw">let </span>nan = py.eval(<span class="string">&quot;float(&#39;nan&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="macro">assert!</span>(nan.compare(nan).is_err());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_any_isinstance() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_any_isinstance() {
         Python::with_gil(|py| {
             <span class="kw">let </span>x = <span class="number">5</span>.to_object(py).into_ref(py);
             <span class="macro">assert!</span>(x.is_instance_of::&lt;PyLong&gt;().unwrap());
@@ -2119,16 +2119,16 @@ class SimpleClass:
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_any_isinstance_of() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_any_isinstance_of() {
         Python::with_gil(|py| {
             <span class="kw">let </span>l = <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">2</span>].to_object(py).into_ref(py);
             <span class="macro">assert!</span>(l.is_instance(PyList::type_object(py)).unwrap());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_any_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_any_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py).into_ref(py);
@@ -2213,20 +2213,20 @@ class SimpleClass:
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_eq_methods_integers() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_eq_methods_integers() {
         <span class="kw">let </span>ints = [-<span class="number">4</span>, -<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, -<span class="number">100</span>, <span class="number">1_000_000</span>];
         test_eq_methods_generic(<span class="kw-2">&amp;</span>ints);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_eq_methods_strings() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_eq_methods_strings() {
         <span class="kw">let </span>strings = [<span class="string">&quot;Let&#39;s&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;some&quot;</span>, <span class="string">&quot;eq&quot;</span>, <span class="string">&quot;methods&quot;</span>];
         test_eq_methods_generic(<span class="kw-2">&amp;</span>strings);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_eq_methods_floats() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_eq_methods_floats() {
         <span class="kw">let </span>floats = [
             -<span class="number">1.0</span>,
             <span class="number">2.5</span>,
@@ -2240,11 +2240,11 @@ class SimpleClass:
         test_eq_methods_generic(<span class="kw-2">&amp;</span>floats);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_eq_methods_bools() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_eq_methods_bools() {
         <span class="kw">let </span>bools = [<span class="bool-val">true</span>, <span class="bool-val">false</span>];
         test_eq_methods_generic(<span class="kw-2">&amp;</span>bools);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

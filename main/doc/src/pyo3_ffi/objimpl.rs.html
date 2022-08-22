@@ -116,75 +116,75 @@
 <span class="kw">use </span>std::os::raw::{c_int, c_void};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Malloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Malloc(size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Malloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Malloc(size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
     <span class="kw">pub fn </span>PyObject_Calloc(nelem: size_t, elsize: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Realloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Realloc(ptr: <span class="kw-2">*mut </span>c_void, new_size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Free&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Free(ptr: <span class="kw-2">*mut </span>c_void);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Realloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Realloc(ptr: <span class="kw-2">*mut </span>c_void, new_size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Free&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Free(ptr: <span class="kw-2">*mut </span>c_void);
 
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub fn </span>_Py_GetAllocatedBlocks() -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Init&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Init(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_InitVar&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_InitVar(
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub fn </span>_Py_GetAllocatedBlocks() -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Init&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Init(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_InitVar&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_InitVar(
         arg1: <span class="kw-2">*mut </span>PyVarObject,
         arg2: <span class="kw-2">*mut </span>PyTypeObject,
         arg3: Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyVarObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyObject_New(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_NewVar&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyObject_NewVar(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyVarObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyObject_New(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_NewVar&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyObject_NewVar(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyVarObject;
 
     <span class="kw">pub fn </span>PyGC_Collect() -&gt; Py_ssize_t;
 
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>PyGC_Enable() -&gt; c_int;
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>PyGC_Enable() -&gt; c_int;
 
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>PyGC_Disable() -&gt; c_int;
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>PyGC_Disable() -&gt; c_int;
 
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>PyGC_IsEnabled() -&gt; c_int;
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>PyGC_IsEnabled() -&gt; c_int;
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyObjectArenaAllocator {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyObjectArenaAllocator {
     <span class="kw">pub </span>ctx: <span class="kw-2">*mut </span>c_void,
     <span class="kw">pub </span>alloc: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(ctx: <span class="kw-2">*mut </span>c_void, size: size_t) -&gt; <span class="kw-2">*mut </span>c_void&gt;,
     <span class="kw">pub </span>free: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(ctx: <span class="kw-2">*mut </span>c_void, ptr: <span class="kw-2">*mut </span>c_void, size: size_t)&gt;,
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">impl </span>Default <span class="kw">for </span>PyObjectArenaAllocator {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">impl </span>Default <span class="kw">for </span>PyObjectArenaAllocator {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{ std::mem::zeroed() }
     }
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub fn </span>PyObject_GetArenaAllocator(allocator: <span class="kw-2">*mut </span>PyObjectArenaAllocator);
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub fn </span>PyObject_SetArenaAllocator(allocator: <span class="kw-2">*mut </span>PyObjectArenaAllocator);
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub fn </span>PyObject_GetArenaAllocator(allocator: <span class="kw-2">*mut </span>PyObjectArenaAllocator);
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub fn </span>PyObject_SetArenaAllocator(allocator: <span class="kw-2">*mut </span>PyObjectArenaAllocator);
 }
 
 <span class="doccomment">/// Test if a type has a GC head
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyType_IS_GC(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyType_IS_GC(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
     PyType_HasFeature(t, Py_TPFLAGS_HAVE_GC)
 }
 
 <span class="doccomment">/// Test if an object has a GC head
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub unsafe fn </span>PyObject_IS_GC(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+</span><span class="attribute">#[inline]
+#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub unsafe fn </span>PyObject_IS_GC(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (PyType_IS_GC(Py_TYPE(o)) != <span class="number">0
         </span>&amp;&amp; <span class="kw">match </span>(<span class="kw-2">*</span>Py_TYPE(o)).tp_is_gc {
             <span class="prelude-val">Some</span>(tp_is_gc) =&gt; tp_is_gc(o) != <span class="number">0</span>,
@@ -195,32 +195,32 @@
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>_PyObject_GC_Resize(arg1: <span class="kw-2">*mut </span>PyVarObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyVarObject;
 
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub fn </span>_PyObject_GC_Malloc(size: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub fn </span>_PyObject_GC_Calloc(size: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_GC_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyObject_GC_New(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_GC_NewVar&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyObject_GC_NewVar(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyVarObject;
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub fn </span>_PyObject_GC_Malloc(size: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub fn </span>_PyObject_GC_Calloc(size: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_GC_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyObject_GC_New(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyObject_GC_NewVar&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyObject_GC_NewVar(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyVarObject;
     <span class="kw">pub fn </span>PyObject_GC_Track(arg1: <span class="kw-2">*mut </span>c_void);
     <span class="kw">pub fn </span>PyObject_GC_UnTrack(arg1: <span class="kw-2">*mut </span>c_void);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GC_Del&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GC_Del(arg1: <span class="kw-2">*mut </span>c_void);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GC_Del&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GC_Del(arg1: <span class="kw-2">*mut </span>c_void);
 }
 
 <span class="doccomment">/// Test if a type supports weak references
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub unsafe fn </span>PyType_SUPPORTS_WEAKREFS(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
+</span><span class="attribute">#[inline]
+#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub unsafe fn </span>PyType_SUPPORTS_WEAKREFS(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
     ((<span class="kw-2">*</span>t).tp_weaklistoffset &gt; <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub unsafe fn </span>PyObject_GET_WEAKREFS_LISTPTR(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut *mut </span>PyObject {
+<span class="attribute">#[inline]
+#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub unsafe fn </span>PyObject_GET_WEAKREFS_LISTPTR(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut *mut </span>PyObject {
     <span class="kw">let </span>weaklistoffset = (<span class="kw-2">*</span>Py_TYPE(o)).tp_weaklistoffset <span class="kw">as </span>isize;
     o.offset(weaklistoffset) <span class="kw">as </span><span class="kw-2">*mut *mut </span>PyObject
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

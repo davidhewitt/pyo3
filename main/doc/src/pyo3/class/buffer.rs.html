@@ -65,8 +65,8 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]</span>
-<span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]
+</span><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Represent Python Buffer protocol implementation
 //!
@@ -81,9 +81,9 @@
 ///
 /// For more information check [buffer protocol](https://docs.python.org/3/c-api/buffer.html)
 /// c-api.
-</span><span class="attribute">#[allow(unused_variables)]</span>
-<span class="attribute">#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]</span>
-<span class="kw">pub trait </span>PyBufferProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass&lt;Frozen = False&gt; {
+</span><span class="attribute">#[allow(unused_variables)]
+#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]
+</span><span class="kw">pub trait </span>PyBufferProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass&lt;Frozen = False&gt; {
     <span class="comment">// No default implementations so that implementors of this trait provide both methods.
 
     </span><span class="kw">fn </span>bf_getbuffer(
@@ -107,8 +107,8 @@
     <span class="kw">type </span><span class="prelude-ty">Result</span>: IntoPyCallbackOutput&lt;()&gt;;
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>getbuffer&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>getbuffer&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     arg1: <span class="kw-2">*mut </span>ffi::Py_buffer,
     arg2: c_int,
@@ -122,8 +122,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>releasebuffer&lt;T&gt;(slf: <span class="kw-2">*mut </span>ffi::PyObject, arg1: <span class="kw-2">*mut </span>ffi::Py_buffer)
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>releasebuffer&lt;T&gt;(slf: <span class="kw-2">*mut </span>ffi::PyObject, arg1: <span class="kw-2">*mut </span>ffi::Py_buffer)
 <span class="kw">where
     </span>T: <span class="kw">for</span>&lt;<span class="lifetime">&#39;p</span>&gt; PyBufferReleaseBufferProtocol&lt;<span class="lifetime">&#39;p</span>&gt;,
 {
@@ -133,4 +133,4 @@
     })
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -46,53 +46,53 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]
 
-<span class="doccomment">//! Objects related to PyBuffer and PyStr
+</span><span class="doccomment">//! Objects related to PyBuffer and PyStr
 </span><span class="kw">use </span>pyo3::buffer::PyBuffer;
 <span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>pyo3::types::{PyBytes, PyString};
 
 <span class="doccomment">/// This is for confirming that PyBuffer does not cause memory leak
-</span><span class="attribute">#[pyclass]</span>
-<span class="kw">struct </span>BytesExtractor {}
+</span><span class="attribute">#[pyclass]
+</span><span class="kw">struct </span>BytesExtractor {}
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>BytesExtractor {
-    <span class="attribute">#[new]</span>
-    <span class="kw">pub fn </span>__new__() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>BytesExtractor {
+    <span class="attribute">#[new]
+    </span><span class="kw">pub fn </span>__new__() -&gt; <span class="self">Self </span>{
         BytesExtractor {}
     }
 
-    <span class="attribute">#[staticmethod]</span>
-    <span class="kw">pub fn </span>from_bytes(bytes: <span class="kw-2">&amp;</span>PyBytes) -&gt; PyResult&lt;usize&gt; {
+    <span class="attribute">#[staticmethod]
+    </span><span class="kw">pub fn </span>from_bytes(bytes: <span class="kw-2">&amp;</span>PyBytes) -&gt; PyResult&lt;usize&gt; {
         <span class="kw">let </span>byte_vec: Vec&lt;u8&gt; = bytes.extract()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(byte_vec.len())
     }
 
-    <span class="attribute">#[staticmethod]</span>
-    <span class="kw">pub fn </span>from_str(string: <span class="kw-2">&amp;</span>PyString) -&gt; PyResult&lt;usize&gt; {
+    <span class="attribute">#[staticmethod]
+    </span><span class="kw">pub fn </span>from_str(string: <span class="kw-2">&amp;</span>PyString) -&gt; PyResult&lt;usize&gt; {
         <span class="kw">let </span>rust_string: String = string.extract()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(rust_string.len())
     }
 
-    <span class="attribute">#[staticmethod]</span>
-    <span class="kw">pub fn </span>from_str_lossy(string: <span class="kw-2">&amp;</span>PyString) -&gt; usize {
+    <span class="attribute">#[staticmethod]
+    </span><span class="kw">pub fn </span>from_str_lossy(string: <span class="kw-2">&amp;</span>PyString) -&gt; usize {
         <span class="kw">let </span>rust_string_lossy: String = string.to_string_lossy().to_string();
         rust_string_lossy.len()
     }
 
-    <span class="attribute">#[staticmethod]</span>
-    <span class="kw">pub fn </span>from_buffer(buf: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;usize&gt; {
+    <span class="attribute">#[staticmethod]
+    </span><span class="kw">pub fn </span>from_buffer(buf: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;usize&gt; {
         <span class="kw">let </span>buf = PyBuffer::&lt;u8&gt;::get(buf)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(buf.item_count())
     }
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>buf_and_str(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>buf_and_str(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_class::&lt;BytesExtractor&gt;()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

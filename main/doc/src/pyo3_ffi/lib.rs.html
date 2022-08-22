@@ -514,9 +514,9 @@
 //!
 //! [dependencies.pyo3-ffi]
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]</span>
-<span class="doccomment">//! features = [&quot;extension-module&quot;]
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]
+#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]
+</span><span class="doccomment">//! features = [&quot;extension-module&quot;]
 //! ```
 //!
 //! **`src/lib.rs`**
@@ -689,27 +689,27 @@
     non_upper_case_globals,
     clippy::upper_case_acronyms,
     clippy::missing_safety_doc
-)]</span>
-<span class="attribute">#![warn(elided_lifetimes_in_paths, unused_lifetimes)]</span>
+)]
+#![warn(elided_lifetimes_in_paths, unused_lifetimes)]
 
-<span class="comment">// Until `extern type` is stabilized, use the recommended approach to
+</span><span class="comment">// Until `extern type` is stabilized, use the recommended approach to
 // model opaque types:
 // https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
-</span><span class="macro">macro_rules!</span> opaque_struct {
+</span><span class="macro">macro_rules! </span>opaque_struct {
     (<span class="macro-nonterminal">$name</span>:ident) =&gt; {
-        <span class="attribute">#[repr(C)]</span>
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>([u8; <span class="number">0</span>]);
+        <span class="attribute">#[repr(C)]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>([u8; <span class="number">0</span>]);
     };
 }
 
-<span class="macro">macro_rules!</span> addr_of_mut_shim {
+<span class="macro">macro_rules! </span>addr_of_mut_shim {
     (<span class="macro-nonterminal">$place</span>:expr) =&gt; {{
-        <span class="attribute">#[cfg(addr_of)]</span>
-        {
+        <span class="attribute">#[cfg(addr_of)]
+        </span>{
             <span class="macro">::std::ptr::addr_of_mut!</span>(<span class="macro-nonterminal">$place</span>)
         }
-        <span class="attribute">#[cfg(not(addr_of))]</span>
-        {
+        <span class="attribute">#[cfg(not(addr_of))]
+        </span>{
             <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$place </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
         </span>}
     }};
@@ -718,8 +718,8 @@
 <span class="kw">pub use </span><span class="self">self</span>::abstract_::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::bltinmodule::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::boolobject::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="kw">pub use </span><span class="self">self</span>::buffer::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="kw">pub use </span><span class="self">self</span>::buffer::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::bytearrayobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::bytesobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::ceval::<span class="kw-2">*</span>;
@@ -727,10 +727,10 @@
 <span class="kw">pub use </span><span class="self">self</span>::codecs::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::compile::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::complexobject::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::context::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::datetime::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::context::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub use </span><span class="self">self</span>::datetime::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::descrobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::dictobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::enumobject::<span class="kw-2">*</span>;
@@ -750,8 +750,8 @@
 <span class="kw">pub use </span><span class="self">self</span>::object::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::objimpl::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::osmodule::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::pyarena::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::pyarena::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pycapsule::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pyerrors::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pyframe::<span class="kw-2">*</span>;
@@ -779,8 +779,8 @@
 // skipped ast.h
 </span><span class="kw">mod </span>bltinmodule;
 <span class="kw">mod </span>boolobject;
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="kw">mod </span>buffer;
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="kw">mod </span>buffer;
 <span class="kw">mod </span>bytearrayobject;
 <span class="kw">mod </span>bytesobject;
 <span class="comment">// skipped cellobject.h
@@ -790,10 +790,10 @@
 <span class="kw">mod </span>codecs;
 <span class="kw">mod </span>compile;
 <span class="kw">mod </span>complexobject;
-<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]</span>
-<span class="kw">mod </span>context; <span class="comment">// It&#39;s actually 3.7.1, but no cfg for patches.
-</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>datetime;
+<span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]
+</span><span class="kw">mod </span>context; <span class="comment">// It&#39;s actually 3.7.1, but no cfg for patches.
+</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>datetime;
 <span class="kw">mod </span>descrobject;
 <span class="kw">mod </span>dictobject;
 <span class="comment">// skipped dynamic_annotations.h
@@ -829,8 +829,8 @@
 // skipped picklebufobject.h
 // skipped pyctype.h
 // skipped py_curses.h
-</span><span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="kw">mod </span>pyarena;
+</span><span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+</span><span class="kw">mod </span>pyarena;
 <span class="kw">mod </span>pycapsule;
 <span class="comment">// skipped pydecimal.h
 // skipped pydtrace.h
@@ -869,10 +869,10 @@
 </span><span class="kw">pub mod </span>structmember;
 
 <span class="comment">// &quot;Limited API&quot; definitions matching Python&#39;s `include/cpython` directory.
-</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">mod </span>cpython;
+</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">mod </span>cpython;
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::cpython::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub use </span><span class="self">self</span>::cpython::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

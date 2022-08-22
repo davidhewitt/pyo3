@@ -329,7 +329,7 @@
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         subtype: <span class="kw-2">*mut </span>PyTypeObject,
     ) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt;;
-    <span class="macro">private_decl!</span> {}
+    <span class="macro">private_decl! </span>{}
 }
 
 <span class="doccomment">/// Initializer for Python native types, like `PyDict`.
@@ -347,10 +347,10 @@
             subtype: <span class="kw-2">*mut </span>PyTypeObject,
         ) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; {
             <span class="comment">// HACK (due to FIXME below): PyBaseObject_Type&#39;s tp_new isn&#39;t happy with NULL arguments
-            </span><span class="attribute">#[cfg(addr_of)]</span>
-            <span class="kw">let </span>is_base_object = type_object == <span class="macro">std::ptr::addr_of_mut!</span>(ffi::PyBaseObject_Type);
-            <span class="attribute">#[cfg(not(addr_of))]</span>
-            <span class="kw">let </span>is_base_object = type_object == <span class="kw-2">&amp;mut </span>ffi::PyBaseObject_Type <span class="kw">as _</span>;
+            </span><span class="attribute">#[cfg(addr_of)]
+            </span><span class="kw">let </span>is_base_object = type_object == <span class="macro">std::ptr::addr_of_mut!</span>(ffi::PyBaseObject_Type);
+            <span class="attribute">#[cfg(not(addr_of))]
+            </span><span class="kw">let </span>is_base_object = type_object == <span class="kw-2">&amp;mut </span>ffi::PyBaseObject_Type <span class="kw">as _</span>;
             <span class="kw">if </span>is_base_object {
                 <span class="kw">let </span>alloc = get_tp_alloc(subtype).unwrap_or(ffi::PyType_GenericAlloc);
                 <span class="kw">let </span>obj = alloc(subtype, <span class="number">0</span>);
@@ -361,11 +361,11 @@
                 };
             }
 
-            <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-            <span class="macro">unreachable!</span>(<span class="string">&quot;subclassing native types is not possible with the `abi3` feature&quot;</span>);
+            <span class="attribute">#[cfg(Py_LIMITED_API)]
+            </span><span class="macro">unreachable!</span>(<span class="string">&quot;subclassing native types is not possible with the `abi3` feature&quot;</span>);
 
-            <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-            {
+            <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+            </span>{
                 <span class="kw">match </span>(<span class="kw-2">*</span>type_object).tp_new {
                     <span class="comment">// FIXME: Call __new__ with actual arguments
                     </span><span class="prelude-val">Some</span>(newfunc) =&gt; {
@@ -386,7 +386,7 @@
         inner(py, type_object, subtype)
     }
 
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="doccomment">/// Initializer for our `#[pyclass]` system.
@@ -506,8 +506,8 @@
     }
 
     <span class="doccomment">/// Creates a new PyCell and initializes it.
-    </span><span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub fn </span>create_cell(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>PyCell&lt;T&gt;&gt;
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub fn </span>create_cell(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>PyCell&lt;T&gt;&gt;
     <span class="kw">where
         </span>T: PyClass,
     {
@@ -519,8 +519,8 @@
     ///
     /// # Safety
     /// `subtype` must be a valid pointer to the type object of T or a subclass.
-    </span><span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub unsafe fn </span>create_cell_from_subtype(
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub unsafe fn </span>create_cell_from_subtype(
         <span class="self">self</span>,
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         subtype: <span class="kw-2">*mut </span><span class="kw">crate</span>::ffi::PyTypeObject,
@@ -540,8 +540,8 @@
     ) -&gt; PyResult&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt; {
         <span class="doccomment">/// Layout of a PyCell after base new has been called, but the contents have not yet been
         /// written.
-        </span><span class="attribute">#[repr(C)]</span>
-        <span class="kw">struct </span>PartiallyInitializedPyCell&lt;T: PyClass&gt; {
+        </span><span class="attribute">#[repr(C)]
+        </span><span class="kw">struct </span>PartiallyInitializedPyCell&lt;T: PyClass&gt; {
             _ob_base: &lt;T::BaseType <span class="kw">as </span>PyClassBaseType&gt;::LayoutAsBase,
             contents: MaybeUninit&lt;PyCellContents&lt;T&gt;&gt;,
         }
@@ -562,7 +562,7 @@
         <span class="prelude-val">Ok</span>(obj)
     }
 
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="kw">impl</span>&lt;T&gt; From&lt;T&gt; <span class="kw">for </span>PyClassInitializer&lt;T&gt;
@@ -570,8 +570,8 @@
     </span>T: PyClass,
     T::BaseType: PyClassBaseType&lt;Initializer = PyNativeTypeInitializer&lt;T::BaseType&gt;&gt;,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>from(value: T) -&gt; PyClassInitializer&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>from(value: T) -&gt; PyClassInitializer&lt;T&gt; {
         <span class="self">Self</span>::new(value, PyNativeTypeInitializer(PhantomData))
     }
 }
@@ -595,10 +595,10 @@
     </span>T: PyClass,
     U: Into&lt;PyClassInitializer&lt;T&gt;&gt;,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>convert(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyClassInitializer&lt;T&gt;&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>convert(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyClassInitializer&lt;T&gt;&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.into())
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

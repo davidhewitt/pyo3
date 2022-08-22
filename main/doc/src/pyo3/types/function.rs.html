@@ -186,8 +186,8 @@
 <span class="kw">use </span>std::os::raw::c_void;
 
 <span class="doccomment">/// Represents a builtin Python function object.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyCFunction(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyCFunction(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyCFunction, ffi::PyCFunction_Type, #checkfunction=ffi::PyCFunction_Check);
 
@@ -305,8 +305,8 @@
         <span class="self">Self</span>::internal_new_from_pointers(<span class="kw-2">&amp;</span>method_def, py, capsule.as_ptr(), std::ptr::null_mut())
     }
 
-    <span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">fn </span>internal_new_from_pointers&lt;<span class="lifetime">&#39;py</span>&gt;(
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>internal_new_from_pointers&lt;<span class="lifetime">&#39;py</span>&gt;(
         method_def: <span class="kw-2">&amp;</span>PyMethodDef,
         py: Python&lt;<span class="lifetime">&#39;py</span>&gt;,
         mod_ptr: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -324,8 +324,8 @@
         }
     }
 
-    <span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub fn </span>internal_new&lt;<span class="lifetime">&#39;py</span>&gt;(
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub fn </span>internal_new&lt;<span class="lifetime">&#39;py</span>&gt;(
         method_def: <span class="kw-2">&amp;</span>PyMethodDef,
         py_or_module: PyFunctionArguments&lt;<span class="lifetime">&#39;py</span>&gt;,
     ) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="self">Self</span>&gt; {
@@ -342,11 +342,11 @@
 }
 
 <span class="doccomment">/// Represents a Python function object.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API)))]</span>
-<span class="kw">pub struct </span>PyFunction(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+#[cfg(not(any(PyPy, Py_LIMITED_API)))]
+</span><span class="kw">pub struct </span>PyFunction(PyAny);
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API)))]</span>
-<span class="macro">pyobject_native_type_core!</span>(PyFunction, ffi::PyFunction_Type, #checkfunction=ffi::PyFunction_Check);
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API)))]
+</span><span class="macro">pyobject_native_type_core!</span>(PyFunction, ffi::PyFunction_Type, #checkfunction=ffi::PyFunction_Check);
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

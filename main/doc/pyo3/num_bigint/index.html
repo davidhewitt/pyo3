@@ -15,13 +15,13 @@ in which case it will fail its conversion and raise <code>OverflowError</code>.<
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>num_bigint::BigInt;
 <span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>add_one(n: BigInt) -&gt; BigInt {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>add_one(n: BigInt) -&gt; BigInt {
     n + <span class="number">1
 </span>}
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(add_one, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
@@ -31,4 +31,4 @@ in which case it will fail its conversion and raise <code>OverflowError</code>.<
 n = 1 &lt;&lt; 1337
 value = add_one(n)
 
-assert n + 1 == value</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+assert n + 1 == value</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

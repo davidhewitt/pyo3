@@ -58,30 +58,30 @@
 <span class="doccomment">/// A function decorator that keeps track how often it is called.
 ///
 /// It otherwise doesn&#39;t do anything special.
-</span><span class="attribute">#[pyclass(name = <span class="string">&quot;Counter&quot;</span>)]</span>
-<span class="kw">pub struct </span>PyCounter {
+</span><span class="attribute">#[pyclass(name = <span class="string">&quot;Counter&quot;</span>)]
+</span><span class="kw">pub struct </span>PyCounter {
     <span class="comment">// We use `#[pyo3(get)]` so that python can read the count but not mutate it.
-    </span><span class="attribute">#[pyo3(get)]</span>
-    count: u64,
+    </span><span class="attribute">#[pyo3(get)]
+    </span>count: u64,
 
     <span class="comment">// This is the actual function being wrapped.
     </span>wraps: Py&lt;PyAny&gt;,
 }
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>PyCounter {
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>PyCounter {
     <span class="comment">// Note that we don&#39;t validate whether `wraps` is actually callable.
     //
     // While we could use `PyAny::is_callable` for that, it has some flaws:
     //    1. It doesn&#39;t guarantee the object can actually be called successfully
     //    2. We still need to handle any exceptions that the function might raise
-    </span><span class="attribute">#[new]</span>
-    <span class="kw">fn </span>__new__(wraps: Py&lt;PyAny&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="attribute">#[new]
+    </span><span class="kw">fn </span>__new__(wraps: Py&lt;PyAny&gt;) -&gt; <span class="self">Self </span>{
         PyCounter { count: <span class="number">0</span>, wraps }
     }
 
-    <span class="attribute">#[args(args = <span class="string">&quot;*&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]</span>
-    <span class="kw">fn </span>__call__(
+    <span class="attribute">#[args(args = <span class="string">&quot;*&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]
+    </span><span class="kw">fn </span>__call__(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         args: <span class="kw-2">&amp;</span>PyTuple,
@@ -101,10 +101,10 @@
     }
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>decorator(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, module: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>decorator(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, module: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     module.add_class::&lt;PyCounter&gt;()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="decorator" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="decorator" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

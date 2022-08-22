@@ -218,9 +218,9 @@
 <span id="218">218</span>
 <span id="219">219</span>
 <span id="220">220</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;indexmap&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;indexmap&quot;</span>)]
 
-<span class="doccomment">//!  Conversions to and from [indexmap](https://docs.rs/indexmap/)’s
+</span><span class="doccomment">//!  Conversions to and from [indexmap](https://docs.rs/indexmap/)’s
 //! `IndexMap`.
 //!
 //! [`indexmap::IndexMap`] is a hash table that is closely compatible with the standard [`std::collections::HashMap`],
@@ -239,12 +239,12 @@
 //! # change * to the latest versions
 //! indexmap = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;indexmap\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;indexmap\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;indexmap\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of indexmap and PyO3.
 //! The required indexmap version may vary based on the version of PyO3.
@@ -357,14 +357,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>test_indexmap {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>test_indexmap {
 
     <span class="kw">use </span><span class="kw">crate</span>::types::<span class="kw-2">*</span>;
     <span class="kw">use crate</span>::{IntoPy, PyObject, PyTryFrom, Python, ToPyObject};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_indexmap_indexmap_to_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_indexmap_indexmap_to_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = indexmap::IndexMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -381,8 +381,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_indexmap_indexmap_into_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_indexmap_indexmap_into_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = indexmap::IndexMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -395,8 +395,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_indexmap_indexmap_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_indexmap_indexmap_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = indexmap::IndexMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -408,8 +408,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_indexmap_indexmap_insertion_order_round_trip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_indexmap_indexmap_insertion_order_round_trip() {
         Python::with_gil(|py| {
             <span class="kw">let </span>n = <span class="number">20</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>map = indexmap::IndexMap::&lt;i32, i32&gt;::new();
@@ -439,4 +439,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

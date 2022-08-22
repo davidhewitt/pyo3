@@ -228,8 +228,8 @@
 /// This optional dependency can be activated with the `num-complex` feature flag.
 ///
 /// [`Complex`]: https://docs.rs/num-complex/latest/num_complex/struct.Complex.html
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyComplex(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyComplex(PyAny);
 
 <span class="macro">pyobject_native_type!</span>(
     PyComplex,
@@ -256,8 +256,8 @@
     }
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">mod </span>not_limited_impls {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">mod </span>not_limited_impls {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>std::ops::{Add, Div, Mul, Neg, Sub};
 
@@ -278,8 +278,8 @@
         }
     }
 
-    <span class="attribute">#[inline(always)]</span>
-    <span class="kw">unsafe fn </span>complex_operation(
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">unsafe fn </span>complex_operation(
         l: <span class="kw-2">&amp;</span>PyComplex,
         r: <span class="kw-2">&amp;</span>PyComplex,
         operation: <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(ffi::Py_complex, ffi::Py_complex) -&gt; ffi::Py_complex,
@@ -340,14 +340,14 @@
         }
     }
 
-    <span class="attribute">#[cfg(test)]</span>
-    <span class="kw">mod </span>tests {
+    <span class="attribute">#[cfg(test)]
+    </span><span class="kw">mod </span>tests {
         <span class="kw">use </span><span class="kw">super</span>::PyComplex;
         <span class="kw">use </span><span class="kw">crate</span>::Python;
         <span class="kw">use </span>assert_approx_eq::assert_approx_eq;
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_add() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_add() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>l = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>r = PyComplex::from_doubles(py, <span class="number">1.0</span>, <span class="number">2.6</span>);
@@ -357,8 +357,8 @@
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_sub() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_sub() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>l = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>r = PyComplex::from_doubles(py, <span class="number">1.0</span>, <span class="number">2.6</span>);
@@ -368,8 +368,8 @@
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_mul() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_mul() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>l = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>r = PyComplex::from_doubles(py, <span class="number">1.0</span>, <span class="number">2.6</span>);
@@ -379,8 +379,8 @@
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_div() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_div() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>l = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>r = PyComplex::from_doubles(py, <span class="number">1.0</span>, <span class="number">2.6</span>);
@@ -390,8 +390,8 @@
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_neg() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_neg() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>val = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>res = -val;
@@ -400,16 +400,16 @@
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_abs() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_abs() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>val = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="macro">assert_approx_eq!</span>(val.abs(), <span class="number">3.231_098_884_280_702_2</span>);
             });
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_pow() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_pow() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>l = PyComplex::from_doubles(py, <span class="number">3.0</span>, <span class="number">1.2</span>);
                 <span class="kw">let </span>r = PyComplex::from_doubles(py, <span class="number">1.2</span>, <span class="number">2.6</span>);
@@ -421,14 +421,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::PyComplex;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
     <span class="kw">use </span>assert_approx_eq::assert_approx_eq;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_from_double() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_from_double() {
         <span class="kw">use </span>assert_approx_eq::assert_approx_eq;
 
         Python::with_gil(|py| {
@@ -439,4 +439,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

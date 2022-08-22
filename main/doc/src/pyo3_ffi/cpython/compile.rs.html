@@ -91,16 +91,16 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
-</pre><pre class="rust"><code><span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::object::PyObject;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyarena::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pythonrun::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::PyCodeObject;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use </span>std::os::raw::c_char;
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::object::PyObject;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyarena::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pythonrun::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::PyCodeObject;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use </span>std::os::raw::c_char;
 <span class="kw">use </span>std::os::raw::c_int;
 
 <span class="comment">// skipped non-limited PyCF_MASK
@@ -113,20 +113,20 @@
 // skipped non-limited PyCF_ALLOW_TOP_LEVEL_AWAIT
 // skipped non-limited PyCF_COMPILE_MASK
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyCompilerFlags {
+</span><span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyCompilerFlags {
     <span class="kw">pub </span>cf_flags: c_int,
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub </span>cf_feature_version: c_int,
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub </span>cf_feature_version: c_int,
 }
 
 <span class="comment">// skipped non-limited _PyCompilerFlags_INIT
 
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyFutureFeatures {
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyFutureFeatures {
     <span class="kw">pub </span>ff_features: c_int,
     <span class="kw">pub </span>ff_lineno: c_int,
 }
@@ -143,11 +143,11 @@
 <span class="comment">// skipped non-limited FUTURE_ANNOTATIONS
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyNode_Compile(arg1: <span class="kw-2">*mut </span>_node, arg2: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyNode_Compile(arg1: <span class="kw-2">*mut </span>_node, arg2: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyAST_CompileEx(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyAST_CompileEx(
         _mod: <span class="kw-2">*mut </span>_mod,
         filename: <span class="kw-2">*const </span>c_char,
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
@@ -155,8 +155,8 @@
         arena: <span class="kw-2">*mut </span>PyArena,
     ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyAST_CompileObject(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyAST_CompileObject(
         _mod: <span class="kw-2">*mut </span>_mod,
         filename: <span class="kw-2">*mut </span>PyObject,
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
@@ -164,11 +164,11 @@
         arena: <span class="kw-2">*mut </span>PyArena,
     ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
 
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyFuture_FromAST(_mod: <span class="kw-2">*mut </span>_mod, filename: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyFutureFeatures;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyFuture_FromAST(_mod: <span class="kw-2">*mut </span>_mod, filename: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyFutureFeatures;
 
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyFuture_FromASTObject(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyFuture_FromASTObject(
         _mod: <span class="kw-2">*mut </span>_mod,
         filename: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyFutureFeatures;
@@ -178,11 +178,11 @@
 
     </span><span class="kw">pub fn </span>PyCompile_OpcodeStackEffect(opcode: c_int, oparg: c_int) -&gt; c_int;
 
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub fn </span>PyCompile_OpcodeStackEffectWithJump(opcode: c_int, oparg: c_int, jump: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub fn </span>PyCompile_OpcodeStackEffectWithJump(opcode: c_int, oparg: c_int, jump: c_int) -&gt; c_int;
 
     <span class="comment">// skipped non-limited _PyASTOptimizeState
     // skipped non-limited _PyAST_Optimize
 </span>}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

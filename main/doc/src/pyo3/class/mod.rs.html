@@ -33,40 +33,40 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
-</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]</span>
-<span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]
+</span><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Python object protocols
 
-</span><span class="attribute">#[macro_use]</span>
-<span class="kw">mod </span>macros;
+</span><span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>macros;
 
 <span class="kw">pub mod </span>basic;
-<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_11))]</span>
-<span class="kw">pub mod </span>buffer;
+<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_11))]
+</span><span class="kw">pub mod </span>buffer;
 <span class="kw">pub mod </span>descr;
 <span class="kw">pub mod </span>gc;
 <span class="kw">pub mod </span>iter;
 <span class="kw">pub mod </span>mapping;
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods <span class="kw">as </span>methods;
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods <span class="kw">as </span>methods;
 <span class="kw">pub mod </span>number;
 <span class="kw">pub mod </span>pyasync;
 <span class="kw">pub mod </span>sequence;
 
 <span class="kw">pub use </span><span class="self">self</span>::basic::PyObjectProtocol;
-<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_11))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::buffer::PyBufferProtocol;
+<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_11))]
+</span><span class="kw">pub use </span><span class="self">self</span>::buffer::PyBufferProtocol;
 <span class="kw">pub use </span><span class="self">self</span>::descr::PyDescrProtocol;
 <span class="kw">pub use </span><span class="self">self</span>::gc::{PyGCProtocol, PyTraverseError, PyVisit};
 <span class="kw">pub use </span><span class="self">self</span>::iter::PyIterProtocol;
 <span class="kw">pub use </span><span class="self">self</span>::mapping::PyMappingProtocol;
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub use </span><span class="self">self</span>::methods::{
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="self">self</span>::methods::{
     PyClassAttributeDef, PyGetterDef, PyMethodDef, PyMethodDefType, PyMethodType, PySetterDef,
 };
 <span class="kw">pub use </span><span class="self">self</span>::number::PyNumberProtocol;
 <span class="kw">pub use </span><span class="self">self</span>::pyasync::PyAsyncProtocol;
 <span class="kw">pub use </span><span class="self">self</span>::sequence::PySequenceProtocol;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

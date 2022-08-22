@@ -62,22 +62,22 @@
 <span id="62">62</span>
 <span id="63">63</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="kw">use </span>libc::FILE;
-<span class="attribute">#[cfg(all(not(PyPy), any(Py_LIMITED_API, not(Py_3_10))))]</span>
-<span class="kw">use </span>std::os::raw::c_char;
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+</span><span class="kw">use </span>libc::FILE;
+<span class="attribute">#[cfg(all(not(PyPy), any(Py_LIMITED_API, not(Py_3_10))))]
+</span><span class="kw">use </span>std::os::raw::c_char;
 <span class="kw">use </span>std::os::raw::c_int;
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(all(Py_LIMITED_API, not(PyPy)))]</span>
-    <span class="kw">pub fn </span>Py_CompileString(string: <span class="kw-2">*const </span>c_char, p: <span class="kw-2">*const </span>c_char, s: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(all(Py_LIMITED_API, not(PyPy)))]
+    </span><span class="kw">pub fn </span>Py_CompileString(string: <span class="kw-2">*const </span>c_char, p: <span class="kw-2">*const </span>c_char, s: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Print&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Print();
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_PrintEx&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_PrintEx(arg1: c_int);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Display&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Display(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Print&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Print();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_PrintEx&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_PrintEx(arg1: c_int);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Display&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Display(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
 }
 
 <span class="comment">// skipped PyOS_InputHook
@@ -86,43 +86,43 @@
 
 <span class="comment">// skipped PyOS_CheckStack under Microsoft C
 
-</span><span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="macro">opaque_struct!</span>(_mod);
+</span><span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+</span><span class="macro">opaque_struct!</span>(_mod);
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="macro">opaque_struct!</span>(symtable);
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="macro">opaque_struct!</span>(_node);
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="macro">opaque_struct!</span>(symtable);
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="macro">opaque_struct!</span>(_node);
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyParser_SimpleParseString(s: <span class="kw-2">*const </span>c_char, b: c_int) -&gt; <span class="kw-2">*mut </span>_node {
-    <span class="attribute">#[allow(deprecated)]</span>
-    <span class="kw">crate</span>::PyParser_SimpleParseStringFlags(s, b, <span class="number">0</span>)
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyParser_SimpleParseString(s: <span class="kw-2">*const </span>c_char, b: c_int) -&gt; <span class="kw-2">*mut </span>_node {
+    <span class="attribute">#[allow(deprecated)]
+    </span><span class="kw">crate</span>::PyParser_SimpleParseStringFlags(s, b, <span class="number">0</span>)
 }
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyParser_SimpleParseFile(fp: <span class="kw-2">*mut </span>FILE, s: <span class="kw-2">*const </span>c_char, b: c_int) -&gt; <span class="kw-2">*mut </span>_node {
-    <span class="attribute">#[allow(deprecated)]</span>
-    <span class="kw">crate</span>::PyParser_SimpleParseFileFlags(fp, s, b, <span class="number">0</span>)
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyParser_SimpleParseFile(fp: <span class="kw-2">*mut </span>FILE, s: <span class="kw-2">*const </span>c_char, b: c_int) -&gt; <span class="kw-2">*mut </span>_node {
+    <span class="attribute">#[allow(deprecated)]
+    </span><span class="kw">crate</span>::PyParser_SimpleParseFileFlags(fp, s, b, <span class="number">0</span>)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>Py_SymtableString(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>Py_SymtableString(
         str: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*const </span>c_char,
         start: c_int,
     ) -&gt; <span class="kw-2">*mut </span>symtable;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>Py_SymtableStringObject(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+    </span><span class="kw">pub fn </span>Py_SymtableStringObject(
         str: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*mut </span>PyObject,
         start: c_int,
     ) -&gt; <span class="kw-2">*mut </span>symtable;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -175,9 +175,9 @@
 <span id="175">175</span>
 <span id="176">176</span>
 <span id="177">177</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;hashbrown&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;hashbrown&quot;</span>)]
 
-<span class="doccomment">//!  Conversions to and from [hashbrown](https://docs.rs/hashbrown/)’s
+</span><span class="doccomment">//!  Conversions to and from [hashbrown](https://docs.rs/hashbrown/)’s
 //! `HashMap` and `HashSet`.
 //!
 //! # Setup
@@ -189,12 +189,12 @@
 //! # change * to the latest versions
 //! hashbrown = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;hashbrown\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;hashbrown\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;hashbrown\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of hashbrown and PyO3.
 //! The required hashbrown version may vary based on the version of PyO3.
@@ -287,12 +287,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashbrown_hashmap_to_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashbrown_hashmap_to_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = hashbrown::HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -305,8 +305,8 @@
             <span class="macro">assert_eq!</span>(map, py_map.extract().unwrap());
         });
     }
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashbrown_hashmap_into_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashbrown_hashmap_into_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = hashbrown::HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -319,8 +319,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashbrown_hashmap_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashbrown_hashmap_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = hashbrown::HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -332,8 +332,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_hashbrown_hashset() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_hashbrown_hashset() {
         Python::with_gil(|py| {
             <span class="kw">let </span>set = PySet::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]).unwrap();
             <span class="kw">let </span>hash_set: hashbrown::HashSet&lt;usize&gt; = set.extract().unwrap();
@@ -341,8 +341,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashbrown_hashset_into_py() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashbrown_hashset_into_py() {
         Python::with_gil(|py| {
             <span class="kw">let </span>hs: hashbrown::HashSet&lt;u64&gt; = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].iter().cloned().collect();
 
@@ -353,4 +353,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

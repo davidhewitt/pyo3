@@ -640,8 +640,8 @@
 <span id="640">640</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
-</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::exceptions::PyUnicodeDecodeError;
+</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+</span><span class="kw">use </span><span class="kw">crate</span>::exceptions::PyUnicodeDecodeError;
 <span class="kw">use </span><span class="kw">crate</span>::types::PyBytes;
 <span class="kw">use crate</span>::{
     ffi, AsPyPointer, FromPyObject, IntoPy, Py, PyAny, PyObject, PyResult, PyTryFrom, Python,
@@ -655,9 +655,9 @@
 ///
 /// Python internally stores strings in various representations. This enumeration
 /// represents those variations.
-</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-<span class="attribute">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="kw">pub enum </span>PyStringData&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>PyStringData&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// UCS1 representation.
     </span>Ucs1(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]),
 
@@ -668,8 +668,8 @@
     </span>Ucs4(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u32]),
 }
 
-<span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PyStringData&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PyStringData&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// Obtain the raw bytes backing this instance as a [u8] slice.
     </span><span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">match </span><span class="self">self </span>{
@@ -690,8 +690,8 @@
     }
 
     <span class="doccomment">/// Size in bytes of each value/item in the underlying slice.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>value_width_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>value_width_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="self">Self</span>::Ucs1(<span class="kw">_</span>) =&gt; <span class="number">1</span>,
             <span class="self">Self</span>::Ucs2(<span class="kw">_</span>) =&gt; <span class="number">2</span>,
@@ -769,8 +769,8 @@
 <span class="doccomment">/// Represents a Python `string` (a Unicode string object).
 ///
 /// This type is immutable.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyString(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyString(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyString, ffi::PyUnicode_Type, #checkfunction=ffi::PyUnicode_Check);
 
@@ -822,11 +822,11 @@
     ///
     /// Returns a `UnicodeEncodeError` if the input is not valid unicode
     /// (containing unpaired surrogates).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>to_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>str&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>to_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="kw">let </span>utf8_slice = {
-            <span class="macro">cfg_if::cfg_if!</span> {
-                <span class="kw">if </span><span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]</span> {
+            <span class="macro">cfg_if::cfg_if! </span>{
+                <span class="kw">if </span><span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))] </span>{
                     <span class="comment">// PyUnicode_AsUTF8AndSize only available on limited API starting with 3.10.
                     </span><span class="kw">let </span><span class="kw-2">mut </span>size: ffi::Py_ssize_t = <span class="number">0</span>;
                     <span class="kw">let </span>data = <span class="kw">unsafe </span>{ ffi::PyUnicode_AsUTF8AndSize(<span class="self">self</span>.as_ptr(), <span class="kw-2">&amp;mut </span>size) };
@@ -883,13 +883,13 @@
     /// expected on the targets where you plan to distribute your software.
     ///
     /// For example, it is known not to work on big-endian platforms.
-    </span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">pub unsafe fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;PyStringData&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">pub unsafe fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;PyStringData&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
         <span class="kw">let </span>ptr = <span class="self">self</span>.as_ptr();
 
-        <span class="attribute">#[cfg(not(Py_3_12))]</span>
-        <span class="attribute">#[allow(deprecated)]</span>
-        {
+        <span class="attribute">#[cfg(not(Py_3_12))]
+        #[allow(deprecated)]
+        </span>{
             <span class="kw">let </span>ready = ffi::PyUnicode_READY(ptr);
             <span class="kw">if </span>ready != <span class="number">0 </span>{
                 <span class="comment">// Exception was created on failure.
@@ -925,22 +925,22 @@
 <span class="doccomment">/// Converts a Rust `str` to a Python object.
 /// See `PyString::new` for details on the conversion.
 </span><span class="kw">impl </span>ToPyObject <span class="kw">for </span>str {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; IntoPy&lt;Py&lt;PyString&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Py&lt;PyString&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Py&lt;PyString&gt; {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
@@ -948,15 +948,15 @@
 <span class="doccomment">/// Converts a Rust `Cow&lt;&#39;_, str&gt;` to a Python object.
 /// See `PyString::new` for details on the conversion.
 </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ToPyObject <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;a</span>, str&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
 
 <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.to_object(py)
     }
 }
@@ -964,8 +964,8 @@
 <span class="doccomment">/// Converts a Rust `String` to a Python object.
 /// See `PyString::new` for details on the conversion.
 </span><span class="kw">impl </span>ToPyObject <span class="kw">for </span>String {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
@@ -990,8 +990,8 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>String {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyString::new(py, <span class="self">self</span>).into()
     }
 }
@@ -1028,18 +1028,18 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::PyTypeInfo;
+    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">use </span><span class="kw">crate</span>::PyTypeInfo;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
     <span class="kw">use crate</span>::{FromPyObject, PyObject, PyTryFrom, ToPyObject};
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">use </span>std::borrow::Cow;
+    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">use </span>std::borrow::Cow;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_non_bmp() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_non_bmp() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;\u{1F30F}&quot;</span>;
             <span class="kw">let </span>py_string = s.to_object(py);
@@ -1047,8 +1047,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_str() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_str() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>py_string = s.to_object(py);
@@ -1058,8 +1058,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_char() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_char() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ch = <span class="string">&#39;😃&#39;</span>;
             <span class="kw">let </span>py_string = ch.to_object(py);
@@ -1068,8 +1068,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_char_err() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_char_err() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>py_string = s.to_object(py);
@@ -1081,8 +1081,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_to_str_ascii() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_to_str_ascii() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;ascii 🐈&quot;</span>;
             <span class="kw">let </span>obj: PyObject = PyString::new(py, s).into();
@@ -1091,8 +1091,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_to_str_surrogate() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_to_str_surrogate() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj: PyObject = py.eval(<span class="string">r#&quot;&#39;\ud800&#39;&quot;#</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap().into();
             <span class="kw">let </span>py_string = &lt;PyString <span class="kw">as </span>PyTryFrom&gt;::try_from(obj.as_ref(py)).unwrap();
@@ -1100,8 +1100,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_to_str_unicode() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_to_str_unicode() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;哈哈🐈&quot;</span>;
             <span class="kw">let </span>obj: PyObject = PyString::new(py, s).into();
@@ -1110,8 +1110,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_to_string_lossy() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_to_string_lossy() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj: PyObject = py
                 .eval(<span class="string">r#&quot;&#39;🐈 Hello \ud800World&#39;&quot;#</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -1122,8 +1122,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_debug_string() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_debug_string() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;Hello\n&quot;</span>.to_object(py);
             <span class="kw">let </span>s = &lt;PyString <span class="kw">as </span>PyTryFrom&gt;::try_from(v.as_ref(py)).unwrap();
@@ -1131,8 +1131,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_display_string() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_display_string() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;Hello\n&quot;</span>.to_object(py);
             <span class="kw">let </span>s = &lt;PyString <span class="kw">as </span>PyTryFrom&gt;::try_from(v.as_ref(py)).unwrap();
@@ -1140,9 +1140,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs1() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs1() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = PyString::new(py, <span class="string">&quot;hello, world&quot;</span>);
             <span class="kw">let </span>data = <span class="kw">unsafe </span>{ s.data().unwrap() };
@@ -1153,9 +1153,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs1_invalid() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs1_invalid() {
         Python::with_gil(|py| {
             <span class="comment">// 0xfe is not allowed in UTF-8.
             </span><span class="kw">let </span>buffer = <span class="string">b&quot;f\xfe\0&quot;</span>;
@@ -1179,9 +1179,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs2() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs2() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = py.eval(<span class="string">&quot;&#39;foo\\ud800&#39;&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>py_string = s.cast_as::&lt;PyString&gt;().unwrap();
@@ -1195,9 +1195,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs2_invalid() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs2_invalid() {
         Python::with_gil(|py| {
             <span class="comment">// U+FF22 (valid) &amp; U+d800 (never valid)
             </span><span class="kw">let </span>buffer = <span class="string">b&quot;\x22\xff\x00\xd8\x00\x00&quot;</span>;
@@ -1221,9 +1221,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs4() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs4() {
         Python::with_gil(|py| {
             <span class="kw">let </span>s = <span class="string">&quot;哈哈🐈&quot;</span>;
             <span class="kw">let </span>py_string = PyString::new(py, s);
@@ -1234,9 +1234,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-    <span class="kw">fn </span>test_string_data_ucs4_invalid() {
+    <span class="attribute">#[test]
+    #[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+    </span><span class="kw">fn </span>test_string_data_ucs4_invalid() {
         Python::with_gil(|py| {
             <span class="comment">// U+20000 (valid) &amp; U+d800 (never valid)
             </span><span class="kw">let </span>buffer = <span class="string">b&quot;\x00\x00\x02\x00\x00\xd8\x00\x00\x00\x00\x00\x00&quot;</span>;
@@ -1260,8 +1260,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_intern_string() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_intern_string() {
         Python::with_gil(|py| {
             <span class="kw">let </span>py_string1 = PyString::intern(py, <span class="string">&quot;foo&quot;</span>);
             <span class="macro">assert_eq!</span>(py_string1.to_str().unwrap(), <span class="string">&quot;foo&quot;</span>);
@@ -1279,4 +1279,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

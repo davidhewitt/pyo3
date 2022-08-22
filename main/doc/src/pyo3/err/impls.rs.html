@@ -171,7 +171,7 @@
     }
 }
 
-<span class="macro">macro_rules!</span> impl_to_pyerr {
+<span class="macro">macro_rules! </span>impl_to_pyerr {
     (<span class="macro-nonterminal">$err</span>: ty, <span class="macro-nonterminal">$pyexc</span>: ty) =&gt; {
         <span class="kw">impl </span>PyErrArguments <span class="kw">for </span><span class="macro-nonterminal">$err </span>{
             <span class="kw">fn </span>arguments(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
@@ -206,13 +206,13 @@
 );
 <span class="macro">impl_to_pyerr!</span>(std::net::AddrParseError, exceptions::PyValueError);
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::PyErr;
     <span class="kw">use </span>std::io;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>io_errors() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>io_errors() {
         <span class="kw">let </span>check_err = |kind, expected_ty| {
             <span class="kw">let </span>py_err: PyErr = io::Error::new(kind, <span class="string">&quot;some error msg&quot;</span>).into();
             <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;{}: some error msg&quot;</span>, expected_ty);
@@ -235,4 +235,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

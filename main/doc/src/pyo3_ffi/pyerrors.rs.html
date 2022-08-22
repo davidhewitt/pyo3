@@ -346,83 +346,83 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetNone&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetNone(arg1: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetObject(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetString(exception: <span class="kw-2">*mut </span>PyObject, string: <span class="kw-2">*const </span>c_char);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Occurred&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Occurred() -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Clear&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Clear();
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Fetch&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Fetch(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetNone&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetNone(arg1: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetObject(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetString(exception: <span class="kw-2">*mut </span>PyObject, string: <span class="kw-2">*const </span>c_char);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Occurred&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Occurred() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Clear&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Clear();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Fetch&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Fetch(
         arg1: <span class="kw-2">*mut *mut </span>PyObject,
         arg2: <span class="kw-2">*mut *mut </span>PyObject,
         arg3: <span class="kw-2">*mut *mut </span>PyObject,
     );
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Restore&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Restore(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_GetExcInfo&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_GetExcInfo(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Restore&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Restore(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_GetExcInfo&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_GetExcInfo(
         arg1: <span class="kw-2">*mut *mut </span>PyObject,
         arg2: <span class="kw-2">*mut *mut </span>PyObject,
         arg3: <span class="kw-2">*mut *mut </span>PyObject,
     );
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetExcInfo&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetExcInfo(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_FatalError&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_FatalError(message: <span class="kw-2">*const </span>c_char) -&gt; !;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_GivenExceptionMatches&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_GivenExceptionMatches(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_ExceptionMatches&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_ExceptionMatches(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NormalizeException&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_NormalizeException(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetExcInfo&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetExcInfo(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_FatalError&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_FatalError(message: <span class="kw-2">*const </span>c_char) -&gt; !;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_GivenExceptionMatches&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_GivenExceptionMatches(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_ExceptionMatches&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_ExceptionMatches(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NormalizeException&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_NormalizeException(
         arg1: <span class="kw-2">*mut *mut </span>PyObject,
         arg2: <span class="kw-2">*mut *mut </span>PyObject,
         arg3: <span class="kw-2">*mut *mut </span>PyObject,
     );
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetTraceback&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_SetTraceback(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetTraceback&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_GetTraceback(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetCause&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_GetCause(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetCause&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_SetCause(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetContext&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_GetContext(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetContext&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyException_SetContext(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetTraceback&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_SetTraceback(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetTraceback&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_GetTraceback(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetCause&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_GetCause(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetCause&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_SetCause(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_GetContext&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_GetContext(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyException_SetContext&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyException_SetContext(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyExceptionInstance_Class&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyExceptionInstance_Class(x: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyExceptionInstance_Class&quot;</span>]
+    </span><span class="kw">pub fn </span>PyExceptionInstance_Class(x: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyExceptionClass_Check(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyExceptionClass_Check(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (PyType_Check(x) != <span class="number">0
         </span>&amp;&amp; PyType_FastSubclass(x <span class="kw">as </span><span class="kw-2">*mut </span>PyTypeObject, Py_TPFLAGS_BASE_EXC_SUBCLASS) != <span class="number">0</span>)
         <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyExceptionInstance_Check(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyExceptionInstance_Check(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(x), Py_TPFLAGS_BASE_EXC_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyExceptionInstance_Class(x: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyExceptionInstance_Class(x: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
     Py_TYPE(x) <span class="kw">as </span><span class="kw-2">*mut </span>PyObject
 }
 
 <span class="comment">// ported from cpython exception.c (line 2096)
-</span><span class="attribute">#[cfg(PyPy)]</span>
-<span class="kw">pub unsafe fn </span>PyUnicodeDecodeError_Create(
+</span><span class="attribute">#[cfg(PyPy)]
+</span><span class="kw">pub unsafe fn </span>PyUnicodeDecodeError_Create(
     encoding: <span class="kw-2">*const </span>c_char,
     object: <span class="kw-2">*const </span>c_char,
     length: Py_ssize_t,
@@ -443,162 +443,162 @@
     )
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BaseException&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BaseException: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_Exception&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_Exception: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_StopAsyncIteration&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_StopAsyncIteration: <span class="kw-2">*mut </span>PyObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BaseException&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BaseException: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_Exception&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_Exception: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_StopAsyncIteration&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_StopAsyncIteration: <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_StopIteration&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_StopIteration: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_GeneratorExit&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_GeneratorExit: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ArithmeticError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ArithmeticError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_LookupError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_LookupError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_StopIteration&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_StopIteration: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_GeneratorExit&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_GeneratorExit: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ArithmeticError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ArithmeticError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_LookupError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_LookupError: <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_AssertionError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_AssertionError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_AttributeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_AttributeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BufferError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BufferError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_EOFError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_EOFError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FloatingPointError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FloatingPointError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_OSError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ImportError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ImportError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ModuleNotFoundError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ModuleNotFoundError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IndexError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IndexError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_KeyError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_KeyError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_KeyboardInterrupt&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_KeyboardInterrupt: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_MemoryError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_MemoryError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NameError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NameError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OverflowError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_OverflowError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RuntimeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RuntimeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RecursionError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RecursionError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NotImplementedError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NotImplementedError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SyntaxError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SyntaxError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IndentationError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IndentationError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TabError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TabError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ReferenceError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ReferenceError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SystemError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SystemError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SystemExit&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SystemExit: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TypeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TypeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnboundLocalError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnboundLocalError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeEncodeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeEncodeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeDecodeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeDecodeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeTranslateError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeTranslateError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ValueError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ValueError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ZeroDivisionError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ZeroDivisionError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_AssertionError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_AssertionError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_AttributeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_AttributeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BufferError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BufferError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_EOFError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_EOFError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FloatingPointError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FloatingPointError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_OSError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ImportError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ImportError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ModuleNotFoundError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ModuleNotFoundError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IndexError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IndexError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_KeyError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_KeyError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_KeyboardInterrupt&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_KeyboardInterrupt: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_MemoryError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_MemoryError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NameError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NameError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OverflowError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_OverflowError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RuntimeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RuntimeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RecursionError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RecursionError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NotImplementedError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NotImplementedError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SyntaxError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SyntaxError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IndentationError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IndentationError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TabError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TabError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ReferenceError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ReferenceError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SystemError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SystemError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SystemExit&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SystemExit: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TypeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TypeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnboundLocalError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnboundLocalError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeEncodeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeEncodeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeDecodeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeDecodeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeTranslateError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeTranslateError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ValueError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ValueError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ZeroDivisionError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ZeroDivisionError: <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BlockingIOError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BlockingIOError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BrokenPipeError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BrokenPipeError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ChildProcessError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ChildProcessError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionAbortedError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionAbortedError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionRefusedError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionRefusedError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionResetError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionResetError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FileExistsError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FileExistsError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FileNotFoundError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FileNotFoundError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_InterruptedError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_InterruptedError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IsADirectoryError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IsADirectoryError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NotADirectoryError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NotADirectoryError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_PermissionError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_PermissionError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ProcessLookupError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ProcessLookupError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TimeoutError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TimeoutError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BlockingIOError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BlockingIOError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BrokenPipeError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BrokenPipeError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ChildProcessError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ChildProcessError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionAbortedError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionAbortedError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionRefusedError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionRefusedError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ConnectionResetError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ConnectionResetError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FileExistsError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FileExistsError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FileNotFoundError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FileNotFoundError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_InterruptedError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_InterruptedError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_IsADirectoryError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IsADirectoryError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_NotADirectoryError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_NotADirectoryError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_PermissionError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_PermissionError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ProcessLookupError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ProcessLookupError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_TimeoutError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_TimeoutError: <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_EnvironmentError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IOError: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(windows)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_WindowsError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_EnvironmentError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_IOError: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(windows)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_OSError&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_WindowsError: <span class="kw-2">*mut </span>PyObject;
 
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RecursionErrorInst: <span class="kw-2">*mut </span>PyObject;
 
     <span class="comment">/* Predefined warning categories */
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_Warning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_Warning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UserWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UserWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_DeprecationWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_DeprecationWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_PendingDeprecationWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_PendingDeprecationWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SyntaxWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SyntaxWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RuntimeWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RuntimeWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FutureWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FutureWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ImportWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ImportWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BytesWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BytesWarning: <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ResourceWarning&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ResourceWarning: <span class="kw-2">*mut </span>PyObject;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_Warning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_Warning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UserWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UserWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_DeprecationWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_DeprecationWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_PendingDeprecationWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_PendingDeprecationWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_SyntaxWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_SyntaxWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_RuntimeWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_RuntimeWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_FutureWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_FutureWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ImportWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ImportWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_UnicodeWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_UnicodeWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_BytesWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_BytesWarning: <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyExc_ResourceWarning&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyExc_ResourceWarning: <span class="kw-2">*mut </span>PyObject;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_BadArgument&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_BadArgument() -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NoMemory&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_NoMemory() -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetFromErrno&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetFromErrno(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetFromErrnoWithFilenameObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetFromErrnoWithFilenameObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_BadArgument&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_BadArgument() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NoMemory&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_NoMemory() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetFromErrno&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetFromErrno(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetFromErrnoWithFilenameObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetFromErrnoWithFilenameObject(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
@@ -611,8 +611,8 @@
         exc: <span class="kw-2">*mut </span>PyObject,
         filename: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Format&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_Format(exception: <span class="kw-2">*mut </span>PyObject, format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_Format&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_Format(exception: <span class="kw-2">*mut </span>PyObject, format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyErr_SetImportErrorSubclass(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
@@ -624,35 +624,35 @@
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_BadInternalCall&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_BadInternalCall();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_BadInternalCall&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_BadInternalCall();
     <span class="kw">pub fn </span>_PyErr_BadInternalCall(filename: <span class="kw-2">*const </span>c_char, lineno: c_int);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NewException&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_NewException(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NewException&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_NewException(
         name: <span class="kw-2">*const </span>c_char,
         base: <span class="kw-2">*mut </span>PyObject,
         dict: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NewExceptionWithDoc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_NewExceptionWithDoc(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_NewExceptionWithDoc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_NewExceptionWithDoc(
         name: <span class="kw-2">*const </span>c_char,
         doc: <span class="kw-2">*const </span>c_char,
         base: <span class="kw-2">*mut </span>PyObject,
         dict: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_WriteUnraisable&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_WriteUnraisable(arg1: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_CheckSignals&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_CheckSignals() -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetInterrupt&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyErr_SetInterrupt();
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>PyErr_SetInterruptEx(signum: c_int);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_WriteUnraisable&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_WriteUnraisable(arg1: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_CheckSignals&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_CheckSignals() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyErr_SetInterrupt&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyErr_SetInterrupt();
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>PyErr_SetInterruptEx(signum: c_int);
     <span class="kw">pub fn </span>PyErr_SyntaxLocation(filename: <span class="kw-2">*const </span>c_char, lineno: c_int);
     <span class="kw">pub fn </span>PyErr_SyntaxLocationEx(filename: <span class="kw-2">*const </span>c_char, lineno: c_int, col_offset: c_int);
     <span class="kw">pub fn </span>PyErr_ProgramText(filename: <span class="kw-2">*const </span>c_char, lineno: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyUnicodeDecodeError_Create(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyUnicodeDecodeError_Create(
         encoding: <span class="kw-2">*const </span>c_char,
         object: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
@@ -685,4 +685,4 @@
     <span class="kw">pub fn </span>PyUnicodeTranslateError_SetReason(exc: <span class="kw-2">*mut </span>PyObject, reason: <span class="kw-2">*const </span>c_char) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

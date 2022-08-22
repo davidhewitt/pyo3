@@ -159,8 +159,8 @@
 <span class="doccomment">/// Represents a Python `slice`.
 ///
 /// Only `c_long` indices supported at the moment by the `PySlice` object.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PySlice(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PySlice(PyAny);
 
 <span class="macro">pyobject_native_type!</span>(
     PySlice,
@@ -170,8 +170,8 @@
 );
 
 <span class="doccomment">/// Represents Python `slice` indices.
-</span><span class="attribute">#[derive(Debug, Eq, PartialEq)]</span>
-<span class="kw">pub struct </span>PySliceIndices {
+</span><span class="attribute">#[derive(Debug, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>PySliceIndices {
     <span class="kw">pub </span>start: isize,
     <span class="kw">pub </span>stop: isize,
     <span class="kw">pub </span>step: isize,
@@ -205,8 +205,8 @@
     <span class="doccomment">/// Retrieves the start, stop, and step indices from the slice object,
     /// assuming a sequence of length `length`, and stores the length of the
     /// slice in its `slicelength` member.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>indices(<span class="kw-2">&amp;</span><span class="self">self</span>, length: c_long) -&gt; PyResult&lt;PySliceIndices&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>indices(<span class="kw-2">&amp;</span><span class="self">self</span>, length: c_long) -&gt; PyResult&lt;PySliceIndices&gt; {
         <span class="comment">// non-negative Py_ssize_t should always fit into Rust usize
         </span><span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>slicelength: isize = <span class="number">0</span>;
@@ -241,12 +241,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_py_slice_indices_new() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_py_slice_indices_new() {
         <span class="kw">let </span>start = <span class="number">0</span>;
         <span class="kw">let </span>stop = <span class="number">0</span>;
         <span class="kw">let </span>step = <span class="number">0</span>;
@@ -301,4 +301,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

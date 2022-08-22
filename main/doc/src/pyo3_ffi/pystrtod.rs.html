@@ -34,14 +34,14 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_double, c_int};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_string_to_double&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyOS_string_to_double(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_string_to_double&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyOS_string_to_double(
         str: <span class="kw-2">*const </span>c_char,
         endptr: <span class="kw-2">*mut *mut </span>c_char,
         overflow_exception: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_double;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_double_to_string&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyOS_double_to_string(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_double_to_string&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyOS_double_to_string(
         val: c_double,
         format_code: c_char,
         precision: c_int,
@@ -63,4 +63,4 @@
 <span class="kw">pub const </span>Py_DTST_INFINITE: c_int = <span class="number">1</span>;
 <span class="kw">pub const </span>Py_DTST_NAN: c_int = <span class="number">2</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

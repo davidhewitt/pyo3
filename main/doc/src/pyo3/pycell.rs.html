@@ -1227,9 +1227,9 @@
 <span class="kw">use </span>impl_::{GetBorrowChecker, PyClassBorrowChecker, PyClassMutability};
 
 <span class="doccomment">/// Base layout of PyCell.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyCellBase&lt;T&gt; {
+</span><span class="attribute">#[doc(hidden)]
+#[repr(C)]
+</span><span class="kw">pub struct </span>PyCellBase&lt;T&gt; {
     ob_base: T,
 }
 
@@ -1270,14 +1270,14 @@
 /// ```
 /// For more information on how, when and why (not) to use `PyCell` please see the
 /// [module-level documentation](self).
-</span><span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyCell&lt;T: PyClassImpl&gt; {
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyCell&lt;T: PyClassImpl&gt; {
     ob_base: &lt;T::BaseType <span class="kw">as </span>PyClassBaseType&gt;::LayoutAsBase,
     contents: PyCellContents&lt;T&gt;,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PyCellContents&lt;T: PyClassImpl&gt; {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PyCellContents&lt;T: PyClassImpl&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) value: ManuallyDrop&lt;UnsafeCell&lt;T&gt;&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) borrow_checker: &lt;T::PyClassMutability <span class="kw">as </span>PyClassMutability&gt;::Storage,
     <span class="kw">pub</span>(<span class="kw">crate</span>) thread_checker: T::ThreadChecker,
@@ -1427,8 +1427,8 @@
     /// # Panics
     ///
     /// Panics if the value is currently borrowed.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>replace(<span class="kw-2">&amp;</span><span class="self">self</span>, t: T) -&gt; T
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>replace(<span class="kw-2">&amp;</span><span class="self">self</span>, t: T) -&gt; T
     <span class="kw">where
         </span>T: PyClass&lt;Frozen = False&gt;,
     {
@@ -1454,8 +1454,8 @@
     /// # Panics
     ///
     /// Panics if the value in either `PyCell` is currently borrowed.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>swap(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>)
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>swap(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>)
     <span class="kw">where
         </span>T: PyClass&lt;Frozen = False&gt;,
     {
@@ -1474,8 +1474,8 @@
         <span class="kw">let </span>offset = <span class="macro">offset_of!</span>(PyCell&lt;T&gt;, contents) + <span class="macro">offset_of!</span>(PyCellContents&lt;T&gt;, dict);
 
         <span class="comment">// Py_ssize_t may not be equal to isize on all platforms
-        </span><span class="attribute">#[allow(clippy::useless_conversion)]</span>
-        offset.try_into().expect(<span class="string">&quot;offset should fit in Py_ssize_t&quot;</span>)
+        </span><span class="attribute">#[allow(clippy::useless_conversion)]
+        </span>offset.try_into().expect(<span class="string">&quot;offset should fit in Py_ssize_t&quot;</span>)
     }
 
     <span class="doccomment">/// Gets the offset of the weakref list from the start of the struct in bytes.
@@ -1486,8 +1486,8 @@
         <span class="kw">let </span>offset = <span class="macro">offset_of!</span>(PyCell&lt;T&gt;, contents) + <span class="macro">offset_of!</span>(PyCellContents&lt;T&gt;, weakref);
 
         <span class="comment">// Py_ssize_t may not be equal to isize on all platforms
-        </span><span class="attribute">#[allow(clippy::useless_conversion)]</span>
-        offset.try_into().expect(<span class="string">&quot;offset should fit in Py_ssize_t&quot;</span>)
+        </span><span class="attribute">#[allow(clippy::useless_conversion)]
+        </span>offset.try_into().expect(<span class="string">&quot;offset should fit in Py_ssize_t&quot;</span>)
     }
 }
 
@@ -1672,8 +1672,8 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;p</span>, T: PyClass&gt; Deref <span class="kw">for </span>PyRef&lt;<span class="lifetime">&#39;p</span>, T&gt; {
     <span class="kw">type </span>Target = T;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.inner.get_ptr() }
     }
 }
@@ -1763,15 +1763,15 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;p</span>, T: PyClass&lt;Frozen = False&gt;&gt; Deref <span class="kw">for </span>PyRefMut&lt;<span class="lifetime">&#39;p</span>, T&gt; {
     <span class="kw">type </span>Target = T;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.inner.get_ptr() }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;p</span>, T: PyClass&lt;Frozen = False&gt;&gt; DerefMut <span class="kw">for </span>PyRefMut&lt;<span class="lifetime">&#39;p</span>, T&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span><span class="self">self</span>.inner.get_ptr() }
     }
 }
@@ -1859,8 +1859,8 @@
     }
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub trait </span>PyCellLayout&lt;T&gt;: PyLayout&lt;T&gt; {
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub trait </span>PyCellLayout&lt;T&gt;: PyLayout&lt;T&gt; {
     <span class="kw">fn </span>ensure_threadsafe(<span class="kw-2">&amp;</span><span class="self">self</span>);
     <span class="doccomment">/// Implementation of tp_dealloc.
     /// # Safety
@@ -1882,8 +1882,8 @@
         }
 
         <span class="comment">// More complex native types (e.g. `extends=PyDict`) require calling the base&#39;s dealloc.
-        </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-        {
+        </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+        </span>{
             <span class="kw">if let </span><span class="prelude-val">Some</span>(dealloc) = (<span class="kw-2">*</span>T::type_object_raw(py)).tp_dealloc {
                 dealloc(slf <span class="kw">as _</span>);
             } <span class="kw">else </span>{
@@ -1891,8 +1891,8 @@
             }
         }
 
-        <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-        <span class="macro">unreachable!</span>(<span class="string">&quot;subclassing native types is not possible with the `abi3` feature&quot;</span>);
+        <span class="attribute">#[cfg(Py_LIMITED_API)]
+        </span><span class="macro">unreachable!</span>(<span class="string">&quot;subclassing native types is not possible with the `abi3` feature&quot;</span>);
     }
 }
 
@@ -1914,19 +1914,19 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+</span><span class="kw">mod </span>tests {
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[<span class="kw">crate</span>::pyclass]</span>
-    <span class="attribute">#[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-    <span class="attribute">#[derive(Copy, Clone, PartialEq, Eq, Debug)]</span>
-    <span class="kw">struct </span>SomeClass(i32);
+    <span class="attribute">#[<span class="kw">crate</span>::pyclass]
+    #[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+    #[derive(Copy, Clone, PartialEq, Eq, Debug)]
+    </span><span class="kw">struct </span>SomeClass(i32);
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>pycell_replace() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pycell_replace() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>cell.borrow(), SomeClass(<span class="number">0</span>));
@@ -1937,9 +1937,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]</span>
-    <span class="kw">fn </span>pycell_replace_panic() {
+    <span class="attribute">#[test]
+    #[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]
+    </span><span class="kw">fn </span>pycell_replace_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="kw">let </span>_guard = cell.borrow();
@@ -1948,8 +1948,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>pycell_replace_with() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pycell_replace_with() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>cell.borrow(), SomeClass(<span class="number">0</span>));
@@ -1963,9 +1963,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]</span>
-    <span class="kw">fn </span>pycell_replace_with_panic() {
+    <span class="attribute">#[test]
+    #[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]
+    </span><span class="kw">fn </span>pycell_replace_with_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="kw">let </span>_guard = cell.borrow();
@@ -1974,8 +1974,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>pycell_swap() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pycell_swap() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="kw">let </span>cell2 = PyCell::new(py, SomeClass(<span class="number">123</span>)).unwrap();
@@ -1988,9 +1988,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]</span>
-    <span class="kw">fn </span>pycell_swap_panic() {
+    <span class="attribute">#[test]
+    #[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]
+    </span><span class="kw">fn </span>pycell_swap_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="kw">let </span>cell2 = PyCell::new(py, SomeClass(<span class="number">123</span>)).unwrap();
@@ -2000,9 +2000,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]</span>
-    <span class="kw">fn </span>pycell_swap_panic_other_borrowed() {
+    <span class="attribute">#[test]
+    #[should_panic(expected = <span class="string">&quot;Already borrowed: PyBorrowMutError&quot;</span>)]
+    </span><span class="kw">fn </span>pycell_swap_panic_other_borrowed() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cell = PyCell::new(py, SomeClass(<span class="number">0</span>)).unwrap();
             <span class="kw">let </span>cell2 = PyCell::new(py, SomeClass(<span class="number">123</span>)).unwrap();
@@ -2013,4 +2013,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

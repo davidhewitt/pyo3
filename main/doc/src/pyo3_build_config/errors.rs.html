@@ -143,31 +143,31 @@
 <span id="143">143</span>
 <span id="144">144</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A simple macro for returning an error. Resembles anyhow::bail.
-</span><span class="attribute">#[macro_export]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="macro">macro_rules!</span> bail {
+</span><span class="attribute">#[macro_export]
+#[doc(hidden)]
+</span><span class="macro">macro_rules! </span>bail {
     ($(<span class="macro-nonterminal">$args</span>: tt)+) =&gt; { <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>($(<span class="macro-nonterminal">$args</span>)+).into()) };
 }
 
 <span class="doccomment">/// A simple macro for checking a condition. Resembles anyhow::ensure.
-</span><span class="attribute">#[macro_export]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="macro">macro_rules!</span> ensure {
+</span><span class="attribute">#[macro_export]
+#[doc(hidden)]
+</span><span class="macro">macro_rules! </span>ensure {
     (<span class="macro-nonterminal">$condition</span>:expr, $(<span class="macro-nonterminal">$args</span>: tt)+) =&gt; { <span class="kw">if </span>!(<span class="macro-nonterminal">$condition</span>) { <span class="macro">bail!</span>($(<span class="macro-nonterminal">$args</span>)+) } };
 }
 
 <span class="doccomment">/// Show warning. If needed, please extend this macro to support arguments.
-</span><span class="attribute">#[macro_export]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="macro">macro_rules!</span> warn {
+</span><span class="attribute">#[macro_export]
+#[doc(hidden)]
+</span><span class="macro">macro_rules! </span>warn {
     (<span class="macro-nonterminal">$msg</span>: literal) =&gt; {
         <span class="macro">println!</span>(<span class="macro">concat!</span>(<span class="string">&quot;cargo:warning=&quot;</span>, <span class="macro-nonterminal">$msg</span>))
     };
 }
 
 <span class="doccomment">/// A simple error implementation which allows chaining of errors, inspired somewhat by anyhow.
-</span><span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>Error {
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Error {
     value: String,
     source: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt;,
 }
@@ -259,12 +259,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>error_report() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>error_report() {
         <span class="kw">let </span>error: <span class="prelude-ty">Result</span>&lt;()&gt; = <span class="prelude-val">Err</span>(Error::from(<span class="string">&quot;there was an internal error&quot;</span>))
             .with_context(|| <span class="macro">format!</span>(<span class="string">&quot;failed to do {}&quot;</span>, <span class="string">&quot;something difficult&quot;</span>))
             .context(<span class="string">&quot;things went wrong&quot;</span>);
@@ -287,4 +287,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_build_config" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_build_config" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

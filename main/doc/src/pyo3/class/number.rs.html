@@ -781,8 +781,8 @@
 <span id="781">781</span>
 <span id="782">782</span>
 <span id="783">783</span>
-</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]</span>
-<span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]
+</span><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Python Number Interface
 //! Trait and support implementation for implementing number protocol
@@ -792,9 +792,9 @@
 <span class="kw">use crate</span>::{ffi, FromPyObject, PyClass, PyObject};
 
 <span class="doccomment">/// Number interface
-</span><span class="attribute">#[allow(unused_variables)]</span>
-<span class="attribute">#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]</span>
-<span class="kw">pub trait </span>PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass {
+</span><span class="attribute">#[allow(unused_variables)]
+#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]
+</span><span class="kw">pub trait </span>PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass {
     <span class="kw">fn </span>__add__(lhs: <span class="self">Self</span>::Left, rhs: <span class="self">Self</span>::Right) -&gt; <span class="self">Self</span>::Result
     <span class="kw">where
         </span><span class="self">Self</span>: PyNumberAddProtocol&lt;<span class="lifetime">&#39;p</span>&gt;,
@@ -1292,14 +1292,14 @@
     </span><span class="kw">type </span>Modulo: FromPyObject&lt;<span class="lifetime">&#39;p</span>&gt;;
 }
 
-<span class="attribute">#[allow(clippy::upper_case_acronyms)]</span>
-<span class="kw">pub trait </span>PyNumberILShiftProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt; + PyClass&lt;Frozen = False&gt; {
+<span class="attribute">#[allow(clippy::upper_case_acronyms)]
+</span><span class="kw">pub trait </span>PyNumberILShiftProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt; + PyClass&lt;Frozen = False&gt; {
     <span class="kw">type </span>Other: FromPyObject&lt;<span class="lifetime">&#39;p</span>&gt;;
     <span class="kw">type </span><span class="prelude-ty">Result</span>: IntoPyCallbackOutput&lt;()&gt;;
 }
 
-<span class="attribute">#[allow(clippy::upper_case_acronyms)]</span>
-<span class="kw">pub trait </span>PyNumberIRShiftProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt; + PyClass&lt;Frozen = False&gt; {
+<span class="attribute">#[allow(clippy::upper_case_acronyms)]
+</span><span class="kw">pub trait </span>PyNumberIRShiftProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyNumberProtocol&lt;<span class="lifetime">&#39;p</span>&gt; + PyClass&lt;Frozen = False&gt; {
     <span class="kw">type </span>Other: FromPyObject&lt;<span class="lifetime">&#39;p</span>&gt;;
     <span class="kw">type </span><span class="prelude-ty">Result</span>: IntoPyCallbackOutput&lt;()&gt;;
 }
@@ -1388,8 +1388,8 @@
 <span class="macro">py_binary_num_func!</span>(divmod, PyNumberDivmodProtocol, T::__divmod__);
 <span class="macro">py_binary_reversed_num_func!</span>(rdivmod, PyNumberRDivmodProtocol, T::__rdivmod__);
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>pow_rpow&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>pow_rpow&lt;T&gt;(
     lhs: <span class="kw-2">*mut </span>ffi::PyObject,
     rhs: <span class="kw-2">*mut </span>ffi::PyObject,
     modulo: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1415,8 +1415,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>pow&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>pow&lt;T&gt;(
     lhs: <span class="kw-2">*mut </span>ffi::PyObject,
     rhs: <span class="kw-2">*mut </span>ffi::PyObject,
     modulo: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1432,8 +1432,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>rpow&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>rpow&lt;T&gt;(
     arg: <span class="kw-2">*mut </span>ffi::PyObject,
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     modulo: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1500,8 +1500,8 @@
 <span class="macro">py_binary_self_func!</span>(imul, PyNumberIMulProtocol, T::__imul__);
 <span class="macro">py_binary_self_func!</span>(imod, PyNumberIModProtocol, T::__imod__);
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>ipow&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>ipow&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     other: <span class="kw-2">*mut </span>ffi::PyObject,
     modulo: <span class="kw">crate</span>::impl_::pymethods::IPowModulo,
@@ -1565,4 +1565,4 @@
 <span class="macro">py_binary_reversed_num_func!</span>(rmatmul, PyNumberRMatmulProtocol, T::__rmatmul__);
 <span class="macro">py_binary_self_func!</span>(imatmul, PyNumberIMatmulProtocol, T::__imatmul__);
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

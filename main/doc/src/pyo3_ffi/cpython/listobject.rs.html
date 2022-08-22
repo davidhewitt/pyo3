@@ -40,20 +40,20 @@
 <span id="40">40</span>
 <span id="41">41</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyListObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyListObject {
     <span class="kw">pub </span>ob_base: PyVarObject,
     <span class="kw">pub </span>ob_item: <span class="kw-2">*mut *mut </span>PyObject,
     <span class="kw">pub </span>allocated: Py_ssize_t,
 }
 
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="kw">pub struct </span>PyListObject {
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="kw">pub struct </span>PyListObject {
     <span class="kw">pub </span>ob_base: PyObject,
 }
 
@@ -62,23 +62,23 @@
 // skipped _PyList_CAST (used inline below)
 
 </span><span class="doccomment">/// Macro, trading safety for speed
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyList_GET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject {
+</span><span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyList_GET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject {
     <span class="kw-2">*</span>(<span class="kw-2">*</span>(op <span class="kw">as </span><span class="kw-2">*mut </span>PyListObject)).ob_item.offset(i <span class="kw">as </span>isize)
 }
 
 <span class="doccomment">/// Macro, *only* to be used to fill in brand new lists
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyList_SET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) {
+</span><span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyList_SET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw-2">*</span>(<span class="kw-2">*</span>(op <span class="kw">as </span><span class="kw-2">*mut </span>PyListObject)).ob_item.offset(i <span class="kw">as </span>isize) = v;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyList_GET_SIZE(op: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyList_GET_SIZE(op: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     Py_SIZE(op)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

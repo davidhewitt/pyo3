@@ -134,8 +134,8 @@
 /// by using [`ToPyObject`](trait.ToPyObject.html)
 /// and [extract](struct.PyAny.html#method.extract)
 /// with `f32`/`f64`.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyFloat(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyFloat(PyAny);
 
 <span class="macro">pyobject_native_type!</span>(
     PyFloat,
@@ -170,8 +170,8 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;source</span>&gt; FromPyObject&lt;<span class="lifetime">&#39;source</span>&gt; <span class="kw">for </span>f64 {
     <span class="comment">// PyFloat_AsDouble returns -1.0 upon failure
-    </span><span class="attribute">#![allow(clippy::float_cmp)]</span>
-    <span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;source </span>PyAny) -&gt; PyResult&lt;<span class="self">Self</span>&gt; {
+    </span><span class="attribute">#![allow(clippy::float_cmp)]
+    </span><span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;source </span>PyAny) -&gt; PyResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>v = <span class="kw">unsafe </span>{ ffi::PyFloat_AsDouble(obj.as_ptr()) };
 
         <span class="kw">if </span>v == -<span class="number">1.0 </span>{
@@ -202,18 +202,18 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::ffi::PyFloat_AS_DOUBLE;
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::AsPyPointer;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">use </span><span class="kw">crate</span>::ffi::PyFloat_AS_DOUBLE;
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">use </span><span class="kw">crate</span>::AsPyPointer;
     <span class="kw">use crate</span>::{Python, ToPyObject};
 
-    <span class="macro">macro_rules!</span> num_to_py_object_and_back (
+    <span class="macro">macro_rules! </span>num_to_py_object_and_back (
         (<span class="macro-nonterminal">$func_name</span>:ident, <span class="macro-nonterminal">$t1</span>:ty, <span class="macro-nonterminal">$t2</span>:ty) =&gt; (
-            <span class="attribute">#[test]</span>
-            <span class="kw">fn </span><span class="macro-nonterminal">$func_name</span>() {
+            <span class="attribute">#[test]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$func_name</span>() {
                 <span class="kw">use </span>assert_approx_eq::assert_approx_eq;
 
                 Python::with_gil(|py|{
@@ -230,9 +230,9 @@
     <span class="macro">num_to_py_object_and_back!</span>(to_from_f32, f32, f32);
     <span class="macro">num_to_py_object_and_back!</span>(int_to_float, i32, f64);
 
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_as_double_macro() {
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    #[test]
+    </span><span class="kw">fn </span>test_as_double_macro() {
         <span class="kw">use </span>assert_approx_eq::assert_approx_eq;
 
         Python::with_gil(|py| {
@@ -243,4 +243,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

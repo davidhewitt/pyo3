@@ -900,8 +900,8 @@
 <span class="kw">static </span>SEQUENCE_ABC: GILOnceCell&lt;PyResult&lt;Py&lt;PyType&gt;&gt;&gt; = GILOnceCell::new();
 
 <span class="doccomment">/// Represents a reference to a Python object supporting the sequence protocol.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PySequence(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PySequence(PyAny);
 <span class="macro">pyobject_native_type_named!</span>(PySequence);
 <span class="macro">pyobject_native_type_extract!</span>(PySequence);
 
@@ -909,8 +909,8 @@
     <span class="doccomment">/// Returns the number of objects in sequence.
     ///
     /// This is equivalent to the Python expression `len(self)`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;usize&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;usize&gt; {
         <span class="kw">let </span>v = <span class="kw">unsafe </span>{ ffi::PySequence_Size(<span class="self">self</span>.as_ptr()) };
         <span class="kw">if </span>v == -<span class="number">1 </span>{
             <span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>.py()))
@@ -920,16 +920,16 @@
     }
 
     <span class="doccomment">/// Returns whether the sequence is empty.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;bool&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;bool&gt; {
         <span class="self">self</span>.len().map(|l| l == <span class="number">0</span>)
     }
 
     <span class="doccomment">/// Returns the concatenation of `self` and `other`.
     ///
     /// This is equivalent to the Python expression `self + other`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>concat(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>PySequence) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>concat(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>PySequence) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err(ffi::PySequence_Concat(<span class="self">self</span>.as_ptr(), other.as_ptr()))
@@ -939,8 +939,8 @@
     <span class="doccomment">/// Returns the result of repeating a sequence object `count` times.
     ///
     /// This is equivalent to the Python expression `self * count`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, count: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, count: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py().from_owned_ptr_or_err(ffi::PySequence_Repeat(
                 <span class="self">self</span>.as_ptr(),
@@ -956,8 +956,8 @@
     /// The Python statement `self += other` is syntactic sugar for `self =
     /// self.__iadd__(other)`.  `__iadd__` should modify and return `self` if
     /// possible, but create and return a new object if not.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>in_place_concat(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>PySequence) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>in_place_concat(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>PySequence) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err(ffi::PySequence_InPlaceConcat(<span class="self">self</span>.as_ptr(), other.as_ptr()))
@@ -971,8 +971,8 @@
     /// The Python statement `self *= other` is syntactic sugar for `self =
     /// self.__imul__(other)`.  `__imul__` should modify and return `self` if
     /// possible, but create and return a new object if not.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>in_place_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, count: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>in_place_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, count: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err(ffi::PySequence_InPlaceRepeat(
@@ -985,8 +985,8 @@
     <span class="doccomment">/// Returns the `index`th element of the Sequence.
     ///
     /// This is equivalent to the Python expression `self[index]` without support of negative indices.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_item(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_item(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py().from_owned_ptr_or_err(ffi::PySequence_GetItem(
                 <span class="self">self</span>.as_ptr(),
@@ -998,8 +998,8 @@
     <span class="doccomment">/// Returns the slice of sequence object between `begin` and `end`.
     ///
     /// This is equivalent to the Python expression `self[begin:end]`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, begin: usize, end: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, begin: usize, end: usize) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PySequence&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py().from_owned_ptr_or_err(ffi::PySequence_GetSlice(
                 <span class="self">self</span>.as_ptr(),
@@ -1012,8 +1012,8 @@
     <span class="doccomment">/// Assigns object `item` to the `i`th element of self.
     ///
     /// This is equivalent to the Python statement `self[i] = v`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_item&lt;I&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize, item: I) -&gt; PyResult&lt;()&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>set_item&lt;I&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize, item: I) -&gt; PyResult&lt;()&gt;
     <span class="kw">where
         </span>I: ToPyObject,
     {
@@ -1033,8 +1033,8 @@
     <span class="doccomment">/// Deletes the `i`th element of self.
     ///
     /// This is equivalent to the Python statement `del self[i]`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>del_item(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>del_item(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; PyResult&lt;()&gt; {
         <span class="kw">unsafe </span>{
             err::error_on_minusone(
                 <span class="self">self</span>.py(),
@@ -1046,8 +1046,8 @@
     <span class="doccomment">/// Assigns the sequence `v` to the slice of `self` from `i1` to `i2`.
     ///
     /// This is equivalent to the Python statement `self[i1:i2] = v`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, i1: usize, i2: usize, v: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>set_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, i1: usize, i2: usize, v: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;()&gt; {
         <span class="kw">unsafe </span>{
             err::error_on_minusone(
                 <span class="self">self</span>.py(),
@@ -1064,8 +1064,8 @@
     <span class="doccomment">/// Deletes the slice from `i1` to `i2` from `self`.
     ///
     /// This is equivalent to the Python statement `del self[i1:i2]`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>del_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, i1: usize, i2: usize) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>del_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, i1: usize, i2: usize) -&gt; PyResult&lt;()&gt; {
         <span class="kw">unsafe </span>{
             err::error_on_minusone(
                 <span class="self">self</span>.py(),
@@ -1076,9 +1076,9 @@
 
     <span class="doccomment">/// Returns the number of occurrences of `value` in self, that is, return the
     /// number of keys for which `self[key] == value`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>count&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
+    </span><span class="attribute">#[inline]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>count&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1094,8 +1094,8 @@
     <span class="doccomment">/// Determines if self contains `value`.
     ///
     /// This is equivalent to the Python expression `value in self`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1111,8 +1111,8 @@
     <span class="doccomment">/// Returns the first index `i` for which `self[i] == value`.
     ///
     /// This is equivalent to the Python expression `self.index(value)`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1126,8 +1126,8 @@
     }
 
     <span class="doccomment">/// Returns a fresh list based on the Sequence.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyList&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyList&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err(ffi::PySequence_List(<span class="self">self</span>.as_ptr()))
@@ -1135,8 +1135,8 @@
     }
 
     <span class="doccomment">/// Returns a fresh tuple based on the Sequence.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>tuple(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyTuple&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>tuple(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyTuple&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err(ffi::PySequence_Tuple(<span class="self">self</span>.as_ptr()))
@@ -1153,13 +1153,13 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>sequence_len(seq: <span class="kw-2">&amp;</span>PySequence) -&gt; usize {
+<span class="attribute">#[inline]
+</span><span class="kw">fn </span>sequence_len(seq: <span class="kw-2">&amp;</span>PySequence) -&gt; usize {
     seq.len().expect(<span class="string">&quot;failed to get sequence length&quot;</span>)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>sequence_slice(seq: <span class="kw-2">&amp;</span>PySequence, start: usize, end: usize) -&gt; <span class="kw-2">&amp;</span>PySequence {
+<span class="attribute">#[inline]
+</span><span class="kw">fn </span>sequence_slice(seq: <span class="kw-2">&amp;</span>PySequence, start: usize, end: usize) -&gt; <span class="kw-2">&amp;</span>PySequence {
     seq.get_slice(start, end)
         .expect(<span class="string">&quot;sequence slice operation failed&quot;</span>)
 }
@@ -1224,8 +1224,8 @@
         &lt;PySequence <span class="kw">as </span>PyTryFrom&gt;::try_from(value)
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PySequence {
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PySequence {
         <span class="kw">let </span>ptr = value.into() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>PySequence;
         <span class="kw-2">&amp;*</span>ptr
     }
@@ -1257,8 +1257,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyList, PySequence};
     <span class="kw">use crate</span>::{AsPyPointer, Py, PyObject, PyTryFrom, Python, ToPyObject};
 
@@ -1271,24 +1271,24 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_numbers_are_not_sequences() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_numbers_are_not_sequences() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="number">42i32</span>;
             <span class="macro">assert!</span>(&lt;PySequence <span class="kw">as </span>PyTryFrom&gt;::try_from(v.to_object(py).as_ref(py)).is_err());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_strings_are_sequences() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_strings_are_sequences() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;London Calling&quot;</span>;
             <span class="macro">assert!</span>(&lt;PySequence <span class="kw">as </span>PyTryFrom&gt;::try_from(v.to_object(py).as_ref(py)).is_ok());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_strings_cannot_be_extracted_to_vec() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_strings_cannot_be_extracted_to_vec() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;London Calling&quot;</span>;
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1299,8 +1299,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_empty() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_empty() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1312,8 +1312,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_is_empty() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_is_empty() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = <span class="macro">vec!</span>[<span class="number">1</span>].to_object(py);
             <span class="kw">let </span>seq = list.cast_as::&lt;PySequence&gt;(py).unwrap();
@@ -1325,8 +1325,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1344,8 +1344,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_get_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_get_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1360,8 +1360,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_index_trait() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_index_trait() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1372,9 +1372,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;index 7 out of range for sequence&quot;</span>]</span>
-    <span class="kw">fn </span>test_seq_index_trait_panic() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;index 7 out of range for sequence&quot;</span>]
+    </span><span class="kw">fn </span>test_seq_index_trait_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1383,8 +1383,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_index_trait_ranges() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_index_trait_ranges() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1400,9 +1400,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 5 out of range for sequence of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_seq_index_trait_range_panic_start() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 5 out of range for sequence of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_seq_index_trait_range_panic_start() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1411,9 +1411,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range end index 10 out of range for sequence of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_seq_index_trait_range_panic_end() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range end index 10 out of range for sequence of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_seq_index_trait_range_panic_end() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1422,21 +1422,21 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]</span>
-    <span class="kw">fn </span>test_seq_index_trait_range_panic_wrong_order() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]
+    </span><span class="kw">fn </span>test_seq_index_trait_range_panic_wrong_order() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
             <span class="kw">let </span>seq = ob.cast_as::&lt;PySequence&gt;(py).unwrap();
-            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]</span>
-            seq[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
+            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]
+            </span>seq[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 8 out of range for sequence of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_seq_index_trait_range_from_panic() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 8 out of range for sequence of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_seq_index_trait_range_from_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1445,8 +1445,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_del_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_del_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1469,8 +1469,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_set_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_set_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1481,8 +1481,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_set_item_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_set_item_refcnt() {
         <span class="kw">let </span>obj = get_object();
 
         Python::with_gil(|py| {
@@ -1498,8 +1498,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_get_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_get_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1518,8 +1518,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>w: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">7</span>, <span class="number">4</span>];
@@ -1533,8 +1533,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_del_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_del_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1546,8 +1546,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1561,9 +1561,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>test_seq_count() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>test_seq_count() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1577,8 +1577,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1592,8 +1592,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_strings() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_strings() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;It&quot;</span>, <span class="string">&quot;was&quot;</span>, <span class="string">&quot;the&quot;</span>, <span class="string">&quot;worst&quot;</span>, <span class="string">&quot;of&quot;</span>, <span class="string">&quot;times&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1607,8 +1607,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_concat() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_concat() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1622,8 +1622,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_concat_string() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_concat_string() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;string&quot;</span>;
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1637,8 +1637,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_repeat() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_repeat() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1652,8 +1652,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_inplace() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_inplace() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1668,8 +1668,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_coercion() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_coercion() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1678,8 +1678,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_strings_coerce_to_lists() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_strings_coerce_to_lists() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="string">&quot;foo&quot;</span>;
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1688,8 +1688,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_coercion() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_coercion() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = (<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>);
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1698,8 +1698,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_lists_coerce_to_tuples() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_lists_coerce_to_tuples() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1708,16 +1708,16 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_tuple_to_vec() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_tuple_to_vec() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = py.eval(<span class="string">&quot;(1, 2)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap().extract().unwrap();
             <span class="macro">assert!</span>(v == [<span class="number">1</span>, <span class="number">2</span>]);
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_range_to_vec() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_range_to_vec() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;i32&gt; = py
                 .eval(<span class="string">&quot;range(1, 5)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -1728,8 +1728,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_bytearray_to_vec() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_bytearray_to_vec() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: Vec&lt;u8&gt; = py
                 .eval(<span class="string">&quot;bytearray(b&#39;abc&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -1740,8 +1740,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_seq_try_from_unchecked() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_seq_try_from_unchecked() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1752,8 +1752,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_as_ref() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_as_ref() {
         Python::with_gil(|py| {
             <span class="kw">let </span>seq: Py&lt;PySequence&gt; = PyList::empty(py).as_sequence().into();
             <span class="kw">let </span>seq_ref: <span class="kw-2">&amp;</span>PySequence = seq.as_ref(py);
@@ -1761,8 +1761,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_into_ref() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_ref() {
         Python::with_gil(|py| {
             <span class="kw">let </span>bare_seq = PyList::empty(py).as_sequence();
             <span class="macro">assert_eq!</span>(bare_seq.get_refcnt(), <span class="number">1</span>);
@@ -1775,4 +1775,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

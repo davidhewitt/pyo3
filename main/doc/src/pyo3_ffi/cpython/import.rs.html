@@ -67,8 +67,8 @@
 <span id="67">67</span>
 <span id="68">68</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{PyInterpreterState, PyObject};
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span>std::os::raw::c_uchar;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span>std::os::raw::c_uchar;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
 <span class="comment">// skipped PyInit__imp
@@ -80,10 +80,10 @@
     <span class="kw">pub fn </span>_PyImport_SetModuleString(name: <span class="kw-2">*const </span>c_char, module: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
     <span class="kw">pub fn </span>_PyImport_AcquireLock();
     <span class="kw">pub fn </span>_PyImport_ReleaseLock() -&gt; c_int;
-    <span class="attribute">#[cfg(not(Py_3_9))]</span>
-    <span class="kw">pub fn </span>_PyImport_FindBuiltin(name: <span class="kw-2">*const </span>c_char, modules: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-    <span class="kw">pub fn </span>_PyImport_FindExtensionObject(a: <span class="kw-2">*mut </span>PyObject, b: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(Py_3_9))]
+    </span><span class="kw">pub fn </span>_PyImport_FindBuiltin(name: <span class="kw-2">*const </span>c_char, modules: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(Py_3_11))]
+    </span><span class="kw">pub fn </span>_PyImport_FindExtensionObject(a: <span class="kw-2">*mut </span>PyObject, b: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>_PyImport_FixupBuiltin(
         module: <span class="kw-2">*mut </span>PyObject,
         name: <span class="kw-2">*const </span>c_char,
@@ -97,42 +97,42 @@
     ) -&gt; c_int;
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>_inittab {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>_inittab {
     <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>initfunc: <span class="prelude-ty">Option</span>&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <span class="kw-2">*mut </span>PyObject&gt;,
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyImport_Inittab: <span class="kw-2">*mut </span>_inittab;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyImport_Inittab: <span class="kw-2">*mut </span>_inittab;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyImport_ExtendInittab(newtab: <span class="kw-2">*mut </span>_inittab) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyImport_ExtendInittab(newtab: <span class="kw-2">*mut </span>_inittab) -&gt; c_int;
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>_frozen {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>_frozen {
     <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>code: <span class="kw-2">*const </span>c_uchar,
     <span class="kw">pub </span>size: c_int,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>is_package: c_int,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>get_code: <span class="prelude-ty">Option</span>&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <span class="kw-2">*mut </span>PyObject&gt;,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>is_package: c_int,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>get_code: <span class="prelude-ty">Option</span>&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <span class="kw-2">*mut </span>PyObject&gt;,
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyImport_FrozenModules: <span class="kw-2">*const </span>_frozen;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyImport_FrozenModules: <span class="kw-2">*const </span>_frozen;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

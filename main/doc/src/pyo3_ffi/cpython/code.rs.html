@@ -222,23 +222,23 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 
-<span class="attribute">#[allow(unused_imports)]</span>
-<span class="kw">use </span>std::os::raw::{c_char, c_int, c_uchar, c_void};
+<span class="attribute">#[allow(unused_imports)]
+</span><span class="kw">use </span>std::os::raw::{c_char, c_int, c_uchar, c_void};
 
 <span class="comment">// skipped _Py_CODEUNIT
 // skipped _Py_OPCODE
 // skipped _Py_OPARG
 
-</span><span class="attribute">#[cfg(all(Py_3_8, not(PyPy), not(Py_3_11)))]</span>
-<span class="macro">opaque_struct!</span>(_PyOpcache);
+</span><span class="attribute">#[cfg(all(Py_3_8, not(PyPy), not(Py_3_11)))]
+</span><span class="macro">opaque_struct!</span>(_PyOpcache);
 
-<span class="attribute">#[cfg(all(not(PyPy), not(Py_3_8)))]</span>
-<span class="macro">opaque_struct!</span>(PyCodeObject);
+<span class="attribute">#[cfg(all(not(PyPy), not(Py_3_8)))]
+</span><span class="macro">opaque_struct!</span>(PyCodeObject);
 
-<span class="attribute">#[cfg(all(not(PyPy), Py_3_8, not(Py_3_11)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyCodeObject {
+<span class="attribute">#[cfg(all(not(PyPy), Py_3_8, not(Py_3_11)))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyCodeObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>co_argcount: c_int,
     <span class="kw">pub </span>co_posonlyargcount: c_int,
@@ -256,10 +256,10 @@
     <span class="kw">pub </span>co_cell2arg: <span class="kw-2">*mut </span>Py_ssize_t,
     <span class="kw">pub </span>co_filename: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>co_name: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="kw">pub </span>co_lnotab: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>co_linetable: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(Py_3_10))]
+    </span><span class="kw">pub </span>co_lnotab: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>co_linetable: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>co_zombieframe: <span class="kw-2">*mut </span>c_void,
     <span class="kw">pub </span>co_weakreflist: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>co_extra: <span class="kw-2">*mut </span>c_void,
@@ -269,10 +269,10 @@
     <span class="kw">pub </span>co_opcache_size: c_uchar,
 }
 
-<span class="attribute">#[cfg(all(not(PyPy), Py_3_11))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyCodeObject {
+<span class="attribute">#[cfg(all(not(PyPy), Py_3_11))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyCodeObject {
     <span class="kw">pub </span>ob_base: PyVarObject,
     <span class="kw">pub </span>co_consts: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>co_names: <span class="kw-2">*mut </span>PyObject,
@@ -303,10 +303,10 @@
     <span class="kw">pub </span>co_code_adaptive: [c_char; <span class="number">1</span>],
 }
 
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyCodeObject {
+<span class="attribute">#[cfg(PyPy)]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyCodeObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>co_name: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>co_filename: <span class="kw-2">*mut </span>PyObject,
@@ -346,42 +346,42 @@
 
 </span><span class="kw">pub const </span>CO_MAXBLOCKS: usize = <span class="number">20</span>;
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyCode_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyCode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyCode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyCode_Type)) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(all(not(PyPy), Py_3_10, not(Py_3_11)))]</span>
-<span class="kw">pub unsafe fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+#[cfg(all(not(PyPy), Py_3_10, not(Py_3_11)))]
+</span><span class="kw">pub unsafe fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; Py_ssize_t {
     <span class="kw">crate</span>::PyTuple_GET_SIZE((<span class="kw-2">*</span>op).co_freevars)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(all(not(Py_3_10), Py_3_11, not(PyPy)))]</span>
-<span class="kw">pub unsafe fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(all(not(Py_3_10), Py_3_11, not(PyPy)))]
+</span><span class="kw">pub unsafe fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; c_int {
     (<span class="kw-2">*</span>op).co_nfreevars
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyCode_Check&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyCode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyCode_Check&quot;</span>]
+    </span><span class="kw">pub fn </span>PyCode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyCode_GetNumFree&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyCode_GetNumFree&quot;</span>]
+    </span><span class="kw">pub fn </span>PyCode_GetNumFree(op: <span class="kw-2">*mut </span>PyCodeObject) -&gt; Py_ssize_t;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCode_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCode_New(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCode_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCode_New(
         argcount: c_int,
         kwonlyargcount: c_int,
         nlocals: c_int,
@@ -398,8 +398,8 @@
         firstlineno: c_int,
         lnotab: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub fn </span>PyCode_NewWithPosOnlyArgs(
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub fn </span>PyCode_NewWithPosOnlyArgs(
         argcount: c_int,
         posonlyargcount: c_int,
         kwonlyargcount: c_int,
@@ -417,8 +417,8 @@
         firstlineno: c_int,
         lnotab: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyCodeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCode_NewEmpty&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCode_NewEmpty(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCode_NewEmpty&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCode_NewEmpty(
         filename: <span class="kw-2">*const </span>c_char,
         funcname: <span class="kw-2">*const </span>c_char,
         firstlineno: c_int,
@@ -441,4 +441,4 @@
     <span class="kw">pub fn </span>_PyCode_SetExtra(code: <span class="kw-2">*mut </span>PyObject, index: Py_ssize_t, extra: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

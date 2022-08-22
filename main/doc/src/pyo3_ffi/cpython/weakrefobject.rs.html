@@ -13,20 +13,20 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
-</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub struct </span>_PyWeakReference {
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub struct </span>_PyWeakReference {
     <span class="kw">pub </span>ob_base: <span class="kw">crate</span>::PyObject,
     <span class="kw">pub </span>wr_object: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyObject,
     <span class="kw">pub </span>wr_callback: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyObject,
     <span class="kw">pub </span>hash: <span class="kw">crate</span>::Py_hash_t,
     <span class="kw">pub </span>wr_prev: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyWeakReference,
     <span class="kw">pub </span>wr_next: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyWeakReference,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
 }
 
 <span class="comment">// skipped _PyWeakref_GetWeakrefCount
 // skipped _PyWeakref_ClearRef
 // skipped PyWeakRef_GET_OBJECT
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

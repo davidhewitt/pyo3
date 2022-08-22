@@ -44,17 +44,17 @@
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>_PyManagedBuffer_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>_PyManagedBuffer_Type: PyTypeObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyMemoryView_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyMemoryView_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyMemoryView_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyMemoryView_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyMemoryView_Type)) <span class="kw">as </span>c_int
 }
 
@@ -62,10 +62,10 @@
 // skipped non-limited PyMemeryView_GET_BASE
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_FromObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMemoryView_FromObject(base: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_FromMemory&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMemoryView_FromMemory(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_FromObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMemoryView_FromObject(base: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemoryView_FromMemory&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMemoryView_FromMemory(
         mem: <span class="kw-2">*mut </span>c_char,
         size: Py_ssize_t,
         flags: c_int,
@@ -83,4 +83,4 @@
 be considered public. Don&#39;t access their fields directly, use the macros
 and functions instead! */
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

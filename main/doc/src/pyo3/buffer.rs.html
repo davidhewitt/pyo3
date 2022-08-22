@@ -938,8 +938,8 @@
 <span id="938">938</span>
 <span id="939">939</span>
 <span id="940">940</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(any(not(Py_LIMITED_API), Py_3_11))]</span>
-<span class="comment">// Copyright (c) 2017 Daniel Grunwald
+</pre><pre class="rust"><code><span class="attribute">#![cfg(any(not(Py_LIMITED_API), Py_3_11))]
+</span><span class="comment">// Copyright (c) 2017 Daniel Grunwald
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the &quot;Software&quot;), to deal in the Software
@@ -969,8 +969,8 @@
 
 <span class="doccomment">/// Allows access to the underlying buffer used by a python object such as `bytes`, `bytearray` or `array.array`.
 </span><span class="comment">// use Pin&lt;Box&gt; because Python expects that the Py_buffer struct has a stable memory address
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyBuffer&lt;T&gt;(Pin&lt;Box&lt;ffi::Py_buffer&gt;&gt;, PhantomData&lt;T&gt;);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyBuffer&lt;T&gt;(Pin&lt;Box&lt;ffi::Py_buffer&gt;&gt;, PhantomData&lt;T&gt;);
 
 <span class="comment">// PyBuffer is thread-safe: the shape of the buffer is immutable while a Py_buffer exists.
 // Accessing the buffer contents is protected using the GIL.
@@ -996,8 +996,8 @@
 }
 
 <span class="doccomment">/// Represents the type of a Python buffer element.
-</span><span class="attribute">#[derive(Copy, Clone, Debug, Eq, PartialEq)]</span>
-<span class="kw">pub enum </span>ElementType {
+</span><span class="attribute">#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+</span><span class="kw">pub enum </span>ElementType {
     <span class="doccomment">/// A signed integer type and its width in bytes.
     </span>SignedInteger { bytes: usize },
     <span class="doccomment">/// An unsigned integer type and its width in bytes.
@@ -1092,13 +1092,13 @@
     }
 }
 
-<span class="attribute">#[cfg(target_endian = <span class="string">&quot;little&quot;</span>)]</span>
-<span class="kw">fn </span>is_matching_endian(c: u8) -&gt; bool {
+<span class="attribute">#[cfg(target_endian = <span class="string">&quot;little&quot;</span>)]
+</span><span class="kw">fn </span>is_matching_endian(c: u8) -&gt; bool {
     c == <span class="string">b&#39;@&#39; </span>|| c == <span class="string">b&#39;=&#39; </span>|| c == <span class="string">b&#39;&gt;&#39;
 </span>}
 
-<span class="attribute">#[cfg(target_endian = <span class="string">&quot;big&quot;</span>)]</span>
-<span class="kw">fn </span>is_matching_endian(c: u8) -&gt; bool {
+<span class="attribute">#[cfg(target_endian = <span class="string">&quot;big&quot;</span>)]
+</span><span class="kw">fn </span>is_matching_endian(c: u8) -&gt; bool {
     c == <span class="string">b&#39;@&#39; </span>|| c == <span class="string">b&#39;=&#39; </span>|| c == <span class="string">b&#39;&gt;&#39; </span>|| c == <span class="string">b&#39;!&#39;
 </span>}
 
@@ -1160,8 +1160,8 @@
     ///
     /// Warning: the buffer memory might be mutated by other Python functions,
     /// and thus may only be accessed while the GIL is held.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>buf_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>raw::c_void {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>buf_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>raw::c_void {
         <span class="self">self</span>.<span class="number">0</span>.buf
     }
 
@@ -1175,18 +1175,18 @@
         }
         <span class="kw">unsafe </span>{
             ffi::PyBuffer_GetPointer(
-                <span class="attribute">#[cfg(Py_3_11)]</span>
-                <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
-                <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                {
+                <span class="attribute">#[cfg(Py_3_11)]
+                </span><span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
+                <span class="attribute">#[cfg(not(Py_3_11))]
+                </span>{
                     <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer <span class="kw">as </span><span class="kw-2">*mut </span>ffi::Py_buffer
                 },
-                <span class="attribute">#[cfg(Py_3_11)]</span>
-                {
+                <span class="attribute">#[cfg(Py_3_11)]
+                </span>{
                     indices.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_ssize_t
                 },
-                <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                {
+                <span class="attribute">#[cfg(not(Py_3_11))]
+                </span>{
                     indices.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>ffi::Py_ssize_t
                 },
             )
@@ -1194,37 +1194,37 @@
     }
 
     <span class="doccomment">/// Gets whether the underlying buffer is read-only.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>readonly(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>readonly(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.<span class="number">0</span>.readonly != <span class="number">0
     </span>}
 
     <span class="doccomment">/// Gets the size of a single element, in bytes.
     /// Important exception: when requesting an unformatted buffer, item_size still has the value
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>item_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>item_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.<span class="number">0</span>.itemsize <span class="kw">as </span>usize
     }
 
     <span class="doccomment">/// Gets the total number of items.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>item_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>item_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         (<span class="self">self</span>.<span class="number">0</span>.len <span class="kw">as </span>usize) / (<span class="self">self</span>.<span class="number">0</span>.itemsize <span class="kw">as </span>usize)
     }
 
     <span class="doccomment">/// `item_size() * item_count()`.
     /// For contiguous arrays, this is the length of the underlying memory block.
     /// For non-contiguous arrays, it is the length that the logical structure would have if it were copied to a contiguous representation.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>len_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>len_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.<span class="number">0</span>.len <span class="kw">as </span>usize
     }
 
     <span class="doccomment">/// Gets the number of dimensions.
     ///
     /// May be 0 to indicate a single scalar value.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>dimensions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>dimensions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.<span class="number">0</span>.ndim <span class="kw">as </span>usize
     }
 
@@ -1235,8 +1235,8 @@
     ///
     /// Despite Python using an array of signed integers, the values are guaranteed to be non-negative.
     /// However, dimensions of length 0 are possible and might need special attention.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>shape(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[usize] {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>shape(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[usize] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.<span class="number">0</span>.shape <span class="kw">as </span><span class="kw-2">*const </span>usize, <span class="self">self</span>.<span class="number">0</span>.ndim <span class="kw">as </span>usize) }
     }
 
@@ -1244,8 +1244,8 @@
     ///
     /// Stride values can be any integer. For regular arrays, strides are usually positive,
     /// but a consumer MUST be able to handle the case `strides[n] &lt;= 0`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>strides(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[isize] {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>strides(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[isize] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.<span class="number">0</span>.strides, <span class="self">self</span>.<span class="number">0</span>.ndim <span class="kw">as </span>usize) }
     }
 
@@ -1254,8 +1254,8 @@
     /// A suboffset value that is negative indicates that no de-referencing should occur (striding in a contiguous memory block).
     ///
     /// If all suboffsets are negative (i.e. no de-referencing is needed), then this field must be NULL (the default value).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>suboffsets(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[isize]&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>suboffsets(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[isize]&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">if </span><span class="self">self</span>.<span class="number">0</span>.suboffsets.is_null() {
                 <span class="prelude-val">None
@@ -1269,8 +1269,8 @@
     }
 
     <span class="doccomment">/// A NUL terminated string in struct module style syntax describing the contents of a single item.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>format(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CStr {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>format(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CStr {
         <span class="kw">if </span><span class="self">self</span>.<span class="number">0</span>.format.is_null() {
             CStr::from_bytes_with_nul(<span class="string">b&quot;B\0&quot;</span>).unwrap()
         } <span class="kw">else </span>{
@@ -1279,8 +1279,8 @@
     }
 
     <span class="doccomment">/// Gets whether the buffer is contiguous in C-style order (last index varies fastest when visiting items in order of memory address).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_c_contiguous(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_c_contiguous(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">unsafe </span>{
             ffi::PyBuffer_IsContiguous(
                 <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer,
@@ -1290,8 +1290,8 @@
     }
 
     <span class="doccomment">/// Gets whether the buffer is contiguous in Fortran-style order (first index varies fastest when visiting items in order of memory address).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_fortran_contiguous(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_fortran_contiguous(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">unsafe </span>{
             ffi::PyBuffer_IsContiguous(
                 <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer,
@@ -1429,10 +1429,10 @@
                 py,
                 ffi::PyBuffer_ToContiguous(
                     target.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>raw::c_void,
-                    <span class="attribute">#[cfg(Py_3_11)]</span>
-                    <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
-                    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                    {
+                    <span class="attribute">#[cfg(Py_3_11)]
+                    </span><span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
+                    <span class="attribute">#[cfg(not(Py_3_11))]
+                    </span>{
                         <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer <span class="kw">as </span><span class="kw-2">*mut </span>ffi::Py_buffer
                     },
                     <span class="self">self</span>.<span class="number">0</span>.len,
@@ -1468,10 +1468,10 @@
                 py,
                 ffi::PyBuffer_ToContiguous(
                     vec.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>raw::c_void,
-                    <span class="attribute">#[cfg(Py_3_11)]</span>
-                    <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
-                    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                    {
+                    <span class="attribute">#[cfg(Py_3_11)]
+                    </span><span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
+                    <span class="attribute">#[cfg(not(Py_3_11))]
+                    </span>{
                         <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer <span class="kw">as </span><span class="kw-2">*mut </span>ffi::Py_buffer
                     },
                     <span class="self">self</span>.<span class="number">0</span>.len,
@@ -1526,18 +1526,18 @@
             err::error_on_minusone(
                 py,
                 ffi::PyBuffer_FromContiguous(
-                    <span class="attribute">#[cfg(Py_3_11)]</span>
-                    <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
-                    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                    {
+                    <span class="attribute">#[cfg(Py_3_11)]
+                    </span><span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>,
+                    <span class="attribute">#[cfg(not(Py_3_11))]
+                    </span>{
                         <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>ffi::Py_buffer <span class="kw">as </span><span class="kw-2">*mut </span>ffi::Py_buffer
                     },
-                    <span class="attribute">#[cfg(Py_3_11)]</span>
-                    {
+                    <span class="attribute">#[cfg(Py_3_11)]
+                    </span>{
                         source.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>raw::c_void
                     },
-                    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-                    {
+                    <span class="attribute">#[cfg(not(Py_3_11))]
+                    </span>{
                         source.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>raw::c_void
                     },
                     <span class="self">self</span>.<span class="number">0</span>.len,
@@ -1575,24 +1575,24 @@
 /// `&amp;ReadOnlyCell&lt;T&gt;` is basically a safe version of `*const T`:
 ///  The data cannot be modified through the reference, but other references may
 ///  be modifying the data.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>ReadOnlyCell&lt;T: Element&gt;(cell::UnsafeCell&lt;T&gt;);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>ReadOnlyCell&lt;T: Element&gt;(cell::UnsafeCell&lt;T&gt;);
 
 <span class="kw">impl</span>&lt;T: Element&gt; ReadOnlyCell&lt;T&gt; {
     <span class="doccomment">/// Returns a copy of the current value.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; T {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; T {
         <span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.get() }
     }
 
     <span class="doccomment">/// Returns a pointer to the current value.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>T {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>T {
         <span class="self">self</span>.<span class="number">0</span>.get()
     }
 }
 
-<span class="macro">macro_rules!</span> impl_element(
+<span class="macro">macro_rules! </span>impl_element(
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$f</span>:ident) =&gt; {
         <span class="kw">unsafe impl </span>Element <span class="kw">for </span><span class="macro-nonterminal">$t </span>{
             <span class="kw">fn </span>is_compatible_format(format: <span class="kw-2">&amp;</span>CStr) -&gt; bool {
@@ -1619,14 +1619,14 @@
 <span class="macro">impl_element!</span>(f32, Float);
 <span class="macro">impl_element!</span>(f64, Float);
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::PyBuffer;
     <span class="kw">use </span><span class="kw">crate</span>::ffi;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_debug() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_debug() {
         Python::with_gil(|py| {
             <span class="kw">let </span>bytes = py.eval(<span class="string">&quot;b&#39;abcde&#39;&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>buffer: PyBuffer&lt;u8&gt; = PyBuffer::get(bytes).unwrap();
@@ -1650,8 +1650,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_element_type_from_format() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_element_type_from_format() {
         <span class="kw">use </span><span class="kw">super</span>::ElementType;
         <span class="kw">use </span><span class="kw">super</span>::ElementType::<span class="kw-2">*</span>;
         <span class="kw">use </span>std::ffi::CStr;
@@ -1779,8 +1779,8 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_compatible_size() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_compatible_size() {
         <span class="comment">// for the cast in PyBuffer::shape()
         </span><span class="macro">assert_eq!</span>(
             std::mem::size_of::&lt;ffi::Py_ssize_t&gt;(),
@@ -1788,8 +1788,8 @@
         );
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_bytes_buffer() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_bytes_buffer() {
         Python::with_gil(|py| {
             <span class="kw">let </span>bytes = py.eval(<span class="string">&quot;b&#39;abcde&#39;&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>buffer = PyBuffer::get(bytes).unwrap();
@@ -1820,8 +1820,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_array_buffer() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_array_buffer() {
         Python::with_gil(|py| {
             <span class="kw">let </span>array = py
                 .import(<span class="string">&quot;array&quot;</span>)
@@ -1879,4 +1879,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

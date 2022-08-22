@@ -16,17 +16,17 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRange_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyRange_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRange_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyRange_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyRangeIter_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyLongRangeIter_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyRange_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyRange_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyRange_Type)) <span class="kw">as </span>c_int
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

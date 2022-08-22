@@ -369,10 +369,10 @@
 <span id="369">369</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
-</span><span class="macro">macro_rules!</span> py_unary_func {
+</span><span class="macro">macro_rules! </span>py_unary_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident, <span class="macro-nonterminal">$call</span>:ident, <span class="macro-nonterminal">$ret_type</span>: ty) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>) -&gt; <span class="macro-nonterminal">$ret_type
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>) -&gt; <span class="macro-nonterminal">$ret_type
         </span><span class="kw">where
             </span>T: <span class="kw">for</span>&lt;<span class="lifetime">&#39;p</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>&lt;<span class="lifetime">&#39;p</span>&gt;,
         {
@@ -397,10 +397,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_unarys_func {
+<span class="macro">macro_rules! </span>py_unarys_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
         </span><span class="kw">where
@@ -418,17 +418,17 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_len_func {
+<span class="macro">macro_rules! </span>py_len_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
         <span class="macro">py_unary_func!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$</span><span class="kw">trait</span>, <span class="macro-nonterminal">$class</span>::<span class="macro-nonterminal">$f</span>, <span class="macro-nonterminal">$crate::ffi::Py_ssize_t</span>);
     };
 }
 
-<span class="macro">macro_rules!</span> py_binary_func {
+<span class="macro">macro_rules! </span>py_binary_func {
     <span class="comment">// Use call_ref! by default
     </span>(<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">return</span>:<span class="macro-nonterminal">ty</span>, <span class="macro-nonterminal">$call</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             arg: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="macro-nonterminal">$</span><span class="kw">return
@@ -450,10 +450,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_binary_num_func {
+<span class="macro">macro_rules! </span>py_binary_num_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             lhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             rhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
@@ -469,10 +469,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_binary_reversed_num_func {
+<span class="macro">macro_rules! </span>py_binary_reversed_num_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             lhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             rhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
@@ -489,10 +489,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_binary_fallback_num_func {
+<span class="macro">macro_rules! </span>py_binary_fallback_num_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$class</span>:ident, <span class="macro-nonterminal">$lop_trait</span>: ident :: <span class="macro-nonterminal">$lop</span>: ident, <span class="macro-nonterminal">$rop_trait</span>: ident :: <span class="macro-nonterminal">$rop</span>: ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             lhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             rhs: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
@@ -518,10 +518,10 @@
 }
 
 <span class="comment">// NOTE(kngwyu): This macro is used only for inplace operations, so I used call_mut here.
-</span><span class="macro">macro_rules!</span> py_binary_self_func {
+</span><span class="macro">macro_rules! </span>py_binary_self_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             arg: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
@@ -539,14 +539,14 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_ssizearg_func {
+<span class="macro">macro_rules! </span>py_ssizearg_func {
     <span class="comment">// Use call_ref! by default
     </span>(<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident) =&gt; {
         <span class="macro">py_ssizearg_func!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$</span><span class="kw">trait</span>, <span class="macro-nonterminal">$class</span>::<span class="macro-nonterminal">$f</span>, call_ref);
     };
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident, <span class="macro-nonterminal">$call</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             arg: <span class="macro-nonterminal">$crate::ffi::Py_ssize_t</span>,
         ) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject
@@ -561,10 +561,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_ternarys_func {
+<span class="macro">macro_rules! </span>py_ternarys_func {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$f</span>:ident, <span class="macro-nonterminal">$return_type</span>:ty) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             arg1: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             arg2: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -593,10 +593,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_func_set {
+<span class="macro">macro_rules! </span>py_func_set {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$trait_name</span>:ident, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$fn_set</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             name: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             value: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -622,10 +622,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_func_del {
+<span class="macro">macro_rules! </span>py_func_del {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$trait_name</span>:ident, <span class="macro-nonterminal">$class</span>:ident :: <span class="macro-nonterminal">$fn_del</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             name: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             value: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -650,10 +650,10 @@
     };
 }
 
-<span class="macro">macro_rules!</span> py_func_set_del {
+<span class="macro">macro_rules! </span>py_func_set_del {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$trait1</span>:ident, <span class="macro-nonterminal">$trait2</span>:ident, <span class="macro-nonterminal">$class</span>:ident, <span class="macro-nonterminal">$fn_set</span>:ident, <span class="macro-nonterminal">$fn_del</span>:ident) =&gt; {
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>&lt;T&gt;(
             slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             name: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
             value: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -676,7 +676,7 @@
     };
 }
 
-<span class="macro">macro_rules!</span> extract_or_return_not_implemented {
+<span class="macro">macro_rules! </span>extract_or_return_not_implemented {
     (<span class="macro-nonterminal">$arg</span>: ident) =&gt; {
         <span class="kw">match </span><span class="macro-nonterminal">$arg</span>.extract() {
             <span class="prelude-val">Ok</span>(value) =&gt; value,
@@ -698,7 +698,7 @@
     };
 }
 
-<span class="macro">macro_rules!</span> _call_impl {
+<span class="macro">macro_rules! </span>_call_impl {
     (<span class="macro-nonterminal">$slf</span>: expr, <span class="macro-nonterminal">$</span><span class="kw">fn</span>: <span class="macro-nonterminal">ident </span>$(; <span class="macro-nonterminal">$args</span>: expr)<span class="kw-2">*</span>) =&gt; {
         <span class="macro-nonterminal">$slf</span>.<span class="macro-nonterminal">$</span><span class="kw">fn</span>($(<span class="macro-nonterminal">$args</span>,)<span class="kw-2">*</span>)
     };
@@ -718,23 +718,23 @@
 }
 
 <span class="doccomment">/// Call `slf.try_borrow()?.$fn(...)`
-</span><span class="macro">macro_rules!</span> call_ref {
+</span><span class="macro">macro_rules! </span>call_ref {
     (<span class="macro-nonterminal">$slf</span>: expr, <span class="macro-nonterminal">$</span><span class="kw">fn</span>: <span class="macro-nonterminal">ident </span>$(,<span class="macro-nonterminal">$raw_args</span>: expr)* $(; <span class="macro-nonterminal">$args</span>: expr)<span class="kw-2">*</span>) =&gt; {
         <span class="macro">_call_impl!</span>(<span class="macro-nonterminal">$slf</span>.try_borrow()<span class="question-mark">?</span>, <span class="macro-nonterminal">$</span><span class="kw">fn </span>$(,<span class="macro-nonterminal">$raw_args</span>)* $(;<span class="macro-nonterminal">$args</span>)<span class="kw-2">*</span>)
     };
 }
 
 <span class="doccomment">/// Call `slf.try_borrow_mut()?.$fn(...)`
-</span><span class="macro">macro_rules!</span> call_mut {
+</span><span class="macro">macro_rules! </span>call_mut {
     (<span class="macro-nonterminal">$slf</span>: expr, <span class="macro-nonterminal">$</span><span class="kw">fn</span>: <span class="macro-nonterminal">ident </span>$(,<span class="macro-nonterminal">$raw_args</span>: expr)* $(; <span class="macro-nonterminal">$args</span>: expr)<span class="kw-2">*</span>) =&gt; {
         <span class="macro">_call_impl!</span>(<span class="macro-nonterminal">$slf</span>.try_borrow_mut()<span class="question-mark">?</span>, <span class="macro-nonterminal">$</span><span class="kw">fn </span>$(,<span class="macro-nonterminal">$raw_args</span>)* $(;<span class="macro-nonterminal">$args</span>)<span class="kw-2">*</span>)
     };
 }
 
-<span class="macro">macro_rules!</span> call_operator_mut {
+<span class="macro">macro_rules! </span>call_operator_mut {
     (<span class="macro-nonterminal">$py</span>:ident, <span class="macro-nonterminal">$slf</span>: expr, <span class="macro-nonterminal">$</span><span class="kw">fn</span>: <span class="macro-nonterminal">ident </span>$(,<span class="macro-nonterminal">$raw_args</span>: expr)* $(; <span class="macro-nonterminal">$args</span>: expr)<span class="kw-2">*</span>) =&gt; {
         <span class="macro">_call_impl!</span>(op <span class="macro-nonterminal">$py</span>; <span class="macro-nonterminal">$slf</span>.try_borrow_mut()<span class="question-mark">?</span>, <span class="macro-nonterminal">$</span><span class="kw">fn </span>$(,<span class="macro-nonterminal">$raw_args</span>)* $(;<span class="macro-nonterminal">$args</span>)<span class="kw-2">*</span>)
     };
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

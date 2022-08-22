@@ -218,16 +218,16 @@
 <span id="218">218</span>
 <span id="219">219</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::types::PyString;
-<span class="attribute">#[cfg(windows)]</span>
-<span class="kw">use </span><span class="kw">crate</span>::PyErr;
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span><span class="kw">crate</span>::PyErr;
 <span class="kw">use crate</span>::{
     ffi, AsPyPointer, FromPyObject, IntoPy, PyAny, PyObject, PyResult, PyTryFrom, Python,
     ToPyObject,
 };
 <span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ffi::{OsStr, OsString};
-<span class="attribute">#[cfg(not(windows))]</span>
-<span class="kw">use </span>std::os::raw::c_char;
+<span class="attribute">#[cfg(not(windows))]
+</span><span class="kw">use </span>std::os::raw::c_char;
 
 <span class="kw">impl </span>ToPyObject <span class="kw">for </span>OsStr {
     <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
@@ -238,12 +238,12 @@
 
         <span class="comment">// All targets besides windows support the std::os::unix::ffi::OsStrExt API:
         // https://doc.rust-lang.org/src/std/sys_common/mod.rs.html#59
-        </span><span class="attribute">#[cfg(not(windows))]</span>
-        {
-            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]</span>
-            <span class="kw">let </span>bytes = std::os::wasi::ffi::OsStrExt::as_bytes(<span class="self">self</span>);
-            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]</span>
-            <span class="kw">let </span>bytes = std::os::unix::ffi::OsStrExt::as_bytes(<span class="self">self</span>);
+        </span><span class="attribute">#[cfg(not(windows))]
+        </span>{
+            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+            </span><span class="kw">let </span>bytes = std::os::wasi::ffi::OsStrExt::as_bytes(<span class="self">self</span>);
+            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]
+            </span><span class="kw">let </span>bytes = std::os::unix::ffi::OsStrExt::as_bytes(<span class="self">self</span>);
 
             <span class="kw">let </span>ptr = bytes.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char;
             <span class="kw">let </span>len = bytes.len() <span class="kw">as </span>ffi::Py_ssize_t;
@@ -255,8 +255,8 @@
             }
         }
 
-        <span class="attribute">#[cfg(windows)]</span>
-        {
+        <span class="attribute">#[cfg(windows)]
+        </span>{
             <span class="kw">let </span>wstr: Vec&lt;u16&gt; = std::os::windows::ffi::OsStrExt::encode_wide(<span class="self">self</span>).collect();
 
             <span class="kw">unsafe </span>{
@@ -278,8 +278,8 @@
     <span class="kw">fn </span>extract(ob: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>pystring = &lt;PyString <span class="kw">as </span>PyTryFrom&gt;::try_from(ob)<span class="question-mark">?</span>; <span class="comment">// Cast PyAny to PyString
 
-        </span><span class="attribute">#[cfg(not(windows))]</span>
-        {
+        </span><span class="attribute">#[cfg(not(windows))]
+        </span>{
             <span class="comment">// Decode from Python&#39;s lossless bytes string representation back into raw bytes
             </span><span class="kw">let </span>fs_encoded_bytes = <span class="kw">unsafe </span>{
                 <span class="kw">crate</span>::Py::&lt;<span class="kw">crate</span>::types::PyBytes&gt;::from_owned_ptr(
@@ -289,20 +289,20 @@
             };
 
             <span class="comment">// Create an OsStr view into the raw bytes from Python
-            </span><span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]</span>
-            <span class="kw">let </span>os_str: <span class="kw-2">&amp;</span>OsStr = std::os::wasi::ffi::OsStrExt::from_bytes(
+            </span><span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+            </span><span class="kw">let </span>os_str: <span class="kw-2">&amp;</span>OsStr = std::os::wasi::ffi::OsStrExt::from_bytes(
                 fs_encoded_bytes.as_ref(ob.py()).as_bytes(),
             );
-            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]</span>
-            <span class="kw">let </span>os_str: <span class="kw-2">&amp;</span>OsStr = std::os::unix::ffi::OsStrExt::from_bytes(
+            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]
+            </span><span class="kw">let </span>os_str: <span class="kw-2">&amp;</span>OsStr = std::os::unix::ffi::OsStrExt::from_bytes(
                 fs_encoded_bytes.as_ref(ob.py()).as_bytes(),
             );
 
             <span class="prelude-val">Ok</span>(os_str.to_os_string())
         }
 
-        <span class="attribute">#[cfg(windows)]</span>
-        {
+        <span class="attribute">#[cfg(windows)]
+        </span>{
             <span class="comment">// Take the quick and easy shortcut if UTF-8
             </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(utf8_string) = pystring.to_str() {
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(utf8_string.to_owned().into());
@@ -330,29 +330,29 @@
 }
 
 <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>OsStr {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.to_object(py)
     }
 }
 
 <span class="kw">impl </span>ToPyObject <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, OsStr&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         (<span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span>OsStr).to_object(py)
     }
 }
 
 <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, OsStr&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.to_object(py)
     }
 }
 
 <span class="kw">impl </span>ToPyObject <span class="kw">for </span>OsString {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         (<span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span>OsStr).to_object(py)
     }
 }
@@ -369,8 +369,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{types::PyString, IntoPy, PyObject, Python, ToPyObject};
     <span class="kw">use </span>std::fmt::Debug;
     <span class="kw">use </span>std::{
@@ -378,14 +378,14 @@
         ffi::{OsStr, OsString},
     };
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(windows))]</span>
-    <span class="kw">fn </span>test_non_utf8_conversion() {
+    <span class="attribute">#[test]
+    #[cfg(not(windows))]
+    </span><span class="kw">fn </span>test_non_utf8_conversion() {
         Python::with_gil(|py| {
-            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]</span>
-            <span class="kw">use </span>std::os::unix::ffi::OsStrExt;
-            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]</span>
-            <span class="kw">use </span>std::os::wasi::ffi::OsStrExt;
+            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]
+            </span><span class="kw">use </span>std::os::unix::ffi::OsStrExt;
+            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+            </span><span class="kw">use </span>std::os::wasi::ffi::OsStrExt;
 
             <span class="comment">// this is not valid UTF-8
             </span><span class="kw">let </span>payload = <span class="kw-2">&amp;</span>[<span class="number">250</span>, <span class="number">251</span>, <span class="number">252</span>, <span class="number">253</span>, <span class="number">254</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>];
@@ -398,8 +398,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_topyobject_roundtrip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_topyobject_roundtrip() {
         Python::with_gil(|py| {
             <span class="kw">fn </span>test_roundtrip&lt;T: ToPyObject + AsRef&lt;OsStr&gt; + Debug&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, obj: T) {
                 <span class="kw">let </span>pyobject = obj.to_object(py);
@@ -416,8 +416,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_intopy_roundtrip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_intopy_roundtrip() {
         Python::with_gil(|py| {
             <span class="kw">fn </span>test_roundtrip&lt;T: IntoPy&lt;PyObject&gt; + AsRef&lt;OsStr&gt; + Debug + Clone&gt;(
                 py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
@@ -437,4 +437,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

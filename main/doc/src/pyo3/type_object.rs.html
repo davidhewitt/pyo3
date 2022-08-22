@@ -361,15 +361,15 @@
 </span><span class="attribute">#[deprecated(
     since = <span class="string">&quot;0.17.0&quot;</span>,
     note = <span class="string">&quot;PyTypeObject::type_object was moved to PyTypeInfo::type_object&quot;
-</span>)]</span>
-<span class="kw">pub unsafe trait </span>PyTypeObject: PyTypeInfo {}
+</span>)]
+</span><span class="kw">pub unsafe trait </span>PyTypeObject: PyTypeInfo {}
 
-<span class="attribute">#[allow(deprecated)]</span>
-<span class="kw">unsafe impl</span>&lt;T: PyTypeInfo&gt; PyTypeObject <span class="kw">for </span>T {}
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">unsafe impl</span>&lt;T: PyTypeInfo&gt; PyTypeObject <span class="kw">for </span>T {}
 
 <span class="doccomment">/// Lazy type object for PyClass.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub struct </span>LazyStaticType {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub struct </span>LazyStaticType {
     <span class="comment">// Boxed because Python expects the type object to have a stable address.
     </span>value: GILOnceCell&lt;<span class="kw-2">*mut </span>ffi::PyTypeObject&gt;,
     <span class="comment">// Threads which have begun initialization of the `tp_dict`. Used for
@@ -516,40 +516,40 @@
 <span class="comment">// This is necessary for making static `LazyStaticType`s
 </span><span class="kw">unsafe impl </span>Sync <span class="kw">for </span>LazyStaticType {}
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_tp_alloc(tp: <span class="kw-2">*mut </span>ffi::PyTypeObject) -&gt; <span class="prelude-ty">Option</span>&lt;ffi::allocfunc&gt; {
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    {
+<span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_tp_alloc(tp: <span class="kw-2">*mut </span>ffi::PyTypeObject) -&gt; <span class="prelude-ty">Option</span>&lt;ffi::allocfunc&gt; {
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span>{
         (<span class="kw-2">*</span>tp).tp_alloc
     }
 
-    <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-    {
+    <span class="attribute">#[cfg(Py_LIMITED_API)]
+    </span>{
         <span class="kw">let </span>ptr = ffi::PyType_GetSlot(tp, ffi::Py_tp_alloc);
         std::mem::transmute(ptr)
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_tp_free(tp: <span class="kw-2">*mut </span>ffi::PyTypeObject) -&gt; ffi::freefunc {
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    {
+<span class="attribute">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_tp_free(tp: <span class="kw-2">*mut </span>ffi::PyTypeObject) -&gt; ffi::freefunc {
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span>{
         (<span class="kw-2">*</span>tp).tp_free.unwrap()
     }
 
-    <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-    {
+    <span class="attribute">#[cfg(Py_LIMITED_API)]
+    </span>{
         <span class="kw">let </span>ptr = ffi::PyType_GetSlot(tp, ffi::Py_tp_free);
         <span class="macro">debug_assert_ne!</span>(ptr, std::ptr::null_mut());
         std::mem::transmute(ptr)
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[allow(deprecated)]</span>
-    <span class="kw">fn </span>test_deprecated_type_object() {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="attribute">#[test]
+    #[allow(deprecated)]
+    </span><span class="kw">fn </span>test_deprecated_type_object() {
         <span class="comment">// Even though PyTypeObject is deprecated, simple usages of it as a trait bound should continue to work.
         </span><span class="kw">use </span><span class="kw">super</span>::PyTypeObject;
         <span class="kw">use </span><span class="kw">crate</span>::types::{PyList, PyType};
@@ -565,4 +565,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

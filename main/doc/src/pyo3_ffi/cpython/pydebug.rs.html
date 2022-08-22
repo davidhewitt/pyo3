@@ -37,40 +37,40 @@
 <span id="37">37</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DebugFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_DebugFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_VerboseFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_VerboseFlag: c_int;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DebugFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_DebugFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_VerboseFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_VerboseFlag: c_int;
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_QuietFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_InteractiveFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_InteractiveFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_InspectFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_InspectFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_OptimizeFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_OptimizeFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_NoSiteFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_NoSiteFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_BytesWarningFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_BytesWarningFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_UseClassExceptionsFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_UseClassExceptionsFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_FrozenFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_FrozenFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IgnoreEnvironmentFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_IgnoreEnvironmentFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DontWriteBytecodeFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_DontWriteBytecodeFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_NoUserSiteDirectory&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_NoUserSiteDirectory: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_InteractiveFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_InteractiveFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_InspectFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_InspectFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_OptimizeFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_OptimizeFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_NoSiteFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_NoSiteFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_BytesWarningFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_BytesWarningFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_UseClassExceptionsFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_UseClassExceptionsFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_FrozenFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_FrozenFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IgnoreEnvironmentFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_IgnoreEnvironmentFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DontWriteBytecodeFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_DontWriteBytecodeFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_NoUserSiteDirectory&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_NoUserSiteDirectory: c_int;
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_UnbufferedStdioFlag: c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_HashRandomizationFlag&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_HashRandomizationFlag: c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_HashRandomizationFlag&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_HashRandomizationFlag: c_int;
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_IsolatedFlag: c_int;
-    <span class="attribute">#[cfg(windows)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>Py_LegacyWindowsStdioFlag: c_int;
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>Py_LegacyWindowsStdioFlag: c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

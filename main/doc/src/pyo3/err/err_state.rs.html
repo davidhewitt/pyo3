@@ -101,8 +101,8 @@
     AsPyPointer, IntoPy, IntoPyPointer, Py, PyObject, PyTypeInfo, Python,
 };
 
-<span class="attribute">#[derive(Clone)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PyErrStateNormalized {
+<span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PyErrStateNormalized {
     <span class="kw">pub </span>ptype: Py&lt;PyType&gt;,
     <span class="kw">pub </span>pvalue: Py&lt;PyBaseException&gt;,
     <span class="kw">pub </span>ptraceback: <span class="prelude-ty">Option</span>&lt;Py&lt;PyTraceback&gt;&gt;,
@@ -182,8 +182,8 @@
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>exceptions_must_derive_from_base_exception(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>exceptions_must_derive_from_base_exception(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
         PyErrState::LazyValue {
             ptype: PyTypeError::type_object(py).into(),
             pvalue: boxed_args(<span class="string">&quot;exceptions must derive from BaseException&quot;</span>),
@@ -191,4 +191,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

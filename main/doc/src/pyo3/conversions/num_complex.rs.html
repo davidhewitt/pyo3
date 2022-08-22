@@ -198,9 +198,9 @@
 <span id="198">198</span>
 <span id="199">199</span>
 <span id="200">200</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;num-complex&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;num-complex&quot;</span>)]
 
-<span class="doccomment">//!  Conversions to and from [num-complex](https://docs.rs/num-complex)’
+</span><span class="doccomment">//!  Conversions to and from [num-complex](https://docs.rs/num-complex)’
 //! [`Complex`]`&lt;`[`f32`]`&gt;` and [`Complex`]`&lt;`[`f64`]`&gt;`.
 //!
 //! num-complex’ [`Complex`] supports more operations than PyO3&#39;s [`PyComplex`]
@@ -215,12 +215,12 @@
 //! # change * to the latest versions
 //! num-complex = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;num-complex\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;num-complex\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;num-complex\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of num-complex and PyO3.
 //! The required num-complex version may vary based on the version of PyO3.
@@ -315,18 +315,18 @@
     }
 }
 
-<span class="macro">macro_rules!</span> complex_conversion {
+<span class="macro">macro_rules! </span>complex_conversion {
     (<span class="macro-nonterminal">$float</span>: ty) =&gt; {
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]</span>
-        <span class="kw">impl </span>ToPyObject <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]
+        </span><span class="kw">impl </span>ToPyObject <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="kw">crate</span>::IntoPy::&lt;PyObject&gt;::into_py(<span class="self">self</span>.to_owned(), py)
             }
         }
 
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]</span>
-        <span class="kw">impl </span><span class="kw">crate</span>::IntoPy&lt;PyObject&gt; <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]
+        </span><span class="kw">impl </span><span class="kw">crate</span>::IntoPy&lt;PyObject&gt; <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
             <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>raw_obj =
@@ -336,11 +336,11 @@
             }
         }
 
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]</span>
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;source</span>&gt; FromPyObject&lt;<span class="lifetime">&#39;source</span>&gt; <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-complex&quot;</span>)))]
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;source</span>&gt; FromPyObject&lt;<span class="lifetime">&#39;source</span>&gt; <span class="kw">for </span>Complex&lt;<span class="macro-nonterminal">$float</span>&gt; {
             <span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;source </span>PyAny) -&gt; PyResult&lt;Complex&lt;<span class="macro-nonterminal">$float</span>&gt;&gt; {
-                <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-                <span class="kw">unsafe </span>{
+                <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+                </span><span class="kw">unsafe </span>{
                     <span class="kw">let </span>val = ffi::PyComplex_AsCComplex(obj.as_ptr());
                     <span class="kw">if </span>val.real == -<span class="number">1.0 </span>{
                         <span class="kw">if let </span><span class="prelude-val">Some</span>(err) = PyErr::take(obj.py()) {
@@ -350,8 +350,8 @@
                     <span class="prelude-val">Ok</span>(Complex::new(val.real <span class="kw">as </span><span class="macro-nonterminal">$float</span>, val.imag <span class="kw">as </span><span class="macro-nonterminal">$float</span>))
                 }
 
-                <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-                <span class="kw">unsafe </span>{
+                <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+                </span><span class="kw">unsafe </span>{
                     <span class="kw">let </span>ptr = obj.as_ptr();
                     <span class="kw">let </span>real = ffi::PyComplex_RealAsDouble(ptr);
                     <span class="kw">if </span>real == -<span class="number">1.0 </span>{
@@ -369,12 +369,12 @@
 <span class="macro">complex_conversion!</span>(f32);
 <span class="macro">complex_conversion!</span>(f64);
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>from_complex() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>from_complex() {
         Python::with_gil(|py| {
             <span class="kw">let </span>complex = Complex::new(<span class="number">3.0</span>, <span class="number">1.2</span>);
             <span class="kw">let </span>py_c = PyComplex::from_complex(py, complex);
@@ -382,16 +382,16 @@
             <span class="macro">assert_eq!</span>(py_c.imag(), <span class="number">1.2</span>);
         });
     }
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>to_from_complex() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>to_from_complex() {
         Python::with_gil(|py| {
             <span class="kw">let </span>val = Complex::new(<span class="number">3.0</span>, <span class="number">1.2</span>);
             <span class="kw">let </span>obj = val.to_object(py);
             <span class="macro">assert_eq!</span>(obj.extract::&lt;Complex&lt;f64&gt;&gt;(py).unwrap(), val);
         });
     }
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>from_complex_err() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>from_complex_err() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = <span class="macro">vec!</span>[<span class="number">1</span>].to_object(py);
             <span class="macro">assert!</span>(obj.extract::&lt;Complex&lt;f64&gt;&gt;(py).is_err());
@@ -399,4 +399,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

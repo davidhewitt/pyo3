@@ -563,48 +563,48 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_uint, c_ulong, c_void};
 <span class="kw">use </span>std::ptr;
 
-<span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-<span class="macro">opaque_struct!</span>(PyTypeObject);
+<span class="attribute">#[cfg(Py_LIMITED_API)]
+</span><span class="macro">opaque_struct!</span>(PyTypeObject);
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub use </span><span class="kw">crate</span>::cpython::object::PyTypeObject;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::cpython::object::PyTypeObject;
 
 <span class="comment">// _PyObject_HEAD_EXTRA: conditionally defined in PyObject_HEAD_INIT
 // _PyObject_EXTRA_INIT: conditionally defined in PyObject_HEAD_INIT
 
 </span><span class="kw">pub const </span>PyObject_HEAD_INIT: PyObject = PyObject {
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    _ob_next: std::ptr::null_mut(),
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    _ob_prev: std::ptr::null_mut(),
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span>_ob_next: std::ptr::null_mut(),
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span>_ob_prev: std::ptr::null_mut(),
     ob_refcnt: <span class="number">1</span>,
-    <span class="attribute">#[cfg(PyPy)]</span>
-    ob_pypy_link: <span class="number">0</span>,
+    <span class="attribute">#[cfg(PyPy)]
+    </span>ob_pypy_link: <span class="number">0</span>,
     ob_type: std::ptr::null_mut(),
 };
 
 <span class="comment">// skipped PyObject_VAR_HEAD
 // skipped Py_INVALID_SIZE
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone, Debug)]</span>
-<span class="kw">pub struct </span>PyObject {
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    <span class="kw">pub </span>_ob_next: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    <span class="kw">pub </span>_ob_prev: <span class="kw-2">*mut </span>PyObject,
+</span><span class="attribute">#[repr(C)]
+#[derive(Copy, Clone, Debug)]
+</span><span class="kw">pub struct </span>PyObject {
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span><span class="kw">pub </span>_ob_next: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span><span class="kw">pub </span>_ob_prev: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>ob_refcnt: Py_ssize_t,
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="kw">pub </span>ob_pypy_link: Py_ssize_t,
+    <span class="attribute">#[cfg(PyPy)]
+    </span><span class="kw">pub </span>ob_pypy_link: Py_ssize_t,
     <span class="kw">pub </span>ob_type: <span class="kw-2">*mut </span>PyTypeObject,
 }
 
 <span class="comment">// skipped _PyObject_CAST
 // skipped _PyObject_CAST_CONST
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug, Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyVarObject {
+</span><span class="attribute">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+</span><span class="kw">pub struct </span>PyVarObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>ob_size: Py_ssize_t,
 }
@@ -612,31 +612,31 @@
 <span class="comment">// skipped _PyVarObject_CAST
 // skipped _PyVarObject_CAST_CONST
 
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_Is(x: <span class="kw-2">*mut </span>PyObject, y: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_Is(x: <span class="kw-2">*mut </span>PyObject, y: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (x == y).into()
 }
 
 <span class="comment">// skipped _Py_REFCNT: defined in Py_REFCNT
 
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_REFCNT(ob: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_REFCNT(ob: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     <span class="macro">assert!</span>(!ob.is_null());
     (<span class="kw-2">*</span>ob).ob_refcnt
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_TYPE(ob: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyTypeObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_TYPE(ob: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyTypeObject {
     (<span class="kw-2">*</span>ob).ob_type
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_SIZE(ob: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_SIZE(ob: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     (<span class="kw-2">*</span>(ob <span class="kw">as </span><span class="kw-2">*mut </span>PyVarObject)).ob_size
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_IS_TYPE(ob: <span class="kw-2">*mut </span>PyObject, tp: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_IS_TYPE(ob: <span class="kw-2">*mut </span>PyObject, tp: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
     (Py_TYPE(ob) == tp) <span class="kw">as </span>c_int
 }
 
@@ -718,15 +718,15 @@
 ) -&gt; <span class="kw-2">*mut </span>PyObject;
 <span class="kw">pub type </span>allocfunc =
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="kw">pub type </span>getbufferproc =
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="kw">pub type </span>getbufferproc =
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span><span class="kw">crate</span>::Py_buffer, arg3: c_int) -&gt; c_int;
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="kw">pub type </span>releasebufferproc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span><span class="kw">crate</span>::Py_buffer);
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="kw">pub type </span>releasebufferproc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span><span class="kw">crate</span>::Py_buffer);
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyType_Slot {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyType_Slot {
     <span class="kw">pub </span>slot: c_int,
     <span class="kw">pub </span>pfunc: <span class="kw-2">*mut </span>c_void,
 }
@@ -737,9 +737,9 @@
     }
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyType_Spec {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyType_Spec {
     <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>basicsize: c_int,
     <span class="kw">pub </span>itemsize: c_int,
@@ -754,50 +754,50 @@
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromSpec&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_FromSpec(arg1: <span class="kw-2">*mut </span>PyType_Spec) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromSpec&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_FromSpec(arg1: <span class="kw-2">*mut </span>PyType_Spec) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromSpecWithBases&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_FromSpecWithBases(arg1: <span class="kw-2">*mut </span>PyType_Spec, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromSpecWithBases&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_FromSpecWithBases(arg1: <span class="kw-2">*mut </span>PyType_Spec, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetSlot&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_GetSlot(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: c_int) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetSlot&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_GetSlot(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: c_int) -&gt; <span class="kw-2">*mut </span>c_void;
 
-    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromModuleAndSpec&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_FromModuleAndSpec(
+    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_FromModuleAndSpec&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_FromModuleAndSpec(
         module: <span class="kw-2">*mut </span>PyObject,
         spec: <span class="kw-2">*mut </span>PyType_Spec,
         bases: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetModule&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_GetModule(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetModule&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_GetModule(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetModuleState&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_GetModuleState(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GetModuleState&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_GetModuleState(arg1: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>c_void;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_IsSubtype&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_IsSubtype(a: <span class="kw-2">*mut </span>PyTypeObject, b: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_IsSubtype&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_IsSubtype(a: <span class="kw-2">*mut </span>PyTypeObject, b: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyObject_TypeCheck(ob: <span class="kw-2">*mut </span>PyObject, tp: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyObject_TypeCheck(ob: <span class="kw-2">*mut </span>PyObject, tp: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int {
     (Py_TYPE(ob) == tp || PyType_IsSubtype(Py_TYPE(ob), tp) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="doccomment">/// built-in &#39;type&#39;
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyType_Type: PyTypeObject;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyType_Type: PyTypeObject;
     <span class="doccomment">/// built-in &#39;object&#39;
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBaseObject_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyBaseObject_Type: PyTypeObject;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBaseObject_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyBaseObject_Type: PyTypeObject;
     <span class="doccomment">/// built-in &#39;super&#39;
     </span><span class="kw">pub static </span><span class="kw-2">mut </span>PySuper_Type: PyTypeObject;
 }
@@ -807,87 +807,87 @@
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Ready&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_Ready(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GenericAlloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_GenericAlloc(t: <span class="kw-2">*mut </span>PyTypeObject, nitems: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GenericNew&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_GenericNew(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Ready&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_Ready(t: <span class="kw-2">*mut </span>PyTypeObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GenericAlloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_GenericAlloc(t: <span class="kw-2">*mut </span>PyTypeObject, nitems: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_GenericNew&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_GenericNew(
         t: <span class="kw-2">*mut </span>PyTypeObject,
         args: <span class="kw-2">*mut </span>PyObject,
         kwds: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyType_ClearCache() -&gt; c_uint;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Modified&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyType_Modified(t: <span class="kw-2">*mut </span>PyTypeObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyType_Modified&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyType_Modified(t: <span class="kw-2">*mut </span>PyTypeObject);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Repr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Repr(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Str&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Str(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_ASCII&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_ASCII(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Bytes&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Bytes(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_RichCompare&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_RichCompare(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Repr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Repr(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Str&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Str(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_ASCII&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_ASCII(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Bytes&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Bytes(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_RichCompare&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_RichCompare(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_RichCompareBool&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_RichCompareBool(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: c_int)
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_RichCompareBool&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_RichCompareBool(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: c_int)
         -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetAttrString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GetAttrString(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetAttrString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_SetAttrString(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetAttrString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GetAttrString(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetAttrString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_SetAttrString(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*const </span>c_char,
         arg3: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HasAttrString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_HasAttrString(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetAttr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetAttr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_SetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject)
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HasAttrString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_HasAttrString(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetAttr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetAttr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_SetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: <span class="kw-2">*mut </span>PyObject)
         -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HasAttr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_HasAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SelfIter&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_SelfIter(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HasAttr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_HasAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SelfIter&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_SelfIter(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GenericGetAttr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GenericGetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GenericSetAttr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GenericSetAttr(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GenericGetAttr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GenericGetAttr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GenericSetAttr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GenericSetAttr(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg(not(all(Py_LIMITED_API, not(Py_3_10))))]</span>
-    <span class="kw">pub fn </span>PyObject_GenericGetDict(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(all(Py_LIMITED_API, not(Py_3_10))))]
+    </span><span class="kw">pub fn </span>PyObject_GenericGetDict(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyObject_GenericSetDict(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: <span class="kw-2">*mut </span>c_void,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Hash&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Hash(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_hash_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HashNotImplemented&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_HashNotImplemented(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_hash_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsTrue&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_IsTrue(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Not&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Not(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCallable_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCallable_Check(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_ClearWeakRefs&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_ClearWeakRefs(arg1: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Hash&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Hash(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_hash_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_HashNotImplemented&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_HashNotImplemented(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_hash_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsTrue&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_IsTrue(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Not&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Not(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCallable_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCallable_Check(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_ClearWeakRefs&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_ClearWeakRefs(arg1: <span class="kw-2">*mut </span>PyObject);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Dir&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Dir(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Dir&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Dir(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>Py_ReprEnter(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
     <span class="kw">pub fn </span>Py_ReprLeave(arg1: <span class="kw-2">*mut </span>PyObject);
 }
@@ -895,17 +895,17 @@
 <span class="comment">// Flag bits for printing:
 </span><span class="kw">pub const </span>Py_PRINT_RAW: c_int = <span class="number">1</span>; <span class="comment">// No string quotes etc.
 
-</span><span class="attribute">#[cfg(all(Py_3_10, not(Py_LIMITED_API)))]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_SEQUENCE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">5</span>;
+</span><span class="attribute">#[cfg(all(Py_3_10, not(Py_LIMITED_API)))]
+</span><span class="kw">pub const </span>Py_TPFLAGS_SEQUENCE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">5</span>;
 
-<span class="attribute">#[cfg(all(Py_3_10, not(Py_LIMITED_API)))]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_MAPPING: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">6</span>;
+<span class="attribute">#[cfg(all(Py_3_10, not(Py_LIMITED_API)))]
+</span><span class="kw">pub const </span>Py_TPFLAGS_MAPPING: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">6</span>;
 
-<span class="attribute">#[cfg(Py_3_10)]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_DISALLOW_INSTANTIATION: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">7</span>;
+<span class="attribute">#[cfg(Py_3_10)]
+</span><span class="kw">pub const </span>Py_TPFLAGS_DISALLOW_INSTANTIATION: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">7</span>;
 
-<span class="attribute">#[cfg(Py_3_10)]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_IMMUTABLETYPE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">8</span>;
+<span class="attribute">#[cfg(Py_3_10)]
+</span><span class="kw">pub const </span>Py_TPFLAGS_IMMUTABLETYPE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">8</span>;
 
 <span class="doccomment">/// Set if the type object is dynamically allocated
 </span><span class="kw">pub const </span>Py_TPFLAGS_HEAPTYPE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">9</span>;
@@ -914,8 +914,8 @@
 </span><span class="kw">pub const </span>Py_TPFLAGS_BASETYPE: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">10</span>;
 
 <span class="doccomment">/// Set if the type implements the vectorcall protocol (PEP 590)
-</span><span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_HAVE_VECTORCALL: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">11</span>;
+</span><span class="attribute">#[cfg(all(Py_3_8, not(Py_LIMITED_API)))]
+</span><span class="kw">pub const </span>Py_TPFLAGS_HAVE_VECTORCALL: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">11</span>;
 <span class="comment">// skipped non-limited _Py_TPFLAGS_HAVE_VECTORCALL
 
 </span><span class="doccomment">/// Set if the type is &#39;ready&#39; -- fully initialized
@@ -929,8 +929,8 @@
 
 <span class="kw">const </span>Py_TPFLAGS_HAVE_STACKLESS_EXTENSION: c_ulong = <span class="number">0</span>;
 
-<span class="attribute">#[cfg(Py_3_8)]</span>
-<span class="kw">pub const </span>Py_TPFLAGS_METHOD_DESCRIPTOR: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">17</span>;
+<span class="attribute">#[cfg(Py_3_8)]
+</span><span class="kw">pub const </span>Py_TPFLAGS_METHOD_DESCRIPTOR: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">17</span>;
 
 <span class="doccomment">/// This flag does nothing in Python 3.10+
 </span><span class="kw">pub const </span>Py_TPFLAGS_HAVE_VERSION_TAG: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">18</span>;
@@ -961,13 +961,13 @@
 // skipped _Py_NegativeRefCount
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_Dealloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_Py_Dealloc(arg1: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_Dealloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>_Py_Dealloc(arg1: <span class="kw-2">*mut </span>PyObject);
 }
 
 <span class="comment">// Reference counting macros.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_INCREF(op: <span class="kw-2">*mut </span>PyObject) {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_INCREF(op: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw">if </span><span class="macro">cfg!</span>(py_sys_config = <span class="string">&quot;Py_REF_DEBUG&quot;</span>) {
         Py_IncRef(op)
     } <span class="kw">else </span>{
@@ -975,8 +975,8 @@
     </span>}
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_DECREF(op: <span class="kw-2">*mut </span>PyObject) {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_DECREF(op: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw">if </span><span class="macro">cfg!</span>(py_sys_config = <span class="string">&quot;Py_REF_DEBUG&quot;</span>) {
         Py_DecRef(op)
     } <span class="kw">else </span>{
@@ -987,8 +987,8 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_CLEAR(op: <span class="kw-2">*mut *mut </span>PyObject) {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_CLEAR(op: <span class="kw-2">*mut *mut </span>PyObject) {
     <span class="kw">let </span>tmp = <span class="kw-2">*</span>op;
     <span class="kw">if </span>!tmp.is_null() {
         <span class="kw-2">*</span>op = ptr::null_mut();
@@ -996,74 +996,74 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_XINCREF(op: <span class="kw-2">*mut </span>PyObject) {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_XINCREF(op: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw">if </span>!op.is_null() {
         Py_INCREF(op)
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_XDECREF(op: <span class="kw-2">*mut </span>PyObject) {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_XDECREF(op: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw">if </span>!op.is_null() {
         Py_DECREF(op)
     }
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IncRef&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_IncRef(o: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DecRef&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_DecRef(o: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IncRef&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_IncRef(o: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_DecRef&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_DecRef(o: <span class="kw-2">*mut </span>PyObject);
 
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>Py_NewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>Py_XNewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>Py_NewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>Py_XNewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
 <span class="comment">// Technically these macros are only available in the C header from 3.10 and up, however their
 // implementation works on all supported Python versions so we define these macros on all
 // versions for simplicity.
 
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>_Py_NewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>_Py_NewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
     Py_INCREF(obj);
     obj
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>_Py_XNewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>_Py_XNewRef(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
     Py_XINCREF(obj);
     obj
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_NoneStruct&quot;</span>)]</span>
-    <span class="kw">static </span><span class="kw-2">mut </span>_Py_NoneStruct: PyObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_NoneStruct&quot;</span>)]
+    </span><span class="kw">static </span><span class="kw-2">mut </span>_Py_NoneStruct: PyObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_None() -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_None() -&gt; <span class="kw-2">*mut </span>PyObject {
     <span class="macro">addr_of_mut_shim!</span>(_Py_NoneStruct)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_IsNone(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_IsNone(x: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     Py_Is(x, Py_None())
 }
 
 <span class="comment">// skipped Py_RETURN_NONE
 
-</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_NotImplementedStruct&quot;</span>)]</span>
-    <span class="kw">static </span><span class="kw-2">mut </span>_Py_NotImplementedStruct: PyObject;
+</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPy_NotImplementedStruct&quot;</span>)]
+    </span><span class="kw">static </span><span class="kw-2">mut </span>_Py_NotImplementedStruct: PyObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_NotImplemented() -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_NotImplemented() -&gt; <span class="kw-2">*mut </span>PyObject {
     <span class="macro">addr_of_mut_shim!</span>(_Py_NotImplementedStruct)
 }
 
@@ -1077,10 +1077,10 @@
 <span class="kw">pub const </span>Py_GT: c_int = <span class="number">4</span>;
 <span class="kw">pub const </span>Py_GE: c_int = <span class="number">5</span>;
 
-<span class="attribute">#[cfg(Py_3_10)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone, Debug, PartialEq, Eq)]</span>
-<span class="kw">pub enum </span>PySendResult {
+<span class="attribute">#[cfg(Py_3_10)]
+#[repr(C)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>PySendResult {
     PYGEN_RETURN = <span class="number">0</span>,
     PYGEN_ERROR = -<span class="number">1</span>,
     PYGEN_NEXT = <span class="number">1</span>,
@@ -1088,31 +1088,31 @@
 
 <span class="comment">// skipped Py_RETURN_RICHCOMPARE
 
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-<span class="kw">pub unsafe fn </span>PyType_HasFeature(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
+</span><span class="attribute">#[inline]
+#[cfg(Py_LIMITED_API)]
+</span><span class="kw">pub unsafe fn </span>PyType_HasFeature(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
     ((PyType_GetFlags(t) &amp; f) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub unsafe fn </span>PyType_HasFeature(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub unsafe fn </span>PyType_HasFeature(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
     (((<span class="kw-2">*</span>t).tp_flags &amp; f) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyType_FastSubclass(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyType_FastSubclass(t: <span class="kw-2">*mut </span>PyTypeObject, f: c_ulong) -&gt; c_int {
     PyType_HasFeature(t, f)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyType_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyType_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_TYPE_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyType_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyType_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyType_Type)) <span class="kw">as </span>c_int
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -53,14 +53,14 @@
 //!
 //! [capi]: https://docs.python.org/3/c-api/index.html
 
-</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), test))]</span>
-<span class="kw">mod </span>tests;
+</span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), test))]
+</span><span class="kw">mod </span>tests;
 
 <span class="comment">//  reexport raw bindings exposed in pyo3_ffi
 </span><span class="kw">pub use </span>pyo3_ffi::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Helper to enable #\[pymethods\] to see the workaround for __ipow__ on Python 3.7
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods::ipowfunc;
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods::ipowfunc;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -918,14 +918,14 @@
 };
 
 <span class="doccomment">/// Represents a Python `list`.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyList(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyList(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyList, ffi::PyList_Type, #checkfunction=ffi::PyList_Check);
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[track_caller]</span>
-<span class="kw">fn </span>new_from_iter(
+<span class="attribute">#[inline]
+#[track_caller]
+</span><span class="kw">fn </span>new_from_iter(
     py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
     elements: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>ExactSizeIterator&lt;Item = PyObject&gt;,
 ) -&gt; Py&lt;PyList&gt; {
@@ -946,10 +946,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>counter: Py_ssize_t = <span class="number">0</span>;
 
         <span class="kw">for </span>obj <span class="kw">in </span>elements.take(len <span class="kw">as </span>usize) {
-            <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-            ffi::PyList_SET_ITEM(ptr, counter, obj.into_ptr());
-            <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-            ffi::PyList_SetItem(ptr, counter, obj.into_ptr());
+            <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+            </span>ffi::PyList_SET_ITEM(ptr, counter, obj.into_ptr());
+            <span class="attribute">#[cfg(Py_LIMITED_API)]
+            </span>ffi::PyList_SetItem(ptr, counter, obj.into_ptr());
             counter += <span class="number">1</span>;
         }
 
@@ -986,8 +986,8 @@
     /// This function will panic if `element`&#39;s [`ExactSizeIterator`] implementation is incorrect.
     /// All standard library structures implement this trait correctly, if they do, so calling this
     /// function with (for example) [`Vec`]`&lt;T&gt;` or `&amp;[T]` will always succeed.
-    </span><span class="attribute">#[track_caller]</span>
-    <span class="kw">pub fn </span>new&lt;T, U&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, elements: <span class="kw">impl </span>IntoIterator&lt;Item = T, IntoIter = U&gt;) -&gt; <span class="kw-2">&amp;</span>PyList
+    </span><span class="attribute">#[track_caller]
+    </span><span class="kw">pub fn </span>new&lt;T, U&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, elements: <span class="kw">impl </span>IntoIterator&lt;Item = T, IntoIter = U&gt;) -&gt; <span class="kw-2">&amp;</span>PyList
     <span class="kw">where
         </span>T: ToPyObject,
         U: ExactSizeIterator&lt;Item = T&gt;,
@@ -1005,10 +1005,10 @@
     <span class="doccomment">/// Returns the length of the list.
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">unsafe </span>{
-            <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-            <span class="kw">let </span>size = ffi::PyList_GET_SIZE(<span class="self">self</span>.as_ptr());
-            <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-            <span class="kw">let </span>size = ffi::PyList_Size(<span class="self">self</span>.as_ptr());
+            <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+            </span><span class="kw">let </span>size = ffi::PyList_GET_SIZE(<span class="self">self</span>.as_ptr());
+            <span class="attribute">#[cfg(Py_LIMITED_API)]
+            </span><span class="kw">let </span>size = ffi::PyList_Size(<span class="self">self</span>.as_ptr());
 
             <span class="comment">// non-negative Py_ssize_t should always fit into Rust usize
             </span>size <span class="kw">as </span>usize
@@ -1049,8 +1049,8 @@
     /// # Safety
     ///
     /// Caller must verify that the index is within the bounds of the list.
-    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub unsafe fn </span>get_item_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>PyAny {
+    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub unsafe fn </span>get_item_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>PyAny {
         <span class="kw">let </span>item = ffi::PyList_GET_ITEM(<span class="self">self</span>.as_ptr(), index <span class="kw">as </span>Py_ssize_t);
         <span class="comment">// PyList_GET_ITEM return borrowed ptr; must make owned for safety (see #890).
         </span>ffi::Py_XINCREF(item);
@@ -1093,16 +1093,16 @@
     <span class="doccomment">/// Deletes the `index`th element of self.
     ///
     /// This is equivalent to the Python statement `del self[i]`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>del_item(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>del_item(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PyResult&lt;()&gt; {
         <span class="self">self</span>.as_sequence().del_item(index)
     }
 
     <span class="doccomment">/// Assigns the sequence `seq` to the slice of `self` from `low` to `high`.
     ///
     /// This is equivalent to the Python statement `self[low:high] = v`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, low: usize, high: usize, seq: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>set_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, low: usize, high: usize, seq: <span class="kw-2">&amp;</span>PyAny) -&gt; PyResult&lt;()&gt; {
         <span class="kw">unsafe </span>{
             err::error_on_minusone(
                 <span class="self">self</span>.py(),
@@ -1119,8 +1119,8 @@
     <span class="doccomment">/// Deletes the slice from `low` to `high` from `self`.
     ///
     /// This is equivalent to the Python statement `del self[low:high]`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>del_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, low: usize, high: usize) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>del_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, low: usize, high: usize) -&gt; PyResult&lt;()&gt; {
         <span class="self">self</span>.as_sequence().del_slice(low, high)
     }
 
@@ -1161,8 +1161,8 @@
     <span class="doccomment">/// Determines if self contains `value`.
     ///
     /// This is equivalent to the Python expression `value in self`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1172,8 +1172,8 @@
     <span class="doccomment">/// Returns the first index `i` for which `self[i] == value`.
     ///
     /// This is equivalent to the Python expression `self.index(value)`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1210,13 +1210,13 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>PyListIterator&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny&gt; {
         <span class="kw">if </span><span class="self">self</span>.index &lt; <span class="self">self</span>.list.len() {
-            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-            <span class="kw">let </span>item = <span class="self">self</span>.list.get_item(<span class="self">self</span>.index).expect(<span class="string">&quot;list.get failed&quot;</span>);
-            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-            <span class="kw">let </span>item = <span class="kw">unsafe </span>{ <span class="self">self</span>.list.get_item_unchecked(<span class="self">self</span>.index) };
+            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+            </span><span class="kw">let </span>item = <span class="self">self</span>.list.get_item(<span class="self">self</span>.index).expect(<span class="string">&quot;list.get failed&quot;</span>);
+            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+            </span><span class="kw">let </span>item = <span class="kw">unsafe </span>{ <span class="self">self</span>.list.get_item_unchecked(<span class="self">self</span>.index) };
             <span class="self">self</span>.index += <span class="number">1</span>;
             <span class="prelude-val">Some</span>(item)
         } <span class="kw">else </span>{
@@ -1224,8 +1224,8 @@
         </span>}
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
         <span class="kw">let </span>len = <span class="self">self</span>.list.len();
 
         (
@@ -1275,14 +1275,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::types::PyList;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
     <span class="kw">use crate</span>::{IntoPy, PyObject, PyTryFrom, ToPyObject};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_new() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_new() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">2</span>, list[<span class="number">0</span>].extract::&lt;i32&gt;().unwrap());
@@ -1292,16 +1292,16 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_len() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">4</span>, list.len());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_get_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_get_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">2</span>, list.get_item(<span class="number">0</span>).unwrap().extract::&lt;i32&gt;().unwrap());
@@ -1311,8 +1311,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_get_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_get_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>slice = list.get_slice(<span class="number">1</span>, <span class="number">3</span>);
@@ -1322,8 +1322,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>val = <span class="number">42i32</span>.to_object(py);
@@ -1335,8 +1335,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_item_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_item_refcnt() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cnt;
             {
@@ -1353,8 +1353,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_insert() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_insert() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>val = <span class="number">42i32</span>.to_object(py);
@@ -1370,8 +1370,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_insert_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_insert_refcnt() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cnt;
             {
@@ -1386,8 +1386,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_append() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_append() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>]);
             list.append(<span class="number">3</span>).unwrap();
@@ -1396,8 +1396,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_append_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_append_refcnt() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cnt;
             {
@@ -1411,8 +1411,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>];
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>v);
@@ -1425,8 +1425,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter_size_hint() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter_size_hint() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>];
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1444,8 +1444,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_into_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
             <span class="kw">for </span>(i, item) <span class="kw">in </span>list.iter().enumerate() {
@@ -1454,8 +1454,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>];
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>v);
@@ -1464,8 +1464,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_sort() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_sort() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">7</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>];
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>v);
@@ -1481,8 +1481,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_reverse() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_reverse() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = <span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>];
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>v);
@@ -1498,8 +1498,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_array_into_py() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_array_into_py() {
         Python::with_gil(|py| {
             <span class="kw">let </span>array: PyObject = [<span class="number">1</span>, <span class="number">2</span>].into_py(py);
             <span class="kw">let </span>list = &lt;PyList <span class="kw">as </span>PyTryFrom&gt;::try_from(array.as_ref(py)).unwrap();
@@ -1508,8 +1508,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_get_item_invalid_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_get_item_invalid_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>obj = list.get_item(<span class="number">5</span>);
@@ -1521,8 +1521,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_get_item_sanity() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_get_item_sanity() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>obj = list.get_item(<span class="number">0</span>);
@@ -1530,9 +1530,9 @@
         });
     }
 
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_get_item_unchecked_sanity() {
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    #[test]
+    </span><span class="kw">fn </span>test_list_get_item_unchecked_sanity() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>obj = <span class="kw">unsafe </span>{ list.get_item_unchecked(<span class="number">0</span>) };
@@ -1540,8 +1540,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_index_trait() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_index_trait() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">2</span>, list[<span class="number">0</span>].extract::&lt;i32&gt;().unwrap());
@@ -1550,17 +1550,17 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic]</span>
-    <span class="kw">fn </span>test_list_index_trait_panic() {
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>test_list_index_trait_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             <span class="kw">let _ </span>= <span class="kw-2">&amp;</span>list[<span class="number">7</span>];
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_index_trait_ranges() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_index_trait_ranges() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             <span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">5</span>], list[<span class="number">1</span>..<span class="number">3</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap());
@@ -1574,45 +1574,45 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 5 out of range for list of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_list_index_trait_range_panic_start() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 5 out of range for list of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_list_index_trait_range_panic_start() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             list[<span class="number">5</span>..<span class="number">10</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range end index 10 out of range for list of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_list_index_trait_range_panic_end() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range end index 10 out of range for list of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_list_index_trait_range_panic_end() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             list[<span class="number">1</span>..<span class="number">10</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]</span>
-    <span class="kw">fn </span>test_list_index_trait_range_panic_wrong_order() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]
+    </span><span class="kw">fn </span>test_list_index_trait_range_panic_wrong_order() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
-            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]</span>
-            list[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
+            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]
+            </span>list[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 8 out of range for list of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_list_index_trait_range_from_panic() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 8 out of range for list of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_list_index_trait_range_from_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]);
             list[<span class="number">8</span>..].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_del_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_del_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>]);
             <span class="macro">assert!</span>(list.del_item(<span class="number">10</span>).is_err());
@@ -1633,8 +1633,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_set_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_set_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>]);
             <span class="kw">let </span>ins = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">7</span>, <span class="number">4</span>]);
@@ -1645,8 +1645,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_del_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_del_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>]);
             list.del_slice(<span class="number">1</span>, <span class="number">4</span>).unwrap();
@@ -1656,8 +1656,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">6</span>, list.len());
@@ -1673,8 +1673,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_list_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_list_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">0</span>, list.index(<span class="number">1i32</span>).unwrap());
@@ -1706,33 +1706,33 @@
         </span>}
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;Attempted to create PyList but `elements` was larger than reported by its `ExactSizeIterator` implementation.&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>too_long_iterator() {
+    </span>)]
+    </span><span class="kw">fn </span>too_long_iterator() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..usize::MAX, <span class="number">73</span>);
             <span class="kw">let </span>_list = PyList::new(py, iter);
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;Attempted to create PyList but `elements` was smaller than reported by its `ExactSizeIterator` implementation.&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>too_short_iterator() {
+    </span>)]
+    </span><span class="kw">fn </span>too_short_iterator() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..<span class="number">35</span>, <span class="number">73</span>);
             <span class="kw">let </span>_list = PyList::new(py, iter);
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;out of range integral type conversion attempted on `elements.len()`&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>overflowing_size() {
+    </span>)]
+    </span><span class="kw">fn </span>overflowing_size() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..<span class="number">0</span>, usize::MAX);
 
@@ -1740,16 +1740,16 @@
         })
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>bad_clone_mem_leaks() {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[test]
+    </span><span class="kw">fn </span>bad_clone_mem_leaks() {
         <span class="kw">use crate</span>::{Py, PyAny};
         <span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
         <span class="kw">static </span>NEEDS_DESTRUCTING_COUNT: AtomicUsize = AtomicUsize::new(<span class="number">0</span>);
 
-        <span class="attribute">#[<span class="kw">crate</span>::pyclass]</span>
-        <span class="attribute">#[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-        <span class="kw">struct </span>Bad(usize);
+        <span class="attribute">#[<span class="kw">crate</span>::pyclass]
+        #[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+        </span><span class="kw">struct </span>Bad(usize);
 
         <span class="kw">impl </span>Clone <span class="kw">for </span>Bad {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
@@ -1809,4 +1809,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

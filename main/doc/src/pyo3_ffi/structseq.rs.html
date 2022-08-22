@@ -62,20 +62,20 @@
 <span id="62">62</span>
 <span id="63">63</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::{PyObject, PyTypeObject};
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyStructSequence_Field {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyStructSequence_Field {
     <span class="kw">pub </span>name: <span class="kw-2">*mut </span>c_char,
     <span class="kw">pub </span>doc: <span class="kw-2">*mut </span>c_char,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyStructSequence_Desc {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyStructSequence_Desc {
     <span class="kw">pub </span>name: <span class="kw-2">*mut </span>c_char,
     <span class="kw">pub </span>doc: <span class="kw-2">*mut </span>c_char,
     <span class="kw">pub </span>fields: <span class="kw-2">*mut </span>PyStructSequence_Field,
@@ -85,44 +85,44 @@
 <span class="comment">// skipped PyStructSequence_UnnamedField;
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_InitType&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyStructSequence_InitType(_type: <span class="kw-2">*mut </span>PyTypeObject, desc: <span class="kw-2">*mut </span>PyStructSequence_Desc);
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_InitType&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyStructSequence_InitType(_type: <span class="kw-2">*mut </span>PyTypeObject, desc: <span class="kw-2">*mut </span>PyStructSequence_Desc);
 
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_InitType2&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyStructSequence_InitType2(
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_InitType2&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyStructSequence_InitType2(
         _type: <span class="kw-2">*mut </span>PyTypeObject,
         desc: <span class="kw-2">*mut </span>PyStructSequence_Desc,
     ) -&gt; c_int;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyStructSequence_NewType(desc: <span class="kw-2">*mut </span>PyStructSequence_Desc) -&gt; <span class="kw-2">*mut </span>PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyStructSequence_New(_type: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyStructSequence_NewType(desc: <span class="kw-2">*mut </span>PyStructSequence_Desc) -&gt; <span class="kw-2">*mut </span>PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyStructSequence_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyStructSequence_New(_type: <span class="kw-2">*mut </span>PyTypeObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub type </span>PyStructSequence = <span class="kw">crate</span>::PyTupleObject;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub type </span>PyStructSequence = <span class="kw">crate</span>::PyTupleObject;
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyStructSequence_SET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyStructSequence_SET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) {
     <span class="kw">crate</span>::PyTuple_SET_ITEM(op, i, v)
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyStructSequence_GET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyStructSequence_GET_ITEM(op: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject {
     <span class="kw">crate</span>::PyTuple_GET_ITEM(op, i)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyStructSequence_SetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyStructSequence_SetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject);
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyStructSequence_GetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyStructSequence_GetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

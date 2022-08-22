@@ -85,10 +85,10 @@
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>PyImport_GetMagicNumber() -&gt; c_long;
     <span class="kw">pub fn </span>PyImport_GetMagicTag() -&gt; <span class="kw-2">*const </span>c_char;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModule&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ExecCodeModule(name: <span class="kw-2">*const </span>c_char, co: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModuleEx&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ExecCodeModuleEx(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModule&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ExecCodeModule(name: <span class="kw-2">*const </span>c_char, co: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ExecCodeModuleEx&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ExecCodeModuleEx(
         name: <span class="kw-2">*const </span>c_char,
         co: <span class="kw-2">*mut </span>PyObject,
         pathname: <span class="kw-2">*const </span>c_char,
@@ -105,26 +105,26 @@
         pathname: <span class="kw-2">*mut </span>PyObject,
         cpathname: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_GetModuleDict&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_GetModuleDict() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_GetModuleDict&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_GetModuleDict() -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// skipped Python 3.7 / ex-non-limited PyImport_GetModule
     </span><span class="kw">pub fn </span>PyImport_AddModuleObject(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_AddModule&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_AddModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModule&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ImportModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleNoBlock&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ImportModuleNoBlock(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevel&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ImportModuleLevel(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_AddModule&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_AddModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModule&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ImportModule(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleNoBlock&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ImportModuleNoBlock(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevel&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ImportModuleLevel(
         name: <span class="kw-2">*const </span>c_char,
         globals: <span class="kw-2">*mut </span>PyObject,
         locals: <span class="kw-2">*mut </span>PyObject,
         fromlist: <span class="kw-2">*mut </span>PyObject,
         level: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevelObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ImportModuleLevelObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ImportModuleLevelObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ImportModuleLevelObject(
         name: <span class="kw-2">*mut </span>PyObject,
         globals: <span class="kw-2">*mut </span>PyObject,
         locals: <span class="kw-2">*mut </span>PyObject,
@@ -133,8 +133,8 @@
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyImport_ImportModuleEx(
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyImport_ImportModuleEx(
     name: <span class="kw-2">*const </span>c_char,
     globals: <span class="kw-2">*mut </span>PyObject,
     locals: <span class="kw-2">*mut </span>PyObject,
@@ -145,13 +145,13 @@
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>PyImport_GetImporter(path: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_Import&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_Import(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ReloadModule&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_ReloadModule(m: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(Py_3_9))]</span>
-    <span class="attribute">#[deprecated(note = <span class="string">&quot;Removed in Python 3.9 as it was \&quot;For internal use only\&quot;.&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyImport_Cleanup();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_Import&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_Import(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyImport_ReloadModule&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_ReloadModule(m: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(Py_3_9))]
+    #[deprecated(note = <span class="string">&quot;Removed in Python 3.9 as it was \&quot;For internal use only\&quot;.&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyImport_Cleanup();
     <span class="kw">pub fn </span>PyImport_ImportFrozenModuleObject(name: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
     <span class="kw">pub fn </span>PyImport_ImportFrozenModule(name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
 
@@ -161,4 +161,4 @@
     ) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

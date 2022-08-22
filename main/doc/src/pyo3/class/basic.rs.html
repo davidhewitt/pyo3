@@ -176,8 +176,8 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
-</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]</span>
-<span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]
+</span><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Basic Python Object customization
 //!
@@ -193,9 +193,9 @@
 <span class="kw">use </span>std::os::raw::c_int;
 
 <span class="doccomment">/// Basic Python class customization
-</span><span class="attribute">#[allow(unused_variables)]</span>
-<span class="attribute">#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]</span>
-<span class="kw">pub trait </span>PyObjectProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass {
+</span><span class="attribute">#[allow(unused_variables)]
+#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]
+</span><span class="kw">pub trait </span>PyObjectProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass {
     <span class="kw">fn </span>__getattr__(<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span><span class="self">self</span>, name: <span class="self">Self</span>::Name) -&gt; <span class="self">Self</span>::Result
     <span class="kw">where
         </span><span class="self">Self</span>: PyObjectGetAttrProtocol&lt;<span class="lifetime">&#39;p</span>&gt;,
@@ -286,8 +286,8 @@
 <span class="macro">py_unary_func!</span>(repr, PyObjectReprProtocol, T::__repr__);
 <span class="macro">py_unary_func!</span>(hash, PyObjectHashProtocol, T::__hash__, ffi::Py_hash_t);
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>getattr&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>getattr&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     arg: <span class="kw-2">*mut </span>ffi::PyObject,
 ) -&gt; <span class="kw-2">*mut </span>ffi::PyObject
@@ -311,8 +311,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>richcmp&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>richcmp&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     arg: <span class="kw-2">*mut </span>ffi::PyObject,
     op: c_int,
@@ -355,4 +355,4 @@
 
 <span class="kw">pub use </span><span class="kw">crate</span>::pyclass::CompareOp;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

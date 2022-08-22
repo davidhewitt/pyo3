@@ -476,11 +476,11 @@
 <span class="kw">use </span>std::i64;
 <span class="kw">use </span>std::os::raw::c_long;
 
-<span class="macro">macro_rules!</span> int_fits_larger_int {
+<span class="macro">macro_rules! </span>int_fits_larger_int {
     (<span class="macro-nonterminal">$rust_type</span>:ty, <span class="macro-nonterminal">$larger_type</span>:ty) =&gt; {
         <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 (<span class="kw-2">*</span><span class="self">self </span><span class="kw">as </span><span class="macro-nonterminal">$larger_type</span>).into_py(py)
             }
         }
@@ -506,12 +506,12 @@
 /// by using [`ToPyObject`](trait.ToPyObject.html)
 /// and [extract](struct.PyAny.html#method.extract)
 /// with the primitive Rust integer types.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyLong(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyLong(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyLong, ffi::PyLong_Type, #checkfunction=ffi::PyLong_Check);
 
-<span class="macro">macro_rules!</span> int_fits_c_long {
+<span class="macro">macro_rules! </span>int_fits_c_long {
     (<span class="macro-nonterminal">$rust_type</span>:ty) =&gt; {
         <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
             <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
@@ -544,17 +544,17 @@
     };
 }
 
-<span class="macro">macro_rules!</span> int_convert_u64_or_i64 {
+<span class="macro">macro_rules! </span>int_convert_u64_or_i64 {
     (<span class="macro-nonterminal">$rust_type</span>:ty, <span class="macro-nonterminal">$pylong_from_ll_or_ull</span>:expr, <span class="macro-nonterminal">$pylong_as_ll_or_ull</span>:expr) =&gt; {
         <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="kw">unsafe </span>{ PyObject::from_owned_ptr(py, <span class="macro-nonterminal">$pylong_from_ll_or_ull</span>(<span class="kw-2">*</span><span class="self">self</span>)) }
             }
         }
         <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="kw">unsafe </span>{ PyObject::from_owned_ptr(py, <span class="macro-nonterminal">$pylong_from_ll_or_ull</span>(<span class="self">self</span>)) }
             }
         }
@@ -583,22 +583,22 @@
 <span class="macro">int_fits_c_long!</span>(i32);
 
 <span class="comment">// If c_long is 64-bits, we can use more types with int_fits_c_long!:
-</span><span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]</span>
-<span class="macro">int_fits_c_long!</span>(u32);
-<span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]</span>
-<span class="macro">int_fits_larger_int!</span>(u32, u64);
+</span><span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]
+</span><span class="macro">int_fits_c_long!</span>(u32);
+<span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]
+</span><span class="macro">int_fits_larger_int!</span>(u32, u64);
 
-<span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]</span>
-<span class="macro">int_fits_c_long!</span>(i64);
+<span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]
+</span><span class="macro">int_fits_c_long!</span>(i64);
 
 <span class="comment">// manual implementation for i64 on systems with 32-bit long
-</span><span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]</span>
-<span class="macro">int_convert_u64_or_i64!</span>(i64, ffi::PyLong_FromLongLong, ffi::PyLong_AsLongLong);
+</span><span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]
+</span><span class="macro">int_convert_u64_or_i64!</span>(i64, ffi::PyLong_FromLongLong, ffi::PyLong_AsLongLong);
 
-<span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]</span>
-<span class="macro">int_fits_c_long!</span>(isize);
-<span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]</span>
-<span class="macro">int_fits_larger_int!</span>(isize, i64);
+<span class="attribute">#[cfg(all(target_pointer_width = <span class="string">&quot;64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))]
+</span><span class="macro">int_fits_c_long!</span>(isize);
+<span class="attribute">#[cfg(any(target_pointer_width = <span class="string">&quot;32&quot;</span>, target_os = <span class="string">&quot;windows&quot;</span>))]
+</span><span class="macro">int_fits_larger_int!</span>(isize, i64);
 
 <span class="macro">int_fits_larger_int!</span>(usize, u64);
 
@@ -609,16 +609,16 @@
     ffi::PyLong_AsUnsignedLongLong
 );
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">mod </span>fast_128bit_int_conversion {
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">mod </span>fast_128bit_int_conversion {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="comment">// for 128bit Integers
-    </span><span class="macro">macro_rules!</span> int_convert_128 {
+    </span><span class="macro">macro_rules! </span>int_convert_128 {
         (<span class="macro-nonterminal">$rust_type</span>: ty, <span class="macro-nonterminal">$is_signed</span>: expr) =&gt; {
             <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-                <span class="attribute">#[inline]</span>
-                <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                     (<span class="kw-2">*</span><span class="self">self</span>).into_py(py)
                 }
             }
@@ -667,17 +667,17 @@
 }
 
 <span class="comment">// For ABI3 we implement the conversion manually.
-</span><span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-<span class="kw">mod </span>slow_128bit_int_conversion {
+</span><span class="attribute">#[cfg(Py_LIMITED_API)]
+</span><span class="kw">mod </span>slow_128bit_int_conversion {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">const </span>SHIFT: usize = <span class="number">64</span>;
 
     <span class="comment">// for 128bit Integers
-    </span><span class="macro">macro_rules!</span> int_convert_128 {
+    </span><span class="macro">macro_rules! </span>int_convert_128 {
         (<span class="macro-nonterminal">$rust_type</span>: ty, <span class="macro-nonterminal">$half_type</span>: ty) =&gt; {
             <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_type </span>{
-                <span class="attribute">#[inline]</span>
-                <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                     (<span class="kw-2">*</span><span class="self">self</span>).into_py(py)
                 }
             }
@@ -741,18 +741,18 @@
     <span class="prelude-val">Ok</span>(actual_value)
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>test_128bit_intergers {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>test_128bit_intergers {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::PyDict;
 
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span>
-    <span class="kw">use </span>proptest::prelude::<span class="kw-2">*</span>;
+    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]
+    </span><span class="kw">use </span>proptest::prelude::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span>
-    <span class="macro">proptest!</span> {
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_i128_roundtrip(x: i128) {
+    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]
+    </span><span class="macro">proptest! </span>{
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_i128_roundtrip(x: i128) {
             Python::with_gil(|py| {
                 <span class="kw">let </span>x_py = x.into_py(py);
                 <span class="kw">let </span>locals = PyDict::new(py);
@@ -764,10 +764,10 @@
         }
     }
 
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span>
-    <span class="macro">proptest!</span> {
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_u128_roundtrip(x: u128) {
+    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]
+    </span><span class="macro">proptest! </span>{
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_u128_roundtrip(x: u128) {
             Python::with_gil(|py| {
                 <span class="kw">let </span>x_py = x.into_py(py);
                 <span class="kw">let </span>locals = PyDict::new(py);
@@ -779,8 +779,8 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_i128_max() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_i128_max() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::i128::MAX;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -790,8 +790,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_i128_min() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_i128_min() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::i128::MIN;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -801,8 +801,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_u128_max() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_u128_max() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::u128::MAX;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -811,8 +811,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_i128_overflow() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_i128_overflow() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = py.eval(<span class="string">&quot;(1 &lt;&lt; 130) * -1&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>err = obj.extract::&lt;i128&gt;().unwrap_err();
@@ -820,8 +820,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_u128_overflow() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_u128_overflow() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = py.eval(<span class="string">&quot;1 &lt;&lt; 130&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>err = obj.extract::&lt;u128&gt;().unwrap_err();
@@ -830,13 +830,13 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::Python;
     <span class="kw">use </span><span class="kw">crate</span>::ToPyObject;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_u32_max() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_u32_max() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::u32::MAX;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -846,8 +846,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_i64_max() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_i64_max() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::i64::MAX;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -857,8 +857,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_i64_min() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_i64_min() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::i64::MIN;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -868,8 +868,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_u64_max() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_u64_max() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v = std::u64::MAX;
             <span class="kw">let </span>obj = v.to_object(py);
@@ -878,15 +878,15 @@
         });
     }
 
-    <span class="macro">macro_rules!</span> test_common (
+    <span class="macro">macro_rules! </span>test_common (
         (<span class="macro-nonterminal">$test_mod_name</span>:ident, <span class="macro-nonterminal">$t</span>:ty) =&gt; (
             <span class="kw">mod </span><span class="macro-nonterminal">$test_mod_name </span>{
                 <span class="kw">use </span><span class="kw">crate</span>::exceptions;
                 <span class="kw">use </span><span class="kw">crate</span>::ToPyObject;
                 <span class="kw">use </span><span class="kw">crate</span>::Python;
 
-                <span class="attribute">#[test]</span>
-                <span class="kw">fn </span>from_py_string_type_error() {
+                <span class="attribute">#[test]
+                </span><span class="kw">fn </span>from_py_string_type_error() {
                     Python::with_gil(|py|{
 
 
@@ -896,8 +896,8 @@
                     });
                 }
 
-                <span class="attribute">#[test]</span>
-                <span class="kw">fn </span>from_py_float_type_error() {
+                <span class="attribute">#[test]
+                </span><span class="kw">fn </span>from_py_float_type_error() {
                     Python::with_gil(|py|{
 
                     <span class="kw">let </span>obj = (<span class="number">12.3</span>).to_object(py);
@@ -905,8 +905,8 @@
                     <span class="macro">assert!</span>(err.is_instance_of::&lt;exceptions::PyTypeError&gt;(py));});
                 }
 
-                <span class="attribute">#[test]</span>
-                <span class="kw">fn </span>to_py_object_and_back() {
+                <span class="attribute">#[test]
+                </span><span class="kw">fn </span>to_py_object_and_back() {
                     Python::with_gil(|py|{
 
                     <span class="kw">let </span>val = <span class="number">123 </span><span class="kw">as </span><span class="macro-nonterminal">$t</span>;
@@ -931,4 +931,4 @@
     <span class="macro">test_common!</span>(u128, u128);
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

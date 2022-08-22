@@ -94,26 +94,26 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::cpython::code::PyCodeObject;
 <span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::pystate::PyThreadState;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]</span>
-<span class="kw">use </span>std::os::raw::c_char;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]
+</span><span class="kw">use </span>std::os::raw::c_char;
 <span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]</span>
-<span class="kw">pub type </span>PyFrameState = c_char;
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]
+</span><span class="kw">pub type </span>PyFrameState = c_char;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]</span>
-<span class="kw">pub struct </span>PyTryBlock {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+#[cfg(not(any(PyPy, Py_3_11)))]
+</span><span class="kw">pub struct </span>PyTryBlock {
     <span class="kw">pub </span>b_type: c_int,
     <span class="kw">pub </span>b_handler: c_int,
     <span class="kw">pub </span>b_level: c_int,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]</span>
-<span class="kw">pub struct </span>PyFrameObject {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+#[cfg(not(any(PyPy, Py_3_11)))]
+</span><span class="kw">pub struct </span>PyFrameObject {
     <span class="kw">pub </span>ob_base: PyVarObject,
     <span class="kw">pub </span>f_back: <span class="kw-2">*mut </span>PyFrameObject,
     <span class="kw">pub </span>f_code: <span class="kw-2">*mut </span>PyCodeObject,
@@ -122,11 +122,11 @@
     <span class="kw">pub </span>f_locals: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>f_valuestack: <span class="kw-2">*mut *mut </span>PyObject,
 
-    <span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="kw">pub </span>f_stacktop: <span class="kw-2">*mut *mut </span>PyObject,
+    <span class="attribute">#[cfg(not(Py_3_10))]
+    </span><span class="kw">pub </span>f_stacktop: <span class="kw-2">*mut *mut </span>PyObject,
     <span class="kw">pub </span>f_trace: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>f_stackdepth: c_int,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>f_stackdepth: c_int,
     <span class="kw">pub </span>f_trace_lines: c_char,
     <span class="kw">pub </span>f_trace_opcodes: c_char,
 
@@ -135,34 +135,34 @@
     <span class="kw">pub </span>f_lasti: c_int,
     <span class="kw">pub </span>f_lineno: c_int,
     <span class="kw">pub </span>f_iblock: c_int,
-    <span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="kw">pub </span>f_executing: c_char,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>f_state: PyFrameState,
+    <span class="attribute">#[cfg(not(Py_3_10))]
+    </span><span class="kw">pub </span>f_executing: c_char,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>f_state: PyFrameState,
     <span class="kw">pub </span>f_blockstack: [PyTryBlock; <span class="kw">crate</span>::CO_MAXBLOCKS],
     <span class="kw">pub </span>f_localsplus: [<span class="kw-2">*mut </span>PyObject; <span class="number">1</span>],
 }
 
-<span class="attribute">#[cfg(any(PyPy, Py_3_11))]</span>
-<span class="macro">opaque_struct!</span>(PyFrameObject);
+<span class="attribute">#[cfg(any(PyPy, Py_3_11))]
+</span><span class="macro">opaque_struct!</span>(PyFrameObject);
 
 <span class="comment">// skipped _PyFrame_IsRunnable
 // skipped _PyFrame_IsExecuting
 // skipped _PyFrameHasCompleted
 
-</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyFrame_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyFrame_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyFrame_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyFrame_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrame_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyFrame_New(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrame_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyFrame_New(
         tstate: <span class="kw-2">*mut </span>PyThreadState,
         code: <span class="kw-2">*mut </span>PyCodeObject,
         globals: <span class="kw-2">*mut </span>PyObject,
@@ -171,8 +171,8 @@
     <span class="comment">// skipped _PyFrame_New_NoTrack
 
     </span><span class="kw">pub fn </span>PyFrame_BlockSetup(f: <span class="kw-2">*mut </span>PyFrameObject, _type: c_int, handler: c_int, level: c_int);
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]</span>
-    <span class="kw">pub fn </span>PyFrame_BlockPop(f: <span class="kw-2">*mut </span>PyFrameObject) -&gt; <span class="kw-2">*mut </span>PyTryBlock;
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_11)))]
+    </span><span class="kw">pub fn </span>PyFrame_BlockPop(f: <span class="kw-2">*mut </span>PyFrameObject) -&gt; <span class="kw-2">*mut </span>PyTryBlock;
 
     <span class="kw">pub fn </span>PyFrame_LocalsToFast(f: <span class="kw-2">*mut </span>PyFrameObject, clear: c_int);
     <span class="kw">pub fn </span>PyFrame_FastToLocalsWithError(f: <span class="kw-2">*mut </span>PyFrameObject) -&gt; c_int;
@@ -181,8 +181,8 @@
     <span class="comment">// skipped _PyFrame_DebugMallocStats
     // skipped PyFrame_GetBack
 
-    </span><span class="attribute">#[cfg(not(Py_3_9))]</span>
-    <span class="kw">pub fn </span>PyFrame_ClearFreeList() -&gt; c_int;
+    </span><span class="attribute">#[cfg(not(Py_3_9))]
+    </span><span class="kw">pub fn </span>PyFrame_ClearFreeList() -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -260,24 +260,24 @@
 //!
 //! It used internally by the PyO3 crate&#39;s build script to apply the same configuration.
 
-</span><span class="attribute">#![warn(elided_lifetimes_in_paths, unused_lifetimes)]</span>
+</span><span class="attribute">#![warn(elided_lifetimes_in_paths, unused_lifetimes)]
 
-<span class="kw">mod </span>errors;
+</span><span class="kw">mod </span>errors;
 <span class="kw">mod </span>impl_;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">use </span>std::{
+<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">use </span>std::{
     io::Cursor,
     path::{Path, PathBuf},
 };
 
 <span class="kw">use </span>std::{env, process::Command, str::FromStr};
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">use </span>once_cell::sync::OnceCell;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">use </span>once_cell::sync::OnceCell;
 
-<span class="attribute">#[allow(deprecated)]</span>
-<span class="kw">pub use </span>impl_::{
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">pub use </span>impl_::{
     cross_compiling, cross_compiling_from_to, find_all_sysconfigdata, parse_sysconfigdata,
     BuildFlag, BuildFlags, CrossCompileConfig, InterpreterConfig, PythonImplementation,
     PythonVersion, Triple,
@@ -297,8 +297,8 @@
 /// | `#[cfg(PyPy)]` | This marks code which is run when compiling for PyPy. |
 ///
 /// For examples of how to use these attributes, [see PyO3&#39;s guide](https://pyo3.rs/latest/building_and_distribution/multiple_python_versions.html).
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">pub fn </span>use_pyo3_cfgs() {
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">pub fn </span>use_pyo3_cfgs() {
     get().emit_pyo3_cfgs();
 }
 
@@ -329,8 +329,8 @@
 <span class="doccomment">/// Loads the configuration determined from the build environment.
 ///
 /// Because this will never change in a given compilation run, this is cached in a `once_cell`.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">pub fn </span>get() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>InterpreterConfig {
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">pub fn </span>get() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>InterpreterConfig {
     <span class="kw">static </span>CONFIG: OnceCell&lt;InterpreterConfig&gt; = OnceCell::new();
     CONFIG.get_or_init(|| {
         <span class="comment">// Check if we are in a build script and cross compiling to a different target.
@@ -354,24 +354,24 @@
 }
 
 <span class="doccomment">/// Build configuration provided by `PYO3_CONFIG_FILE`. May be empty if env var not set.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">const </span>CONFIG_FILE: <span class="kw-2">&amp;</span>str = <span class="macro">include_str!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/pyo3-build-config-file.txt&quot;</span>));
+</span><span class="attribute">#[doc(hidden)]
+#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">const </span>CONFIG_FILE: <span class="kw-2">&amp;</span>str = <span class="macro">include_str!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/pyo3-build-config-file.txt&quot;</span>));
 
 <span class="doccomment">/// Build configuration discovered by `pyo3-build-config` build script. Not aware of
 /// cross-compilation settings.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">const </span>HOST_CONFIG: <span class="kw-2">&amp;</span>str = <span class="macro">include_str!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/pyo3-build-config.txt&quot;</span>));
+</span><span class="attribute">#[doc(hidden)]
+#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">const </span>HOST_CONFIG: <span class="kw-2">&amp;</span>str = <span class="macro">include_str!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/pyo3-build-config.txt&quot;</span>));
 
 <span class="doccomment">/// Returns the path where PyO3&#39;s build.rs writes its cross compile configuration.
 ///
 /// The config file will be named `$OUT_DIR/&lt;triple&gt;/pyo3-build-config.txt`.
 ///
 /// Must be called from a build script, returns `None` if not.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-<span class="kw">fn </span>resolve_cross_compile_config_path() -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+</span><span class="attribute">#[doc(hidden)]
+#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+</span><span class="kw">fn </span>resolve_cross_compile_config_path() -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
     env::var_os(<span class="string">&quot;TARGET&quot;</span>).map(|target| {
         <span class="kw">let </span><span class="kw-2">mut </span>path = PathBuf::from(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>));
         path.push(Path::new(<span class="kw-2">&amp;</span>target));
@@ -384,8 +384,8 @@
 ///
 /// Features may be removed or added as MSRV gets bumped or new features become available,
 /// so this function is unstable.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub fn </span>print_feature_cfgs() {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub fn </span>print_feature_cfgs() {
     <span class="kw">fn </span>rustc_minor_version() -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
         <span class="kw">let </span>rustc = env::var_os(<span class="string">&quot;RUSTC&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">let </span>output = Command::new(rustc).arg(<span class="string">&quot;--version&quot;</span>).output().ok()<span class="question-mark">?</span>;
@@ -418,13 +418,13 @@
 <span class="doccomment">/// Private exports used in PyO3&#39;s build.rs
 ///
 /// Please don&#39;t use these - they could change at any time.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub mod </span>pyo3_build_script_impl {
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::errors::{Context, <span class="prelude-ty">Result</span>};
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>pyo3_build_script_impl {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+    </span><span class="kw">use </span><span class="kw">crate</span>::errors::{Context, <span class="prelude-ty">Result</span>};
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+    </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">pub mod </span>errors {
         <span class="kw">pub use </span><span class="kw">crate</span>::errors::<span class="kw-2">*</span>;
@@ -439,8 +439,8 @@
     /// Differs from .get() above only in the cross-compile case, where PyO3&#39;s build script is
     /// required to generate a new config (as it&#39;s the first build script which has access to the
     /// correct value for CARGO_CFG_TARGET_OS).
-    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]</span>
-    <span class="kw">pub fn </span>resolve_interpreter_config() -&gt; <span class="prelude-ty">Result</span>&lt;InterpreterConfig&gt; {
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;resolve-config&quot;</span>)]
+    </span><span class="kw">pub fn </span>resolve_interpreter_config() -&gt; <span class="prelude-ty">Result</span>&lt;InterpreterConfig&gt; {
         <span class="kw">if </span>!CONFIG_FILE.is_empty() {
             <span class="kw">let </span><span class="kw-2">mut </span>interperter_config = InterpreterConfig::from_reader(Cursor::new(CONFIG_FILE))<span class="question-mark">?</span>;
             interperter_config.generate_import_libs()<span class="question-mark">?</span>;
@@ -471,12 +471,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>extension_module_link_args() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>extension_module_link_args() {
         <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
 
         <span class="comment">// Does nothing on non-mac
@@ -509,4 +509,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_build_config" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_build_config" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

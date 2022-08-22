@@ -917,9 +917,9 @@
     PyResult, PyTryFrom, Python, ToPyObject,
 };
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[track_caller]</span>
-<span class="kw">fn </span>new_from_iter(
+<span class="attribute">#[inline]
+#[track_caller]
+</span><span class="kw">fn </span>new_from_iter(
     py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
     elements: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>ExactSizeIterator&lt;Item = PyObject&gt;,
 ) -&gt; Py&lt;PyTuple&gt; {
@@ -939,10 +939,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>counter: Py_ssize_t = <span class="number">0</span>;
 
         <span class="kw">for </span>obj <span class="kw">in </span>elements.take(len <span class="kw">as </span>usize) {
-            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-            ffi::PyTuple_SET_ITEM(ptr, counter, obj.into_ptr());
-            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-            ffi::PyTuple_SetItem(ptr, counter, obj.into_ptr());
+            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+            </span>ffi::PyTuple_SET_ITEM(ptr, counter, obj.into_ptr());
+            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+            </span>ffi::PyTuple_SetItem(ptr, counter, obj.into_ptr());
             counter += <span class="number">1</span>;
         }
 
@@ -956,8 +956,8 @@
 <span class="doccomment">/// Represents a Python `tuple` object.
 ///
 /// This type is immutable.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyTuple(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyTuple(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyTuple, ffi::PyTuple_Type, #checkfunction=ffi::PyTuple_Check);
 
@@ -988,8 +988,8 @@
     /// This function will panic if `element`&#39;s [`ExactSizeIterator`] implementation is incorrect.
     /// All standard library structures implement this trait correctly, if they do, so calling this
     /// function using [`Vec`]`&lt;T&gt;` or `&amp;[T]` will always succeed.
-    </span><span class="attribute">#[track_caller]</span>
-    <span class="kw">pub fn </span>new&lt;T, U&gt;(
+    </span><span class="attribute">#[track_caller]
+    </span><span class="kw">pub fn </span>new&lt;T, U&gt;(
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         elements: <span class="kw">impl </span>IntoIterator&lt;Item = T, IntoIter = U&gt;,
     ) -&gt; <span class="kw-2">&amp;</span>PyTuple
@@ -1010,10 +1010,10 @@
     <span class="doccomment">/// Gets the length of the tuple.
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">unsafe </span>{
-            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-            <span class="kw">let </span>size = ffi::PyTuple_GET_SIZE(<span class="self">self</span>.as_ptr());
-            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-            <span class="kw">let </span>size = ffi::PyTuple_Size(<span class="self">self</span>.as_ptr());
+            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+            </span><span class="kw">let </span>size = ffi::PyTuple_GET_SIZE(<span class="self">self</span>.as_ptr());
+            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+            </span><span class="kw">let </span>size = ffi::PyTuple_Size(<span class="self">self</span>.as_ptr());
             <span class="comment">// non-negative Py_ssize_t should always fit into Rust uint
             </span>size <span class="kw">as </span>usize
         }
@@ -1070,15 +1070,15 @@
     /// # Safety
     ///
     /// Caller must verify that the index is within the bounds of the tuple.
-    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub unsafe fn </span>get_item_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>PyAny {
+    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub unsafe fn </span>get_item_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>PyAny {
         <span class="kw">let </span>item = ffi::PyTuple_GET_ITEM(<span class="self">self</span>.as_ptr(), index <span class="kw">as </span>Py_ssize_t);
         <span class="self">self</span>.py().from_borrowed_ptr(item)
     }
 
     <span class="doccomment">/// Returns `self` as a slice of objects.
-    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub fn </span>as_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>PyAny] {
+    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub fn </span>as_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>PyAny] {
         <span class="comment">// This is safe because &amp;PyAny has the same memory layout as *mut ffi::PyObject,
         // and because tuples are immutable.
         </span><span class="kw">unsafe </span>{
@@ -1091,8 +1091,8 @@
     <span class="doccomment">/// Determines if self contains `value`.
     ///
     /// This is equivalent to the Python expression `value in self`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>contains&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;bool&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1102,8 +1102,8 @@
     <span class="doccomment">/// Returns the first index `i` for which `self[i] == value`.
     ///
     /// This is equivalent to the Python expression `self.index(value)`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>index&lt;V&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: V) -&gt; PyResult&lt;usize&gt;
     <span class="kw">where
         </span>V: ToPyObject,
     {
@@ -1132,13 +1132,13 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>PyTupleIterator&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyAny&gt; {
         <span class="kw">if </span><span class="self">self</span>.index &lt; <span class="self">self</span>.length {
-            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-            <span class="kw">let </span>item = <span class="self">self</span>.tuple.get_item(<span class="self">self</span>.index).expect(<span class="string">&quot;tuple.get failed&quot;</span>);
-            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-            <span class="kw">let </span>item = <span class="kw">unsafe </span>{ <span class="self">self</span>.tuple.get_item_unchecked(<span class="self">self</span>.index) };
+            <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+            </span><span class="kw">let </span>item = <span class="self">self</span>.tuple.get_item(<span class="self">self</span>.index).expect(<span class="string">&quot;tuple.get failed&quot;</span>);
+            <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+            </span><span class="kw">let </span>item = <span class="kw">unsafe </span>{ <span class="self">self</span>.tuple.get_item_unchecked(<span class="self">self</span>.index) };
             <span class="self">self</span>.index += <span class="number">1</span>;
             <span class="prelude-val">Some</span>(item)
         } <span class="kw">else </span>{
@@ -1146,8 +1146,8 @@
         </span>}
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
         (
             <span class="self">self</span>.length.saturating_sub(<span class="self">self</span>.index <span class="kw">as </span>usize),
             <span class="prelude-val">Some</span>(<span class="self">self</span>.length.saturating_sub(<span class="self">self</span>.index <span class="kw">as </span>usize)),
@@ -1170,8 +1170,8 @@
     }
 }
 
-<span class="attribute">#[cold]</span>
-<span class="kw">fn </span>wrong_tuple_length(t: <span class="kw-2">&amp;</span>PyTuple, expected_length: usize) -&gt; PyErr {
+<span class="attribute">#[cold]
+</span><span class="kw">fn </span>wrong_tuple_length(t: <span class="kw-2">&amp;</span>PyTuple, expected_length: usize) -&gt; PyErr {
     <span class="kw">let </span>msg = <span class="macro">format!</span>(
         <span class="string">&quot;expected tuple of length {}, but got tuple of length {}&quot;</span>,
         expected_length,
@@ -1180,7 +1180,7 @@
     exceptions::PyValueError::new_err(msg)
 }
 
-<span class="macro">macro_rules!</span> tuple_conversion ({<span class="macro-nonterminal">$length</span>:expr,$((<span class="macro-nonterminal">$refN</span>:ident, <span class="macro-nonterminal">$n</span>:tt, <span class="macro-nonterminal">$T</span>:ident)),+} =&gt; {
+<span class="macro">macro_rules! </span>tuple_conversion ({<span class="macro-nonterminal">$length</span>:expr,$((<span class="macro-nonterminal">$refN</span>:ident, <span class="macro-nonterminal">$n</span>:tt, <span class="macro-nonterminal">$T</span>:ident)),+} =&gt; {
     <span class="kw">impl </span>&lt;$(<span class="macro-nonterminal">$T</span>: ToPyObject),+&gt; ToPyObject <span class="kw">for </span>($(<span class="macro-nonterminal">$T</span>,)+) {
         <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
             <span class="kw">unsafe </span>{
@@ -1218,11 +1218,11 @@
         {
             <span class="kw">let </span>t = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(obj)<span class="question-mark">?</span>;
             <span class="kw">if </span>t.len() == <span class="macro-nonterminal">$length </span>{
-                <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]</span>
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(($(t.get_item(<span class="macro-nonterminal">$n</span>)<span class="question-mark">?</span>.extract::&lt;<span class="macro-nonterminal">$T</span>&gt;()<span class="question-mark">?</span>,)+));
+                <span class="attribute">#[cfg(any(Py_LIMITED_API, PyPy))]
+                </span><span class="kw">return </span><span class="prelude-val">Ok</span>(($(t.get_item(<span class="macro-nonterminal">$n</span>)<span class="question-mark">?</span>.extract::&lt;<span class="macro-nonterminal">$T</span>&gt;()<span class="question-mark">?</span>,)+));
 
-                <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-                <span class="kw">unsafe </span>{<span class="kw">return </span><span class="prelude-val">Ok</span>(($(t.get_item_unchecked(<span class="macro-nonterminal">$n</span>).extract::&lt;<span class="macro-nonterminal">$T</span>&gt;()<span class="question-mark">?</span>,)+));}
+                <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+                </span><span class="kw">unsafe </span>{<span class="kw">return </span><span class="prelude-val">Ok</span>(($(t.get_item_unchecked(<span class="macro-nonterminal">$n</span>).extract::&lt;<span class="macro-nonterminal">$T</span>&gt;()<span class="question-mark">?</span>,)+));}
             } <span class="kw">else </span>{
                 <span class="prelude-val">Err</span>(wrong_tuple_length(t, <span class="macro-nonterminal">$length</span>))
             }
@@ -1334,14 +1334,14 @@
     (ref11, <span class="number">11</span>, T11)
 );
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PyTuple};
     <span class="kw">use crate</span>::{PyTryFrom, Python, ToPyObject};
     <span class="kw">use </span>std::collections::HashSet;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_new() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_new() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = PyTuple::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
             <span class="macro">assert_eq!</span>(<span class="number">3</span>, ob.len());
@@ -1355,8 +1355,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_len() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1366,8 +1366,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_slice() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>tup = PyTuple::new(py, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]);
             <span class="kw">let </span>slice = tup.get_slice(<span class="number">1</span>, <span class="number">3</span>);
@@ -1377,8 +1377,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1398,8 +1398,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_into_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1411,9 +1411,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">fn </span>test_as_slice() {
+    <span class="attribute">#[test]
+    #[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">fn </span>test_as_slice() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1426,8 +1426,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_lengths_up_to_12() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_lengths_up_to_12() {
         Python::with_gil(|py| {
             <span class="kw">let </span>t0 = (<span class="number">0</span>,).to_object(py);
             <span class="kw">let </span>t1 = (<span class="number">0</span>, <span class="number">1</span>).to_object(py);
@@ -1490,8 +1490,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_get_item_invalid_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_get_item_invalid_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1504,8 +1504,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_get_item_sanity() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_get_item_sanity() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1514,9 +1514,9 @@
         });
     }
 
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_get_item_unchecked_sanity() {
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    #[test]
+    </span><span class="kw">fn </span>test_tuple_get_item_unchecked_sanity() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1525,8 +1525,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_index_trait() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_index_trait() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1536,9 +1536,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_panic() {
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>test_tuple_index_trait_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1546,8 +1546,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_ranges() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_index_trait_ranges() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1565,9 +1565,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 5 out of range for tuple of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_range_panic_start() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 5 out of range for tuple of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_tuple_index_trait_range_panic_start() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1575,9 +1575,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range end index 10 out of range for tuple of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_range_panic_end() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range end index 10 out of range for tuple of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_tuple_index_trait_range_panic_end() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1585,20 +1585,20 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_range_panic_wrong_order() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;slice index starts at 2 but ends at 1&quot;</span>]
+    </span><span class="kw">fn </span>test_tuple_index_trait_range_panic_wrong_order() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
-            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]</span>
-            tuple[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
+            <span class="attribute">#[allow(clippy::reversed_empty_ranges)]
+            </span>tuple[<span class="number">2</span>..<span class="number">1</span>].extract::&lt;Vec&lt;i32&gt;&gt;().unwrap();
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic = <span class="string">&quot;range start index 8 out of range for tuple of length 3&quot;</span>]</span>
-    <span class="kw">fn </span>test_tuple_index_trait_range_from_panic() {
+    <span class="attribute">#[test]
+    #[should_panic = <span class="string">&quot;range start index 8 out of range for tuple of length 3&quot;</span>]
+    </span><span class="kw">fn </span>test_tuple_index_trait_range_from_panic() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1606,8 +1606,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1624,8 +1624,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_tuple_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_tuple_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>ob = (<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>).to_object(py);
             <span class="kw">let </span>tuple = &lt;PyTuple <span class="kw">as </span>PyTryFrom&gt;::try_from(ob.as_ref(py)).unwrap();
@@ -1658,33 +1658,33 @@
         </span>}
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;Attempted to create PyTuple but `elements` was larger than reported by its `ExactSizeIterator` implementation.&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>too_long_iterator() {
+    </span>)]
+    </span><span class="kw">fn </span>too_long_iterator() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..usize::MAX, <span class="number">73</span>);
             <span class="kw">let </span>_tuple = PyTuple::new(py, iter);
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;Attempted to create PyTuple but `elements` was smaller than reported by its `ExactSizeIterator` implementation.&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>too_short_iterator() {
+    </span>)]
+    </span><span class="kw">fn </span>too_short_iterator() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..<span class="number">35</span>, <span class="number">73</span>);
             <span class="kw">let </span>_tuple = PyTuple::new(py, iter);
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic(
+    <span class="attribute">#[test]
+    #[should_panic(
         expected = <span class="string">&quot;out of range integral type conversion attempted on `elements.len()`&quot;
-    </span>)]</span>
-    <span class="kw">fn </span>overflowing_size() {
+    </span>)]
+    </span><span class="kw">fn </span>overflowing_size() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter = FaultyIter(<span class="number">0</span>..<span class="number">0</span>, usize::MAX);
 
@@ -1692,17 +1692,17 @@
         })
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>bad_clone_mem_leaks() {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[test]
+    </span><span class="kw">fn </span>bad_clone_mem_leaks() {
         <span class="kw">use crate</span>::{IntoPy, Py};
         <span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
 
         <span class="kw">static </span>NEEDS_DESTRUCTING_COUNT: AtomicUsize = AtomicUsize::new(<span class="number">0</span>);
 
-        <span class="attribute">#[<span class="kw">crate</span>::pyclass]</span>
-        <span class="attribute">#[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-        <span class="kw">struct </span>Bad(usize);
+        <span class="attribute">#[<span class="kw">crate</span>::pyclass]
+        #[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+        </span><span class="kw">struct </span>Bad(usize);
 
         <span class="kw">impl </span>Clone <span class="kw">for </span>Bad {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
@@ -1760,17 +1760,17 @@
         </span>);
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>bad_clone_mem_leaks_2() {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[test]
+    </span><span class="kw">fn </span>bad_clone_mem_leaks_2() {
         <span class="kw">use crate</span>::{IntoPy, Py};
         <span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
 
         <span class="kw">static </span>NEEDS_DESTRUCTING_COUNT: AtomicUsize = AtomicUsize::new(<span class="number">0</span>);
 
-        <span class="attribute">#[<span class="kw">crate</span>::pyclass]</span>
-        <span class="attribute">#[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-        <span class="kw">struct </span>Bad(usize);
+        <span class="attribute">#[<span class="kw">crate</span>::pyclass]
+        #[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+        </span><span class="kw">struct </span>Bad(usize);
 
         <span class="kw">impl </span>Clone <span class="kw">for </span>Bad {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
@@ -1813,4 +1813,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

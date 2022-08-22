@@ -62,16 +62,16 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::os::raw::{c_double, c_int};
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="comment">// non-limited
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="comment">// non-limited
 </span><span class="kw">pub struct </span>Py_complex {
     <span class="kw">pub </span>real: c_double,
     <span class="kw">pub </span>imag: c_double,
 }
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>_Py_c_sum(left: Py_complex, right: Py_complex) -&gt; Py_complex;
     <span class="kw">pub fn </span>_Py_c_diff(left: Py_complex, right: Py_complex) -&gt; Py_complex;
     <span class="kw">pub fn </span>_Py_c_neg(complex: Py_complex) -&gt; Py_complex;
@@ -79,46 +79,46 @@
     <span class="kw">pub fn </span>_Py_c_quot(dividend: Py_complex, divisor: Py_complex) -&gt; Py_complex;
     <span class="kw">pub fn </span>_Py_c_pow(num: Py_complex, exp: Py_complex) -&gt; Py_complex;
     <span class="kw">pub fn </span>_Py_c_abs(arg: Py_complex) -&gt; c_double;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_FromCComplex&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyComplex_FromCComplex(v: Py_complex) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_AsCComplex&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyComplex_AsCComplex(op: <span class="kw-2">*mut </span>PyObject) -&gt; Py_complex;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_FromCComplex&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyComplex_FromCComplex(v: Py_complex) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_AsCComplex&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyComplex_AsCComplex(op: <span class="kw-2">*mut </span>PyObject) -&gt; Py_complex;
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="comment">// non-limited
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="comment">// non-limited
 </span><span class="kw">pub struct </span>PyComplexObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>cval: Py_complex,
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyComplex_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyComplex_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyComplex_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyComplex_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyComplex_Type))
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyComplex_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyComplex_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyComplex_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="comment">// skipped non-limited PyComplex_FromCComplex
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_FromDoubles&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyComplex_FromDoubles(real: c_double, imag: c_double) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_RealAsDouble&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyComplex_RealAsDouble(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_ImagAsDouble&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyComplex_ImagAsDouble(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_FromDoubles&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyComplex_FromDoubles(real: c_double, imag: c_double) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_RealAsDouble&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyComplex_RealAsDouble(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyComplex_ImagAsDouble&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyComplex_ImagAsDouble(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
     <span class="comment">// skipped non-limited PyComplex_AsCComplex
     // skipped non-limited _PyComplex_FormatAdvancedWriter
 </span>}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

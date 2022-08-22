@@ -239,9 +239,9 @@
 <span class="kw">use </span>std::os::raw::c_int;
 
 <span class="doccomment">/// Sequence interface
-</span><span class="attribute">#[allow(unused_variables)]</span>
-<span class="attribute">#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]</span>
-<span class="kw">pub trait </span>PySequenceProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass + Sized {
+</span><span class="attribute">#[allow(unused_variables)]
+#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]
+</span><span class="kw">pub trait </span>PySequenceProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass + Sized {
     <span class="kw">fn </span>__len__(<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Result
     <span class="kw">where
         </span><span class="self">Self</span>: PySequenceLenProtocol&lt;<span class="lifetime">&#39;p</span>&gt;,
@@ -363,8 +363,8 @@
 <span class="macro">py_ssizearg_func!</span>(repeat, PySequenceRepeatProtocol, <span class="self">Self</span>::__repeat__);
 <span class="macro">py_ssizearg_func!</span>(getitem, PySequenceGetItemProtocol, <span class="self">Self</span>::__getitem__);
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>setitem&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>setitem&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     key: ffi::Py_ssize_t,
     value: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -389,8 +389,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>delitem&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>delitem&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     key: ffi::Py_ssize_t,
     value: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -412,8 +412,8 @@
     })
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>setdelitem&lt;T&gt;(
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>setdelitem&lt;T&gt;(
     slf: <span class="kw-2">*mut </span>ffi::PyObject,
     key: ffi::Py_ssize_t,
     value: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -455,4 +455,4 @@
     call_mut
 );
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -51,9 +51,9 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;serde&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 
-<span class="doccomment">//! Enables (de)serialization of [`Py`]`&lt;T&gt;` objects via [serde](https://docs.rs/serde).
+</span><span class="doccomment">//! Enables (de)serialization of [`Py`]`&lt;T&gt;` objects via [serde](https://docs.rs/serde).
 //!
 //! # Setup
 //!
@@ -63,12 +63,12 @@
 //! [dependencies]
 //! serde = &quot;1.0&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;serde\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;serde\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;serde\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 
 </span><span class="kw">use crate</span>::{Py, PyAny, PyClass, Python};
 <span class="kw">use </span>serde::{de, ser, Deserialize, Deserializer, Serialize, Serializer};
@@ -105,4 +105,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

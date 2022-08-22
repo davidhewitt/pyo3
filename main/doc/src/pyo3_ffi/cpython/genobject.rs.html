@@ -97,52 +97,52 @@
 <span id="97">97</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::PyFrameObject;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::_PyErr_StackItem;
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="kw">use </span>std::os::raw::c_char;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::_PyErr_StackItem;
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="kw">use </span>std::os::raw::c_char;
 <span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyGenObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyGenObject {
     <span class="kw">pub </span>ob_base: PyObject,
-    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-    <span class="kw">pub </span>gi_frame: <span class="kw-2">*mut </span>PyFrameObject,
-    <span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="kw">pub </span>gi_running: c_int,
+    <span class="attribute">#[cfg(not(Py_3_11))]
+    </span><span class="kw">pub </span>gi_frame: <span class="kw-2">*mut </span>PyFrameObject,
+    <span class="attribute">#[cfg(not(Py_3_10))]
+    </span><span class="kw">pub </span>gi_running: c_int,
     <span class="kw">pub </span>gi_code: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>gi_weakreflist: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>gi_name: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>gi_qualname: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>gi_exc_state: _PyErr_StackItem,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_origin_or_finalizer: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_hooks_inited: c_char,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_closed: c_char,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_running_async: c_char,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_frame_state: i8,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>gi_iframe: [<span class="kw-2">*mut </span>PyObject; <span class="number">1</span>],
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_origin_or_finalizer: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_hooks_inited: c_char,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_closed: c_char,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_running_async: c_char,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_frame_state: i8,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>gi_iframe: [<span class="kw-2">*mut </span>PyObject; <span class="number">1</span>],
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyGen_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyGen_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyGen_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyGen_Type))
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyGen_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyGen_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyGen_Type)) <span class="kw">as </span>c_int
 }
 
@@ -153,21 +153,21 @@
     // skipped _PyGen_FetchStopIterationValue
     // skipped _PyGen_yf
     // skipped _PyGen_Finalize
-    </span><span class="attribute">#[cfg(not(any(Py_3_9, PyPy)))]</span>
-    <span class="attribute">#[deprecated(note = <span class="string">&quot;This function was never documented in the Python API.&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyGen_NeedsFinalizing(op: <span class="kw-2">*mut </span>PyGenObject) -&gt; c_int;
+    </span><span class="attribute">#[cfg(not(any(Py_3_9, PyPy)))]
+    #[deprecated(note = <span class="string">&quot;This function was never documented in the Python API.&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyGen_NeedsFinalizing(op: <span class="kw-2">*mut </span>PyGenObject) -&gt; c_int;
 }
 
 <span class="comment">// skipped PyCoroObject
 
-</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyCoro_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>_PyCoroWrapper_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyCoro_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyCoro_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyCoro_Type))
 }
 
@@ -176,8 +176,8 @@
 
 // skipped PyAsyncGenObject
 
-</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyAsyncGen_Type: PyTypeObject;
     <span class="comment">// skipped _PyAsyncGenASend_Type
     // skipped _PyAsyncGenWrappedValue_Type
@@ -186,11 +186,11 @@
 
 <span class="comment">// skipped PyAsyncGen_New
 
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyAsyncGen_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyAsyncGen_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyAsyncGen_Type))
 }
 
 <span class="comment">// skipped _PyAsyncGenValueWrapperNew
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -217,34 +217,34 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]
 
-<span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
+</span><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>pyo3::types::{
     PyDate, PyDateAccess, PyDateTime, PyDelta, PyDeltaAccess, PyTime, PyTimeAccess, PyTuple,
     PyTzInfo, PyTzInfoAccess,
 };
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>make_date(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, year: i32, month: u8, day: u8) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>make_date(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, year: i32, month: u8, day: u8) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
     PyDate::new(py, year, month, day)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_date_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, d: <span class="kw-2">&amp;</span>PyDate) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_date_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, d: <span class="kw-2">&amp;</span>PyDate) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[d.get_year(), d.get_month() <span class="kw">as </span>i32, d.get_day() <span class="kw">as </span>i32],
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>date_from_timestamp(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, timestamp: i64) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>date_from_timestamp(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, timestamp: i64) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDate&gt; {
     PyDate::from_timestamp(py, timestamp)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>make_time&lt;<span class="lifetime">&#39;p</span>&gt;(
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>make_time&lt;<span class="lifetime">&#39;p</span>&gt;(
     py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
     hour: u8,
     minute: u8,
@@ -255,8 +255,8 @@
     PyTime::new(py, hour, minute, second, microsecond, tzinfo)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>time_with_fold&lt;<span class="lifetime">&#39;p</span>&gt;(
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>time_with_fold&lt;<span class="lifetime">&#39;p</span>&gt;(
     py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
     hour: u8,
     minute: u8,
@@ -268,8 +268,8 @@
     PyTime::new_with_fold(py, hour, minute, second, microsecond, tzinfo, fold)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_time_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_time_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[
@@ -281,8 +281,8 @@
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_time_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_time_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[
@@ -295,13 +295,13 @@
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>make_delta(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, days: i32, seconds: i32, microseconds: i32) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDelta&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>make_delta(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, days: i32, seconds: i32, microseconds: i32) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDelta&gt; {
     PyDelta::new(py, days, seconds, microseconds, <span class="bool-val">true</span>)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_delta_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, delta: <span class="kw-2">&amp;</span>PyDelta) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_delta_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, delta: <span class="kw-2">&amp;</span>PyDelta) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[
@@ -312,9 +312,9 @@
     )
 }
 
-<span class="attribute">#[allow(clippy::too_many_arguments)]</span>
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>make_datetime&lt;<span class="lifetime">&#39;p</span>&gt;(
+<span class="attribute">#[allow(clippy::too_many_arguments)]
+#[pyfunction]
+</span><span class="kw">fn </span>make_datetime&lt;<span class="lifetime">&#39;p</span>&gt;(
     py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
     year: i32,
     month: u8,
@@ -338,8 +338,8 @@
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_datetime_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_datetime_tuple&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[
@@ -354,8 +354,8 @@
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_datetime_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_datetime_tuple_fold&lt;<span class="lifetime">&#39;p</span>&gt;(py: Python&lt;<span class="lifetime">&#39;p</span>&gt;, dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>PyTuple {
     PyTuple::new(
         py,
         <span class="kw-2">&amp;</span>[
@@ -371,8 +371,8 @@
     )
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>datetime_from_timestamp&lt;<span class="lifetime">&#39;p</span>&gt;(
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>datetime_from_timestamp&lt;<span class="lifetime">&#39;p</span>&gt;(
     py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
     ts: f64,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt;,
@@ -380,23 +380,23 @@
     PyDateTime::from_timestamp(py, ts, tz)
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_datetime_tzinfo(dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_datetime_tzinfo(dt: <span class="kw-2">&amp;</span>PyDateTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
     dt.get_tzinfo()
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_time_tzinfo(dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_time_tzinfo(dt: <span class="kw-2">&amp;</span>PyTime) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyTzInfo&gt; {
     dt.get_tzinfo()
 }
 
-<span class="attribute">#[pyclass(extends=PyTzInfo)]</span>
-<span class="kw">pub struct </span>TzClass {}
+<span class="attribute">#[pyclass(extends=PyTzInfo)]
+</span><span class="kw">pub struct </span>TzClass {}
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>TzClass {
-    <span class="attribute">#[new]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>TzClass {
+    <span class="attribute">#[new]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         TzClass {}
     }
 
@@ -413,8 +413,8 @@
     </span>}
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>datetime(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>datetime(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(make_date, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     m.add_function(<span class="macro">wrap_pyfunction!</span>(get_date_tuple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     m.add_function(<span class="macro">wrap_pyfunction!</span>(date_from_timestamp, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -437,4 +437,4 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

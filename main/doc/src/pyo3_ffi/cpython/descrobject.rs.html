@@ -96,8 +96,8 @@
     ) -&gt; <span class="kw-2">*mut </span>PyObject,
 &gt;;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>wrapperbase {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>wrapperbase {
     <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>offset: c_int,
     <span class="kw">pub </span>function: <span class="kw-2">*mut </span>c_void,
@@ -109,8 +109,8 @@
 
 <span class="kw">pub const </span>PyWrapperFlag_KEYWORDS: c_int = <span class="number">1</span>;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyDescrObject {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyDescrObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>d_type: <span class="kw-2">*mut </span>PyTypeObject,
     <span class="kw">pub </span>d_name: <span class="kw-2">*mut </span>PyObject,
@@ -120,39 +120,39 @@
 <span class="comment">// skipped non-limited PyDescr_TYPE
 // skipped non-limited PyDescr_NAME
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyMethodDescrObject {
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyMethodDescrObject {
     <span class="kw">pub </span>d_common: PyDescrObject,
     <span class="kw">pub </span>d_method: <span class="kw-2">*mut </span>PyMethodDef,
-    <span class="attribute">#[cfg(all(not(PyPy), Py_3_8))]</span>
-    <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
+    <span class="attribute">#[cfg(all(not(PyPy), Py_3_8))]
+    </span><span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyMemberDescrObject {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyMemberDescrObject {
     <span class="kw">pub </span>d_common: PyDescrObject,
     <span class="kw">pub </span>d_member: <span class="kw-2">*mut </span>PyGetSetDef,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyGetSetDescrObject {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyGetSetDescrObject {
     <span class="kw">pub </span>d_common: PyDescrObject,
     <span class="kw">pub </span>d_getset: <span class="kw-2">*mut </span>PyGetSetDef,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyWrapperDescrObject {
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>PyWrapperDescrObject {
     <span class="kw">pub </span>d_common: PyDescrObject,
     <span class="kw">pub </span>d_base: <span class="kw-2">*mut </span>wrapperbase,
     <span class="kw">pub </span>d_wrapped: <span class="kw-2">*mut </span>c_void,
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>_PyMethodWrapper_Type: PyTypeObject;
 }
 
 <span class="comment">// skipped non-limited PyDescr_NewWrapper
 // skipped non-limited PyDescr_IsData
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -185,38 +185,38 @@
 <span id="185">185</span>
 <span id="186">186</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::PyObject;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::Py_ssize_t;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::Py_ssize_t;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyBaseExceptionObject {
+<span class="attribute">#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyBaseExceptionObject {
     <span class="kw">pub </span>ob_base: PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(all(Py_3_11, not(PyPy)))]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>suppress_context: char,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(all(Py_3_11, not(PyPy)))]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>suppress_context: char,
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PySyntaxErrorObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PySyntaxErrorObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
@@ -226,23 +226,23 @@
     <span class="kw">pub </span>filename: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>lineno: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>offset: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>end_lineno: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>end_offset: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>end_lineno: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>end_offset: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>text: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>print_file_and_line: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyImportErrorObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyImportErrorObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
@@ -253,15 +253,15 @@
     <span class="kw">pub </span>path: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyUnicodeErrorObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyUnicodeErrorObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
@@ -274,15 +274,15 @@
     <span class="kw">pub </span>reason: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PySystemExitObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PySystemExitObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
@@ -291,15 +291,15 @@
     <span class="kw">pub </span>code: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyOSErrorObject {
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyOSErrorObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
@@ -309,29 +309,29 @@
     <span class="kw">pub </span>strerror: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>filename: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>filename2: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(windows)]</span>
-    <span class="kw">pub </span>winerror: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="kw">pub </span>winerror: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>written: Py_ssize_t,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyStopIterationObject {
+<span class="attribute">#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyStopIterationObject {
     <span class="kw">pub </span>ob_base: PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(all(Py_3_11, not(PyPy)))]</span>
-    <span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>suppress_context: char,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>dict: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>args: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(all(Py_3_11, not(PyPy)))]
+    </span><span class="kw">pub </span>notes: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>traceback: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>context: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>cause: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>suppress_context: char,
 
     <span class="kw">pub </span>value: <span class="kw-2">*mut </span>PyObject,
 }
@@ -371,4 +371,4 @@
 // skipped _Py_FatalErrorFormat
 // skipped Py_FatalError
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

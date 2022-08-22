@@ -906,7 +906,7 @@
 
 <span class="kw">static </span>START: Once = Once::new();
 
-<span class="macro">thread_local!</span> {
+<span class="macro">thread_local! </span>{
     <span class="doccomment">/// This is an internal counter in pyo3 monitoring whether this thread has the GIL.
     ///
     /// It will be incremented whenever a GILGuard or GILPool is created, and decremented whenever
@@ -953,8 +953,8 @@
 /// Python::with_gil(|py| py.run(&quot;print(&#39;Hello World&#39;)&quot;, None, None))
 /// # }
 /// ```
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub fn </span>prepare_freethreaded_python() {
+</span><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub fn </span>prepare_freethreaded_python() {
     <span class="comment">// Protect against race conditions when Python is not yet initialized and multiple threads
     // concurrently call &#39;prepare_freethreaded_python()&#39;. Note that we do not protect against
     // concurrent initialization of the Python runtime by other users of the Python C API.
@@ -1000,8 +1000,8 @@
 ///     });
 /// }
 /// ```
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>with_embedded_python_interpreter&lt;F, R&gt;(f: F) -&gt; R
+</span><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>with_embedded_python_interpreter&lt;F, R&gt;(f: F) -&gt; R
 <span class="kw">where
     </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;p</span>&gt; FnOnce(Python&lt;<span class="lifetime">&#39;p</span>&gt;) -&gt; R,
 {
@@ -1049,8 +1049,8 @@
 /// } // GIL is released when gil_guard is dropped
 /// ```
 
-</span><span class="attribute">#[must_use]</span>
-<span class="kw">pub struct </span>GILGuard {
+</span><span class="attribute">#[must_use]
+</span><span class="kw">pub struct </span>GILGuard {
     gstate: ffi::PyGILState_STATE,
     pool: ManuallyDrop&lt;<span class="prelude-ty">Option</span>&lt;GILPool&gt;&gt;,
     _not_send: NotSend,
@@ -1058,8 +1058,8 @@
 
 <span class="kw">impl </span>GILGuard {
     <span class="doccomment">/// Retrieves the marker type that proves that the GIL was acquired.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>python(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>python(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
         <span class="kw">unsafe </span>{ Python::assume_gil_acquired() }
     }
 
@@ -1074,16 +1074,16 @@
         //    extension-module feature is not activated - extension modules don&#39;t care about
         //    auto-initialize so this avoids breaking existing builds.
         //  - Otherwise, just check the GIL is initialized.
-        </span><span class="macro">cfg_if::cfg_if!</span> {
-            <span class="kw">if </span><span class="attribute">#[cfg(all(feature = <span class="string">&quot;auto-initialize&quot;</span>, not(PyPy)))]</span> {
+        </span><span class="macro">cfg_if::cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(all(feature = <span class="string">&quot;auto-initialize&quot;</span>, not(PyPy)))] </span>{
                 prepare_freethreaded_python();
             } <span class="kw">else </span>{
                 <span class="comment">// This is a &quot;hack&quot; to make running `cargo test` for PyO3 convenient (i.e. no need
                 // to specify `--features auto-initialize` manually. Tests within the crate itself
                 // all depend on the auto-initialize feature for conciseness but Cargo does not
                 // provide a mechanism to specify required features for tests.
-                </span><span class="attribute">#[cfg(not(PyPy))]</span>
-                <span class="kw">if </span><span class="macro">option_env!</span>(<span class="string">&quot;CARGO_PRIMARY_PACKAGE&quot;</span>).is_some() {
+                </span><span class="attribute">#[cfg(not(PyPy))]
+                </span><span class="kw">if </span><span class="macro">option_env!</span>(<span class="string">&quot;CARGO_PRIMARY_PACKAGE&quot;</span>).is_some() {
                     prepare_freethreaded_python();
                 }
 
@@ -1136,8 +1136,8 @@
 </span><span class="kw">impl </span>Drop <span class="kw">for </span>GILGuard {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="comment">// First up, try to detect if the order of destruction is correct.
-        </span><span class="attribute">#[allow(clippy::manual_assert)]</span>
-        <span class="kw">let _ </span>= GIL_COUNT.try_with(|c| {
+        </span><span class="attribute">#[allow(clippy::manual_assert)]
+        </span><span class="kw">let _ </span>= GIL_COUNT.try_with(|c| {
             <span class="kw">if </span><span class="self">self</span>.gstate == ffi::PyGILState_STATE::PyGILState_UNLOCKED &amp;&amp; c.get() != <span class="number">1 </span>{
                 <span class="comment">// XXX: this panic commits to leaking all objects in the pool as well as
                 // potentially meaning the GIL never releases. Perhaps should be an abort?
@@ -1242,8 +1242,8 @@
     /// # Safety
     ///
     /// As well as requiring the GIL, see the safety notes on [`Python::new_pool`].
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>new() -&gt; GILPool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>new() -&gt; GILPool {
         increment_gil_count();
         <span class="comment">// Update counts of PyObjects / Py that have been cloned or dropped since last acquisition
         </span>POOL.update_counts(Python::assume_gil_acquired());
@@ -1254,8 +1254,8 @@
     }
 
     <span class="doccomment">/// Gets the Python token associated with this [`GILPool`].
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>python(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>python(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
         <span class="kw">unsafe </span>{ Python::assume_gil_acquired() }
     }
 }
@@ -1326,15 +1326,15 @@
 }
 
 <span class="doccomment">/// Increments pyo3&#39;s internal GIL count - to be called whenever GILPool or GILGuard is created.
-</span><span class="attribute">#[inline(always)]</span>
-<span class="kw">fn </span>increment_gil_count() {
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">fn </span>increment_gil_count() {
     <span class="comment">// Ignores the error in case this function called from `atexit`.
     </span><span class="kw">let _ </span>= GIL_COUNT.try_with(|c| c.set(c.get() + <span class="number">1</span>));
 }
 
 <span class="doccomment">/// Decrements pyo3&#39;s internal GIL count - to be called whenever GILPool or GILGuard is dropped.
-</span><span class="attribute">#[inline(always)]</span>
-<span class="kw">fn </span>decrement_gil_count() {
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">fn </span>decrement_gil_count() {
     <span class="comment">// Ignores the error in case this function called from `atexit`.
     </span><span class="kw">let _ </span>= GIL_COUNT.try_with(|c| {
         <span class="kw">let </span>current = c.get();
@@ -1386,8 +1386,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::{gil_is_acquired, GILPool, GIL_COUNT, OWNED_OBJECTS, POOL};
     <span class="kw">use crate</span>::{ffi, gil, AsPyPointer, IntoPyPointer, PyObject, Python, ToPyObject};
     <span class="kw">use </span>parking_lot::{const_mutex, Condvar, Mutex};
@@ -1407,10 +1407,10 @@
         OWNED_OBJECTS.with(|holder| holder.borrow().len())
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_owned() {
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_owned() {
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
         <span class="kw">let </span>obj = get_object(py);
         <span class="kw">let </span>obj_ptr = obj.as_ptr();
@@ -1433,10 +1433,10 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_owned_nested() {
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_owned_nested() {
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
         <span class="kw">let </span>obj = get_object(py);
         <span class="comment">// Ensure that obj does not get freed
@@ -1467,10 +1467,10 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyobject_drop_with_gil_decreases_refcnt() {
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pyobject_drop_with_gil_decreases_refcnt() {
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
         <span class="kw">let </span>obj = get_object(py);
         <span class="comment">// Ensure that obj does not get freed
@@ -1489,10 +1489,10 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyobject_drop_without_gil_doesnt_decrease_refcnt() {
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pyobject_drop_without_gil_doesnt_decrease_refcnt() {
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
         <span class="kw">let </span>obj = get_object(py);
         <span class="comment">// Ensure that obj does not get freed
@@ -1512,21 +1512,21 @@
 
             {
                 <span class="comment">// Next time the GIL is acquired, the object is released
-                </span><span class="attribute">#[allow(deprecated)]</span>
-                <span class="kw">let </span>_gil = Python::acquire_gil();
+                </span><span class="attribute">#[allow(deprecated)]
+                </span><span class="kw">let </span>_gil = Python::acquire_gil();
                 <span class="macro">assert_eq!</span>(ffi::Py_REFCNT(obj_ptr), <span class="number">1</span>);
             }
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_gil_counts() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_gil_counts() {
         <span class="comment">// Check GILGuard and GILPool both increase counts correctly
         </span><span class="kw">let </span>get_gil_count = || GIL_COUNT.with(|c| c.get());
 
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">0</span>);
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">1</span>);
 
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">1</span>);
@@ -1539,8 +1539,8 @@
         drop(pool);
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">2</span>);
 
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil2 = Python::acquire_gil();
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil2 = Python::acquire_gil();
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">3</span>);
 
         drop(gil2);
@@ -1553,11 +1553,11 @@
         <span class="macro">assert_eq!</span>(get_gil_count(), <span class="number">0</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_allow_threads() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_allow_threads() {
         <span class="comment">// allow_threads should temporarily release GIL in PyO3&#39;s internal tracking too.
-        </span><span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+        </span><span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
 
         <span class="macro">assert!</span>(gil_is_acquired());
@@ -1565,8 +1565,8 @@
         py.allow_threads(<span class="kw">move </span>|| {
             <span class="macro">assert!</span>(!gil_is_acquired());
 
-            <span class="attribute">#[allow(deprecated)]</span>
-            <span class="kw">let </span>gil = Python::acquire_gil();
+            <span class="attribute">#[allow(deprecated)]
+            </span><span class="kw">let </span>gil = Python::acquire_gil();
             <span class="macro">assert!</span>(gil_is_acquired());
 
             drop(gil);
@@ -1576,15 +1576,15 @@
         <span class="macro">assert!</span>(gil_is_acquired());
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>dropping_gil_does_not_invalidate_references() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>dropping_gil_does_not_invalidate_references() {
         <span class="comment">// Acquiring GIL for the second time should be safe - see #864
-        </span><span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+        </span><span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
 
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil2 = Python::acquire_gil();
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil2 = Python::acquire_gil();
         <span class="kw">let </span>obj = py.eval(<span class="string">&quot;object()&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         drop(gil2);
 
@@ -1592,18 +1592,18 @@
         </span><span class="macro">assert_eq!</span>(obj.get_refcnt(), <span class="number">1</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_clone_with_gil() {
-        <span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_clone_with_gil() {
+        <span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>py = gil.python();
 
         <span class="kw">let </span>obj = get_object(py);
         <span class="kw">let </span>count = obj.get_refcnt(py);
 
         <span class="comment">// Cloning with the GIL should increase reference count immediately
-        </span><span class="attribute">#[allow(clippy::redundant_clone)]</span>
-        <span class="kw">let </span>c = obj.clone();
+        </span><span class="attribute">#[allow(clippy::redundant_clone)]
+        </span><span class="kw">let </span>c = obj.clone();
         <span class="macro">assert_eq!</span>(count + <span class="number">1</span>, c.get_refcnt(py));
     }
 
@@ -1633,8 +1633,8 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span> <span class="comment">// We are building wasm Python with pthreads disabled
+    <span class="attribute">#[test]
+    #[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))] </span><span class="comment">// We are building wasm Python with pthreads disabled
     </span><span class="kw">fn </span>test_clone_without_gil() {
         <span class="kw">use crate</span>::{Py, PyAny};
         <span class="kw">use </span>std::{sync::Arc, thread};
@@ -1704,8 +1704,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span> <span class="comment">// We are building wasm Python with pthreads disabled
+    <span class="attribute">#[test]
+    #[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))] </span><span class="comment">// We are building wasm Python with pthreads disabled
     </span><span class="kw">fn </span>test_clone_in_other_thread() {
         <span class="kw">use </span><span class="kw">crate</span>::Py;
         <span class="kw">use </span>std::{sync::Arc, thread};
@@ -1721,8 +1721,8 @@
             <span class="comment">// Start a thread which does not have the GIL, and clone it
             </span><span class="kw">let </span>t = thread::spawn(<span class="kw">move </span>|| {
                 <span class="comment">// Cloning without GIL should not update reference count
-                </span><span class="attribute">#[allow(clippy::redundant_clone)]</span>
-                <span class="kw">let _ </span>= Py::clone(<span class="kw-2">&amp;*</span>thread_obj);
+                </span><span class="attribute">#[allow(clippy::redundant_clone)]
+                </span><span class="kw">let _ </span>= Py::clone(<span class="kw-2">&amp;*</span>thread_obj);
                 OBJECT_CLONED.set();
             });
 
@@ -1750,13 +1750,13 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_update_counts_does_not_deadlock() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_update_counts_does_not_deadlock() {
         <span class="comment">// update_counts can run arbitrary Python code during Py_DECREF.
         // if the locking is implemented incorrectly, it will deadlock.
 
-        </span><span class="attribute">#[allow(deprecated)]</span>
-        <span class="kw">let </span>gil = Python::acquire_gil();
+        </span><span class="attribute">#[allow(deprecated)]
+        </span><span class="kw">let </span>gil = Python::acquire_gil();
         <span class="kw">let </span>obj = get_object(gil.python());
 
         <span class="kw">unsafe </span>{
@@ -1783,4 +1783,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

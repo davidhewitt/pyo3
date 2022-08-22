@@ -419,18 +419,18 @@
 // skipped _Py_static_string
 // skipped _Py_IDENTIFIER
 
-</span><span class="attribute">#[cfg(not(Py_3_11))]</span> <span class="comment">// moved to src/buffer.rs from Python
+</span><span class="attribute">#[cfg(not(Py_3_11))] </span><span class="comment">// moved to src/buffer.rs from Python
 </span><span class="kw">mod </span>bufferinfo {
     <span class="kw">use </span><span class="kw">crate</span>::Py_ssize_t;
     <span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
     <span class="kw">use </span>std::ptr;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="kw">const </span>Py_MAX_NDIMS: usize = <span class="number">36</span>;
+    <span class="attribute">#[cfg(PyPy)]
+    </span><span class="kw">const </span>Py_MAX_NDIMS: usize = <span class="number">36</span>;
 
-    <span class="attribute">#[repr(C)]</span>
-    <span class="attribute">#[derive(Copy, Clone)]</span>
-    <span class="kw">pub struct </span>Py_buffer {
+    <span class="attribute">#[repr(C)]
+    #[derive(Copy, Clone)]
+    </span><span class="kw">pub struct </span>Py_buffer {
         <span class="kw">pub </span>buf: <span class="kw-2">*mut </span>c_void,
         <span class="doccomment">/// Owned reference
         </span><span class="kw">pub </span>obj: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyObject,
@@ -443,12 +443,12 @@
         <span class="kw">pub </span>strides: <span class="kw-2">*mut </span>Py_ssize_t,
         <span class="kw">pub </span>suboffsets: <span class="kw-2">*mut </span>Py_ssize_t,
         <span class="kw">pub </span>internal: <span class="kw-2">*mut </span>c_void,
-        <span class="attribute">#[cfg(PyPy)]</span>
-        <span class="kw">pub </span>flags: c_int,
-        <span class="attribute">#[cfg(PyPy)]</span>
-        <span class="kw">pub </span>_strides: [Py_ssize_t; Py_MAX_NDIMS],
-        <span class="attribute">#[cfg(PyPy)]</span>
-        <span class="kw">pub </span>_shape: [Py_ssize_t; Py_MAX_NDIMS],
+        <span class="attribute">#[cfg(PyPy)]
+        </span><span class="kw">pub </span>flags: c_int,
+        <span class="attribute">#[cfg(PyPy)]
+        </span><span class="kw">pub </span>_strides: [Py_ssize_t; Py_MAX_NDIMS],
+        <span class="attribute">#[cfg(PyPy)]
+        </span><span class="kw">pub </span>_shape: [Py_ssize_t; Py_MAX_NDIMS],
     }
 
     <span class="kw">impl </span>Py_buffer {
@@ -465,12 +465,12 @@
                 strides: ptr::null_mut(),
                 suboffsets: ptr::null_mut(),
                 internal: ptr::null_mut(),
-                <span class="attribute">#[cfg(PyPy)]</span>
-                flags: <span class="number">0</span>,
-                <span class="attribute">#[cfg(PyPy)]</span>
-                _strides: [<span class="number">0</span>; Py_MAX_NDIMS],
-                <span class="attribute">#[cfg(PyPy)]</span>
-                _shape: [<span class="number">0</span>; Py_MAX_NDIMS],
+                <span class="attribute">#[cfg(PyPy)]
+                </span>flags: <span class="number">0</span>,
+                <span class="attribute">#[cfg(PyPy)]
+                </span>_strides: [<span class="number">0</span>; Py_MAX_NDIMS],
+                <span class="attribute">#[cfg(PyPy)]
+                </span>_shape: [<span class="number">0</span>; Py_MAX_NDIMS],
             }
         }
     }
@@ -515,20 +515,20 @@
     <span class="kw">pub const </span>PyBUF_WRITE: c_int = <span class="number">0x200</span>;
 }
 
-<span class="attribute">#[cfg(not(Py_3_11))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::bufferinfo::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(Py_3_11))]
+</span><span class="kw">pub use </span><span class="self">self</span>::bufferinfo::<span class="kw-2">*</span>;
 
-<span class="attribute">#[cfg(Py_3_8)]</span>
-<span class="kw">pub type </span>vectorcallfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+<span class="attribute">#[cfg(Py_3_8)]
+</span><span class="kw">pub type </span>vectorcallfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
     callable: <span class="kw-2">*mut </span>PyObject,
     args: <span class="kw-2">*const *mut </span>PyObject,
     nargsf: libc::size_t,
     kwnames: <span class="kw-2">*mut </span>PyObject,
 ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyNumberMethods {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyNumberMethods {
     <span class="kw">pub </span>nb_add: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
     <span class="kw">pub </span>nb_subtract: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
     <span class="kw">pub </span>nb_multiply: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
@@ -567,9 +567,9 @@
     <span class="kw">pub </span>nb_inplace_matrix_multiply: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone)]</span>
-<span class="kw">pub struct </span>PySequenceMethods {
+<span class="attribute">#[repr(C)]
+#[derive(Clone)]
+</span><span class="kw">pub struct </span>PySequenceMethods {
     <span class="kw">pub </span>sq_length: <span class="prelude-ty">Option</span>&lt;object::lenfunc&gt;,
     <span class="kw">pub </span>sq_concat: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
     <span class="kw">pub </span>sq_repeat: <span class="prelude-ty">Option</span>&lt;object::ssizeargfunc&gt;,
@@ -582,34 +582,34 @@
     <span class="kw">pub </span>sq_inplace_repeat: <span class="prelude-ty">Option</span>&lt;object::ssizeargfunc&gt;,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone, Default)]</span>
-<span class="kw">pub struct </span>PyMappingMethods {
+<span class="attribute">#[repr(C)]
+#[derive(Clone, Default)]
+</span><span class="kw">pub struct </span>PyMappingMethods {
     <span class="kw">pub </span>mp_length: <span class="prelude-ty">Option</span>&lt;object::lenfunc&gt;,
     <span class="kw">pub </span>mp_subscript: <span class="prelude-ty">Option</span>&lt;object::binaryfunc&gt;,
     <span class="kw">pub </span>mp_ass_subscript: <span class="prelude-ty">Option</span>&lt;object::objobjargproc&gt;,
 }
 
-<span class="attribute">#[cfg(Py_3_10)]</span>
-<span class="kw">pub type </span>sendfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+<span class="attribute">#[cfg(Py_3_10)]
+</span><span class="kw">pub type </span>sendfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
     iter: <span class="kw-2">*mut </span>PyObject,
     value: <span class="kw-2">*mut </span>PyObject,
     result: <span class="kw-2">*mut *mut </span>PyObject,
 ) -&gt; object::PySendResult;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone, Default)]</span>
-<span class="kw">pub struct </span>PyAsyncMethods {
+<span class="attribute">#[repr(C)]
+#[derive(Clone, Default)]
+</span><span class="kw">pub struct </span>PyAsyncMethods {
     <span class="kw">pub </span>am_await: <span class="prelude-ty">Option</span>&lt;object::unaryfunc&gt;,
     <span class="kw">pub </span>am_aiter: <span class="prelude-ty">Option</span>&lt;object::unaryfunc&gt;,
     <span class="kw">pub </span>am_anext: <span class="prelude-ty">Option</span>&lt;object::unaryfunc&gt;,
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub </span>am_send: <span class="prelude-ty">Option</span>&lt;sendfunc&gt;,
+    <span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub </span>am_send: <span class="prelude-ty">Option</span>&lt;sendfunc&gt;,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone, Default)]</span>
-<span class="kw">pub struct </span>PyBufferProcs {
+<span class="attribute">#[repr(C)]
+#[derive(Clone, Default)]
+</span><span class="kw">pub struct </span>PyBufferProcs {
     <span class="kw">pub </span>bf_getbuffer: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::getbufferproc&gt;,
     <span class="kw">pub </span>bf_releasebuffer: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::releasebufferproc&gt;,
 }
@@ -617,27 +617,27 @@
 <span class="kw">pub type </span>printfunc =
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>::libc::FILE, arg3: c_int) -&gt; c_int;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug, Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyTypeObject {
-    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]</span>
-    <span class="kw">pub </span>ob_refcnt: Py_ssize_t,
-    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]</span>
-    <span class="kw">pub </span>ob_pypy_link: Py_ssize_t,
-    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]</span>
-    <span class="kw">pub </span>ob_type: <span class="kw-2">*mut </span>PyTypeObject,
-    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]</span>
-    <span class="kw">pub </span>ob_size: Py_ssize_t,
-    <span class="attribute">#[cfg(not(all(PyPy, not(Py_3_9))))]</span>
-    <span class="kw">pub </span>ob_base: object::PyVarObject,
+<span class="attribute">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+</span><span class="kw">pub struct </span>PyTypeObject {
+    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]
+    </span><span class="kw">pub </span>ob_refcnt: Py_ssize_t,
+    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]
+    </span><span class="kw">pub </span>ob_pypy_link: Py_ssize_t,
+    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]
+    </span><span class="kw">pub </span>ob_type: <span class="kw-2">*mut </span>PyTypeObject,
+    <span class="attribute">#[cfg(all(PyPy, not(Py_3_9)))]
+    </span><span class="kw">pub </span>ob_size: Py_ssize_t,
+    <span class="attribute">#[cfg(not(all(PyPy, not(Py_3_9))))]
+    </span><span class="kw">pub </span>ob_base: object::PyVarObject,
     <span class="kw">pub </span>tp_name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>tp_basicsize: Py_ssize_t,
     <span class="kw">pub </span>tp_itemsize: Py_ssize_t,
     <span class="kw">pub </span>tp_dealloc: <span class="prelude-ty">Option</span>&lt;object::destructor&gt;,
-    <span class="attribute">#[cfg(not(Py_3_8))]</span>
-    <span class="kw">pub </span>tp_print: <span class="prelude-ty">Option</span>&lt;printfunc&gt;,
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub </span>tp_vectorcall_offset: Py_ssize_t,
+    <span class="attribute">#[cfg(not(Py_3_8))]
+    </span><span class="kw">pub </span>tp_print: <span class="prelude-ty">Option</span>&lt;printfunc&gt;,
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub </span>tp_vectorcall_offset: Py_ssize_t,
     <span class="kw">pub </span>tp_getattr: <span class="prelude-ty">Option</span>&lt;object::getattrfunc&gt;,
     <span class="kw">pub </span>tp_setattr: <span class="prelude-ty">Option</span>&lt;object::setattrfunc&gt;,
     <span class="kw">pub </span>tp_as_async: <span class="kw-2">*mut </span>PyAsyncMethods,
@@ -680,34 +680,34 @@
     <span class="kw">pub </span>tp_del: <span class="prelude-ty">Option</span>&lt;object::destructor&gt;,
     <span class="kw">pub </span>tp_version_tag: c_uint,
     <span class="kw">pub </span>tp_finalize: <span class="prelude-ty">Option</span>&lt;object::destructor&gt;,
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub </span>tp_vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">super</span>::vectorcallfunc&gt;,
-    <span class="attribute">#[cfg(any(all(PyPy, Py_3_8), all(not(PyPy), Py_3_8, not(Py_3_9))))]</span>
-    <span class="kw">pub </span>tp_print: <span class="prelude-ty">Option</span>&lt;printfunc&gt;,
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="kw">pub </span>tp_pypy_flags: std::os::raw::c_long,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]</span>
-    <span class="kw">pub </span>tp_allocs: Py_ssize_t,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]</span>
-    <span class="kw">pub </span>tp_frees: Py_ssize_t,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]</span>
-    <span class="kw">pub </span>tp_maxalloc: Py_ssize_t,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]</span>
-    <span class="kw">pub </span>tp_prev: <span class="kw-2">*mut </span>PyTypeObject,
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]</span>
-    <span class="kw">pub </span>tp_next: <span class="kw-2">*mut </span>PyTypeObject,
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub </span>tp_vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">super</span>::vectorcallfunc&gt;,
+    <span class="attribute">#[cfg(any(all(PyPy, Py_3_8), all(not(PyPy), Py_3_8, not(Py_3_9))))]
+    </span><span class="kw">pub </span>tp_print: <span class="prelude-ty">Option</span>&lt;printfunc&gt;,
+    <span class="attribute">#[cfg(PyPy)]
+    </span><span class="kw">pub </span>tp_pypy_flags: std::os::raw::c_long,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]
+    </span><span class="kw">pub </span>tp_allocs: Py_ssize_t,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]
+    </span><span class="kw">pub </span>tp_frees: Py_ssize_t,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]
+    </span><span class="kw">pub </span>tp_maxalloc: Py_ssize_t,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]
+    </span><span class="kw">pub </span>tp_prev: <span class="kw-2">*mut </span>PyTypeObject,
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;COUNT_ALLOCS&quot;</span>)]
+    </span><span class="kw">pub </span>tp_next: <span class="kw-2">*mut </span>PyTypeObject,
 }
 
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone)]</span>
-<span class="kw">pub struct </span>_specialization_cache {
+<span class="attribute">#[cfg(Py_3_11)]
+#[repr(C)]
+#[derive(Clone)]
+</span><span class="kw">pub struct </span>_specialization_cache {
     <span class="kw">pub </span>getitem: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone)]</span>
-<span class="kw">pub struct </span>PyHeapTypeObject {
+<span class="attribute">#[repr(C)]
+#[derive(Clone)]
+</span><span class="kw">pub struct </span>PyHeapTypeObject {
     <span class="kw">pub </span>ht_type: PyTypeObject,
     <span class="kw">pub </span>as_async: PyAsyncMethods,
     <span class="kw">pub </span>as_number: PyNumberMethods,
@@ -717,25 +717,25 @@
     <span class="kw">pub </span>ht_name: <span class="kw-2">*mut </span>object::PyObject,
     <span class="kw">pub </span>ht_slots: <span class="kw-2">*mut </span>object::PyObject,
     <span class="kw">pub </span>ht_qualname: <span class="kw-2">*mut </span>object::PyObject,
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub </span>ht_cached_keys: <span class="kw-2">*mut </span>c_void,
-    <span class="attribute">#[cfg(Py_3_9)]</span>
-    <span class="kw">pub </span>ht_module: <span class="kw-2">*mut </span>object::PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>_ht_tpname: <span class="kw-2">*mut </span>c_char,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>_spec_cache: _specialization_cache,
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub </span>ht_cached_keys: <span class="kw-2">*mut </span>c_void,
+    <span class="attribute">#[cfg(Py_3_9)]
+    </span><span class="kw">pub </span>ht_module: <span class="kw-2">*mut </span>object::PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>_ht_tpname: <span class="kw-2">*mut </span>c_char,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>_spec_cache: _specialization_cache,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>PyHeapTypeObject {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{ mem::zeroed() }
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyHeapType_GET_MEMBERS(
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyHeapType_GET_MEMBERS(
     etype: <span class="kw-2">*mut </span>PyHeapTypeObject,
 ) -&gt; <span class="kw-2">*mut </span><span class="kw">crate</span>::structmember::PyMemberDef {
     <span class="kw">let </span>py_type = object::Py_TYPE(etype <span class="kw">as </span><span class="kw-2">*mut </span>object::PyObject);
@@ -753,8 +753,8 @@
 // skipped _PyType_GetModuleByDef
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Print&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Print(o: <span class="kw-2">*mut </span>PyObject, fp: <span class="kw-2">*mut </span>::libc::FILE, flags: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Print&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Print(o: <span class="kw-2">*mut </span>PyObject, fp: <span class="kw-2">*mut </span>::libc::FILE, flags: c_int) -&gt; c_int;
 
     <span class="comment">// skipped _Py_BreakPoint
     // skipped _PyObject_Dump
@@ -766,13 +766,13 @@
     // skipped _PyObject_LookupAttrId
     // skipped _PyObject_GetMethod
 
-    </span><span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>_PyObject_GetDictPtr(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut *mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>_PyObject_NextNotImplemented(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    </span><span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>_PyObject_GetDictPtr(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut *mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>_PyObject_NextNotImplemented(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyObject_CallFinalizer(arg1: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFinalizerFromDealloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallFinalizerFromDealloc(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFinalizerFromDealloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallFinalizerFromDealloc(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
     <span class="comment">// skipped _PyObject_GenericGetAttrWithDict
     // skipped _PyObject_GenericSetAttrWithDict
@@ -782,8 +782,8 @@
 <span class="comment">// skipped Py_SETREF
 // skipped Py_XSETREF
 
-</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+</span><span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>_PyNone_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>_PyNotImplemented_Type: PyTypeObject;
 }
@@ -811,4 +811,4 @@
 // skipped Py_TRASHCAN_SAFE_BEGIN
 // skipped Py_TRASHCAN_SAFE_END
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

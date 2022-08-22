@@ -148,25 +148,25 @@
 <span id="148">148</span>
 <span id="149">149</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyport::Py_hash_t;
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyport::Py_hash_t;
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::c_int;
 
 <span class="kw">pub const </span>PySet_MINSIZE: usize = <span class="number">8</span>;
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>setentry {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>setentry {
     <span class="kw">pub </span>key: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>hash: Py_hash_t,
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PySetObject {
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PySetObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>fill: Py_ssize_t,
     <span class="kw">pub </span>used: Py_ssize_t,
@@ -179,24 +179,24 @@
 }
 
 <span class="comment">// skipped
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(all(not(PyPy), not(Py_LIMITED_API)))]</span>
-<span class="kw">pub unsafe fn </span>PySet_GET_SIZE(so: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+</span><span class="attribute">#[inline]
+#[cfg(all(not(PyPy), not(Py_LIMITED_API)))]
+</span><span class="kw">pub unsafe fn </span>PySet_GET_SIZE(so: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     <span class="macro">debug_assert_eq!</span>(PyAnySet_Check(so), <span class="number">1</span>);
     <span class="kw">let </span>so = so.cast::&lt;PySetObject&gt;();
     (<span class="kw-2">*</span>so).used
 }
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>_PySet_Dummy: <span class="kw-2">*mut </span>PyObject;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPySet_NextEntry&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PySet_NextEntry(
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPySet_NextEntry&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PySet_NextEntry(
         set: <span class="kw-2">*mut </span>PyObject,
         pos: <span class="kw-2">*mut </span>Py_ssize_t,
         key: <span class="kw-2">*mut *mut </span>PyObject,
@@ -206,95 +206,95 @@
     <span class="comment">// skipped non-limited _PySet_Update
 </span>}
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PySet_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrozenSet_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyFrozenSet_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PySet_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrozenSet_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyFrozenSet_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PySetIter_Type: PyTypeObject;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrozenSet_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyFrozenSet_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFrozenSet_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyFrozenSet_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Add&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Add(set: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Clear&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Clear(set: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Contains&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Contains(anyset: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Discard&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Discard(set: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Pop&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Pop(set: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySet_Size(anyset: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Add&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Add(set: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Clear&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Clear(set: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Contains&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Contains(anyset: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Discard&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Discard(set: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Pop&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Pop(set: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySet_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySet_Size(anyset: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyFrozenSet_CheckExact&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyFrozenSet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyFrozenSet_CheckExact&quot;</span>]
+    </span><span class="kw">pub fn </span>PyFrozenSet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyFrozenSet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyFrozenSet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PyFrozenSet_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyFrozenSet_Check&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyFrozenSet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyFrozenSet_Check&quot;</span>]
+    </span><span class="kw">pub fn </span>PyFrozenSet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyFrozenSet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyFrozenSet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PyFrozenSet_Type)
         || PyType_IsSubtype(Py_TYPE(ob), <span class="macro">addr_of_mut_shim!</span>(PyFrozenSet_Type)) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyAnySet_CheckExact&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyAnySet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyAnySet_CheckExact&quot;</span>]
+    </span><span class="kw">pub fn </span>PyAnySet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyAnySet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyAnySet_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PySet_Type)
         || Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PyFrozenSet_Type)) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyAnySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyAnySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (PyAnySet_CheckExact(ob) != <span class="number">0
         </span>|| PyType_IsSubtype(Py_TYPE(ob), <span class="macro">addr_of_mut_shim!</span>(PySet_Type)) != <span class="number">0
         </span>|| PyType_IsSubtype(Py_TYPE(ob), <span class="macro">addr_of_mut_shim!</span>(PyFrozenSet_Type)) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(Py_3_10)]</span>
-<span class="kw">pub unsafe fn </span>PySet_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(Py_3_10)]
+</span><span class="kw">pub unsafe fn </span>PySet_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     <span class="kw">crate</span>::Py_IS_TYPE(op, <span class="macro">addr_of_mut_shim!</span>(PySet_Type))
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPySet_Check&quot;</span>]</span>
-    <span class="kw">pub fn </span>PySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPySet_Check&quot;</span>]
+    </span><span class="kw">pub fn </span>PySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PySet_Check(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PySet_Type)
         || PyType_IsSubtype(Py_TYPE(ob), <span class="macro">addr_of_mut_shim!</span>(PySet_Type)) != <span class="number">0</span>) <span class="kw">as </span>c_int
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

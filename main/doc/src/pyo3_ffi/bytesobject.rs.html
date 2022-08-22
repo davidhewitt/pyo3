@@ -64,44 +64,44 @@
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyBytes_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyBytes_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyBytesIter_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyBytes_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyBytes_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_BYTES_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyBytes_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyBytes_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyBytes_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromStringAndSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_FromStringAndSize(arg1: <span class="kw-2">*const </span>c_char, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromStringAndSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_FromStringAndSize(arg1: <span class="kw-2">*const </span>c_char, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyBytes_FromString(arg1: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_FromObject(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_FromObject(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// skipped PyBytes_FromFormatV
     //#[cfg_attr(PyPy, link_name = &quot;PyPyBytes_FromFormatV&quot;)]
     //pub fn PyBytes_FromFormatV(arg1: *const c_char, arg2: va_list)
     // -&gt; *mut PyObject;
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromFormat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_FromFormat(arg1: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_Size(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_AsString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_AsString(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_char;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_FromFormat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_FromFormat(arg1: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_Size(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_AsString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_AsString(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_char;
     <span class="kw">pub fn </span>PyBytes_Repr(arg1: <span class="kw-2">*mut </span>PyObject, arg2: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Concat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_Concat(arg1: <span class="kw-2">*mut *mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_ConcatAndDel&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_ConcatAndDel(arg1: <span class="kw-2">*mut *mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_Concat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_Concat(arg1: <span class="kw-2">*mut *mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_ConcatAndDel&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_ConcatAndDel(arg1: <span class="kw-2">*mut *mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject);
     <span class="kw">pub fn </span>PyBytes_DecodeEscape(
         arg1: <span class="kw-2">*const </span>c_char,
         arg2: Py_ssize_t,
@@ -109,8 +109,8 @@
         arg4: Py_ssize_t,
         arg5: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_AsStringAndSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyBytes_AsStringAndSize(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyBytes_AsStringAndSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyBytes_AsStringAndSize(
         obj: <span class="kw-2">*mut </span>PyObject,
         s: <span class="kw-2">*mut *mut </span>c_char,
         len: <span class="kw-2">*mut </span>Py_ssize_t,
@@ -123,4 +123,4 @@
 // skipped F_ALT
 // skipped F_ZERO
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -299,35 +299,35 @@
 <span class="kw">pub use </span><span class="self">self</span>::bytearray::PyByteArray;
 <span class="kw">pub use </span><span class="self">self</span>::bytes::PyBytes;
 <span class="kw">pub use </span><span class="self">self</span>::capsule::PyCapsule;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::code::PyCode;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub use </span><span class="self">self</span>::code::PyCode;
 <span class="kw">pub use </span><span class="self">self</span>::complex::PyComplex;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::datetime::{
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub use </span><span class="self">self</span>::datetime::{
     timezone_utc, PyDate, PyDateAccess, PyDateTime, PyDelta, PyDeltaAccess, PyTime, PyTimeAccess,
     PyTzInfo, PyTzInfoAccess,
 };
 <span class="kw">pub use </span><span class="self">self</span>::dict::{IntoPyDict, PyDict};
 <span class="kw">pub use </span><span class="self">self</span>::floatob::PyFloat;
-<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::frame::PyFrame;
+<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::frame::PyFrame;
 <span class="kw">pub use </span><span class="self">self</span>::frozenset::PyFrozenSet;
 <span class="kw">pub use </span><span class="self">self</span>::function::PyCFunction;
-<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::function::PyFunction;
+<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::function::PyFunction;
 <span class="kw">pub use </span><span class="self">self</span>::iterator::PyIterator;
 <span class="kw">pub use </span><span class="self">self</span>::list::PyList;
 <span class="kw">pub use </span><span class="self">self</span>::mapping::PyMapping;
 <span class="kw">pub use </span><span class="self">self</span>::module::PyModule;
 <span class="kw">pub use </span><span class="self">self</span>::num::PyLong;
 <span class="kw">pub use </span><span class="self">self</span>::num::PyLong <span class="kw">as </span>PyInt;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::pysuper::PySuper;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="self">self</span>::pysuper::PySuper;
 <span class="kw">pub use </span><span class="self">self</span>::sequence::PySequence;
 <span class="kw">pub use </span><span class="self">self</span>::set::PySet;
 <span class="kw">pub use </span><span class="self">self</span>::slice::{PySlice, PySliceIndices};
-<span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::string::PyStringData;
+<span class="attribute">#[cfg(all(not(Py_LIMITED_API), target_endian = <span class="string">&quot;little&quot;</span>))]
+</span><span class="kw">pub use </span><span class="self">self</span>::string::PyStringData;
 <span class="kw">pub use </span><span class="self">self</span>::string::{PyString, PyString <span class="kw">as </span>PyUnicode};
 <span class="kw">pub use </span><span class="self">self</span>::traceback::PyTraceback;
 <span class="kw">pub use </span><span class="self">self</span>::tuple::PyTuple;
@@ -370,9 +370,9 @@
 }
 
 <span class="comment">// Implementations core to all native types
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_base(
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_base(
     (<span class="macro-nonterminal">$name</span>:ty $(;<span class="macro-nonterminal">$generics</span>:ident)* ) =&gt; {
         <span class="kw">unsafe impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::PyNativeType </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>{}
 
@@ -396,8 +396,8 @@
 
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::ToPyObject </span><span class="kw">for </span><span class="macro-nonterminal">$name
         </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::PyObject </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::PyObject </span>{
                 <span class="kw">use </span><span class="macro-nonterminal">$crate::AsPyPointer</span>;
                 <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::PyObject::from_borrowed_ptr</span>(py, <span class="self">self</span>.as_ptr()) }
             }
@@ -407,15 +407,15 @@
 
 <span class="comment">// Implementations core to all native types except for PyAny (because they don&#39;t
 // make sense on PyAny / have different implementations).
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_named (
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_named (
     (<span class="macro-nonterminal">$name</span>:ty $(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_base!</span>(<span class="macro-nonterminal">$name </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
 
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; ::std::convert::AsRef&lt;<span class="macro-nonterminal">$crate::PyAny</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::PyAny </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::PyAny </span>{
                 <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
             </span>}
         }
@@ -423,31 +423,31 @@
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; ::std::ops::Deref <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
             <span class="kw">type </span>Target = <span class="macro-nonterminal">$crate::PyAny</span>;
 
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::PyAny </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::PyAny </span>{
                 <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
             </span>}
         }
 
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::AsPyPointer </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>{
             <span class="doccomment">/// Gets the underlying FFI pointer, returns a borrowed pointer.
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject </span>{
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject </span>{
                 <span class="self">self</span>.<span class="number">0</span>.as_ptr()
             }
         }
 
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::IntoPy</span>&lt;<span class="macro-nonterminal">$crate::Py</span>&lt;<span class="macro-nonterminal">$name</span>&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$name </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>into_py(<span class="self">self</span>, py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Py</span>&lt;<span class="macro-nonterminal">$name</span>&gt; {
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="macro-nonterminal">$crate::Py</span>&lt;<span class="macro-nonterminal">$name</span>&gt; {
                 <span class="kw">use </span><span class="macro-nonterminal">$crate::AsPyPointer</span>;
                 <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::Py::from_borrowed_ptr</span>(py, <span class="self">self</span>.as_ptr()) }
             }
         }
 
         <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; ::std::convert::From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="macro-nonterminal">$name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::Py</span>&lt;<span class="macro-nonterminal">$name</span>&gt; {
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>from(other: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>) -&gt; <span class="self">Self </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>from(other: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">use </span><span class="macro-nonterminal">$crate::AsPyPointer</span>;
                 <span class="kw">use </span><span class="macro-nonterminal">$crate::PyNativeType</span>;
                 <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::Py::from_borrowed_ptr</span>(other.py(), other.as_ptr()) }
@@ -462,9 +462,9 @@
     };
 );
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_info(
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_info(
     (<span class="macro-nonterminal">$name</span>:ty, <span class="macro-nonterminal">$typeobject</span>:expr, <span class="macro-nonterminal">$module</span>:expr $(, #checkfunction=<span class="macro-nonterminal">$checkfunction</span>:path)<span class="question-mark">? </span>$(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="kw">unsafe impl</span>&lt;$(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::type_object::PyTypeInfo </span><span class="kw">for </span><span class="macro-nonterminal">$name </span>{
             <span class="kw">type </span>AsRefTarget = <span class="self">Self</span>;
@@ -472,23 +472,23 @@
             <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>);
             <span class="kw">const </span>MODULE: ::std::option::Option&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; = <span class="macro-nonterminal">$module</span>;
 
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>type_object_raw(_py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyTypeObject </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>type_object_raw(_py: <span class="macro-nonterminal">$crate::Python</span>&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyTypeObject </span>{
                 <span class="comment">// Create a very short lived mutable reference and directly
                 // cast it to a pointer: no mutable references can be aliasing
                 // because we hold the GIL.
-                </span><span class="attribute">#[cfg(not(addr_of))]</span>
-                <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$typeobject </span>}
+                </span><span class="attribute">#[cfg(not(addr_of))]
+                </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$typeobject </span>}
 
-                <span class="attribute">#[cfg(addr_of)]</span>
-                <span class="kw">unsafe </span>{ <span class="macro">::std::ptr::addr_of_mut!</span>(<span class="macro-nonterminal">$typeobject</span>) }
+                <span class="attribute">#[cfg(addr_of)]
+                </span><span class="kw">unsafe </span>{ <span class="macro">::std::ptr::addr_of_mut!</span>(<span class="macro-nonterminal">$typeobject</span>) }
             }
 
             $(
                 <span class="kw">fn </span>is_type_of(ptr: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::PyAny</span>) -&gt; bool {
                     <span class="kw">use </span><span class="macro-nonterminal">$crate::AsPyPointer</span>;
-                    <span class="attribute">#[allow(unused_unsafe)]</span>
-                    <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$checkfunction</span>(ptr.as_ptr()) &gt; <span class="number">0 </span>}
+                    <span class="attribute">#[allow(unused_unsafe)]
+                    </span><span class="kw">unsafe </span>{ <span class="macro-nonterminal">$checkfunction</span>(ptr.as_ptr()) &gt; <span class="number">0 </span>}
                 }
             )<span class="question-mark">?
         </span>}
@@ -497,9 +497,9 @@
 
 <span class="comment">// NOTE: This macro is not included in pyobject_native_type_base!
 // because rust-numpy has a special implementation.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_extract {
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_extract {
     (<span class="macro-nonterminal">$name</span>:ty $(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>, $(<span class="macro-nonterminal">$generics</span>,)<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$crate::FromPyObject</span>&lt;<span class="lifetime">&#39;py</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="macro-nonterminal">$name </span>{
             <span class="kw">fn </span>extract(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="macro-nonterminal">$crate::PyAny</span>) -&gt; <span class="macro-nonterminal">$crate::PyResult</span>&lt;<span class="self">Self</span>&gt; {
@@ -510,9 +510,9 @@
 }
 
 <span class="doccomment">/// Declares all of the boilerplate for Python types.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_core {
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_core {
     (<span class="macro-nonterminal">$name</span>:ty, <span class="macro-nonterminal">$typeobject</span>:expr, #module=<span class="macro-nonterminal">$module</span>:expr $(, #checkfunction=<span class="macro-nonterminal">$checkfunction</span>:path)<span class="question-mark">? </span>$(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_named!</span>(<span class="macro-nonterminal">$name </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_info!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$typeobject</span>, <span class="macro-nonterminal">$module </span>$(, #checkfunction=<span class="macro-nonterminal">$checkfunction</span>)<span class="question-mark">? </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
@@ -523,9 +523,9 @@
     };
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type_sized {
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type_sized {
     (<span class="macro-nonterminal">$name</span>:ty, <span class="macro-nonterminal">$layout</span>:path $(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="kw">unsafe impl </span><span class="macro-nonterminal">$crate::type_object::PyLayout</span>&lt;<span class="macro-nonterminal">$name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$layout </span>{}
         <span class="kw">impl </span><span class="macro-nonterminal">$crate::type_object::PySizedLayout</span>&lt;<span class="macro-nonterminal">$name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$layout </span>{}
@@ -541,14 +541,14 @@
 
 <span class="doccomment">/// Declares all of the boilerplate for Python types which can be inherited from (because the exact
 /// Python layout is known).
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> pyobject_native_type {
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>pyobject_native_type {
     (<span class="macro-nonterminal">$name</span>:ty, <span class="macro-nonterminal">$layout</span>:path, <span class="macro-nonterminal">$typeobject</span>:expr $(, #module=<span class="macro-nonterminal">$module</span>:expr)<span class="question-mark">? </span>$(, #checkfunction=<span class="macro-nonterminal">$checkfunction</span>:path)<span class="question-mark">? </span>$(;<span class="macro-nonterminal">$generics</span>:ident)<span class="kw-2">*</span>) =&gt; {
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_core!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$typeobject </span>$(, #module=<span class="macro-nonterminal">$module</span>)<span class="question-mark">? </span>$(, #checkfunction=<span class="macro-nonterminal">$checkfunction</span>)<span class="question-mark">? </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
         <span class="comment">// To prevent inheriting native types with ABI3
-        </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-        <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_sized!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$layout </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
+        </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+        </span><span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_sized!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$layout </span>$(;<span class="macro-nonterminal">$generics</span>)<span class="kw-2">*</span>);
     };
 }
 
@@ -557,15 +557,15 @@
 <span class="kw">mod </span>bytearray;
 <span class="kw">mod </span>bytes;
 <span class="kw">mod </span>capsule;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">mod </span>code;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">mod </span>code;
 <span class="kw">mod </span>complex;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">mod </span>datetime;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">mod </span>datetime;
 <span class="kw">mod </span>dict;
 <span class="kw">mod </span>floatob;
-<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]</span>
-<span class="kw">mod </span>frame;
+<span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]
+</span><span class="kw">mod </span>frame;
 <span class="kw">mod </span>frozenset;
 <span class="kw">mod </span>function;
 <span class="kw">mod </span>iterator;
@@ -573,8 +573,8 @@
 <span class="kw">mod </span>mapping;
 <span class="kw">mod </span>module;
 <span class="kw">mod </span>num;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">mod </span>pysuper;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">mod </span>pysuper;
 <span class="kw">mod </span>sequence;
 <span class="kw">mod </span>set;
 <span class="kw">mod </span>slice;
@@ -583,4 +583,4 @@
 <span class="kw">mod </span>tuple;
 <span class="kw">mod </span>typeobject;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

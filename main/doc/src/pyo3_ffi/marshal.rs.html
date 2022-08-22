@@ -25,16 +25,16 @@
 // skipped PyMarshal_WriteObjectToFile
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMarshal_WriteObjectToString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMarshal_WriteObjectToString(object: <span class="kw-2">*mut </span>PyObject, version: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMarshal_WriteObjectToString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMarshal_WriteObjectToString(object: <span class="kw-2">*mut </span>PyObject, version: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
 
     <span class="comment">// skipped non-limited PyMarshal_ReadLongFromFile
     // skipped non-limited PyMarshal_ReadShortFromFile
     // skipped non-limited PyMarshal_ReadObjectFromFile
     // skipped non-limited PyMarshal_ReadLastObjectFromFile
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMarshal_ReadObjectFromString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMarshal_ReadObjectFromString(data: <span class="kw-2">*const </span>c_char, len: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMarshal_ReadObjectFromString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMarshal_ReadObjectFromString(data: <span class="kw-2">*const </span>c_char, len: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

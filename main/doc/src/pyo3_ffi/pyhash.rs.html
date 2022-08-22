@@ -50,10 +50,10 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
-</pre><pre class="rust"><code><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyport::{Py_hash_t, Py_ssize_t};
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">use </span>std::os::raw::{c_char, c_void};
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyport::{Py_hash_t, Py_ssize_t};
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">use </span>std::os::raw::{c_char, c_void};
 
 <span class="kw">use </span>std::os::raw::{c_int, c_ulong};
 
@@ -62,8 +62,8 @@
     // skipped non-limited _Py_HashPointer
     // skipped non-limited _Py_HashPointerRaw
 
-    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub fn </span>_Py_HashBytes(src: <span class="kw-2">*const </span>c_void, len: Py_ssize_t) -&gt; Py_hash_t;
+    </span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub fn </span>_Py_HashBytes(src: <span class="kw-2">*const </span>c_void, len: Py_ssize_t) -&gt; Py_hash_t;
 }
 
 <span class="kw">pub const </span>_PyHASH_MULTIPLIER: c_ulong = <span class="number">1000003</span>;
@@ -72,27 +72,27 @@
 
 // skipped non-limited _Py_HashSecret_t
 
-</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyHash_FuncDef {
+</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyHash_FuncDef {
     <span class="kw">pub </span>hash: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*const </span>c_void, arg2: Py_ssize_t) -&gt; Py_hash_t&gt;,
     <span class="kw">pub </span>name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>hash_bits: c_int,
     <span class="kw">pub </span>seed_bits: c_int,
 }
 
-<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="kw">impl </span>Default <span class="kw">for </span>PyHash_FuncDef {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+</span><span class="kw">impl </span>Default <span class="kw">for </span>PyHash_FuncDef {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{ std::mem::zeroed() }
     }
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-    <span class="kw">pub fn </span>PyHash_GetFuncDef() -&gt; <span class="kw-2">*mut </span>PyHash_FuncDef;
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+    </span><span class="kw">pub fn </span>PyHash_GetFuncDef() -&gt; <span class="kw-2">*mut </span>PyHash_FuncDef;
 }
 
 <span class="comment">// skipped Py_HASH_CUTOFF
@@ -103,4 +103,4 @@
 
 <span class="comment">// skipped Py_HASH_ALGORITHM
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

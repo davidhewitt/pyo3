@@ -237,8 +237,8 @@
     }
 
     <span class="doccomment">/// Get a reference to the contained value, or `None` if the cell has not yet been written.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="comment">// Safe because if the cell has not yet been written, None is returned.
         </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>.get() }.as_ref()
     }
@@ -257,8 +257,8 @@
     ///     exactly once, even if multiple threads attempt to call `get_or_init`
     ///  4) if f() can panic but still does not release the GIL, it may be called multiple times,
     ///     but it is guaranteed that f() will never be called concurrently
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_or_init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_or_init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
     <span class="kw">where
         </span>F: FnOnce() -&gt; T,
     {
@@ -269,8 +269,8 @@
         <span class="self">self</span>.init(py, f)
     }
 
-    <span class="attribute">#[cold]</span>
-    <span class="kw">fn </span>init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
+    <span class="attribute">#[cold]
+    </span><span class="kw">fn </span>init&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, f: F) -&gt; <span class="kw-2">&amp;</span>T
     <span class="kw">where
         </span>F: FnOnce() -&gt; T,
     {
@@ -343,8 +343,8 @@
 /// #     assert!(dict.contains(&quot;foo&quot;).unwrap());
 /// # });
 /// ```
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> intern {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>intern {
     (<span class="macro-nonterminal">$py</span>: expr, <span class="macro-nonterminal">$text</span>: expr) =&gt; {{
         <span class="kw">static </span>INTERNED: <span class="macro-nonterminal">$crate::once_cell::Interned </span>= <span class="macro-nonterminal">$crate::once_cell::Interned::new</span>(<span class="macro-nonterminal">$text</span>);
         INTERNED.get(<span class="macro-nonterminal">$py</span>)
@@ -352,30 +352,30 @@
 }
 
 <span class="doccomment">/// Implementation detail for `intern!` macro.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub struct </span>Interned(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, GILOnceCell&lt;Py&lt;PyString&gt;&gt;);
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub struct </span>Interned(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, GILOnceCell&lt;Py&lt;PyString&gt;&gt;);
 
 <span class="kw">impl </span>Interned {
     <span class="kw">pub const fn </span>new(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; <span class="self">Self </span>{
         Interned(value, GILOnceCell::new())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get&lt;<span class="lifetime">&#39;py</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyString {
+    <span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get&lt;<span class="lifetime">&#39;py</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyString {
         <span class="self">self</span>.<span class="number">1
             </span>.get_or_init(py, || PyString::intern(py, <span class="self">self</span>.<span class="number">0</span>).into())
             .as_ref(py)
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">use </span><span class="kw">crate</span>::types::PyDict;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_intern() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_intern() {
         Python::with_gil(|py| {
             <span class="kw">let </span>foo1 = <span class="string">&quot;foo&quot;</span>;
             <span class="kw">let </span>foo2 = <span class="macro">intern!</span>(py, <span class="string">&quot;foo&quot;</span>);
@@ -389,4 +389,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

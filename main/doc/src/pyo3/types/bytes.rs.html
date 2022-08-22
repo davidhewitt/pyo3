@@ -208,8 +208,8 @@
 <span class="doccomment">/// Represents a Python `bytes` object.
 ///
 /// This type is immutable.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyBytes(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyBytes(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyBytes, ffi::PyBytes_Type, #checkfunction=ffi::PyBytes_Check);
 
@@ -284,8 +284,8 @@
     }
 
     <span class="doccomment">/// Gets the Python string as a byte slice.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>buffer = ffi::PyBytes_AsString(<span class="self">self</span>.as_ptr()) <span class="kw">as </span><span class="kw-2">*const </span>u8;
             <span class="kw">let </span>length = ffi::PyBytes_Size(<span class="self">self</span>.as_ptr()) <span class="kw">as </span>usize;
@@ -333,14 +333,14 @@
         <span class="prelude-val">Ok</span>(&lt;PyBytes <span class="kw">as </span>PyTryFrom&gt;::try_from(obj)<span class="question-mark">?</span>.as_bytes())
     }
 }
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::PyBytes;
     <span class="kw">use </span><span class="kw">crate</span>::FromPyObject;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_bytes() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_bytes() {
         Python::with_gil(|py| {
             <span class="kw">let </span>py_bytes = py.eval(<span class="string">&quot;b&#39;Hello Python&#39;&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>bytes: <span class="kw-2">&amp;</span>[u8] = FromPyObject::extract(py_bytes).unwrap();
@@ -348,16 +348,16 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_bytes_index() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_bytes_index() {
         Python::with_gil(|py| {
             <span class="kw">let </span>bytes = PyBytes::new(py, <span class="string">b&quot;Hello World&quot;</span>);
             <span class="macro">assert_eq!</span>(bytes[<span class="number">1</span>], <span class="string">b&#39;e&#39;</span>);
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_bytes_new_with() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_bytes_new_with() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
         Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
             <span class="kw">let </span>py_bytes = PyBytes::new_with(py, <span class="number">10</span>, |b: <span class="kw-2">&amp;mut </span>[u8]| {
                 b.copy_from_slice(<span class="string">b&quot;Hello Rust&quot;</span>);
@@ -369,8 +369,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_bytes_new_with_zero_initialised() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_bytes_new_with_zero_initialised() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
         Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
             <span class="kw">let </span>py_bytes = PyBytes::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| <span class="prelude-val">Ok</span>(()))<span class="question-mark">?</span>;
             <span class="kw">let </span>bytes: <span class="kw-2">&amp;</span>[u8] = FromPyObject::extract(py_bytes)<span class="question-mark">?</span>;
@@ -379,8 +379,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_bytes_new_with_error() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_bytes_new_with_error() {
         <span class="kw">use </span><span class="kw">crate</span>::exceptions::PyValueError;
         Python::with_gil(|py| {
             <span class="kw">let </span>py_bytes_result = PyBytes::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| {
@@ -395,4 +395,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

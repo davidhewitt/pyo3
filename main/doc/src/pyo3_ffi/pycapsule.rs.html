@@ -48,49 +48,49 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyCapsule_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyCapsule_Type: PyTypeObject;
 }
 
 <span class="kw">pub type </span>PyCapsule_Destructor = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(o: <span class="kw-2">*mut </span>PyObject);
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyCapsule_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyCapsule_CheckExact(ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(ob) == <span class="macro">addr_of_mut_shim!</span>(PyCapsule_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_New(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_New(
         pointer: <span class="kw-2">*mut </span>c_void,
         name: <span class="kw-2">*const </span>c_char,
         destructor: <span class="prelude-ty">Option</span>&lt;PyCapsule_Destructor&gt;,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetPointer&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_GetPointer(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetDestructor&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_GetDestructor(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;PyCapsule_Destructor&gt;;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetName&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_GetName(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetContext&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_GetContext(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_IsValid&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_IsValid(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetPointer&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_SetPointer(capsule: <span class="kw-2">*mut </span>PyObject, pointer: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetDestructor&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_SetDestructor(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetPointer&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_GetPointer(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetDestructor&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_GetDestructor(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;PyCapsule_Destructor&gt;;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetName&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_GetName(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_GetContext&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_GetContext(capsule: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_IsValid&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_IsValid(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetPointer&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_SetPointer(capsule: <span class="kw-2">*mut </span>PyObject, pointer: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetDestructor&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_SetDestructor(
         capsule: <span class="kw-2">*mut </span>PyObject,
         destructor: <span class="prelude-ty">Option</span>&lt;PyCapsule_Destructor&gt;,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetName&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_SetName(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetContext&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_SetContext(capsule: <span class="kw-2">*mut </span>PyObject, context: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_Import&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCapsule_Import(name: <span class="kw-2">*const </span>c_char, no_block: c_int) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetName&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_SetName(capsule: <span class="kw-2">*mut </span>PyObject, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_SetContext&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_SetContext(capsule: <span class="kw-2">*mut </span>PyObject, context: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCapsule_Import&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCapsule_Import(name: <span class="kw-2">*const </span>c_char, no_block: c_int) -&gt; <span class="kw-2">*mut </span>c_void;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

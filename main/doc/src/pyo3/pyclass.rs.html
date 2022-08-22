@@ -696,8 +696,8 @@
 
 <span class="kw">type </span>PyTypeBuilderCleanup = Box&lt;<span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span>PyTypeBuilder, <span class="kw-2">*mut </span>ffi::PyTypeObject)&gt;;
 
-<span class="attribute">#[derive(Default)]</span>
-<span class="kw">struct </span>PyTypeBuilder {
+<span class="attribute">#[derive(Default)]
+</span><span class="kw">struct </span>PyTypeBuilder {
     slots: Vec&lt;ffi::PyType_Slot&gt;,
     method_defs: Vec&lt;ffi::PyMethodDef&gt;,
     property_defs_map: HashMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, ffi::PyGetSetDef&gt;,
@@ -716,8 +716,8 @@
     has_dict: bool,
     class_flags: c_ulong,
     <span class="comment">// Before Python 3.9, need to patch in buffer methods manually (they don&#39;t work in slots)
-    </span><span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
-    buffer_procs: ffi::PyBufferProcs,
+    </span><span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]
+    </span>buffer_procs: ffi::PyBufferProcs,
 }
 
 <span class="kw">impl </span>PyTypeBuilder {
@@ -734,13 +734,13 @@
                 <span class="self">self</span>.class_flags |= ffi::Py_TPFLAGS_HAVE_GC;
             }
             ffi::Py_tp_clear =&gt; <span class="self">self</span>.has_clear = <span class="bool-val">true</span>,
-            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
-            ffi::Py_bf_getbuffer =&gt; {
+            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]
+            </span>ffi::Py_bf_getbuffer =&gt; {
                 <span class="comment">// Safety: slot.pfunc is a valid function pointer
                 </span><span class="self">self</span>.buffer_procs.bf_getbuffer = <span class="prelude-val">Some</span>(std::mem::transmute(pfunc));
             }
-            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]</span>
-            ffi::Py_bf_releasebuffer =&gt; {
+            <span class="attribute">#[cfg(all(not(Py_3_9), not(Py_LIMITED_API)))]
+            </span>ffi::Py_bf_releasebuffer =&gt; {
                 <span class="comment">// Safety: slot.pfunc is a valid function pointer
                 </span><span class="self">self</span>.buffer_procs.bf_releasebuffer = <span class="prelude-val">Some</span>(std::mem::transmute(pfunc));
             }
@@ -809,14 +809,14 @@
 
         <span class="kw">let </span>property_defs = std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.property_defs_map);
         <span class="comment">// TODO: use into_values when on MSRV Rust &gt;= 1.54
-        </span><span class="attribute">#[allow(unused_mut)]</span>
-        <span class="kw">let </span><span class="kw-2">mut </span>property_defs: Vec&lt;<span class="kw">_</span>&gt; = property_defs.into_iter().map(|(<span class="kw">_</span>, value)| value).collect();
+        </span><span class="attribute">#[allow(unused_mut)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>property_defs: Vec&lt;<span class="kw">_</span>&gt; = property_defs.into_iter().map(|(<span class="kw">_</span>, value)| value).collect();
 
         <span class="comment">// PyPy doesn&#39;t automatically add __dict__ getter / setter.
         // PyObject_GenericGetDict not in the limited API until Python 3.10.
         </span><span class="kw">if </span><span class="self">self</span>.has_dict {
-            <span class="attribute">#[cfg(not(any(PyPy, all(Py_LIMITED_API, not(Py_3_10)))))]</span>
-            property_defs.push(ffi::PyGetSetDef {
+            <span class="attribute">#[cfg(not(any(PyPy, all(Py_LIMITED_API, not(Py_3_10)))))]
+            </span>property_defs.push(ffi::PyGetSetDef {
                 name: <span class="string">&quot;__dict__\0&quot;</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>c_char,
                 get: <span class="prelude-val">Some</span>(ffi::PyObject_GenericGetDict),
                 set: <span class="prelude-val">Some</span>(ffi::PyObject_GenericSetDict),
@@ -894,8 +894,8 @@
         }
 
         <span class="comment">// Running this causes PyPy to segfault.
-        </span><span class="attribute">#[cfg(all(not(PyPy), not(Py_LIMITED_API), not(Py_3_10)))]</span>
-        <span class="kw">if </span>type_doc != <span class="string">&quot;\0&quot; </span>{
+        </span><span class="attribute">#[cfg(all(not(PyPy), not(Py_LIMITED_API), not(Py_3_10)))]
+        </span><span class="kw">if </span>type_doc != <span class="string">&quot;\0&quot; </span>{
             <span class="comment">// Until CPython 3.10, tp_doc was treated specially for
             // heap-types, and it removed the text_signature value from it.
             // We go in after the fact and replace tp_doc with something
@@ -914,14 +914,14 @@
     <span class="kw">fn </span>offsets(
         <span class="kw-2">mut </span><span class="self">self</span>,
         dict_offset: <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt;,
-        <span class="attribute">#[allow(unused_variables)]</span> weaklist_offset: <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt;,
+        <span class="attribute">#[allow(unused_variables)] </span>weaklist_offset: <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.has_dict = dict_offset.is_some();
 
-        <span class="attribute">#[cfg(Py_3_9)]</span>
-        {
-            <span class="attribute">#[inline(always)]</span>
-            <span class="kw">fn </span>offset_def(
+        <span class="attribute">#[cfg(Py_3_9)]
+        </span>{
+            <span class="attribute">#[inline(always)]
+            </span><span class="kw">fn </span>offset_def(
                 name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
                 offset: ffi::Py_ssize_t,
             ) -&gt; ffi::structmember::PyMemberDef {
@@ -952,8 +952,8 @@
 
         <span class="comment">// Setting buffer protocols, tp_dictoffset and tp_weaklistoffset via slots doesn&#39;t work until
         // Python 3.9, so on older versions we must manually fixup the type object.
-        </span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(Py_3_9)))]</span>
-        {
+        </span><span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(Py_3_9)))]
+        </span>{
             <span class="self">self</span>.cleanup
                 .push(Box::new(<span class="kw">move </span>|builder, type_object| <span class="kw">unsafe </span>{
                     (<span class="kw-2">*</span>(<span class="kw-2">*</span>type_object).tp_as_buffer).bf_getbuffer = builder.buffer_procs.bf_getbuffer;
@@ -1016,8 +1016,8 @@
             itemsize: <span class="number">0</span>,
             <span class="comment">// `c_ulong` and `c_uint` have the same size
             // on some platforms (like windows)
-            </span><span class="attribute">#[allow(clippy::useless_conversion)]</span>
-            flags: (ffi::Py_TPFLAGS_DEFAULT | <span class="self">self</span>.class_flags)
+            </span><span class="attribute">#[allow(clippy::useless_conversion)]
+            </span>flags: (ffi::Py_TPFLAGS_DEFAULT | <span class="self">self</span>.class_flags)
                 .try_into()
                 .unwrap(),
             slots: <span class="self">self</span>.slots.as_mut_ptr(),
@@ -1037,8 +1037,8 @@
     }
 }
 
-<span class="attribute">#[cold]</span>
-<span class="kw">fn </span>type_object_creation_failed(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, e: PyErr, name: <span class="kw-2">&amp;</span>str) -&gt; ! {
+<span class="attribute">#[cold]
+</span><span class="kw">fn </span>type_object_creation_failed(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, e: PyErr, name: <span class="kw-2">&amp;</span>str) -&gt; ! {
     e.print(py);
     <span class="macro">panic!</span>(<span class="string">&quot;An error occurred while initializing class {}&quot;</span>, name)
 }
@@ -1071,8 +1071,8 @@
 }
 
 <span class="doccomment">/// Operators for the `__richcmp__` method
-</span><span class="attribute">#[derive(Debug, Clone, Copy)]</span>
-<span class="kw">pub enum </span>CompareOp {
+</span><span class="attribute">#[derive(Debug, Clone, Copy)]
+</span><span class="kw">pub enum </span>CompareOp {
     <span class="doccomment">/// The *less than* operator.
     </span>Lt = ffi::Py_LT <span class="kw">as </span>isize,
     <span class="doccomment">/// The *less than or equal to* operator.
@@ -1245,8 +1245,8 @@
 <span class="doccomment">/// A workaround for [associated const equality](https://github.com/rust-lang/rust/issues/92827).
 ///
 /// This serves to have True / False values in the [`PyClass`] trait&#39;s `Frozen` type.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub mod </span>boolean_struct {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>boolean_struct {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>private {
         <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -1262,15 +1262,15 @@
 }
 
 <span class="doccomment">/// A trait which is used to describe whether a `#[pyclass]` is frozen.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub trait </span>Frozen: boolean_struct::private::Boolean {}
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub trait </span>Frozen: boolean_struct::private::Boolean {}
 
 <span class="kw">impl </span>Frozen <span class="kw">for </span>boolean_struct::True {}
 <span class="kw">impl </span>Frozen <span class="kw">for </span>boolean_struct::False {}
 
 <span class="kw">mod </span>tests {
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_compare_op_matches() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_compare_op_matches() {
         <span class="kw">use </span><span class="kw">super</span>::CompareOp;
         <span class="kw">use </span>std::cmp::Ordering;
 
@@ -1283,4 +1283,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

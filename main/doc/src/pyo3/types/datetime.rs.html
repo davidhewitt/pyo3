@@ -668,12 +668,12 @@
 //
 // These functions must only be called when the GIL is held!
 
-</span><span class="macro">macro_rules!</span> ffi_fun_with_autoinit {
-    ($(<span class="attribute">#[<span class="macro-nonterminal">$outer</span>:meta]</span> <span class="kw">unsafe fn </span><span class="macro-nonterminal">$name</span>: ident(<span class="macro-nonterminal">$arg</span>: ident: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="macro-nonterminal">$ret</span>: ty;)<span class="kw-2">*</span>) =&gt; {
+</span><span class="macro">macro_rules! </span>ffi_fun_with_autoinit {
+    ($(<span class="attribute">#[<span class="macro-nonterminal">$outer</span>:meta] </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$name</span>: ident(<span class="macro-nonterminal">$arg</span>: ident: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="macro-nonterminal">$ret</span>: ty;)<span class="kw-2">*</span>) =&gt; {
         $(
-            <span class="attribute">#[<span class="macro-nonterminal">$outer</span>]</span>
-            <span class="attribute">#[allow(non_snake_case)]</span>
-            <span class="doccomment">/// # Safety
+            <span class="attribute">#[<span class="macro-nonterminal">$outer</span>]
+            #[allow(non_snake_case)]
+            </span><span class="doccomment">/// # Safety
             ///
             /// Must only be called while the GIL is held
             </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$arg</span>: <span class="kw-2">*mut </span><span class="kw">crate</span>::ffi::PyObject) -&gt; <span class="macro-nonterminal">$ret </span>{
@@ -687,7 +687,7 @@
     };
 }
 
-<span class="macro">ffi_fun_with_autoinit!</span> {
+<span class="macro">ffi_fun_with_autoinit! </span>{
     <span class="doccomment">/// Check if `op` is a `PyDateTimeAPI.DateType` or subtype.
     </span><span class="kw">unsafe fn </span>PyDate_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
@@ -790,8 +790,8 @@
 }
 
 <span class="doccomment">/// Bindings around `datetime.date`
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDate(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDate(PyAny);
 <span class="macro">pyobject_native_type!</span>(
     PyDate,
     <span class="kw">crate</span>::ffi::PyDateTime_Date,
@@ -845,8 +845,8 @@
 }
 
 <span class="doccomment">/// Bindings for `datetime.datetime`
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDateTime(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDateTime(PyAny);
 <span class="macro">pyobject_native_type!</span>(
     PyDateTime,
     <span class="kw">crate</span>::ffi::PyDateTime_DateTime,
@@ -856,8 +856,8 @@
 );
 
 <span class="kw">impl </span>PyDateTime {
-    <span class="attribute">#[allow(clippy::too_many_arguments)]</span>
-    <span class="kw">pub fn </span>new&lt;<span class="lifetime">&#39;p</span>&gt;(
+    <span class="attribute">#[allow(clippy::too_many_arguments)]
+    </span><span class="kw">pub fn </span>new&lt;<span class="lifetime">&#39;p</span>&gt;(
         py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
         year: i32,
         month: u8,
@@ -892,8 +892,8 @@
     /// This typically occurs at the end of daylight savings time. Only valid if the
     /// represented time is ambiguous.
     /// See [PEP 495](https://www.python.org/dev/peps/pep-0495/) for more detail.
-    </span><span class="attribute">#[allow(clippy::too_many_arguments)]</span>
-    <span class="kw">pub fn </span>new_with_fold&lt;<span class="lifetime">&#39;p</span>&gt;(
+    </span><span class="attribute">#[allow(clippy::too_many_arguments)]
+    </span><span class="kw">pub fn </span>new_with_fold&lt;<span class="lifetime">&#39;p</span>&gt;(
         py: Python&lt;<span class="lifetime">&#39;p</span>&gt;,
         year: i32,
         month: u8,
@@ -993,8 +993,8 @@
 }
 
 <span class="doccomment">/// Bindings for `datetime.time`
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyTime(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyTime(PyAny);
 <span class="macro">pyobject_native_type!</span>(
     PyTime,
     <span class="kw">crate</span>::ffi::PyDateTime_Time,
@@ -1093,8 +1093,8 @@
 /// This is an abstract base class and cannot be constructed directly.
 /// For concrete time zone implementations, see [`timezone_utc`] and
 /// the [`zoneinfo` module](https://docs.python.org/3/library/zoneinfo.html).
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyTzInfo(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyTzInfo(PyAny);
 <span class="macro">pyobject_native_type!</span>(
     PyTzInfo,
     <span class="kw">crate</span>::ffi::PyObject,
@@ -1109,8 +1109,8 @@
 }
 
 <span class="doccomment">/// Bindings for `datetime.timedelta`
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDelta(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDelta(PyAny);
 <span class="macro">pyobject_native_type!</span>(
     PyDelta,
     <span class="kw">crate</span>::ffi::PyDateTime_Delta,
@@ -1165,15 +1165,15 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::py_run;
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    </span><span class="kw">use </span><span class="kw">crate</span>::py_run;
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)]</span> <span class="comment">// DateTime import fails on wasm for mysterious reasons
+    <span class="attribute">#[test]
+    #[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)] </span><span class="comment">// DateTime import fails on wasm for mysterious reasons
     </span><span class="kw">fn </span>test_datetime_fromtimestamp() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dt = PyDateTime::from_timestamp(py, <span class="number">100.0</span>, <span class="prelude-val">None</span>).unwrap();
@@ -1192,9 +1192,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)]</span> <span class="comment">// DateTime import fails on wasm for mysterious reasons
+    <span class="attribute">#[test]
+    #[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)] </span><span class="comment">// DateTime import fails on wasm for mysterious reasons
     </span><span class="kw">fn </span>test_date_fromtimestamp() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dt = PyDate::from_timestamp(py, <span class="number">100</span>).unwrap();
@@ -1206,8 +1206,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)]</span> <span class="comment">// DateTime import fails on wasm for mysterious reasons
+    <span class="attribute">#[test]
+    #[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)] </span><span class="comment">// DateTime import fails on wasm for mysterious reasons
     </span><span class="kw">fn </span>test_new_with_fold() {
         Python::with_gil(|py| {
             <span class="kw">let </span>a = PyDateTime::new_with_fold(py, <span class="number">2021</span>, <span class="number">1</span>, <span class="number">23</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">40</span>, <span class="number">341516</span>, <span class="prelude-val">None</span>, <span class="bool-val">false</span>);
@@ -1218,8 +1218,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)]</span> <span class="comment">// DateTime import fails on wasm for mysterious reasons
+    <span class="attribute">#[test]
+    #[cfg_attr(target_arch = <span class="string">&quot;wasm32&quot;</span>, ignore)] </span><span class="comment">// DateTime import fails on wasm for mysterious reasons
     </span><span class="kw">fn </span>test_get_tzinfo() {
         <span class="kw">crate</span>::Python::with_gil(|py| {
             <span class="kw">let </span>utc = timezone_utc(py);
@@ -1243,4 +1243,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

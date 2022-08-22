@@ -104,55 +104,55 @@
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyModule_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyModule_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_TypeCheck(op, <span class="macro">addr_of_mut_shim!</span>(PyModule_Type))
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyModule_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>PyModule_NewObject(name: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_New(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetDict&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_GetDict(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyModule_GetNameObject(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetName&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_GetName(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
-    <span class="attribute">#[cfg(not(all(windows, PyPy)))]</span>
-    <span class="attribute">#[deprecated(note = <span class="string">&quot;Python 3.2&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_GetFilename(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_New(name: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetDict&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_GetDict(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyModule_GetNameObject(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetName&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_GetName(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg(not(all(windows, PyPy)))]
+    #[deprecated(note = <span class="string">&quot;Python 3.2&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_GetFilename(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*const </span>c_char;
     <span class="kw">pub fn </span>PyModule_GetFilenameObject(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// skipped non-limited _PyModule_Clear
     // skipped non-limited _PyModule_ClearDict
     // skipped non-limited _PyModuleSpec_IsInitializing
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetDef&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_GetDef(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyModuleDef;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetState&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_GetState(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModuleDef_Init&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModuleDef_Init(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetDef&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_GetDef(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyModuleDef;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_GetState&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_GetState(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModuleDef_Init&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModuleDef_Init(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyModuleDef_Type: PyTypeObject;
 }
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyModuleDef_Base {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyModuleDef_Base {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>m_init: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <span class="kw-2">*mut </span>PyObject&gt;,
     <span class="kw">pub </span>m_index: Py_ssize_t,
@@ -166,9 +166,9 @@
     m_copy: std::ptr::null_mut(),
 };
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone, Eq, PartialEq)]</span>
-<span class="kw">pub struct </span>PyModuleDef_Slot {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>PyModuleDef_Slot {
     <span class="kw">pub </span>slot: c_int,
     <span class="kw">pub </span>value: <span class="kw-2">*mut </span>c_void,
 }
@@ -187,9 +187,9 @@
 
 <span class="comment">// skipped non-limited _Py_mod_LAST_SLOT
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyModuleDef {
+</span><span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyModuleDef {
     <span class="kw">pub </span>m_base: PyModuleDef_Base,
     <span class="kw">pub </span>m_name: <span class="kw-2">*const </span>c_char,
     <span class="kw">pub </span>m_doc: <span class="kw-2">*const </span>c_char,
@@ -201,4 +201,4 @@
     <span class="kw">pub </span>m_free: <span class="prelude-ty">Option</span>&lt;freefunc&gt;,
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

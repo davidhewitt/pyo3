@@ -76,9 +76,9 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(not(Py_LIMITED_API))]
 
-<span class="doccomment">//! Support for the Python `marshal` format.
+</span><span class="doccomment">//! Support for the Python `marshal` format.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::ffi;
 <span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PyBytes};
@@ -128,13 +128,13 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::PyDict;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>marshal_roundtrip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>marshal_roundtrip() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = PyDict::new(py);
             dict.set_item(<span class="string">&quot;aap&quot;</span>, <span class="string">&quot;noot&quot;</span>).unwrap();
@@ -155,4 +155,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

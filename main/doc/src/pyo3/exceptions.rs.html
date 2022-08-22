@@ -1034,13 +1034,13 @@
 <span class="kw">use </span>std::os::raw::c_char;
 
 <span class="doccomment">/// The boilerplate to convert between a Rust type and a Python exception.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> impl_exception_boilerplate {
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>impl_exception_boilerplate {
     (<span class="macro-nonterminal">$name</span>: ident) =&gt; {
         <span class="kw">impl </span>::std::convert::From&lt;<span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$crate::PyErr </span>{
-            <span class="attribute">#[inline]</span>
-            <span class="kw">fn </span>from(err: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>) -&gt; <span class="macro-nonterminal">$crate::PyErr </span>{
+            <span class="attribute">#[inline]
+            </span><span class="kw">fn </span>from(err: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>) -&gt; <span class="macro-nonterminal">$crate::PyErr </span>{
                 <span class="macro-nonterminal">$crate::PyErr::from_value</span>(err)
             }
         }
@@ -1049,8 +1049,8 @@
             <span class="doccomment">/// Creates a new [`PyErr`] of this type.
             ///
             /// [`PyErr`]: https://docs.rs/pyo3/latest/pyo3/struct.PyErr.html &quot;PyErr in pyo3&quot;
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">pub fn </span>new_err&lt;A&gt;(args: A) -&gt; <span class="macro-nonterminal">$crate::PyErr
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">pub fn </span>new_err&lt;A&gt;(args: A) -&gt; <span class="macro-nonterminal">$crate::PyErr
             </span><span class="kw">where
                 </span>A: <span class="macro-nonterminal">$crate::PyErrArguments </span>+ ::std::marker::Send + ::std::marker::Sync + <span class="lifetime">&#39;static</span>,
             {
@@ -1096,8 +1096,8 @@
 /// });
 ///
 /// ```
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> import_exception {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>import_exception {
     (<span class="macro-nonterminal">$module</span>: expr, <span class="macro-nonterminal">$name</span>: ident) =&gt; {
         <span class="doccomment">/// A Rust type representing an exception defined in Python code.
         ///
@@ -1105,8 +1105,8 @@
         /// for more information.
         ///
         /// [`pyo3::import_exception!`]: https://docs.rs/pyo3/latest/pyo3/macro.import_exception.html &quot;import_exception in pyo3&quot;
-        </span><span class="attribute">#[repr(transparent)]</span>
-        <span class="attribute">#[allow(non_camel_case_types)]</span> <span class="comment">// E.g. `socket.herror`
+        </span><span class="attribute">#[repr(transparent)]
+        #[allow(non_camel_case_types)] </span><span class="comment">// E.g. `socket.herror`
         </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::impl_exception_boilerplate!</span>(<span class="macro-nonterminal">$name</span>);
@@ -1216,11 +1216,11 @@
 ///     assert str(e) == &#39;Some error happened.&#39;
 /// ```
 ///
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> create_exception {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>create_exception {
     (<span class="macro-nonterminal">$module</span>: ident, <span class="macro-nonterminal">$name</span>: ident, <span class="macro-nonterminal">$base</span>: ty) =&gt; {
-        <span class="attribute">#[repr(transparent)]</span>
-        <span class="attribute">#[allow(non_camel_case_types)]</span> <span class="comment">// E.g. `socket.herror`
+        <span class="attribute">#[repr(transparent)]
+        #[allow(non_camel_case_types)] </span><span class="comment">// E.g. `socket.herror`
         </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::impl_exception_boilerplate!</span>(<span class="macro-nonterminal">$name</span>);
@@ -1228,10 +1228,10 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::create_exception_type_object!</span>(<span class="macro-nonterminal">$module</span>, <span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$base</span>, ::std::option::Option::None);
     };
     (<span class="macro-nonterminal">$module</span>: ident, <span class="macro-nonterminal">$name</span>: ident, <span class="macro-nonterminal">$base</span>: ty, <span class="macro-nonterminal">$doc</span>: expr) =&gt; {
-        <span class="attribute">#[repr(transparent)]</span>
-        <span class="attribute">#[allow(non_camel_case_types)]</span> <span class="comment">// E.g. `socket.herror`
-        </span><span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]</span>
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
+        <span class="attribute">#[repr(transparent)]
+        #[allow(non_camel_case_types)] </span><span class="comment">// E.g. `socket.herror`
+        </span><span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::impl_exception_boilerplate!</span>(<span class="macro-nonterminal">$name</span>);
 
@@ -1246,9 +1246,9 @@
 
 <span class="doccomment">/// `impl PyTypeInfo for $name` where `$name` is an
 /// exception newly defined in Rust code.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> create_exception_type_object {
+</span><span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>create_exception_type_object {
     (<span class="macro-nonterminal">$module</span>: ident, <span class="macro-nonterminal">$name</span>: ident, <span class="macro-nonterminal">$base</span>: ty, <span class="macro-nonterminal">$doc</span>: expr) =&gt; {
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type_core!</span>(
             <span class="macro-nonterminal">$name</span>,
@@ -1278,11 +1278,11 @@
     };
 }
 
-<span class="macro">macro_rules!</span> impl_native_exception (
+<span class="macro">macro_rules! </span>impl_native_exception (
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$exc_name</span>:ident, <span class="macro-nonterminal">$doc</span>:expr, <span class="macro-nonterminal">$layout</span>:path) =&gt; (
-        <span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]</span>
-        <span class="attribute">#[allow(clippy::upper_case_acronyms)]</span>
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
+        <span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]
+        #[allow(clippy::upper_case_acronyms)]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::impl_exception_boilerplate!</span>(<span class="macro-nonterminal">$name</span>);
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$layout</span>, <span class="kw-2">*</span>(<span class="macro-nonterminal">$crate::ffi</span>::<span class="macro-nonterminal">$exc_name </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyTypeObject</span>));
@@ -1292,13 +1292,13 @@
     )
 );
 
-<span class="attribute">#[cfg(windows)]</span>
-<span class="macro">macro_rules!</span> impl_windows_native_exception (
+<span class="attribute">#[cfg(windows)]
+</span><span class="macro">macro_rules! </span>impl_windows_native_exception (
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$exc_name</span>:ident, <span class="macro-nonterminal">$doc</span>:expr, <span class="macro-nonterminal">$layout</span>:path) =&gt; (
-        <span class="attribute">#[cfg(windows)]</span>
-        <span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]</span>
-        <span class="attribute">#[allow(clippy::upper_case_acronyms)]</span>
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
+        <span class="attribute">#[cfg(windows)]
+        #[doc = <span class="macro-nonterminal">$doc</span>]
+        #[allow(clippy::upper_case_acronyms)]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$crate::PyAny</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro">crate::impl_exception_boilerplate!</span>(<span class="macro-nonterminal">$name</span>);
         <span class="macro-nonterminal">$</span><span class="macro">crate::pyobject_native_type!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$layout</span>, <span class="kw-2">*</span>(<span class="macro-nonterminal">$crate::ffi</span>::<span class="macro-nonterminal">$exc_name </span><span class="kw">as </span><span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyTypeObject</span>));
@@ -1308,7 +1308,7 @@
     )
 );
 
-<span class="macro">macro_rules!</span> native_doc(
+<span class="macro">macro_rules! </span>native_doc(
     (<span class="macro-nonterminal">$name</span>: literal, <span class="macro-nonterminal">$alt</span>: literal) =&gt; (
         <span class="macro">concat!</span>(
 <span class="string">&quot;Represents Python&#39;s [`&quot;</span>, <span class="macro-nonterminal">$name</span>, <span class="string">&quot;`](https://docs.python.org/3/library/exceptions.html#&quot;</span>, <span class="macro-nonterminal">$name</span>, <span class="string">&quot;) exception.
@@ -1421,15 +1421,15 @@ Python::with_gil(|py| {
     PyExc_FloatingPointError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;FloatingPointError&quot;</span>)
 );
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">impl_native_exception!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">impl_native_exception!</span>(
     PyOSError,
     PyExc_OSError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;OSError&quot;</span>),
     ffi::PyOSErrorObject
 );
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="macro">impl_native_exception!</span>(PyOSError, PyExc_OSError, <span class="macro">native_doc!</span>(<span class="string">&quot;OSError&quot;</span>));
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="macro">impl_native_exception!</span>(PyOSError, PyExc_OSError, <span class="macro">native_doc!</span>(<span class="string">&quot;OSError&quot;</span>));
 <span class="macro">impl_native_exception!</span>(PyImportError, PyExc_ImportError, <span class="macro">native_doc!</span>(<span class="string">&quot;ImportError&quot;</span>));
 
 <span class="macro">impl_native_exception!</span>(
@@ -1467,45 +1467,45 @@ Python::with_gil(|py| {
     PyExc_NotImplementedError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;NotImplementedError&quot;</span>)
 );
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">impl_native_exception!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">impl_native_exception!</span>(
     PySyntaxError,
     PyExc_SyntaxError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;SyntaxError&quot;</span>),
     ffi::PySyntaxErrorObject
 );
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="macro">impl_native_exception!</span>(PySyntaxError, PyExc_SyntaxError, <span class="macro">native_doc!</span>(<span class="string">&quot;SyntaxError&quot;</span>));
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="macro">impl_native_exception!</span>(PySyntaxError, PyExc_SyntaxError, <span class="macro">native_doc!</span>(<span class="string">&quot;SyntaxError&quot;</span>));
 <span class="macro">impl_native_exception!</span>(
     PyReferenceError,
     PyExc_ReferenceError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;ReferenceError&quot;</span>)
 );
 <span class="macro">impl_native_exception!</span>(PySystemError, PyExc_SystemError, <span class="macro">native_doc!</span>(<span class="string">&quot;SystemError&quot;</span>));
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">impl_native_exception!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">impl_native_exception!</span>(
     PySystemExit,
     PyExc_SystemExit,
     <span class="macro">native_doc!</span>(<span class="string">&quot;SystemExit&quot;</span>),
     ffi::PySystemExitObject
 );
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="macro">impl_native_exception!</span>(PySystemExit, PyExc_SystemExit, <span class="macro">native_doc!</span>(<span class="string">&quot;SystemExit&quot;</span>));
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="macro">impl_native_exception!</span>(PySystemExit, PyExc_SystemExit, <span class="macro">native_doc!</span>(<span class="string">&quot;SystemExit&quot;</span>));
 <span class="macro">impl_native_exception!</span>(PyTypeError, PyExc_TypeError, <span class="macro">native_doc!</span>(<span class="string">&quot;TypeError&quot;</span>));
 <span class="macro">impl_native_exception!</span>(
     PyUnboundLocalError,
     PyExc_UnboundLocalError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;UnboundLocalError&quot;</span>)
 );
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">impl_native_exception!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">impl_native_exception!</span>(
     PyUnicodeError,
     PyExc_UnicodeError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;UnicodeError&quot;</span>),
     ffi::PyUnicodeErrorObject
 );
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="macro">impl_native_exception!</span>(
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="macro">impl_native_exception!</span>(
     PyUnicodeError,
     PyExc_UnicodeError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;UnicodeError&quot;</span>)
@@ -1616,8 +1616,8 @@ Python::with_gil(|py| {
 );
 <span class="macro">impl_native_exception!</span>(PyIOError, PyExc_IOError, <span class="macro">native_doc!</span>(<span class="string">&quot;IOError&quot;</span>));
 
-<span class="attribute">#[cfg(windows)]</span>
-<span class="macro">impl_windows_native_exception!</span>(
+<span class="attribute">#[cfg(windows)]
+</span><span class="macro">impl_windows_native_exception!</span>(
     PyWindowsError,
     PyExc_WindowsError,
     <span class="macro">native_doc!</span>(<span class="string">&quot;WindowsError&quot;</span>)
@@ -1680,12 +1680,12 @@ Python::with_gil(|py| {
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="macro">macro_rules!</span> test_exception {
+<span class="attribute">#[cfg(test)]
+</span><span class="macro">macro_rules! </span>test_exception {
     (<span class="macro-nonterminal">$exc_ty</span>:ident $(, <span class="macro-nonterminal">$constructor</span>:expr)<span class="question-mark">?</span>) =&gt; {
-        <span class="attribute">#[allow(non_snake_case)]</span>
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span><span class="macro-nonterminal">$exc_ty </span>() {
+        <span class="attribute">#[allow(non_snake_case)]
+        #[test]
+        </span><span class="kw">fn </span><span class="macro-nonterminal">$exc_ty </span>() {
             <span class="kw">use super</span>::<span class="macro-nonterminal">$exc_ty</span>;
 
             <span class="macro-nonterminal">$crate::Python::with_gil</span>(|py| {
@@ -1723,8 +1723,8 @@ Python::with_gil(|py| {
     <span class="macro">import_exception!</span>(asyncio, QueueEmpty);
     <span class="macro">import_exception!</span>(asyncio, QueueFull);
 
-    <span class="attribute">#[cfg(test)]</span>
-    <span class="kw">mod </span>tests {
+    <span class="attribute">#[cfg(test)]
+    </span><span class="kw">mod </span>tests {
         <span class="macro">test_exception!</span>(CancelledError);
         <span class="macro">test_exception!</span>(InvalidStateError);
         <span class="macro">test_exception!</span>(TimeoutError);
@@ -1746,16 +1746,16 @@ Python::with_gil(|py| {
     <span class="macro">import_exception!</span>(socket, gaierror);
     <span class="macro">import_exception!</span>(socket, timeout);
 
-    <span class="attribute">#[cfg(test)]</span>
-    <span class="kw">mod </span>tests {
+    <span class="attribute">#[cfg(test)]
+    </span><span class="kw">mod </span>tests {
         <span class="macro">test_exception!</span>(herror);
         <span class="macro">test_exception!</span>(gaierror);
         <span class="macro">test_exception!</span>(timeout);
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::{IntoPyDict, PyDict};
     <span class="kw">use crate</span>::{PyErr, Python};
@@ -1763,8 +1763,8 @@ Python::with_gil(|py| {
     <span class="macro">import_exception!</span>(socket, gaierror);
     <span class="macro">import_exception!</span>(email.errors, MessageError);
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_check_exception() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_check_exception() {
         Python::with_gil(|py| {
             <span class="kw">let </span>err: PyErr = gaierror::new_err(());
             <span class="kw">let </span>socket = py
@@ -1787,8 +1787,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_check_exception_nested() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_check_exception_nested() {
         Python::with_gil(|py| {
             <span class="kw">let </span>err: PyErr = MessageError::new_err(());
             <span class="kw">let </span>email = py
@@ -1814,8 +1814,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>custom_exception() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>custom_exception() {
         <span class="macro">create_exception!</span>(mymodule, CustomError, PyException);
 
         Python::with_gil(|py| {
@@ -1838,8 +1838,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>custom_exception_doc() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>custom_exception_doc() {
         <span class="macro">create_exception!</span>(mymodule, CustomError, PyException, <span class="string">&quot;Some docs&quot;</span>);
 
         Python::with_gil(|py| {
@@ -1862,8 +1862,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>custom_exception_doc_expr() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>custom_exception_doc_expr() {
         <span class="macro">create_exception!</span>(
             mymodule,
             CustomError,
@@ -1895,8 +1895,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>native_exception_debug() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>native_exception_debug() {
         Python::with_gil(|py| {
             <span class="kw">let </span>exc = py
                 .run(<span class="string">&quot;raise Exception(&#39;banana&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -1910,8 +1910,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>native_exception_display() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>native_exception_display() {
         Python::with_gil(|py| {
             <span class="kw">let </span>exc = py
                 .run(<span class="string">&quot;raise Exception(&#39;banana&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -1925,8 +1925,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>native_exception_chain() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>native_exception_chain() {
         <span class="kw">use </span>std::error::Error;
 
         Python::with_gil(|py| {
@@ -1951,8 +1951,8 @@ Python::with_gil(|py| {
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>unicode_decode_error() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>unicode_decode_error() {
         <span class="kw">let </span>invalid_utf8 = <span class="string">b&quot;fo\xd8o&quot;</span>;
         <span class="kw">let </span>err = std::str::from_utf8(invalid_utf8).expect_err(<span class="string">&quot;should be invalid utf8&quot;</span>);
         Python::with_gil(|py| {
@@ -2035,8 +2035,8 @@ Python::with_gil(|py| {
     <span class="macro">test_exception!</span>(PyTimeoutError);
     <span class="macro">test_exception!</span>(PyEnvironmentError);
     <span class="macro">test_exception!</span>(PyIOError);
-    <span class="attribute">#[cfg(windows)]</span>
-    <span class="macro">test_exception!</span>(PyWindowsError);
+    <span class="attribute">#[cfg(windows)]
+    </span><span class="macro">test_exception!</span>(PyWindowsError);
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

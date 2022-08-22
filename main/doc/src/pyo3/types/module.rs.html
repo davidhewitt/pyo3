@@ -440,8 +440,8 @@
 /// created dynamically, assigned to variables and so forth.
 ///
 /// [1]: https://docs.python.org/3/tutorial/modules.html
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyModule(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyModule(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyModule, ffi::PyModule_Type, #checkfunction=ffi::PyModule_Check);
 
@@ -624,8 +624,8 @@
     <span class="doccomment">/// Returns the filename (the `__file__` attribute) of the module.
     ///
     /// May fail if the module does not have a `__file__` attribute.
-    </span><span class="attribute">#[cfg(not(all(windows, PyPy)))]</span>
-    <span class="kw">pub fn </span>filename(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>str&gt; {
+    </span><span class="attribute">#[cfg(not(all(windows, PyPy)))]
+    </span><span class="kw">pub fn </span>filename(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.py()
                 .from_owned_ptr_or_err::&lt;PyString&gt;(ffi::PyModule_GetFilenameObject(<span class="self">self</span>.as_ptr()))<span class="question-mark">?
@@ -828,12 +828,12 @@
     <span class="macro">intern!</span>(py, <span class="string">&quot;__name__&quot;</span>)
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{types::PyModule, Python};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>module_import_and_name() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>module_import_and_name() {
         Python::with_gil(|py| {
             <span class="kw">let </span>builtins = PyModule::import(py, <span class="string">&quot;builtins&quot;</span>).unwrap();
             <span class="macro">assert_eq!</span>(builtins.name().unwrap(), <span class="string">&quot;builtins&quot;</span>);
@@ -841,4 +841,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

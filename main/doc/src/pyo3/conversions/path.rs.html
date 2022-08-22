@@ -175,29 +175,29 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.as_os_str().to_object(py)
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ToPyObject <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;a</span>, Path&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.as_os_str().to_object(py)
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;a</span>, Path&gt; {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.to_object(py)
     }
 }
 
 <span class="kw">impl </span>ToPyObject <span class="kw">for </span>PathBuf {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="self">self</span>.as_os_str().to_object(py)
     }
 }
@@ -214,22 +214,22 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{types::PyString, IntoPy, PyObject, Python, ToPyObject};
     <span class="kw">use </span>std::borrow::Cow;
     <span class="kw">use </span>std::fmt::Debug;
     <span class="kw">use </span>std::path::{Path, PathBuf};
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(windows))]</span>
-    <span class="kw">fn </span>test_non_utf8_conversion() {
+    <span class="attribute">#[test]
+    #[cfg(not(windows))]
+    </span><span class="kw">fn </span>test_non_utf8_conversion() {
         Python::with_gil(|py| {
             <span class="kw">use </span>std::ffi::OsStr;
-            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]</span>
-            <span class="kw">use </span>std::os::unix::ffi::OsStrExt;
-            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]</span>
-            <span class="kw">use </span>std::os::wasi::ffi::OsStrExt;
+            <span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]
+            </span><span class="kw">use </span>std::os::unix::ffi::OsStrExt;
+            <span class="attribute">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+            </span><span class="kw">use </span>std::os::wasi::ffi::OsStrExt;
 
             <span class="comment">// this is not valid UTF-8
             </span><span class="kw">let </span>payload = <span class="kw-2">&amp;</span>[<span class="number">250</span>, <span class="number">251</span>, <span class="number">252</span>, <span class="number">253</span>, <span class="number">254</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>];
@@ -242,8 +242,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_topyobject_roundtrip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_topyobject_roundtrip() {
         Python::with_gil(|py| {
             <span class="kw">fn </span>test_roundtrip&lt;T: ToPyObject + AsRef&lt;Path&gt; + Debug&gt;(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, obj: T) {
                 <span class="kw">let </span>pyobject = obj.to_object(py);
@@ -260,8 +260,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_intopy_roundtrip() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_intopy_roundtrip() {
         Python::with_gil(|py| {
             <span class="kw">fn </span>test_roundtrip&lt;T: IntoPy&lt;PyObject&gt; + AsRef&lt;Path&gt; + Debug + Clone&gt;(
                 py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
@@ -281,4 +281,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

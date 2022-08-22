@@ -337,37 +337,37 @@
 <span class="kw">use </span>libc::wchar_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">pub type </span>Py_UNICODE = wchar_t;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">pub type </span>Py_UNICODE = wchar_t;
 
 <span class="kw">pub type </span>Py_UCS4 = u32;
 <span class="kw">pub type </span>Py_UCS2 = u16;
 <span class="kw">pub type </span>Py_UCS1 = u8;
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyUnicode_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyUnicode_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyUnicodeIter_Type: PyTypeObject;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyUnicode_Check&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyUnicode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyUnicode_Check&quot;</span>]
+    </span><span class="kw">pub fn </span>PyUnicode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyUnicode_CheckExact&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyUnicode_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyUnicode_CheckExact&quot;</span>]
+    </span><span class="kw">pub fn </span>PyUnicode_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyUnicode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyUnicode_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_UNICODE_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyUnicode_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyUnicode_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyUnicode_Type)) <span class="kw">as </span>c_int
 }
 
@@ -375,8 +375,8 @@
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromStringAndSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromStringAndSize(u: <span class="kw-2">*const </span>c_char, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromStringAndSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromStringAndSize(u: <span class="kw-2">*const </span>c_char, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_FromString(u: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
 
     <span class="kw">pub fn </span>PyUnicode_Substring(
@@ -391,55 +391,55 @@
         copy_null: c_int,
     ) -&gt; <span class="kw-2">*mut </span>Py_UCS4;
     <span class="kw">pub fn </span>PyUnicode_AsUCS4Copy(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>Py_UCS4;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetLength&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_GetLength(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_GetSize(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetLength&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_GetLength(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_GetSize(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
     <span class="kw">pub fn </span>PyUnicode_ReadChar(unicode: <span class="kw-2">*mut </span>PyObject, index: Py_ssize_t) -&gt; Py_UCS4;
     <span class="kw">pub fn </span>PyUnicode_WriteChar(
         unicode: <span class="kw-2">*mut </span>PyObject,
         index: Py_ssize_t,
         character: Py_UCS4,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Resize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Resize(unicode: <span class="kw-2">*mut *mut </span>PyObject, length: Py_ssize_t) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromEncodedObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromEncodedObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Resize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Resize(unicode: <span class="kw-2">*mut *mut </span>PyObject, length: Py_ssize_t) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromEncodedObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromEncodedObject(
         obj: <span class="kw-2">*mut </span>PyObject,
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromObject(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromObject(obj: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// #[cfg_attr(PyPy, link_name = &quot;PyPyUnicode_FromFormatV&quot;)]
     // pub fn PyUnicode_FromFormatV(format: *const c_char, vargs: va_list) -&gt; *mut PyObject;
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromFormat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromFormat(format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_InternInPlace&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_InternInPlace(arg1: <span class="kw-2">*mut *mut </span>PyObject);
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromFormat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromFormat(format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_InternInPlace&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_InternInPlace(arg1: <span class="kw-2">*mut *mut </span>PyObject);
     <span class="kw">pub fn </span>PyUnicode_InternImmortal(arg1: <span class="kw-2">*mut *mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_InternFromString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_InternFromString(u: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromWideChar&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromWideChar(w: <span class="kw-2">*const </span>wchar_t, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsWideChar&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsWideChar(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_InternFromString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_InternFromString(u: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromWideChar&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromWideChar(w: <span class="kw-2">*const </span>wchar_t, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsWideChar&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsWideChar(
         unicode: <span class="kw-2">*mut </span>PyObject,
         w: <span class="kw-2">*mut </span>wchar_t,
         size: Py_ssize_t,
     ) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsWideCharString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsWideCharString(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsWideCharString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsWideCharString(
         unicode: <span class="kw-2">*mut </span>PyObject,
         size: <span class="kw-2">*mut </span>Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>wchar_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromOrdinal&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FromOrdinal(ordinal: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FromOrdinal&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FromOrdinal(ordinal: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_ClearFreeList() -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetDefaultEncoding&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_GetDefaultEncoding() -&gt; <span class="kw-2">*const </span>c_char;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Decode&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Decode(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_GetDefaultEncoding&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_GetDefaultEncoding() -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Decode&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Decode(
         s: <span class="kw-2">*const </span>c_char,
         size: Py_ssize_t,
         encoding: <span class="kw-2">*const </span>c_char,
@@ -455,14 +455,14 @@
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsEncodedObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsEncodedObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsEncodedObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsEncodedObject(
         unicode: <span class="kw-2">*mut </span>PyObject,
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsEncodedString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsEncodedString(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsEncodedString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsEncodedString(
         unicode: <span class="kw-2">*mut </span>PyObject,
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
@@ -484,8 +484,8 @@
         errors: <span class="kw-2">*const </span>c_char,
         consumed: <span class="kw-2">*mut </span>Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF8&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeUTF8(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF8&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeUTF8(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
@@ -496,13 +496,13 @@
         errors: <span class="kw-2">*const </span>c_char,
         consumed: <span class="kw-2">*mut </span>Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF8String&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsUTF8String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF8AndSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsUTF8AndSize(unicode: <span class="kw-2">*mut </span>PyObject, size: <span class="kw-2">*mut </span>Py_ssize_t) -&gt; <span class="kw-2">*const </span>c_char;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF32&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeUTF32(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF8String&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsUTF8String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(any(Py_3_10, not(Py_LIMITED_API)))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF8AndSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsUTF8AndSize(unicode: <span class="kw-2">*mut </span>PyObject, size: <span class="kw-2">*mut </span>Py_ssize_t) -&gt; <span class="kw-2">*const </span>c_char;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF32&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeUTF32(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
@@ -515,10 +515,10 @@
         byteorder: <span class="kw-2">*mut </span>c_int,
         consumed: <span class="kw-2">*mut </span>Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF32String&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsUTF32String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF16&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeUTF16(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF32String&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsUTF32String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeUTF16&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeUTF16(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
@@ -531,37 +531,37 @@
         byteorder: <span class="kw-2">*mut </span>c_int,
         consumed: <span class="kw-2">*mut </span>Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF16String&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsUTF16String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUTF16String&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsUTF16String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_DecodeUnicodeEscape(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUnicodeEscapeString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsUnicodeEscapeString(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsUnicodeEscapeString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsUnicodeEscapeString(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_DecodeRawUnicodeEscape(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_AsRawUnicodeEscapeString(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeLatin1&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeLatin1(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeLatin1&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeLatin1(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsLatin1String&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsLatin1String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeASCII&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeASCII(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsLatin1String&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsLatin1String(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeASCII&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeASCII(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsASCIIString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_AsASCIIString(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_AsASCIIString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_AsASCIIString(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_DecodeCharmap(
         string: <span class="kw-2">*const </span>c_char,
         length: Py_ssize_t,
@@ -579,28 +579,28 @@
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_DecodeLocale(str: <span class="kw-2">*const </span>c_char, errors: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_EncodeLocale(unicode: <span class="kw-2">*mut </span>PyObject, errors: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FSConverter&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FSConverter(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FSDecoder&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_FSDecoder(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeFSDefault&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeFSDefault(s: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeFSDefaultAndSize&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_DecodeFSDefaultAndSize(s: <span class="kw-2">*const </span>c_char, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_EncodeFSDefault&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_EncodeFSDefault(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Concat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Concat(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FSConverter&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FSConverter(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_FSDecoder&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_FSDecoder(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeFSDefault&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeFSDefault(s: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_DecodeFSDefaultAndSize&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_DecodeFSDefaultAndSize(s: <span class="kw-2">*const </span>c_char, size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_EncodeFSDefault&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_EncodeFSDefault(unicode: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Concat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Concat(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_Append(pleft: <span class="kw-2">*mut *mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject);
     <span class="kw">pub fn </span>PyUnicode_AppendAndDel(pleft: <span class="kw-2">*mut *mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Split&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Split(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Split&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Split(
         s: <span class="kw-2">*mut </span>PyObject,
         sep: <span class="kw-2">*mut </span>PyObject,
         maxsplit: Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Splitlines&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Splitlines(s: <span class="kw-2">*mut </span>PyObject, keepends: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Splitlines&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Splitlines(s: <span class="kw-2">*mut </span>PyObject, keepends: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_Partition(s: <span class="kw-2">*mut </span>PyObject, sep: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_RPartition(s: <span class="kw-2">*mut </span>PyObject, sep: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_RSplit(
@@ -613,18 +613,18 @@
         table: <span class="kw-2">*mut </span>PyObject,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Join&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Join(separator: <span class="kw-2">*mut </span>PyObject, seq: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Tailmatch&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Tailmatch(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Join&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Join(separator: <span class="kw-2">*mut </span>PyObject, seq: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Tailmatch&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Tailmatch(
         str: <span class="kw-2">*mut </span>PyObject,
         substr: <span class="kw-2">*mut </span>PyObject,
         start: Py_ssize_t,
         end: Py_ssize_t,
         direction: c_int,
     ) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Find&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Find(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Find&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Find(
         str: <span class="kw-2">*mut </span>PyObject,
         substr: <span class="kw-2">*mut </span>PyObject,
         start: Py_ssize_t,
@@ -638,33 +638,33 @@
         end: Py_ssize_t,
         direction: c_int,
     ) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Count&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Count(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Count&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Count(
         str: <span class="kw-2">*mut </span>PyObject,
         substr: <span class="kw-2">*mut </span>PyObject,
         start: Py_ssize_t,
         end: Py_ssize_t,
     ) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Replace&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Replace(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Replace&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Replace(
         str: <span class="kw-2">*mut </span>PyObject,
         substr: <span class="kw-2">*mut </span>PyObject,
         replstr: <span class="kw-2">*mut </span>PyObject,
         maxcount: Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Compare&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Compare(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_CompareWithASCIIString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_CompareWithASCIIString(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Compare&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Compare(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_CompareWithASCIIString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_CompareWithASCIIString(left: <span class="kw-2">*mut </span>PyObject, right: <span class="kw-2">*const </span>c_char) -&gt; c_int;
     <span class="kw">pub fn </span>PyUnicode_RichCompare(
         left: <span class="kw-2">*mut </span>PyObject,
         right: <span class="kw-2">*mut </span>PyObject,
         op: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Format&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyUnicode_Format(format: <span class="kw-2">*mut </span>PyObject, args: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyUnicode_Format&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyUnicode_Format(format: <span class="kw-2">*mut </span>PyObject, args: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyUnicode_Contains(container: <span class="kw-2">*mut </span>PyObject, element: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
     <span class="kw">pub fn </span>PyUnicode_IsIdentifier(s: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

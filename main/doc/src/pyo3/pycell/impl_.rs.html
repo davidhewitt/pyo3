@@ -432,8 +432,8 @@
     <span class="kw">type </span>MutableChild = ExtendsMutableAncestor&lt;MutableClass&gt;;
 }
 
-<span class="attribute">#[derive(Debug, Copy, Clone, Eq, PartialEq)]</span>
-<span class="kw">struct </span>BorrowFlag(usize);
+<span class="attribute">#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+</span><span class="kw">struct </span>BorrowFlag(usize);
 
 <span class="kw">impl </span>BorrowFlag {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>UNUSED: BorrowFlag = BorrowFlag(<span class="number">0</span>);
@@ -467,38 +467,38 @@
 }
 
 <span class="kw">impl </span>PyClassBorrowChecker <span class="kw">for </span>EmptySlot {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         EmptySlot(())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>try_borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowError&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>try_borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowError&gt; {
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>try_borrow_unguarded(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowError&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>try_borrow_unguarded(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowError&gt; {
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>release_borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>release_borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>try_borrow_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowMutError&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>try_borrow_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PyBorrowMutError&gt; {
         <span class="macro">unreachable!</span>()
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>release_borrow_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>release_borrow_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="macro">unreachable!</span>()
     }
 }
 
 <span class="kw">impl </span>PyClassBorrowChecker <span class="kw">for </span>BorrowChecker {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(Cell::new(BorrowFlag::UNUSED))
     }
 
@@ -569,9 +569,9 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">use </span><span class="kw">crate</span>::impl_::pyclass::{PyClassBaseType, PyClassImpl};
@@ -579,47 +579,47 @@
     <span class="kw">use </span><span class="kw">crate</span>::pyclass::boolean_struct::{False, True};
     <span class="kw">use </span><span class="kw">crate</span>::PyClass;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, subclass)]</span>
-    <span class="kw">struct </span>MutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, subclass)]
+    </span><span class="kw">struct </span>MutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableBase, subclass)]</span>
-    <span class="kw">struct </span>MutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableBase, subclass)]
+    </span><span class="kw">struct </span>MutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableBase, frozen, subclass)]</span>
-    <span class="kw">struct </span>ImmutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableBase, frozen, subclass)]
+    </span><span class="kw">struct </span>ImmutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfMutableBase)]</span>
-    <span class="kw">struct </span>MutableChildOfMutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfMutableBase)]
+    </span><span class="kw">struct </span>MutableChildOfMutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfMutableBase)]</span>
-    <span class="kw">struct </span>MutableChildOfImmutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfMutableBase)]
+    </span><span class="kw">struct </span>MutableChildOfImmutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfMutableBase, frozen)]</span>
-    <span class="kw">struct </span>ImmutableChildOfMutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfMutableBase, frozen)]
+    </span><span class="kw">struct </span>ImmutableChildOfMutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfMutableBase, frozen)]</span>
-    <span class="kw">struct </span>ImmutableChildOfImmutableChildOfMutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfMutableBase, frozen)]
+    </span><span class="kw">struct </span>ImmutableChildOfImmutableChildOfMutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, frozen, subclass)]</span>
-    <span class="kw">struct </span>ImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, frozen, subclass)]
+    </span><span class="kw">struct </span>ImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableBase, subclass)]</span>
-    <span class="kw">struct </span>MutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableBase, subclass)]
+    </span><span class="kw">struct </span>MutableChildOfImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableBase, frozen, subclass)]</span>
-    <span class="kw">struct </span>ImmutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableBase, frozen, subclass)]
+    </span><span class="kw">struct </span>ImmutableChildOfImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfImmutableBase)]</span>
-    <span class="kw">struct </span>MutableChildOfMutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfImmutableBase)]
+    </span><span class="kw">struct </span>MutableChildOfMutableChildOfImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfImmutableBase)]</span>
-    <span class="kw">struct </span>MutableChildOfImmutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfImmutableBase)]
+    </span><span class="kw">struct </span>MutableChildOfImmutableChildOfImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfImmutableBase, frozen)]</span>
-    <span class="kw">struct </span>ImmutableChildOfMutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = MutableChildOfImmutableBase, frozen)]
+    </span><span class="kw">struct </span>ImmutableChildOfMutableChildOfImmutableBase;
 
-    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfImmutableBase, frozen)]</span>
-    <span class="kw">struct </span>ImmutableChildOfImmutableChildOfImmutableBase;
+    <span class="attribute">#[pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>, extends = ImmutableChildOfImmutableBase, frozen)]
+    </span><span class="kw">struct </span>ImmutableChildOfImmutableChildOfImmutableBase;
 
     <span class="kw">fn </span>assert_mutable&lt;T: PyClass&lt;Frozen = False, PyClassMutability = MutableClass&gt;&gt;() {}
     <span class="kw">fn </span>assert_immutable&lt;T: PyClass&lt;Frozen = True, PyClassMutability = ImmutableClass&gt;&gt;() {}
@@ -646,8 +646,8 @@
     {
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_inherited_mutability() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_inherited_mutability() {
         <span class="comment">// mutable base
         </span>assert_mutable::&lt;MutableBase&gt;();
 
@@ -675,8 +675,8 @@
         assert_immutable_with_mutable_ancestor::&lt;ImmutableChildOfMutableChildOfImmutableBase&gt;();
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_mutable_borrow_prevents_further_borrows() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_mutable_borrow_prevents_further_borrows() {
         Python::with_gil(|py| {
             <span class="kw">let </span>mmm = Py::new(
                 py,
@@ -726,8 +726,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_immutable_borrows_prevent_mutable_borrows() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_immutable_borrows_prevent_mutable_borrows() {
         Python::with_gil(|py| {
             <span class="kw">let </span>mmm = Py::new(
                 py,
@@ -773,4 +773,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

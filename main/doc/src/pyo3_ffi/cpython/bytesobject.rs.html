@@ -21,20 +21,20 @@
 <span class="kw">use </span><span class="kw">crate</span>::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyBytesObject {
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API)))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyBytesObject {
     <span class="kw">pub </span>ob_base: PyVarObject,
     <span class="kw">pub </span>ob_shash: <span class="kw">crate</span>::Py_hash_t,
     <span class="kw">pub </span>ob_sval: [c_char; <span class="number">1</span>],
 }
 
-<span class="attribute">#[cfg(any(PyPy, Py_LIMITED_API))]</span>
-<span class="macro">opaque_struct!</span>(PyBytesObject);
+<span class="attribute">#[cfg(any(PyPy, Py_LIMITED_API))]
+</span><span class="macro">opaque_struct!</span>(PyBytesObject);
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>_PyBytes_Resize(bytes: <span class="kw-2">*mut *mut </span>PyObject, newsize: Py_ssize_t) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

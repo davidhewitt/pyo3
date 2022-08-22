@@ -51,8 +51,8 @@ Python interpreter to exit.
     <span class="doccomment">/// Creates a new PanicException from a panic payload.
     ///
     /// Attempts to format the error in the same way panic does.
-    </span><span class="attribute">#[cold]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_panic_payload(payload: Box&lt;<span class="kw">dyn </span>Any + Send + <span class="lifetime">&#39;static</span>&gt;) -&gt; PyErr {
+    </span><span class="attribute">#[cold]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_panic_payload(payload: Box&lt;<span class="kw">dyn </span>Any + Send + <span class="lifetime">&#39;static</span>&gt;) -&gt; PyErr {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(string) = payload.downcast_ref::&lt;String&gt;() {
             <span class="self">Self</span>::new_err((string.clone(),))
         } <span class="kw">else if let </span><span class="prelude-val">Some</span>(s) = payload.downcast_ref::&lt;<span class="kw-2">&amp;</span>str&gt;() {
@@ -63,4 +63,4 @@ Python interpreter to exit.
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

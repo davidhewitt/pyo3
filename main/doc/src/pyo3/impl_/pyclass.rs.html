@@ -1159,14 +1159,14 @@
 };
 
 <span class="doccomment">/// Gets the offset of the dictionary from the start of the object in bytes.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>dict_offset&lt;T: PyClass&gt;() -&gt; ffi::Py_ssize_t {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub fn </span>dict_offset&lt;T: PyClass&gt;() -&gt; ffi::Py_ssize_t {
     PyCell::&lt;T&gt;::dict_offset()
 }
 
 <span class="doccomment">/// Gets the offset of the weakref list from the start of the object in bytes.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>weaklist_offset&lt;T: PyClass&gt;() -&gt; ffi::Py_ssize_t {
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub fn </span>weaklist_offset&lt;T: PyClass&gt;() -&gt; ffi::Py_ssize_t {
     PyCell::&lt;T&gt;::weaklist_offset()
 }
 
@@ -1175,9 +1175,9 @@
     <span class="doccomment">/// Initial form of a [PyObject](crate::ffi::PyObject) `__dict__` reference.
     </span><span class="kw">const </span>INIT: <span class="self">Self</span>;
     <span class="doccomment">/// Empties the dictionary of its key-value pairs.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>clear_dict(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {}
-    <span class="macro">private_decl!</span> {}
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>clear_dict(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {}
+    <span class="macro">private_decl! </span>{}
 }
 
 <span class="doccomment">/// Represents the `__weakref__` field for `#[pyclass]`.
@@ -1189,35 +1189,35 @@
     /// # Safety
     /// - `_obj` must be a pointer to the pyclass instance which contains `self`.
     /// - The GIL must be held.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>clear_weakrefs(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _obj: <span class="kw-2">*mut </span>ffi::PyObject, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {}
-    <span class="macro">private_decl!</span> {}
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>clear_weakrefs(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _obj: <span class="kw-2">*mut </span>ffi::PyObject, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {}
+    <span class="macro">private_decl! </span>{}
 }
 
 <span class="doccomment">/// Zero-sized dummy field.
 </span><span class="kw">pub struct </span>PyClassDummySlot;
 
 <span class="kw">impl </span>PyClassDict <span class="kw">for </span>PyClassDummySlot {
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
     <span class="kw">const </span>INIT: <span class="self">Self </span>= PyClassDummySlot;
 }
 
 <span class="kw">impl </span>PyClassWeakRef <span class="kw">for </span>PyClassDummySlot {
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
     <span class="kw">const </span>INIT: <span class="self">Self </span>= PyClassDummySlot;
 }
 
 <span class="doccomment">/// Actual dict field, which holds the pointer to `__dict__`.
 ///
 /// `#[pyclass(dict)]` automatically adds this.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyClassDictSlot(<span class="kw-2">*mut </span>ffi::PyObject);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyClassDictSlot(<span class="kw-2">*mut </span>ffi::PyObject);
 
 <span class="kw">impl </span>PyClassDict <span class="kw">for </span>PyClassDictSlot {
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
     <span class="kw">const </span>INIT: <span class="self">Self </span>= <span class="self">Self</span>(std::ptr::null_mut());
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>clear_dict(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>clear_dict(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {
         <span class="kw">if </span>!<span class="self">self</span>.<span class="number">0</span>.is_null() {
             <span class="kw">unsafe </span>{ ffi::PyDict_Clear(<span class="self">self</span>.<span class="number">0</span>) }
         }
@@ -1227,14 +1227,14 @@
 <span class="doccomment">/// Actual weakref field, which holds the pointer to `__weakref__`.
 ///
 /// `#[pyclass(weakref)]` automatically adds this.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyClassWeakRefSlot(<span class="kw-2">*mut </span>ffi::PyObject);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyClassWeakRefSlot(<span class="kw-2">*mut </span>ffi::PyObject);
 
 <span class="kw">impl </span>PyClassWeakRef <span class="kw">for </span>PyClassWeakRefSlot {
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
     <span class="kw">const </span>INIT: <span class="self">Self </span>= <span class="self">Self</span>(std::ptr::null_mut());
-    <span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>clear_weakrefs(<span class="kw-2">&amp;mut </span><span class="self">self</span>, obj: <span class="kw-2">*mut </span>ffi::PyObject, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>clear_weakrefs(<span class="kw-2">&amp;mut </span><span class="self">self</span>, obj: <span class="kw-2">*mut </span>ffi::PyObject, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) {
         <span class="kw">if </span>!<span class="self">self</span>.<span class="number">0</span>.is_null() {
             ffi::PyObject_ClearWeakRefs(obj)
         }
@@ -1321,17 +1321,17 @@
     ///    can be accessed by multiple threads by `threading` module.
     </span><span class="kw">type </span>ThreadChecker: PyClassThreadChecker&lt;<span class="self">Self</span>&gt;;
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]</span>
-    <span class="kw">type </span>Inventory: PyClassInventory;
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]
+    </span><span class="kw">type </span>Inventory: PyClassInventory;
 
     <span class="kw">fn </span>items_iter() -&gt; PyClassItemsIter;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>dict_offset() -&gt; <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>dict_offset() -&gt; <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt; {
         <span class="prelude-val">None
     </span>}
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>weaklist_offset() -&gt; <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>weaklist_offset() -&gt; <span class="prelude-ty">Option</span>&lt;ffi::Py_ssize_t&gt; {
         <span class="prelude-val">None
     </span>}
 }
@@ -1343,73 +1343,73 @@
     <span class="doccomment">/// Items from the `#[pyclass]` macro
     </span>pyclass_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
     <span class="doccomment">/// Items from the `#[pymethods]` macro
-    </span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]</span>
-    pymethods_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    </span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]
+    </span>pymethods_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
     <span class="doccomment">/// Items from the `#[pymethods]` macro with inventory
-    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]</span>
-    pymethods_items: Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems&gt;&gt;,
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]
+    </span>pymethods_items: Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems&gt;&gt;,
 
     <span class="comment">// pyproto items, to be removed soon.
-    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    object_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    descr_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    gc_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    iter_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    mapping_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    number_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    async_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    sequence_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-    buffer_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>object_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>descr_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>gc_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>iter_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>mapping_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>number_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>async_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>sequence_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+    </span>buffer_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
 }
 
 <span class="kw">impl </span>PyClassItemsIter {
-    <span class="attribute">#[cfg_attr(feature = <span class="string">&quot;pyproto&quot;</span>, allow(clippy::too_many_arguments))]</span>
-    <span class="kw">pub fn </span>new(
+    <span class="attribute">#[cfg_attr(feature = <span class="string">&quot;pyproto&quot;</span>, allow(clippy::too_many_arguments))]
+    </span><span class="kw">pub fn </span>new(
         pyclass_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]</span> pymethods_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]</span> pymethods_items: Box&lt;
+        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))] </span>pymethods_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)] </span>pymethods_items: Box&lt;
             <span class="kw">dyn </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems&gt;,
         &gt;,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> object_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> descr_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> gc_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> iter_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> mapping_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> number_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> async_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> sequence_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span> buffer_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>object_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>descr_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>gc_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>iter_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>mapping_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>number_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>async_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>sequence_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)] </span>buffer_protocol_items: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             idx: <span class="number">0</span>,
             pyclass_items,
             pymethods_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            object_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            descr_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            gc_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            iter_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            mapping_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            number_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            async_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            sequence_protocol_items,
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            buffer_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>object_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>descr_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>gc_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>iter_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>mapping_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>number_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>async_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>sequence_protocol_items,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span>buffer_protocol_items,
         }
     }
 }
@@ -1417,8 +1417,8 @@
 <span class="kw">impl </span>Iterator <span class="kw">for </span>PyClassItemsIter {
     <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems;
 
-    <span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]</span>
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+    <span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">match </span><span class="self">self</span>.idx {
             <span class="number">0 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
@@ -1428,48 +1428,48 @@
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.pymethods_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">2 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">2 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.object_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">3 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">3 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.descr_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">4 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">4 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.gc_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">5 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">5 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.iter_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">6 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">6 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.mapping_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">7 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">7 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.number_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">8 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">8 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.async_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">9 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">9 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.sequence_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">10 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">10 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.buffer_protocol_items)
             }
@@ -1479,55 +1479,55 @@
         }
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]</span>
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">match </span><span class="self">self</span>.idx {
             <span class="number">0 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.pyclass_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">1 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">1 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.object_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">2 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">2 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.descr_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">3 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">3 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.gc_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">4 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">4 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.iter_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">5 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">5 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.mapping_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">6 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">6 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.number_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">7 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">7 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.async_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">8 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">8 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.sequence_protocol_items)
             }
-            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-            <span class="number">9 </span>=&gt; {
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+            </span><span class="number">9 </span>=&gt; {
                 <span class="self">self</span>.idx += <span class="number">1</span>;
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.buffer_protocol_items)
             }
@@ -1540,10 +1540,10 @@
 
 <span class="comment">// Traits describing known special methods.
 
-</span><span class="macro">macro_rules!</span> slot_fragment_trait {
+</span><span class="macro">macro_rules! </span>slot_fragment_trait {
     (<span class="macro-nonterminal">$trait_name</span>:ident, $(<span class="macro-nonterminal">$default_method</span>:tt)<span class="kw-2">*</span>) =&gt; {
-        <span class="attribute">#[allow(non_camel_case_types)]</span>
-        <span class="kw">pub trait </span><span class="macro-nonterminal">$trait_name</span>&lt;T&gt;: Sized {
+        <span class="attribute">#[allow(non_camel_case_types)]
+        </span><span class="kw">pub trait </span><span class="macro-nonterminal">$trait_name</span>&lt;T&gt;: Sized {
             $(<span class="macro-nonterminal">$default_method</span>)*
         }
 
@@ -1551,12 +1551,12 @@
     }
 }
 
-<span class="macro">slot_fragment_trait!</span> {
+<span class="macro">slot_fragment_trait! </span>{
     PyClass__getattribute__SlotFragment,
 
     <span class="doccomment">/// # Safety: _slf and _attr must be valid non-null Python objects
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>__getattribute__(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>__getattribute__(
         <span class="self">self</span>,
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1571,12 +1571,12 @@
     }
 }
 
-<span class="macro">slot_fragment_trait!</span> {
+<span class="macro">slot_fragment_trait! </span>{
     PyClass__getattr__SlotFragment,
 
     <span class="doccomment">/// # Safety: _slf and _attr must be valid non-null Python objects
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>__getattr__(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>__getattr__(
         <span class="self">self</span>,
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1588,9 +1588,9 @@
     }
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> generate_pyclass_getattro_slot {
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>generate_pyclass_getattro_slot {
     (<span class="macro-nonterminal">$cls</span>:ty) =&gt; {{
         <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>__wrap(
             _slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -1633,7 +1633,7 @@
 /// - Trait for a __setitem__ dunder
 /// - Trait for the corresponding __delitem__ dunder
 /// - A macro which will use dtolnay specialisation to generate the shared slot for the two dunders
-</span><span class="macro">macro_rules!</span> define_pyclass_setattr_slot {
+</span><span class="macro">macro_rules! </span>define_pyclass_setattr_slot {
     (
         <span class="macro-nonterminal">$set_trait</span>:ident,
         <span class="macro-nonterminal">$del_trait</span>:ident,
@@ -1645,12 +1645,12 @@
         <span class="macro-nonterminal">$slot</span>:ident,
         <span class="macro-nonterminal">$func_ty</span>:ident,
     ) =&gt; {
-        <span class="macro">slot_fragment_trait!</span> {
+        <span class="macro">slot_fragment_trait! </span>{
             <span class="macro-nonterminal">$set_trait</span>,
 
             <span class="doccomment">/// # Safety: _slf and _attr must be valid non-null Python objects
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">unsafe fn </span><span class="macro-nonterminal">$set</span>(
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$set</span>(
                 <span class="self">self</span>,
                 _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
                 _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1661,12 +1661,12 @@
             </span>}
         }
 
-        <span class="macro">slot_fragment_trait!</span> {
+        <span class="macro">slot_fragment_trait! </span>{
             <span class="macro-nonterminal">$del_trait</span>,
 
             <span class="doccomment">/// # Safety: _slf and _attr must be valid non-null Python objects
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">unsafe fn </span><span class="macro-nonterminal">$del</span>(
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$del</span>(
                 <span class="self">self</span>,
                 _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
                 _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1676,9 +1676,9 @@
             </span>}
         }
 
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="attribute">#[macro_export]</span>
-        <span class="macro">macro_rules!</span> <span class="macro-nonterminal">$generate_macro </span>{
+        <span class="attribute">#[doc(hidden)]
+        #[macro_export]
+        </span><span class="macro">macro_rules! </span><span class="macro-nonterminal">$generate_macro </span>{
             (<span class="macro-nonterminal">$cls</span>:ty) =&gt; {{
                 <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>__wrap(
                     _slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -1712,7 +1712,7 @@
     };
 }
 
-<span class="macro">define_pyclass_setattr_slot!</span> {
+<span class="macro">define_pyclass_setattr_slot! </span>{
     PyClass__setattr__SlotFragment,
     PyClass__delattr__SlotFragment,
     __setattr__,
@@ -1724,7 +1724,7 @@
     setattrofunc,
 }
 
-<span class="macro">define_pyclass_setattr_slot!</span> {
+<span class="macro">define_pyclass_setattr_slot! </span>{
     PyClass__set__SlotFragment,
     PyClass__delete__SlotFragment,
     __set__,
@@ -1736,7 +1736,7 @@
     descrsetfunc,
 }
 
-<span class="macro">define_pyclass_setattr_slot!</span> {
+<span class="macro">define_pyclass_setattr_slot! </span>{
     PyClass__setitem__SlotFragment,
     PyClass__delitem__SlotFragment,
     __setitem__,
@@ -1752,7 +1752,7 @@
 /// - Trait for a lhs dunder e.g. __add__
 /// - Trait for the corresponding rhs e.g. __radd__
 /// - A macro which will use dtolnay specialisation to generate the shared slot for the two dunders
-</span><span class="macro">macro_rules!</span> define_pyclass_binary_operator_slot {
+</span><span class="macro">macro_rules! </span>define_pyclass_binary_operator_slot {
     (
         <span class="macro-nonterminal">$lhs_trait</span>:ident,
         <span class="macro-nonterminal">$rhs_trait</span>:ident,
@@ -1762,12 +1762,12 @@
         <span class="macro-nonterminal">$slot</span>:ident,
         <span class="macro-nonterminal">$func_ty</span>:ident,
     ) =&gt; {
-        <span class="macro">slot_fragment_trait!</span> {
+        <span class="macro">slot_fragment_trait! </span>{
             <span class="macro-nonterminal">$lhs_trait</span>,
 
             <span class="doccomment">/// # Safety: _slf and _other must be valid non-null Python objects
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">unsafe fn </span><span class="macro-nonterminal">$lhs</span>(
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$lhs</span>(
                 <span class="self">self</span>,
                 _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
                 _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1777,12 +1777,12 @@
             }
         }
 
-        <span class="macro">slot_fragment_trait!</span> {
+        <span class="macro">slot_fragment_trait! </span>{
             <span class="macro-nonterminal">$rhs_trait</span>,
 
             <span class="doccomment">/// # Safety: _slf and _other must be valid non-null Python objects
-            </span><span class="attribute">#[inline]</span>
-            <span class="kw">unsafe fn </span><span class="macro-nonterminal">$rhs</span>(
+            </span><span class="attribute">#[inline]
+            </span><span class="kw">unsafe fn </span><span class="macro-nonterminal">$rhs</span>(
                 <span class="self">self</span>,
                 _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
                 _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1792,9 +1792,9 @@
             }
         }
 
-        <span class="attribute">#[doc(hidden)]</span>
-        <span class="attribute">#[macro_export]</span>
-        <span class="macro">macro_rules!</span> <span class="macro-nonterminal">$generate_macro </span>{
+        <span class="attribute">#[doc(hidden)]
+        #[macro_export]
+        </span><span class="macro">macro_rules! </span><span class="macro-nonterminal">$generate_macro </span>{
             (<span class="macro-nonterminal">$cls</span>:ty) =&gt; {{
                 <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>__wrap(
                     _slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -1827,7 +1827,7 @@
     };
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__add__SlotFragment,
     PyClass__radd__SlotFragment,
     __add__,
@@ -1837,7 +1837,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__sub__SlotFragment,
     PyClass__rsub__SlotFragment,
     __sub__,
@@ -1847,7 +1847,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__mul__SlotFragment,
     PyClass__rmul__SlotFragment,
     __mul__,
@@ -1857,7 +1857,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__mod__SlotFragment,
     PyClass__rmod__SlotFragment,
     __mod__,
@@ -1867,7 +1867,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__divmod__SlotFragment,
     PyClass__rdivmod__SlotFragment,
     __divmod__,
@@ -1877,7 +1877,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__lshift__SlotFragment,
     PyClass__rlshift__SlotFragment,
     __lshift__,
@@ -1887,7 +1887,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__rshift__SlotFragment,
     PyClass__rrshift__SlotFragment,
     __rshift__,
@@ -1897,7 +1897,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__and__SlotFragment,
     PyClass__rand__SlotFragment,
     __and__,
@@ -1907,7 +1907,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__or__SlotFragment,
     PyClass__ror__SlotFragment,
     __or__,
@@ -1917,7 +1917,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__xor__SlotFragment,
     PyClass__rxor__SlotFragment,
     __xor__,
@@ -1927,7 +1927,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__matmul__SlotFragment,
     PyClass__rmatmul__SlotFragment,
     __matmul__,
@@ -1937,7 +1937,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__truediv__SlotFragment,
     PyClass__rtruediv__SlotFragment,
     __truediv__,
@@ -1947,7 +1947,7 @@
     binaryfunc,
 }
 
-<span class="macro">define_pyclass_binary_operator_slot!</span> {
+<span class="macro">define_pyclass_binary_operator_slot! </span>{
     PyClass__floordiv__SlotFragment,
     PyClass__rfloordiv__SlotFragment,
     __floordiv__,
@@ -1957,12 +1957,12 @@
     binaryfunc,
 }
 
-<span class="macro">slot_fragment_trait!</span> {
+<span class="macro">slot_fragment_trait! </span>{
     PyClass__pow__SlotFragment,
 
     <span class="doccomment">/// # Safety: _slf and _other must be valid non-null Python objects
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>__pow__(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>__pow__(
         <span class="self">self</span>,
         _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1973,12 +1973,12 @@
     }
 }
 
-<span class="macro">slot_fragment_trait!</span> {
+<span class="macro">slot_fragment_trait! </span>{
     PyClass__rpow__SlotFragment,
 
     <span class="doccomment">/// # Safety: _slf and _other must be valid non-null Python objects
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>__rpow__(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>__rpow__(
         <span class="self">self</span>,
         _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         _slf: <span class="kw-2">*mut </span>ffi::PyObject,
@@ -1989,9 +1989,9 @@
     }
 }
 
-<span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> generate_pyclass_pow_slot {
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>generate_pyclass_pow_slot {
     (<span class="macro-nonterminal">$cls</span>:ty) =&gt; {{
         <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>__wrap(
             _slf: <span class="kw-2">*mut </span><span class="macro-nonterminal">$crate::ffi::PyObject</span>,
@@ -2042,8 +2042,8 @@
 ) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
     <span class="kw">let </span>py = Python::assume_gil_acquired();
 
-    <span class="attribute">#[cfg(not(Py_3_8))]</span>
-    bpo_35810_workaround(py, subtype);
+    <span class="attribute">#[cfg(not(Py_3_8))]
+    </span>bpo_35810_workaround(py, subtype);
 
     <span class="kw">let </span>self_type = T::type_object_raw(py);
     <span class="comment">// If this type is a variable type or the subtype is not equal to this type, we cannot use the
@@ -2080,19 +2080,19 @@
         };
         free(obj <span class="kw">as </span><span class="kw-2">*mut </span>c_void);
 
-        <span class="attribute">#[cfg(Py_3_8)]</span>
-        <span class="kw">if </span>ffi::PyType_HasFeature(ty, ffi::Py_TPFLAGS_HEAPTYPE) != <span class="number">0 </span>{
+        <span class="attribute">#[cfg(Py_3_8)]
+        </span><span class="kw">if </span>ffi::PyType_HasFeature(ty, ffi::Py_TPFLAGS_HEAPTYPE) != <span class="number">0 </span>{
             ffi::Py_DECREF(ty <span class="kw">as </span><span class="kw-2">*mut </span>ffi::PyObject);
         }
     }
 }
 
 <span class="doccomment">/// Workaround for Python issue 35810; no longer necessary in Python 3.8
-</span><span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(Py_3_8))]</span>
-<span class="kw">unsafe fn </span>bpo_35810_workaround(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ty: <span class="kw-2">*mut </span>ffi::PyTypeObject) {
-    <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-    {
+</span><span class="attribute">#[inline]
+#[cfg(not(Py_3_8))]
+</span><span class="kw">unsafe fn </span>bpo_35810_workaround(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ty: <span class="kw-2">*mut </span>ffi::PyTypeObject) {
+    <span class="attribute">#[cfg(Py_LIMITED_API)]
+    </span>{
         <span class="comment">// Must check version at runtime for abi3 wheels - they could run against a higher version
         // than the build config suggests.
         </span><span class="kw">use </span><span class="kw">crate</span>::once_cell::GILOnceCell;
@@ -2110,7 +2110,7 @@
 <span class="comment">// General methods implementation: either dtolnay specialization trait or inventory if
 // multiple-pymethods feature is enabled.
 
-</span><span class="macro">macro_rules!</span> items_trait {
+</span><span class="macro">macro_rules! </span>items_trait {
     (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$function_name</span>: ident) =&gt; {
         <span class="kw">pub trait </span><span class="macro-nonterminal">$name</span>&lt;T&gt; {
             <span class="kw">fn </span><span class="macro-nonterminal">$function_name</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems;
@@ -2131,19 +2131,19 @@
 /// Method storage for `#[pyclass]`.
 /// Allows arbitrary `#[pymethod]` blocks to submit their methods,
 /// which are eventually collected by `#[pyclass]`.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]</span>
-<span class="kw">pub trait </span>PyClassInventory: inventory::Collect {
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;multiple-pymethods&quot;</span>)]
+</span><span class="kw">pub trait </span>PyClassInventory: inventory::Collect {
     <span class="doccomment">/// Returns the items for a single `#[pymethods] impl` block
     </span><span class="kw">fn </span>items(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>PyClassItems;
 }
 
 <span class="comment">// Items from #[pymethods] if not using inventory.
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]</span>
-<span class="macro">items_trait!</span>(PyMethods, py_methods);
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]
+</span><span class="macro">items_trait!</span>(PyMethods, py_methods);
 
 <span class="doccomment">/// Items from `#[pyproto]` implementations
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-<span class="kw">mod </span>pyproto_traits {
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+</span><span class="kw">mod </span>pyproto_traits {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="macro">items_trait!</span>(PyObjectProtocolItems, object_protocol_items);
     <span class="macro">items_trait!</span>(PyDescrProtocolItems, descr_protocol_items);
@@ -2155,44 +2155,44 @@
     <span class="macro">items_trait!</span>(PySequenceProtocolItems, sequence_protocol_items);
     <span class="macro">items_trait!</span>(PyBufferProtocolItems, buffer_protocol_items);
 }
-<span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-<span class="kw">pub use </span>pyproto_traits::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+</span><span class="kw">pub use </span>pyproto_traits::<span class="kw-2">*</span>;
 
 <span class="comment">// Thread checkers
 
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub trait </span>PyClassThreadChecker&lt;T&gt;: Sized {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub trait </span>PyClassThreadChecker&lt;T&gt;: Sized {
     <span class="kw">fn </span>ensure(<span class="kw-2">&amp;</span><span class="self">self</span>);
     <span class="kw">fn </span>new() -&gt; <span class="self">Self</span>;
-    <span class="macro">private_decl!</span> {}
+    <span class="macro">private_decl! </span>{}
 }
 
 <span class="doccomment">/// Stub checker for `Send` types.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub struct </span>ThreadCheckerStub&lt;T: Send&gt;(PhantomData&lt;T&gt;);
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub struct </span>ThreadCheckerStub&lt;T: Send&gt;(PhantomData&lt;T&gt;);
 
 <span class="kw">impl</span>&lt;T: Send&gt; PyClassThreadChecker&lt;T&gt; <span class="kw">for </span>ThreadCheckerStub&lt;T&gt; {
     <span class="kw">fn </span>ensure(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         ThreadCheckerStub(PhantomData)
     }
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="kw">impl</span>&lt;T: PyNativeType&gt; PyClassThreadChecker&lt;T&gt; <span class="kw">for </span>ThreadCheckerStub&lt;<span class="kw">crate</span>::PyObject&gt; {
     <span class="kw">fn </span>ensure(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         ThreadCheckerStub(PhantomData)
     }
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="doccomment">/// Thread checker for unsendable types.
 /// Panics when the value is accessed by another thread.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub struct </span>ThreadCheckerImpl&lt;T&gt;(thread::ThreadId, PhantomData&lt;T&gt;);
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub struct </span>ThreadCheckerImpl&lt;T&gt;(thread::ThreadId, PhantomData&lt;T&gt;);
 
 <span class="kw">impl</span>&lt;T&gt; PyClassThreadChecker&lt;T&gt; <span class="kw">for </span>ThreadCheckerImpl&lt;T&gt; {
     <span class="kw">fn </span>ensure(<span class="kw-2">&amp;</span><span class="self">self</span>) {
@@ -2206,13 +2206,13 @@
     <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         ThreadCheckerImpl(thread::current().id(), PhantomData)
     }
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="doccomment">/// Thread checker for types that have `Send` and `extends=...`.
 /// Ensures that `T: Send` and the parent is not accessed by another thread.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub struct </span>ThreadCheckerInherited&lt;T: PyClass + Send, U: PyClassBaseType&gt;(
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub struct </span>ThreadCheckerInherited&lt;T: PyClass + Send, U: PyClassBaseType&gt;(
     PhantomData&lt;T&gt;,
     U::ThreadChecker,
 );
@@ -2226,7 +2226,7 @@
     <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         ThreadCheckerInherited(PhantomData, U::ThreadChecker::new())
     }
-    <span class="macro">private_impl!</span> {}
+    <span class="macro">private_impl! </span>{}
 }
 
 <span class="doccomment">/// Trait denoting that this class is suitable to be used as a base type for PyClass.
@@ -2285,4 +2285,4 @@
     result
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

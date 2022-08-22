@@ -19,8 +19,8 @@ to create a pyfunction that calculates the eigenvalues of a 2x2 matrix.</p>
 
 <span class="kw">type </span>T = Complex&lt;f64&gt;;
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>get_eigenvalues(m11: T, m12: T, m21: T, m22: T) -&gt; Vec&lt;T&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>get_eigenvalues(m11: T, m12: T, m21: T, m22: T) -&gt; Vec&lt;T&gt; {
     <span class="kw">let </span>mat = Matrix::&lt;T, Const&lt;<span class="number">2</span>&gt;, Const&lt;<span class="number">2</span>&gt;, <span class="kw">_</span>&gt;::new(m11, m12, m21, m22);
 
     <span class="kw">match </span>mat.eigenvalues() {
@@ -29,8 +29,8 @@ to create a pyfunction that calculates the eigenvalues of a 2x2 matrix.</p>
     }
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(get_eigenvalues, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
@@ -43,4 +43,4 @@ m21 = complex(2,-1)
 m22 = complex(-1,0)
 
 result = get_eigenvalues(m11,m12,m21,m22)
-assert result == [complex(1,-1), complex(-2,0)]</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+assert result == [complex(1,-1), complex(-2,0)]</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

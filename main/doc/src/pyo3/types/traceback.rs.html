@@ -91,8 +91,8 @@
 <span class="kw">use crate</span>::{AsPyPointer, PyAny};
 
 <span class="doccomment">/// Represents a Python traceback.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyTraceback(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyTraceback(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(
     PyTraceback,
@@ -150,12 +150,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::Python;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>format_traceback() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>format_traceback() {
         Python::with_gil(|py| {
             <span class="kw">let </span>err = py
                 .run(<span class="string">&quot;raise Exception(&#39;banana&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -169,4 +169,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -522,8 +522,8 @@
 ///  });
 ///  assert!(r.is_ok());
 /// ```
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyCapsule(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyCapsule(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyCapsule, ffi::PyCapsule_Type, #checkfunction=ffi::PyCapsule_CheckExact);
 
@@ -659,8 +659,8 @@
     ///
     /// assert_eq!(rx.recv(), Ok(&quot;Destructor called!&quot;.to_string()));
     /// ```
-    </span><span class="attribute">#[allow(clippy::not_unsafe_ptr_arg_deref)]</span>
-    <span class="kw">pub fn </span>set_context(<span class="kw-2">&amp;</span><span class="self">self</span>, context: <span class="kw-2">*mut </span>c_void) -&gt; PyResult&lt;()&gt; {
+    </span><span class="attribute">#[allow(clippy::not_unsafe_ptr_arg_deref)]
+    </span><span class="kw">pub fn </span>set_context(<span class="kw-2">&amp;</span><span class="self">self</span>, context: <span class="kw-2">*mut </span>c_void) -&gt; PyResult&lt;()&gt; {
         <span class="kw">let </span>result = <span class="kw">unsafe </span>{ ffi::PyCapsule_SetContext(<span class="self">self</span>.as_ptr(), context) };
         <span class="kw">if </span>result != <span class="number">0 </span>{
             <span class="prelude-val">Err</span>(PyErr::fetch(<span class="self">self</span>.py()))
@@ -682,8 +682,8 @@
     }
 
     <span class="doccomment">/// Deprecated form of `.context()`.
-    </span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.17.0&quot;</span>, note = <span class="string">&quot;replaced with .context()&quot;</span>)]</span>
-    <span class="kw">pub fn </span>get_context(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>c_void&gt; {
+    </span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.17.0&quot;</span>, note = <span class="string">&quot;replaced with .context()&quot;</span>)]
+    </span><span class="kw">pub fn </span>get_context(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;<span class="kw-2">*mut </span>c_void&gt; {
         <span class="self">self</span>.context()
     }
 
@@ -749,8 +749,8 @@
 }
 
 <span class="comment">// C layout, as PyCapsule::get_reference depends on `T` being first.
-</span><span class="attribute">#[repr(C)]</span>
-<span class="kw">struct </span>CapsuleContents&lt;T: <span class="lifetime">&#39;static </span>+ Send, D: FnOnce(T, <span class="kw-2">*mut </span>c_void) + Send&gt; {
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">struct </span>CapsuleContents&lt;T: <span class="lifetime">&#39;static </span>+ Send, D: FnOnce(T, <span class="kw-2">*mut </span>c_void) + Send&gt; {
     <span class="doccomment">/// Value of the capsule
     </span>value: T,
     <span class="doccomment">/// Destructor to be used by the capsule
@@ -773,13 +773,13 @@
 
 <span class="doccomment">/// Guarantee `T` is not zero sized at compile time.
 </span><span class="comment">// credit: `&lt;https://users.rust-lang.org/t/is-it-possible-to-assert-at-compile-time-that-foo-t-is-not-called-with-a-zst/67685&gt;`
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub trait </span>AssertNotZeroSized: Sized {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub trait </span>AssertNotZeroSized: Sized {
     <span class="kw">const </span>_CONDITION: usize = (std::mem::size_of::&lt;<span class="self">Self</span>&gt;() == <span class="number">0</span>) <span class="kw">as </span>usize;
     <span class="kw">const </span>_CHECK: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str =
         [<span class="string">&quot;PyCapsule value type T must not be zero-sized!&quot;</span>][<span class="self">Self</span>::_CONDITION];
-    <span class="attribute">#[allow(path_statements, clippy::no_effect)]</span>
-    <span class="kw">fn </span>assert_not_zero_sized(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="attribute">#[allow(path_statements, clippy::no_effect)]
+    </span><span class="kw">fn </span>assert_not_zero_sized(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         &lt;<span class="self">Self </span><span class="kw">as </span>AssertNotZeroSized&gt;::_CHECK;
     }
 }
@@ -794,8 +794,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span>libc::c_void;
 
     <span class="kw">use </span><span class="kw">crate</span>::prelude::PyModule;
@@ -803,10 +803,10 @@
     <span class="kw">use </span>std::ffi::CString;
     <span class="kw">use </span>std::sync::mpsc::{channel, Sender};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_struct() -&gt; PyResult&lt;()&gt; {
-        <span class="attribute">#[repr(C)]</span>
-        <span class="kw">struct </span>Foo {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_struct() -&gt; PyResult&lt;()&gt; {
+        <span class="attribute">#[repr(C)]
+        </span><span class="kw">struct </span>Foo {
             <span class="kw">pub </span>val: u32,
         }
 
@@ -831,8 +831,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_func() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_func() {
         <span class="kw">fn </span>foo(x: u32) -&gt; u32 {
             x
         }
@@ -849,8 +849,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_context() -&gt; PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_context() -&gt; PyResult&lt;()&gt; {
         Python::with_gil(|py| {
             <span class="kw">let </span>name = CString::new(<span class="string">&quot;foo&quot;</span>).unwrap();
             <span class="kw">let </span>cap = PyCapsule::new(py, <span class="number">0</span>, <span class="prelude-val">Some</span>(name))<span class="question-mark">?</span>;
@@ -868,10 +868,10 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_import() -&gt; PyResult&lt;()&gt; {
-        <span class="attribute">#[repr(C)]</span>
-        <span class="kw">struct </span>Foo {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_import() -&gt; PyResult&lt;()&gt; {
+        <span class="attribute">#[repr(C)]
+        </span><span class="kw">struct </span>Foo {
             <span class="kw">pub </span>val: u32,
         }
 
@@ -896,8 +896,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_vec_storage() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_vec_storage() {
         <span class="kw">let </span>cap: Py&lt;PyCapsule&gt; = Python::with_gil(|py| {
             <span class="kw">let </span>name = CString::new(<span class="string">&quot;foo&quot;</span>).unwrap();
 
@@ -913,8 +913,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_vec_context() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_vec_context() {
         <span class="kw">let </span>context: Vec&lt;u8&gt; = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
 
         <span class="kw">let </span>cap: Py&lt;PyCapsule&gt; = Python::with_gil(|py| {
@@ -933,8 +933,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_destructor() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_destructor() {
         <span class="kw">let </span>(tx, rx) = channel::&lt;bool&gt;();
 
         <span class="kw">fn </span>destructor(_val: u32, ctx: <span class="kw-2">*mut </span>c_void) {
@@ -953,8 +953,8 @@
         </span><span class="macro">assert_eq!</span>(rx.recv(), <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>));
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pycapsule_no_name() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pycapsule_no_name() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cap = PyCapsule::new(py, <span class="number">0usize</span>, <span class="prelude-val">None</span>).unwrap();
 
@@ -965,4 +965,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -463,19 +463,18 @@
 <span id="463">463</span>
 <span id="464">464</span>
 <span id="465">465</span>
-<span id="466">466</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg_attr(feature = <span class="string">&quot;nightly&quot;</span>, feature(auto_traits, negative_impls))]</span>
-<span class="attribute">#![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]</span>
-<span class="attribute">#![cfg_attr(
+</pre><pre class="rust"><code><span class="attribute">#![cfg_attr(feature = <span class="string">&quot;nightly&quot;</span>, feature(auto_traits, negative_impls))]
+#![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
+#![cfg_attr(
     docsrs, <span class="comment">// rustdoc:: is not supported on msrv
     </span>deny(
         invalid_doc_attributes,
         rustdoc::broken_intra_doc_links,
         rustdoc::bare_urls
     )
-)]</span>
-<span class="attribute">#![warn(rust_2018_idioms, unused_lifetimes)]</span>
-<span class="comment">// Deny some lints in doctests.
+)]
+#![warn(rust_2018_idioms, unused_lifetimes)]
+</span><span class="comment">// Deny some lints in doctests.
 // Use `#[allow(...)]` locally to override.
 </span><span class="attribute">#![doc(test(attr(
     deny(
@@ -485,9 +484,9 @@
         warnings
     ),
     allow(unused_variables, unused_assignments, unused_extern_crates)
-)))]</span>
+)))]
 
-<span class="doccomment">//! Rust bindings to the Python interpreter.
+</span><span class="doccomment">//! Rust bindings to the Python interpreter.
 //!
 //! PyO3 can be used to write native Python modules or run Python code and modules from Rust.
 //!
@@ -538,8 +537,6 @@
 //! The following features are turned on by default:
 //! - `macros`: Enables various macros, including all the attribute macros excluding the deprecated
 //! `#[pyproto]` attribute.
-//! - `pyproto`: Adds the deprecated `#[pyproto]` attribute macro. Likely to become optional and
-//! then removed in the future.
 //!
 //! ## Optional feature flags
 //!
@@ -555,6 +552,7 @@
 //! - `multiple-pymethods`: Enables the use of multiple [`#[pymethods]`](macro@crate::pymethods)
 //! blocks per [`#[pyclass]`](macro@crate::pyclass). This adds a dependency on the [inventory]
 //! crate, which is not supported on all platforms.
+//! - `pyproto`: Enables the deprecated `#[pyproto]` attribute macro. This will be removed in PyO3 0.18.
 //!
 //! The following features enable interactions with other crates in the Rust ecosystem:
 //! - [`anyhow`]: Enables a conversion from [anyhow]’s [`Error`][anyhow_error] type to [`PyErr`].
@@ -617,9 +615,9 @@
 //!
 //! [dependencies.pyo3]
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]</span>
-<span class="doccomment">//! features = [&quot;extension-module&quot;]
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]
+#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]
+</span><span class="doccomment">//! features = [&quot;extension-module&quot;]
 //! ```
 //!
 //! **`src/lib.rs`**
@@ -680,9 +678,9 @@
 //! ```toml
 //! [dependencies.pyo3]
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]</span>
-<span class="doccomment">//! # this is necessary to automatically initialize the Python interpreter
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;&quot;</span>)))]
+#![cfg_attr(not(docsrs), doc = <span class="string">&quot;version = \&quot;*\&quot;&quot;</span>)]
+</span><span class="doccomment">//! # this is necessary to automatically initialize the Python interpreter
 //! features = [&quot;auto-initialize&quot;]
 //! ```
 //!
@@ -760,15 +758,15 @@
 //! [Features chapter of the guide]: https://pyo3.rs/latest/features.html#features-reference &quot;Features Reference - PyO3 user guide&quot;
 //! [`Ungil`]: crate::marker::Ungil
 </span><span class="kw">pub use </span><span class="kw">crate</span>::class::<span class="kw-2">*</span>;
-<span class="attribute">#[allow(deprecated)]</span>
-<span class="kw">pub use </span><span class="kw">crate</span>::conversion::ToBorrowedObject;
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::conversion::ToBorrowedObject;
 <span class="kw">pub use </span><span class="kw">crate</span>::conversion::{
     AsPyPointer, FromPyObject, FromPyPointer, IntoPy, IntoPyPointer, PyTryFrom, PyTryInto,
     ToPyObject,
 };
 <span class="kw">pub use </span><span class="kw">crate</span>::err::{PyDowncastError, PyErr, PyErrArguments, PyResult};
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub use </span><span class="kw">crate</span>::gil::{prepare_freethreaded_python, with_embedded_python_interpreter};
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::gil::{prepare_freethreaded_python, with_embedded_python_interpreter};
 <span class="kw">pub use </span><span class="kw">crate</span>::gil::{GILGuard, GILPool};
 <span class="kw">pub use </span><span class="kw">crate</span>::instance::{Py, PyNativeType, PyObject};
 <span class="kw">pub use </span><span class="kw">crate</span>::marker::Python;
@@ -780,15 +778,15 @@
 <span class="kw">pub use </span><span class="kw">crate</span>::version::PythonVersionInfo;
 
 <span class="comment">// Old directory layout, to be rethought?
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;pyproto&quot;</span>))]</span>
-<span class="kw">pub mod </span>class {
-    <span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods <span class="kw">as </span>methods;
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;pyproto&quot;</span>))]
+</span><span class="kw">pub mod </span>class {
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub use </span><span class="kw">crate</span>::impl_::pymethods <span class="kw">as </span>methods;
 
     <span class="kw">pub use </span><span class="self">self</span>::gc::{PyTraverseError, PyVisit};
 
-    <span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub use </span><span class="self">self</span>::methods::{
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub use </span><span class="self">self</span>::methods::{
         PyClassAttributeDef, PyGetterDef, PyMethodDef, PyMethodDefType, PyMethodType, PySetterDef,
     };
 
@@ -809,41 +807,41 @@
     }
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub use </span>{
+<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+#[doc(hidden)]
+</span><span class="kw">pub use </span>{
     indoc,    <span class="comment">// Re-exported for py_run
     </span>unindent, <span class="comment">// Re-exported for py_run
 </span>};
 
-<span class="attribute">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub use </span>inventory; <span class="comment">// Re-exported for `#[pyclass]` and `#[pymethods]` with `multiple-pymethods`.
+<span class="attribute">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, feature = <span class="string">&quot;multiple-pymethods&quot;</span>))]
+#[doc(hidden)]
+</span><span class="kw">pub use </span>inventory; <span class="comment">// Re-exported for `#[pyclass]` and `#[pymethods]` with `multiple-pymethods`.
 
-</span><span class="attribute">#[macro_use]</span>
-<span class="kw">mod </span>internal_tricks;
+</span><span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>internal_tricks;
 
 <span class="kw">pub mod </span>buffer;
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub mod </span>callback;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]</span>
-<span class="kw">pub mod </span>class;
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>callback;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;pyproto&quot;</span>)]
+</span><span class="kw">pub mod </span>class;
 <span class="kw">pub mod </span>conversion;
 <span class="kw">mod </span>conversions;
-<span class="attribute">#[macro_use]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub mod </span>derive_utils;
+<span class="attribute">#[macro_use]
+#[doc(hidden)]
+</span><span class="kw">pub mod </span>derive_utils;
 <span class="kw">mod </span>err;
 <span class="kw">pub mod </span>exceptions;
 <span class="kw">pub mod </span>ffi;
 <span class="kw">mod </span>gil;
-<span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub mod </span>impl_;
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>impl_;
 <span class="kw">mod </span>instance;
 <span class="kw">pub mod </span>marker;
 <span class="kw">pub mod </span>marshal;
-<span class="attribute">#[macro_use]</span>
-<span class="kw">pub mod </span>once_cell;
+<span class="attribute">#[macro_use]
+</span><span class="kw">pub mod </span>once_cell;
 <span class="kw">pub mod </span>panic;
 <span class="kw">pub mod </span>prelude;
 <span class="kw">pub mod </span>pycell;
@@ -856,48 +854,48 @@
 
 <span class="kw">pub use </span><span class="kw">crate</span>::conversions::<span class="kw-2">*</span>;
 
-<span class="attribute">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, feature = <span class="string">&quot;pyproto&quot;</span>))]</span>
-<span class="kw">pub use </span>pyo3_macros::pyproto;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="kw">pub use </span>pyo3_macros::{pyfunction, pymethods, pymodule, FromPyObject};
+<span class="attribute">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, feature = <span class="string">&quot;pyproto&quot;</span>))]
+</span><span class="kw">pub use </span>pyo3_macros::pyproto;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+</span><span class="kw">pub use </span>pyo3_macros::{pyfunction, pymethods, pymodule, FromPyObject};
 
 <span class="doccomment">/// A proc macro used to expose Rust structs and fieldless enums as Python objects.
 ///
-</span><span class="attribute">#[cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">include_str!</span>(<span class="string">&quot;../guide/pyclass_parameters.md&quot;</span>)))]</span>
-<span class="doccomment">///
+</span><span class="attribute">#[cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">include_str!</span>(<span class="string">&quot;../guide/pyclass_parameters.md&quot;</span>)))]
+</span><span class="doccomment">///
 /// For more on creating Python classes,
 /// see the [class section of the guide][1].
 ///
 /// [1]: https://pyo3.rs/latest/class.html
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="kw">pub use </span>pyo3_macros::pyclass;
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+</span><span class="kw">pub use </span>pyo3_macros::pyclass;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-<span class="attribute">#[macro_use]</span>
-<span class="kw">mod </span>macros;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+#[macro_use]
+</span><span class="kw">mod </span>macros;
 
 <span class="doccomment">/// Test macro hygiene - this is in the crate since we won&#39;t have
 /// `pyo3` available in the crate root.
-</span><span class="attribute">#[cfg(all(test, feature = <span class="string">&quot;macros&quot;</span>))]</span>
-<span class="kw">mod </span>test_hygiene;
+</span><span class="attribute">#[cfg(all(test, feature = <span class="string">&quot;macros&quot;</span>))]
+</span><span class="kw">mod </span>test_hygiene;
 
 <span class="doccomment">/// Test readme and user guide
-</span><span class="attribute">#[cfg(doctest)]</span>
-<span class="kw">pub mod </span>doc_test {
-    <span class="macro">macro_rules!</span> doctest_impl {
+</span><span class="attribute">#[cfg(doctest)]
+</span><span class="kw">pub mod </span>doc_test {
+    <span class="macro">macro_rules! </span>doctest_impl {
         (<span class="macro-nonterminal">$doc</span>:expr, <span class="macro-nonterminal">$</span><span class="kw">mod</span>:<span class="macro-nonterminal">ident</span>) =&gt; {
-            <span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]</span>
-            <span class="kw">mod </span><span class="macro-nonterminal">$</span><span class="kw">mod </span>{}
+            <span class="attribute">#[doc = <span class="macro-nonterminal">$doc</span>]
+            </span><span class="kw">mod </span><span class="macro-nonterminal">$</span><span class="kw">mod </span>{}
         };
     }
 
-    <span class="macro">macro_rules!</span> <span class="macro-nonterminal">doctests </span>{
+    <span class="macro">macro_rules! </span><span class="macro-nonterminal">doctests </span>{
         ($(<span class="macro-nonterminal">$path</span>:expr =&gt; <span class="macro-nonterminal">$</span><span class="kw">mod</span>:<span class="macro-nonterminal">ident</span>),* $(,)<span class="question-mark">?</span>) =&gt; {
             $(<span class="macro">doctest_impl!</span>(<span class="macro">include_str!</span>(<span class="macro">concat!</span>(<span class="string">&quot;../&quot;</span>, <span class="macro-nonterminal">$path</span>)), <span class="macro-nonterminal">$</span><span class="kw">mod</span>);)*
         };
     }
 
-    <span class="macro">doctests!</span> {
+    <span class="macro">doctests! </span>{
         <span class="string">&quot;README.md&quot; </span>=&gt; <span class="macro-nonterminal">readme_md</span>,
         <span class="string">&quot;guide/src/advanced.md&quot; </span>=&gt; guide_advanced_md,
         <span class="string">&quot;guide/src/building_and_distribution.md&quot; </span>=&gt; guide_building_and_distribution_md,
@@ -931,4 +929,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

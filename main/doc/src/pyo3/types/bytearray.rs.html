@@ -379,8 +379,8 @@
 <span class="kw">use </span>std::slice;
 
 <span class="doccomment">/// Represents a Python `bytearray`.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyByteArray(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyByteArray(PyAny);
 
 <span class="macro">pyobject_native_type_core!</span>(PyByteArray, ffi::PyByteArray_Type, #checkfunction=ffi::PyByteArray_Check);
 
@@ -447,8 +447,8 @@
     }
 
     <span class="doccomment">/// Gets the length of the bytearray.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="comment">// non-negative Py_ssize_t should always fit into Rust usize
         </span><span class="kw">unsafe </span>{ ffi::PyByteArray_Size(<span class="self">self</span>.as_ptr()) <span class="kw">as </span>usize }
     }
@@ -573,8 +573,8 @@
     /// Any other accesses of the `bytearray`&#39;s buffer invalidate the slice. If it is used
     /// afterwards, the behavior is undefined. The safety requirements of [`PyByteArray::as_bytes`]
     /// apply to this function as well.
-    </span><span class="attribute">#[allow(clippy::mut_from_ref)]</span>
-    <span class="kw">pub unsafe fn </span>as_bytes_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u8] {
+    </span><span class="attribute">#[allow(clippy::mut_from_ref)]
+    </span><span class="kw">pub unsafe fn </span>as_bytes_mut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u8] {
         slice::from_raw_parts_mut(<span class="self">self</span>.data(), <span class="self">self</span>.len())
     }
 
@@ -616,14 +616,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::exceptions;
     <span class="kw">use </span><span class="kw">crate</span>::types::PyByteArray;
     <span class="kw">use crate</span>::{PyObject, Python};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_len() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -631,8 +631,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_as_bytes() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_as_bytes() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -643,8 +643,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_as_bytes_mut() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_as_bytes_mut() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -662,8 +662,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_to_vec() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_to_vec() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -673,8 +673,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_from() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_from() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -686,8 +686,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_from_err() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_from_err() {
         Python::with_gil(|py| {
             <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = PyByteArray::from(py, <span class="kw-2">&amp;</span>py.<span class="prelude-val">None</span>()) {
                 <span class="macro">assert!</span>(err.is_instance_of::&lt;exceptions::PyTypeError&gt;(py));
@@ -697,8 +697,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_resize() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_resize() {
         Python::with_gil(|py| {
             <span class="kw">let </span>src = <span class="string">b&quot;Hello Python&quot;</span>;
             <span class="kw">let </span>bytearray = PyByteArray::new(py, src);
@@ -708,8 +708,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_byte_array_new_with() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_byte_array_new_with() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
         Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
             <span class="kw">let </span>py_bytearray = PyByteArray::new_with(py, <span class="number">10</span>, |b: <span class="kw-2">&amp;mut </span>[u8]| {
                 b.copy_from_slice(<span class="string">b&quot;Hello Rust&quot;</span>);
@@ -721,8 +721,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_byte_array_new_with_zero_initialised() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_byte_array_new_with_zero_initialised() -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
         Python::with_gil(|py| -&gt; <span class="kw">super</span>::PyResult&lt;()&gt; {
             <span class="kw">let </span>py_bytearray = PyByteArray::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| <span class="prelude-val">Ok</span>(()))<span class="question-mark">?</span>;
             <span class="kw">let </span>bytearray: <span class="kw-2">&amp;</span>[u8] = <span class="kw">unsafe </span>{ py_bytearray.as_bytes() };
@@ -731,8 +731,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_byte_array_new_with_error() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_byte_array_new_with_error() {
         <span class="kw">use </span><span class="kw">crate</span>::exceptions::PyValueError;
         Python::with_gil(|py| {
             <span class="kw">let </span>py_bytearray_result = PyByteArray::new_with(py, <span class="number">10</span>, |_b: <span class="kw-2">&amp;mut </span>[u8]| {
@@ -747,4 +747,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

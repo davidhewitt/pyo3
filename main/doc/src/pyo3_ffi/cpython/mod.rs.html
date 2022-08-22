@@ -67,33 +67,33 @@
 <span id="67">67</span>
 </pre><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>abstract_;
 <span class="comment">// skipped bytearrayobject.h
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>bytesobject;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>ceval;
+</span><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>bytesobject;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>ceval;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>code;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>compile;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>descrobject;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>dictobject;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>dictobject;
 <span class="comment">// skipped fileobject.h
 // skipped fileutils.h
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>frameobject;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>funcobject;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>genobject;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>import;
-<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>initconfig;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>initconfig;
 <span class="comment">// skipped interpreteridobject.h
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>listobject;
 
-<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>methodobject;
+<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>methodobject;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>object;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pydebug;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pyerrors;
-<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pylifecycle;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pylifecycle;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pymem;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pystate;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>pythonrun;
@@ -103,29 +103,29 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>weakrefobject;
 
 <span class="kw">pub use </span><span class="self">self</span>::abstract_::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::bytesobject::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::ceval::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="self">self</span>::bytesobject::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="self">self</span>::ceval::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::code::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::compile::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::descrobject::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::dictobject::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="self">self</span>::dictobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::frameobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::funcobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::genobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::import::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::initconfig::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::initconfig::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::listobject::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::methodobject::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::methodobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::object::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pydebug::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pyerrors::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
-<span class="kw">pub use </span><span class="self">self</span>::pylifecycle::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]
+</span><span class="kw">pub use </span><span class="self">self</span>::pylifecycle::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pymem::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pystate::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::pythonrun::<span class="kw-2">*</span>;
@@ -133,4 +133,4 @@
 <span class="kw">pub use </span><span class="self">self</span>::unicodeobject::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="self">self</span>::weakrefobject::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

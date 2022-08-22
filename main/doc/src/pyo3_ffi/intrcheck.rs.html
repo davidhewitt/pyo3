@@ -20,21 +20,21 @@
 </pre><pre class="rust"><code><span class="kw">use </span>std::os::raw::c_int;
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_InterruptOccurred&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyOS_InterruptOccurred() -&gt; c_int;
-    <span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="attribute">#[deprecated(note = <span class="string">&quot;Not documented in Python API; see Python 3.10 release notes&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyOS_InitInterrupts();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_InterruptOccurred&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyOS_InterruptOccurred() -&gt; c_int;
+    <span class="attribute">#[cfg(not(Py_3_10))]
+    #[deprecated(note = <span class="string">&quot;Not documented in Python API; see Python 3.10 release notes&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyOS_InitInterrupts();
 
     <span class="kw">pub fn </span>PyOS_BeforeFork();
     <span class="kw">pub fn </span>PyOS_AfterFork_Parent();
     <span class="kw">pub fn </span>PyOS_AfterFork_Child();
-    <span class="attribute">#[deprecated(note = <span class="string">&quot;use PyOS_AfterFork_Child instead&quot;</span>)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_AfterFork&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyOS_AfterFork();
+    <span class="attribute">#[deprecated(note = <span class="string">&quot;use PyOS_AfterFork_Child instead&quot;</span>)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyOS_AfterFork&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyOS_AfterFork();
 
     <span class="comment">// skipped non-limited _PyOS_IsMainThread
     // skipped non-limited Windows _PyOS_SigintEvent
 </span>}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

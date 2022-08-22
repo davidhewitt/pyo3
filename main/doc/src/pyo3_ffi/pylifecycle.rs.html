@@ -64,14 +64,14 @@
     <span class="kw">pub fn </span>Py_Finalize();
     <span class="kw">pub fn </span>Py_FinalizeEx() -&gt; c_int;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IsInitialized&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_IsInitialized() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_IsInitialized&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_IsInitialized() -&gt; c_int;
 
     <span class="kw">pub fn </span>Py_NewInterpreter() -&gt; <span class="kw-2">*mut </span>PyThreadState;
     <span class="kw">pub fn </span>Py_EndInterpreter(arg1: <span class="kw-2">*mut </span>PyThreadState);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_AtExit&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_AtExit(func: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>()&gt;) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_AtExit&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_AtExit(func: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>()&gt;) -&gt; c_int;
 
     <span class="kw">pub fn </span>Py_Exit(arg1: c_int);
 
@@ -79,8 +79,8 @@
     <span class="kw">pub fn </span>Py_BytesMain(argc: c_int, argv: <span class="kw-2">*mut *mut </span>c_char) -&gt; c_int;
 
     <span class="kw">pub fn </span>Py_SetProgramName(arg1: <span class="kw-2">*const </span>wchar_t);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetProgramName&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_GetProgramName() -&gt; <span class="kw-2">*mut </span>wchar_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetProgramName&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_GetProgramName() -&gt; <span class="kw-2">*mut </span>wchar_t;
 
     <span class="kw">pub fn </span>Py_SetPythonHome(arg1: <span class="kw-2">*const </span>wchar_t);
     <span class="kw">pub fn </span>Py_GetPythonHome() -&gt; <span class="kw-2">*mut </span>wchar_t;
@@ -94,8 +94,8 @@
 
     <span class="comment">// skipped _Py_CheckPython3
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetVersion&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_GetVersion() -&gt; <span class="kw-2">*const </span>c_char;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetVersion&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_GetVersion() -&gt; <span class="kw-2">*const </span>c_char;
     <span class="kw">pub fn </span>Py_GetPlatform() -&gt; <span class="kw-2">*const </span>c_char;
     <span class="kw">pub fn </span>Py_GetCopyright() -&gt; <span class="kw-2">*const </span>c_char;
     <span class="kw">pub fn </span>Py_GetCompiler() -&gt; <span class="kw-2">*const </span>c_char;
@@ -109,4 +109,4 @@
     <span class="kw">pub fn </span>PyOS_setsig(arg1: c_int, arg2: PyOS_sighandler_t) -&gt; PyOS_sighandler_t;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -83,28 +83,28 @@
 
 <span class="macro">opaque_struct!</span>(PyDictKeysObject);
 
-<span class="attribute">#[cfg(Py_3_11)]</span>
-<span class="macro">opaque_struct!</span>(PyDictValues);
+<span class="attribute">#[cfg(Py_3_11)]
+</span><span class="macro">opaque_struct!</span>(PyDictValues);
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="comment">// Not moved because dict.rs uses PyDictObject extensively.
+<span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="comment">// Not moved because dict.rs uses PyDictObject extensively.
 </span><span class="kw">pub struct </span>PyDictObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>ma_used: Py_ssize_t,
     <span class="kw">pub </span>ma_version_tag: u64,
     <span class="kw">pub </span>ma_keys: <span class="kw-2">*mut </span>PyDictKeysObject,
-    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-    <span class="kw">pub </span>ma_values: <span class="kw-2">*mut *mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>ma_values: <span class="kw-2">*mut </span>PyDictValues,
+    <span class="attribute">#[cfg(not(Py_3_11))]
+    </span><span class="kw">pub </span>ma_values: <span class="kw-2">*mut *mut </span>PyObject,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>ma_values: <span class="kw-2">*mut </span>PyDictValues,
 }
 
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PyDictObject {
+<span class="attribute">#[cfg(PyPy)]
+#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>PyDictObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="comment">// a private place to put keys during PyDict_Next
     </span>_tmpkeys: <span class="kw-2">*mut </span>PyObject,
@@ -153,8 +153,8 @@
     // skipped _PyDictViewObject
     // skipped _PyDictView_New
     // skipped _PyDictView_Intersect
-    </span><span class="attribute">#[cfg(not(Py_3_10))]</span>
-    <span class="kw">pub fn </span>_PyDict_Contains(mp: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject, hash: Py_ssize_t) -&gt; c_int;
+    </span><span class="attribute">#[cfg(not(Py_3_10))]
+    </span><span class="kw">pub fn </span>_PyDict_Contains(mp: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject, hash: Py_ssize_t) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

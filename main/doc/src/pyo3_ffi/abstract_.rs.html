@@ -329,19 +329,19 @@
 <span class="kw">use </span>std::ptr;
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyObject_DelAttrString&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyObject_DelAttrString(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyObject_DelAttrString&quot;</span>]
+    </span><span class="kw">pub fn </span>PyObject_DelAttrString(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyObject_DelAttrString(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*const </span>c_char) -&gt; c_int {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyObject_DelAttrString(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*const </span>c_char) -&gt; c_int {
     PyObject_SetAttrString(o, attr_name, ptr::null_mut())
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyObject_DelAttr(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyObject_DelAttr(o: <span class="kw-2">*mut </span>PyObject, attr_name: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_SetAttr(o, attr_name, ptr::null_mut())
 }
 
@@ -349,27 +349,27 @@
     <span class="attribute">#[cfg(all(
         not(PyPy),
         any(Py_3_10, all(not(Py_LIMITED_API), Py_3_9)) <span class="comment">// Added to python in 3.9 but to limited API in 3.10
-    </span>))]</span>
-    <span class="kw">pub fn </span>PyObject_CallNoArgs(func: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Call&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Call(
+    </span>))]
+    </span><span class="kw">pub fn </span>PyObject_CallNoArgs(func: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Call&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Call(
         callable_object: <span class="kw-2">*mut </span>PyObject,
         args: <span class="kw-2">*mut </span>PyObject,
         kw: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallObject(
         callable_object: <span class="kw-2">*mut </span>PyObject,
         args: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFunction&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallFunction(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFunction&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallFunction(
         callable_object: <span class="kw-2">*mut </span>PyObject,
         format: <span class="kw-2">*const </span>c_char,
         ...
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallMethod&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallMethod(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallMethod&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallMethod(
         o: <span class="kw-2">*mut </span>PyObject,
         method: <span class="kw-2">*const </span>c_char,
         format: <span class="kw-2">*const </span>c_char,
@@ -379,48 +379,48 @@
     <span class="comment">// skipped _PyObject_CallFunction_SizeT
     // skipped _PyObject_CallMethod_SizeT
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFunctionObjArgs&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallFunctionObjArgs(callable: <span class="kw-2">*mut </span>PyObject, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallMethodObjArgs&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_CallMethodObjArgs(
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallFunctionObjArgs&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallFunctionObjArgs(callable: <span class="kw-2">*mut </span>PyObject, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_CallMethodObjArgs&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_CallMethodObjArgs(
         o: <span class="kw-2">*mut </span>PyObject,
         method: <span class="kw-2">*mut </span>PyObject,
         ...
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Type&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Type(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Type&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Type(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyObject_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyObject_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     PyObject_Size(o)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GetItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_SetItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject, v: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_DelItemString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_DelItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_DelItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_DelItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GetItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_SetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_SetItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject, v: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_DelItemString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_DelItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_DelItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_DelItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Format&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_Format(obj: <span class="kw-2">*mut </span>PyObject, format_spec: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetIter&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_GetIter(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_Format&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_Format(obj: <span class="kw-2">*mut </span>PyObject, format_spec: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_GetIter&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_GetIter(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
 <span class="comment">// Defined as this macro in Python limited API, but relies on
 // non-limited PyTypeObject. Don&#39;t expose this since it cannot be used.
-</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyIter_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyIter_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (<span class="kw">match </span>(<span class="kw-2">*</span><span class="kw">crate</span>::Py_TYPE(o)).tp_iternext {
         <span class="prelude-val">Some</span>(tp_iternext) =&gt; {
             tp_iternext <span class="kw">as </span><span class="kw-2">*const </span>std::os::raw::c_void != <span class="kw">crate</span>::_PyObject_NextNotImplemented <span class="kw">as _
@@ -430,223 +430,223 @@
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(any(all(Py_3_8, Py_LIMITED_API), PyPy))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyIter_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyIter_Check(obj: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(any(all(Py_3_8, Py_LIMITED_API), PyPy))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyIter_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyIter_Check(obj: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyIter_Next&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyIter_Next(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(all(not(PyPy), Py_3_10))]</span>
-    <span class="kw">pub fn </span>PyIter_Send(iter: <span class="kw-2">*mut </span>PyObject, arg: <span class="kw-2">*mut </span>PyObject, presult: <span class="kw-2">*mut *mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyIter_Next&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyIter_Next(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(all(not(PyPy), Py_3_10))]
+    </span><span class="kw">pub fn </span>PyIter_Send(iter: <span class="kw-2">*mut </span>PyObject, arg: <span class="kw-2">*mut </span>PyObject, presult: <span class="kw-2">*mut *mut </span>PyObject);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Add&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Add(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Subtract&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Subtract(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Multiply&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Multiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_MatrixMultiply&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_MatrixMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_FloorDivide&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_FloorDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_TrueDivide&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_TrueDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Remainder&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Remainder(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Divmod&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Divmod(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Power&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Power(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject, o3: <span class="kw-2">*mut </span>PyObject)
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Add&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Add(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Subtract&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Subtract(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Multiply&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Multiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_MatrixMultiply&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_MatrixMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_FloorDivide&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_FloorDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_TrueDivide&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_TrueDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Remainder&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Remainder(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Divmod&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Divmod(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Power&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Power(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject, o3: <span class="kw-2">*mut </span>PyObject)
         -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Negative&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Negative(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Positive&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Positive(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Absolute&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Absolute(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Invert&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Invert(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Lshift&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Lshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Rshift&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Rshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_And&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_And(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Xor&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Xor(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Or&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Or(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Negative&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Negative(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Positive&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Positive(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Absolute&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Absolute(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Invert&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Invert(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Lshift&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Lshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Rshift&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Rshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_And&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_And(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Xor&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Xor(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Or&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Or(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
 <span class="comment">// Defined as this macro in Python limited API, but relies on
 // non-limited PyTypeObject. Don&#39;t expose this since it cannot be used.
-</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyIndex_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+</span><span class="attribute">#[cfg(not(any(Py_LIMITED_API, PyPy)))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyIndex_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     <span class="kw">let </span>tp_as_number = (<span class="kw-2">*</span>Py_TYPE(o)).tp_as_number;
     (!tp_as_number.is_null() &amp;&amp; (<span class="kw-2">*</span>tp_as_number).nb_index.is_some()) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(any(all(Py_3_8, Py_LIMITED_API), PyPy))]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyIndex_Check&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyIndex_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(any(all(Py_3_8, Py_LIMITED_API), PyPy))]
+    #[link_name = <span class="string">&quot;PyPyIndex_Check&quot;</span>]
+    </span><span class="kw">pub fn </span>PyIndex_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Index&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Index(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_AsSsize_t&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_AsSsize_t(o: <span class="kw-2">*mut </span>PyObject, exc: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Long&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Long(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Float&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_Float(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceAdd&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceAdd(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceSubtract&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceSubtract(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceMultiply&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceMatrixMultiply&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceMatrixMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceFloorDivide&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceFloorDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceTrueDivide&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceTrueDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceRemainder&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceRemainder(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlacePower&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlacePower(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Index&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Index(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_AsSsize_t&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_AsSsize_t(o: <span class="kw-2">*mut </span>PyObject, exc: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Long&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Long(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_Float&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_Float(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceAdd&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceAdd(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceSubtract&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceSubtract(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceMultiply&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceMatrixMultiply&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceMatrixMultiply(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceFloorDivide&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceFloorDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceTrueDivide&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceTrueDivide(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceRemainder&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceRemainder(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlacePower&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlacePower(
         o1: <span class="kw-2">*mut </span>PyObject,
         o2: <span class="kw-2">*mut </span>PyObject,
         o3: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceLshift&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceLshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceRshift&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceRshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceAnd&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceAnd(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceXor&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceXor(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceOr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyNumber_InPlaceOr(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceLshift&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceLshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceRshift&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceRshift(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceAnd&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceAnd(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceXor&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceXor(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyNumber_InPlaceOr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyNumber_InPlaceOr(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyNumber_ToBase(n: <span class="kw-2">*mut </span>PyObject, base: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPySequence_Length&quot;</span>]</span>
-    <span class="kw">pub fn </span>PySequence_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPySequence_Length&quot;</span>]
+    </span><span class="kw">pub fn </span>PySequence_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PySequence_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PySequence_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     PySequence_Size(o)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Concat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Concat(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Repeat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Repeat(o: <span class="kw-2">*mut </span>PyObject, count: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_GetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_GetItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_GetSlice&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_GetSlice(o: <span class="kw-2">*mut </span>PyObject, i1: Py_ssize_t, i2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_SetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_SetItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_DelItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_DelItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_SetSlice&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_SetSlice(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Concat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Concat(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Repeat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Repeat(o: <span class="kw-2">*mut </span>PyObject, count: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_GetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_GetItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_GetSlice&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_GetSlice(o: <span class="kw-2">*mut </span>PyObject, i1: Py_ssize_t, i2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_SetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_SetItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t, v: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_DelItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_DelItem(o: <span class="kw-2">*mut </span>PyObject, i: Py_ssize_t) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_SetSlice&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_SetSlice(
         o: <span class="kw-2">*mut </span>PyObject,
         i1: Py_ssize_t,
         i2: Py_ssize_t,
         v: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_DelSlice&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_DelSlice(o: <span class="kw-2">*mut </span>PyObject, i1: Py_ssize_t, i2: Py_ssize_t) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Tuple&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Tuple(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_List&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_List(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Fast&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Fast(o: <span class="kw-2">*mut </span>PyObject, m: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_DelSlice&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_DelSlice(o: <span class="kw-2">*mut </span>PyObject, i1: Py_ssize_t, i2: Py_ssize_t) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Tuple&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Tuple(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_List&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_List(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Fast&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Fast(o: <span class="kw-2">*mut </span>PyObject, m: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// skipped PySequence_Fast_GET_SIZE
     // skipped PySequence_Fast_GET_ITEM
     // skipped PySequence_Fast_GET_ITEMS
     </span><span class="kw">pub fn </span>PySequence_Count(o: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Contains&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Contains(seq: <span class="kw-2">*mut </span>PyObject, ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Contains&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Contains(seq: <span class="kw-2">*mut </span>PyObject, ob: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PySequence_In(o: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PySequence_In(o: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PySequence_Contains(o, value)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Index&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_Index(o: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_InPlaceConcat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_InPlaceConcat(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_InPlaceRepeat&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySequence_InPlaceRepeat(o: <span class="kw-2">*mut </span>PyObject, count: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_Index&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_Index(o: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_InPlaceConcat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_InPlaceConcat(o1: <span class="kw-2">*mut </span>PyObject, o2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySequence_InPlaceRepeat&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySequence_InPlaceRepeat(o: <span class="kw-2">*mut </span>PyObject, count: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_Check(o: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_Size(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[link_name = <span class="string">&quot;PyPyMapping_Length&quot;</span>]</span>
-    <span class="kw">pub fn </span>PyMapping_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg(PyPy)]
+    #[link_name = <span class="string">&quot;PyPyMapping_Length&quot;</span>]
+    </span><span class="kw">pub fn </span>PyMapping_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>PyMapping_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>PyMapping_Length(o: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t {
     PyMapping_Size(o)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyMapping_DelItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>c_char) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyMapping_DelItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>c_char) -&gt; c_int {
     PyObject_DelItemString(o, key)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyMapping_DelItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyMapping_DelItem(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyObject_DelItem(o, key)
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_HasKeyString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_HasKeyString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_HasKey&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_HasKey(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Keys&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_Keys(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Values&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_Values(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Items&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_Items(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_GetItemString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_GetItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_SetItemString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMapping_SetItemString(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_HasKeyString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_HasKeyString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_HasKey&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_HasKey(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Keys&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_Keys(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Values&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_Values(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_Items&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_Items(o: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_GetItemString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_GetItemString(o: <span class="kw-2">*mut </span>PyObject, key: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMapping_SetItemString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMapping_SetItemString(
         o: <span class="kw-2">*mut </span>PyObject,
         key: <span class="kw-2">*const </span>c_char,
         value: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsInstance&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_IsInstance(object: <span class="kw-2">*mut </span>PyObject, typeorclass: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsSubclass&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_IsSubclass(object: <span class="kw-2">*mut </span>PyObject, typeorclass: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsInstance&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_IsInstance(object: <span class="kw-2">*mut </span>PyObject, typeorclass: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyObject_IsSubclass&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_IsSubclass(object: <span class="kw-2">*mut </span>PyObject, typeorclass: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

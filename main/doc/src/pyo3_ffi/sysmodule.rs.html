@@ -35,32 +35,32 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_GetObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySys_GetObject(arg1: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_SetObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySys_SetObject(arg1: <span class="kw-2">*const </span>c_char, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_GetObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySys_GetObject(arg1: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_SetObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySys_SetObject(arg1: <span class="kw-2">*const </span>c_char, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 
     <span class="kw">pub fn </span>PySys_SetArgv(arg1: c_int, arg2: <span class="kw-2">*mut *mut </span>wchar_t);
     <span class="kw">pub fn </span>PySys_SetArgvEx(arg1: c_int, arg2: <span class="kw-2">*mut *mut </span>wchar_t, arg3: c_int);
     <span class="kw">pub fn </span>PySys_SetPath(arg1: <span class="kw-2">*const </span>wchar_t);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_WriteStdout&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySys_WriteStdout(format: <span class="kw-2">*const </span>c_char, ...);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_WriteStderr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PySys_WriteStderr(format: <span class="kw-2">*const </span>c_char, ...);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_WriteStdout&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySys_WriteStdout(format: <span class="kw-2">*const </span>c_char, ...);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPySys_WriteStderr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PySys_WriteStderr(format: <span class="kw-2">*const </span>c_char, ...);
     <span class="kw">pub fn </span>PySys_FormatStdout(format: <span class="kw-2">*const </span>c_char, ...);
     <span class="kw">pub fn </span>PySys_FormatStderr(format: <span class="kw-2">*const </span>c_char, ...);
 
     <span class="kw">pub fn </span>PySys_ResetWarnOptions();
-    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PySys_AddWarnOption(arg1: <span class="kw-2">*const </span>wchar_t);
-    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PySys_AddWarnOptionUnicode(arg1: <span class="kw-2">*mut </span>PyObject);
-    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PySys_HasWarnOptions() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]
+    </span><span class="kw">pub fn </span>PySys_AddWarnOption(arg1: <span class="kw-2">*const </span>wchar_t);
+    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]
+    </span><span class="kw">pub fn </span>PySys_AddWarnOptionUnicode(arg1: <span class="kw-2">*mut </span>PyObject);
+    <span class="attribute">#[cfg_attr(Py_3_11, deprecated(note = <span class="string">&quot;Python 3.11&quot;</span>))]
+    </span><span class="kw">pub fn </span>PySys_HasWarnOptions() -&gt; c_int;
 
     <span class="kw">pub fn </span>PySys_AddXOption(arg1: <span class="kw-2">*const </span>wchar_t);
     <span class="kw">pub fn </span>PySys_GetXOptions() -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

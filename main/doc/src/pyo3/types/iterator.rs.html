@@ -257,8 +257,8 @@
 // based on Daniel Grunwald&#39;s https://github.com/dgrunwald/rust-cpython
 
 </span><span class="kw">use crate</span>::{ffi, AsPyPointer, IntoPyPointer, Py, PyAny, PyErr, PyNativeType, PyResult, Python};
-<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]</span>
-<span class="kw">use crate</span>::{PyDowncastError, PyTryFrom};
+<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]
+</span><span class="kw">use crate</span>::{PyDowncastError, PyTryFrom};
 
 <span class="doccomment">/// A Python iterator object.
 ///
@@ -280,11 +280,11 @@
 /// })
 /// # }
 /// ```
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyIterator(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyIterator(PyAny);
 <span class="macro">pyobject_native_type_named!</span>(PyIterator);
-<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]</span>
-<span class="macro">pyobject_native_type_extract!</span>(PyIterator);
+<span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]
+</span><span class="macro">pyobject_native_type_extract!</span>(PyIterator);
 
 <span class="kw">impl </span>PyIterator {
     <span class="doccomment">/// Constructs a `PyIterator` from a Python iterable object.
@@ -318,8 +318,8 @@
 }
 
 <span class="comment">// PyIter_Check does not exist in the limited API until 3.8
-</span><span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]</span>
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; PyTryFrom&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>PyIterator {
+</span><span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; PyTryFrom&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>PyIterator {
     <span class="kw">fn </span>try_from&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyIterator, PyDowncastError&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
         <span class="kw">let </span>value = value.into();
         <span class="kw">unsafe </span>{
@@ -335,8 +335,8 @@
         &lt;PyIterator <span class="kw">as </span>PyTryFrom&gt;::try_from(value)
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyIterator {
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyIterator {
         <span class="kw">let </span>ptr = value.into() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>PyIterator;
         <span class="kw-2">&amp;*</span>ptr
     }
@@ -358,18 +358,18 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::PyIterator;
     <span class="kw">use </span><span class="kw">crate</span>::exceptions::PyTypeError;
     <span class="kw">use </span><span class="kw">crate</span>::gil::GILPool;
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyDict, PyList};
-    <span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::PyTryFrom;
+    <span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]
+    </span><span class="kw">use </span><span class="kw">crate</span>::PyTryFrom;
     <span class="kw">use crate</span>::{Py, PyAny, Python, ToPyObject};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>vec_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>vec_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = <span class="macro">vec!</span>[<span class="number">10</span>, <span class="number">20</span>].to_object(py);
             <span class="kw">let </span>inst = obj.as_ref(py);
@@ -386,8 +386,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>iter_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>iter_refcnt() {
         <span class="kw">let </span>(obj, count) = Python::with_gil(|py| {
             <span class="kw">let </span>obj = <span class="macro">vec!</span>[<span class="number">10</span>, <span class="number">20</span>].to_object(py);
             <span class="kw">let </span>count = obj.get_refcnt(py);
@@ -409,8 +409,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>iter_item_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>iter_item_refcnt() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj;
             <span class="kw">let </span>none;
@@ -440,8 +440,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>fibonacci_generator() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>fibonacci_generator() {
         <span class="kw">let </span>fibonacci_generator = <span class="string">r#&quot;
 def fibonacci(target):
     a = 1
@@ -463,8 +463,8 @@ def fibonacci(target):
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>int_not_iterable() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>int_not_iterable() {
         Python::with_gil(|py| {
             <span class="kw">let </span>x = <span class="number">5</span>.to_object(py);
             <span class="kw">let </span>err = PyIterator::from_object(py, <span class="kw-2">&amp;</span>x).unwrap_err();
@@ -473,9 +473,9 @@ def fibonacci(target):
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(any(not(Py_LIMITED_API), Py_3_8))]</span>
-    <span class="kw">fn </span>iterator_try_from() {
+    <span class="attribute">#[test]
+    #[cfg(any(not(Py_LIMITED_API), Py_3_8))]
+    </span><span class="kw">fn </span>iterator_try_from() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj: Py&lt;PyAny&gt; = <span class="macro">vec!</span>[<span class="number">10</span>, <span class="number">20</span>].to_object(py).as_ref(py).iter().unwrap().into();
             <span class="kw">let </span>iter: <span class="kw-2">&amp;</span>PyIterator =
@@ -484,8 +484,8 @@ def fibonacci(target):
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_as_ref() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_as_ref() {
         Python::with_gil(|py| {
             <span class="kw">let </span>iter: Py&lt;PyIterator&gt; = PyAny::iter(PyList::empty(py)).unwrap().into();
             <span class="kw">let </span><span class="kw-2">mut </span>iter_ref: <span class="kw-2">&amp;</span>PyIterator = iter.as_ref(py);
@@ -493,8 +493,8 @@ def fibonacci(target):
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_into_ref() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_ref() {
         Python::with_gil(|py| {
             <span class="kw">let </span>bare_iter = PyAny::iter(PyList::empty(py)).unwrap();
             <span class="macro">assert_eq!</span>(bare_iter.get_refcnt(), <span class="number">1</span>);
@@ -507,4 +507,4 @@ def fibonacci(target):
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

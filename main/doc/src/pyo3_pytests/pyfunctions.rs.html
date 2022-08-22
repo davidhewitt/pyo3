@@ -67,16 +67,16 @@
 </pre><pre class="rust"><code><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>pyo3::types::{PyDict, PyTuple};
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>none() {}
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>none() {}
 
-<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>)]</span>
-<span class="kw">fn </span>simple&lt;<span class="lifetime">&#39;a</span>&gt;(a: i32, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, c: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;) -&gt; (i32, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;) {
+<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>)]
+</span><span class="kw">fn </span>simple&lt;<span class="lifetime">&#39;a</span>&gt;(a: i32, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, c: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;) -&gt; (i32, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;) {
     (a, b, c)
 }
 
-<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, args = <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>)]</span>
-<span class="kw">fn </span>simple_args&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, args = <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>)]
+</span><span class="kw">fn </span>simple_args&lt;<span class="lifetime">&#39;a</span>&gt;(
     a: i32,
     b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
     c: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;,
@@ -85,8 +85,8 @@
     (a, b, args, c)
 }
 
-<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, c = <span class="string">&quot;None&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]</span>
-<span class="kw">fn </span>simple_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="attribute">#[pyfunction(b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, c = <span class="string">&quot;None&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]
+</span><span class="kw">fn </span>simple_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
     a: i32,
     b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
     c: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;,
@@ -95,8 +95,8 @@
     (a, b, c, kwargs)
 }
 
-<span class="attribute">#[pyfunction(a, b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, args = <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]</span>
-<span class="kw">fn </span>simple_args_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="attribute">#[pyfunction(a, b = <span class="string">&quot;\&quot;bar\&quot;&quot;</span>, args = <span class="string">&quot;*&quot;</span>, c = <span class="string">&quot;None&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]
+</span><span class="kw">fn </span>simple_args_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
     a: i32,
     b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
     args: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyTuple,
@@ -112,16 +112,16 @@
     (a, b, args, c, kwargs)
 }
 
-<span class="attribute">#[pyfunction(args = <span class="string">&quot;*&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]</span>
-<span class="kw">fn </span>args_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="attribute">#[pyfunction(args = <span class="string">&quot;*&quot;</span>, kwargs = <span class="string">&quot;**&quot;</span>)]
+</span><span class="kw">fn </span>args_kwargs&lt;<span class="lifetime">&#39;a</span>&gt;(
     args: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyTuple,
     kwargs: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;,
 ) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyTuple, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyDict&gt;) {
     (args, kwargs)
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>pyfunctions(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>pyfunctions(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(none, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     m.add_function(<span class="macro">wrap_pyfunction!</span>(simple, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     m.add_function(<span class="macro">wrap_pyfunction!</span>(simple_args, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -131,4 +131,4 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

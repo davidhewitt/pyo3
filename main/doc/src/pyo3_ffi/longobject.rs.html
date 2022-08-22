@@ -135,51 +135,51 @@
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>libc::size_t;
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">use </span>std::os::raw::c_uchar;
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">use </span>std::os::raw::c_uchar;
 <span class="kw">use </span>std::os::raw::{c_char, c_double, c_int, c_long, c_longlong, c_ulong, c_ulonglong, c_void};
 
 <span class="macro">opaque_struct!</span>(PyLongObject);
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyLong_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyLong_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyLong_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyLong_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_LONG_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyLong_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyLong_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyLong_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromLong(arg1: c_long) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromUnsignedLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromUnsignedLong(arg1: c_ulong) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromSize_t&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromSize_t(arg1: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromSsize_t&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromSsize_t(arg1: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromDouble&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromDouble(arg1: c_double) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_long;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongAndOverflow&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsLongAndOverflow(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_int) -&gt; c_long;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsSsize_t&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsSsize_t(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsSize_t&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsSize_t(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; size_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsUnsignedLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulong;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongMask&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsUnsignedLongMask(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromLong(arg1: c_long) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromUnsignedLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromUnsignedLong(arg1: c_ulong) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromSize_t&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromSize_t(arg1: size_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromSsize_t&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromSsize_t(arg1: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromDouble&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromDouble(arg1: c_double) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_long;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongAndOverflow&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsLongAndOverflow(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_int) -&gt; c_long;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsSsize_t&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsSsize_t(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsSize_t&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsSize_t(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; size_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsUnsignedLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongMask&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsUnsignedLongMask(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulong;
     <span class="comment">// skipped non-limited _PyLong_AsInt
     </span><span class="kw">pub fn </span>PyLong_GetInfo() -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// skipped PyLong_AS_LONG
@@ -198,26 +198,26 @@
     // skipped non-limited _PyLong_DigitValue
     // skipped non-limited _PyLong_Frexp
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsDouble&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsDouble(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromVoidPtr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromVoidPtr(arg1: <span class="kw-2">*mut </span>c_void) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsVoidPtr&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsVoidPtr(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromLongLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromLongLong(arg1: c_longlong) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromUnsignedLongLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromUnsignedLongLong(arg1: c_ulonglong) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsLongLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_longlong;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongLong&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsUnsignedLongLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulonglong;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongLongMask&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsUnsignedLongLongMask(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulonglong;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongLongAndOverflow&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_AsLongLongAndOverflow(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_int) -&gt; c_longlong;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyLong_FromString(
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsDouble&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsDouble(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_double;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromVoidPtr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromVoidPtr(arg1: <span class="kw-2">*mut </span>c_void) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsVoidPtr&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsVoidPtr(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromLongLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromLongLong(arg1: c_longlong) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromUnsignedLongLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromUnsignedLongLong(arg1: c_ulonglong) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsLongLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_longlong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongLong&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsUnsignedLongLong(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulonglong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsUnsignedLongLongMask&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsUnsignedLongLongMask(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_ulonglong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_AsLongLongAndOverflow&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_AsLongLongAndOverflow(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>c_int) -&gt; c_longlong;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyLong_FromString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyLong_FromString(
         arg1: <span class="kw-2">*const </span>c_char,
         arg2: <span class="kw-2">*mut *mut </span>c_char,
         arg3: c_int,
@@ -226,25 +226,25 @@
 <span class="comment">// skipped non-limited PyLong_FromUnicodeObject
 // skipped non-limited _PyLong_FromBytes
 
-</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+</span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="comment">// skipped non-limited _PyLong_Sign
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_NumBits&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyLong_NumBits(obj: <span class="kw-2">*mut </span>PyObject) -&gt; size_t;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_NumBits&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyLong_NumBits(obj: <span class="kw-2">*mut </span>PyObject) -&gt; size_t;
 
     <span class="comment">// skipped _PyLong_DivmodNear
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_FromByteArray&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyLong_FromByteArray(
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_FromByteArray&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyLong_FromByteArray(
         bytes: <span class="kw-2">*const </span>c_uchar,
         n: size_t,
         little_endian: c_int,
         is_signed: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_AsByteArrayO&quot;</span>)]</span>
-    <span class="kw">pub fn </span>_PyLong_AsByteArray(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;_PyPyLong_AsByteArrayO&quot;</span>)]
+    </span><span class="kw">pub fn </span>_PyLong_AsByteArray(
         v: <span class="kw-2">*mut </span>PyLongObject,
         bytes: <span class="kw-2">*mut </span>c_uchar,
         n: size_t,
@@ -267,4 +267,4 @@
 // skipped non-limited _PyLong_Rshift
 // skipped non-limited _PyLong_Lshift
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

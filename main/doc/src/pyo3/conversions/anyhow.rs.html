@@ -166,9 +166,9 @@
 <span id="166">166</span>
 <span id="167">167</span>
 <span id="168">168</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;anyhow&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;anyhow&quot;</span>)]
 
-<span class="doccomment">//! A conversion from
+</span><span class="doccomment">//! A conversion from
 //! [anyhow](https://docs.rs/anyhow/ &quot;A trait object based error system for easy idiomatic error handling in Rust applications.&quot;)’s
 //! [`Error`](https://docs.rs/anyhow/latest/anyhow/struct.Error.html &quot;Anyhows `Error` type, a wrapper around a dynamic error type&quot;)
 //! type to [`PyErr`].
@@ -193,12 +193,12 @@
 //! ## change * to the version you want to use, ideally the latest.
 //! anyhow = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;anyhow\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;anyhow\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;anyhow\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of anyhow and PyO3.
 //! The required anyhow version may vary based on the version of PyO3.
@@ -284,8 +284,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>test_anyhow {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>test_anyhow {
     <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::IntoPyDict;
 
@@ -304,8 +304,8 @@
         g().context(<span class="string">&quot;g failed&quot;</span>)
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyo3_exception_contents() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pyo3_exception_contents() {
         <span class="kw">let </span>err = h().unwrap_err();
         <span class="kw">let </span>expected_contents = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err);
         <span class="kw">let </span>pyerr = PyErr::from(err);
@@ -321,8 +321,8 @@
         <span class="prelude-val">Err</span>(<span class="macro">anyhow!</span>(<span class="string">&quot;Some sort of error&quot;</span>))
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyo3_exception_contents2() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pyo3_exception_contents2() {
         <span class="kw">let </span>err = k().unwrap_err();
         <span class="kw">let </span>expected_contents = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err);
         <span class="kw">let </span>pyerr = PyErr::from(err);
@@ -335,4 +335,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

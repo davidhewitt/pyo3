@@ -90,29 +90,29 @@
 };
 
 <span class="doccomment">/// Represents a Python `bool`.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyBool(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyBool(PyAny);
 
 <span class="macro">pyobject_native_type!</span>(PyBool, ffi::PyObject, ffi::PyBool_Type, #checkfunction=ffi::PyBool_Check);
 
 <span class="kw">impl </span>PyBool {
     <span class="doccomment">/// Depending on `val`, returns `true` or `false`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>new(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, val: bool) -&gt; <span class="kw-2">&amp;</span>PyBool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>new(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, val: bool) -&gt; <span class="kw-2">&amp;</span>PyBool {
         <span class="kw">unsafe </span>{ py.from_borrowed_ptr(<span class="kw">if </span>val { ffi::Py_True() } <span class="kw">else </span>{ ffi::Py_False() }) }
     }
 
     <span class="doccomment">/// Gets whether this boolean is `true`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_true(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_true(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.as_ptr() == <span class="kw">unsafe </span>{ <span class="kw">crate</span>::ffi::Py_True() }
     }
 }
 
 <span class="doccomment">/// Converts a Rust `bool` to a Python `bool`.
 </span><span class="kw">impl </span>ToPyObject <span class="kw">for </span>bool {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="kw">unsafe </span>{
             PyObject::from_borrowed_ptr(
                 py,
@@ -127,8 +127,8 @@
 }
 
 <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span>bool {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         PyBool::new(py, <span class="self">self</span>).into()
     }
 }
@@ -142,14 +142,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PyBool};
     <span class="kw">use </span><span class="kw">crate</span>::Python;
     <span class="kw">use </span><span class="kw">crate</span>::ToPyObject;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_true() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_true() {
         Python::with_gil(|py| {
             <span class="macro">assert!</span>(PyBool::new(py, <span class="bool-val">true</span>).is_true());
             <span class="kw">let </span>t: <span class="kw-2">&amp;</span>PyAny = PyBool::new(py, <span class="bool-val">true</span>).into();
@@ -158,8 +158,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_false() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_false() {
         Python::with_gil(|py| {
             <span class="macro">assert!</span>(!PyBool::new(py, <span class="bool-val">false</span>).is_true());
             <span class="kw">let </span>t: <span class="kw-2">&amp;</span>PyAny = PyBool::new(py, <span class="bool-val">false</span>).into();
@@ -169,4 +169,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

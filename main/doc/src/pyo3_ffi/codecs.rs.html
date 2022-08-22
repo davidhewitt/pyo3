@@ -61,9 +61,9 @@
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>PyCodec_Register(search_function: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyCodec_Unregister(search_function: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg(Py_3_10)]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyCodec_Unregister(search_function: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
     <span class="comment">// skipped non-limited _PyCodec_Lookup from Include/codecs.h
     // skipped non-limited _PyCodec_Forget from Include/codecs.h
     </span><span class="kw">pub fn </span>PyCodec_KnownEncoding(encoding: <span class="kw-2">*const </span>c_char) -&gt; c_int;
@@ -84,13 +84,13 @@
     // skipped non-limited _PyCodecInfo_GetIncrementalEncoder from Include/codecs.h
     </span><span class="kw">pub fn </span>PyCodec_Encoder(encoding: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyCodec_Decoder(encoding: <span class="kw-2">*const </span>c_char) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCodec_IncrementalEncoder&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCodec_IncrementalEncoder(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCodec_IncrementalEncoder&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCodec_IncrementalEncoder(
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCodec_IncrementalDecoder&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyCodec_IncrementalDecoder(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyCodec_IncrementalDecoder&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyCodec_IncrementalDecoder(
         encoding: <span class="kw-2">*const </span>c_char,
         errors: <span class="kw-2">*const </span>c_char,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
@@ -115,4 +115,4 @@
     // skipped non-limited Py_hexdigits from Include/codecs.h
 </span>}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

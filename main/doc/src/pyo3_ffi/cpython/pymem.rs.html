@@ -51,14 +51,14 @@
 <span class="kw">use </span>std::os::raw::c_void;
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawMalloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMem_RawMalloc(size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawCalloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMem_RawCalloc(nelem: size_t, elsize: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawRealloc&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMem_RawRealloc(ptr: <span class="kw-2">*mut </span>c_void, new_size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawFree&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyMem_RawFree(ptr: <span class="kw-2">*mut </span>c_void);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawMalloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMem_RawMalloc(size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawCalloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMem_RawCalloc(nelem: size_t, elsize: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawRealloc&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMem_RawRealloc(ptr: <span class="kw-2">*mut </span>c_void, new_size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMem_RawFree&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyMem_RawFree(ptr: <span class="kw-2">*mut </span>c_void);
 
     <span class="comment">// skipped _PyMem_GetCurrentAllocatorName
     // skipped _PyMem_RawStrdup
@@ -66,19 +66,19 @@
     // skipped _PyMem_RawWcsdup
 </span>}
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub enum </span>PyMemAllocatorDomain {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub enum </span>PyMemAllocatorDomain {
     PYMEM_DOMAIN_RAW,
     PYMEM_DOMAIN_MEM,
     PYMEM_DOMAIN_OBJ,
 }
 
 <span class="comment">// skipped PyMemAllocatorName
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyMemAllocatorEx {
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyMemAllocatorEx {
     <span class="kw">pub </span>ctx: <span class="kw-2">*mut </span>c_void,
     <span class="kw">pub </span>malloc: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(ctx: <span class="kw-2">*mut </span>c_void, size: size_t) -&gt; <span class="kw-2">*mut </span>c_void&gt;,
     <span class="kw">pub </span>calloc:
@@ -89,12 +89,12 @@
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyMem_GetAllocator(domain: PyMemAllocatorDomain, allocator: <span class="kw-2">*mut </span>PyMemAllocatorEx);
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyMem_SetAllocator(domain: PyMemAllocatorDomain, allocator: <span class="kw-2">*mut </span>PyMemAllocatorEx);
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyMem_SetupDebugHooks();
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyMem_GetAllocator(domain: PyMemAllocatorDomain, allocator: <span class="kw-2">*mut </span>PyMemAllocatorEx);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyMem_SetAllocator(domain: PyMemAllocatorDomain, allocator: <span class="kw-2">*mut </span>PyMemAllocatorEx);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyMem_SetupDebugHooks();
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

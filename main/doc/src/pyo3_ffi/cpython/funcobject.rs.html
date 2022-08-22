@@ -101,9 +101,9 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::PyObject;
 
-<span class="attribute">#[cfg(all(not(PyPy), not(Py_3_10)))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyFunctionObject {
+<span class="attribute">#[cfg(all(not(PyPy), not(Py_3_10)))]
+#[repr(C)]
+</span><span class="kw">pub struct </span>PyFunctionObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>func_code: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>func_globals: <span class="kw-2">*mut </span>PyObject,
@@ -117,13 +117,13 @@
     <span class="kw">pub </span>func_module: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>func_annotations: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>func_qualname: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
+    <span class="attribute">#[cfg(Py_3_8)]
+    </span><span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
 }
 
-<span class="attribute">#[cfg(all(not(PyPy), Py_3_10))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyFunctionObject {
+<span class="attribute">#[cfg(all(not(PyPy), Py_3_10))]
+#[repr(C)]
+</span><span class="kw">pub struct </span>PyFunctionObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>func_globals: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>func_builtins: <span class="kw-2">*mut </span>PyObject,
@@ -139,27 +139,27 @@
     <span class="kw">pub </span>func_module: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>func_annotations: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>vectorcall: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::vectorcallfunc&gt;,
-    <span class="attribute">#[cfg(Py_3_11)]</span>
-    <span class="kw">pub </span>func_version: u32,
+    <span class="attribute">#[cfg(Py_3_11)]
+    </span><span class="kw">pub </span>func_version: u32,
 }
 
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="kw">pub struct </span>PyFunctionObject {
+<span class="attribute">#[cfg(PyPy)]
+#[repr(C)]
+</span><span class="kw">pub struct </span>PyFunctionObject {
     <span class="kw">pub </span>ob_base: PyObject,
     <span class="kw">pub </span>func_name: <span class="kw-2">*mut </span>PyObject,
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span> <span class="comment">// broken, see https://foss.heptapod.net/pypy/pypy/-/issues/3776
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFunction_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyFunction_Type: <span class="kw">crate</span>::PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg(not(PyPy))] </span><span class="comment">// broken, see https://foss.heptapod.net/pypy/pypy/-/issues/3776
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFunction_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyFunction_Type: <span class="kw">crate</span>::PyTypeObject;
 }
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyFunction_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[cfg(not(PyPy))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyFunction_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (<span class="kw">crate</span>::Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyFunction_Type)) <span class="kw">as </span>c_int
 }
 
@@ -197,4 +197,4 @@
 // skipped PyClassMethod_New
 // skipped PyStaticMethod_New
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

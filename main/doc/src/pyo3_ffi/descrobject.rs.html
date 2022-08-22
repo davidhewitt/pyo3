@@ -72,9 +72,9 @@
 <span class="kw">pub type </span>setter =
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(slf: <span class="kw-2">*mut </span>PyObject, value: <span class="kw-2">*mut </span>PyObject, closure: <span class="kw-2">*mut </span>c_void) -&gt; c_int;
 
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone, Debug, Eq, PartialEq)]</span>
-<span class="kw">pub struct </span>PyGetSetDef {
+<span class="attribute">#[repr(C)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>PyGetSetDef {
     <span class="kw">pub </span>name: <span class="kw-2">*mut </span>c_char,
     <span class="kw">pub </span>get: <span class="prelude-ty">Option</span>&lt;getter&gt;,
     <span class="kw">pub </span>set: <span class="prelude-ty">Option</span>&lt;setter&gt;,
@@ -94,37 +94,37 @@
     }
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyClassMethodDescr_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyClassMethodDescr_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGetSetDescr_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyGetSetDescr_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemberDescr_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyMemberDescr_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMethodDescr_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyMethodDescr_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyWrapperDescr_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyWrapperDescr_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDictProxy_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyDictProxy_Type: PyTypeObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyProperty_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyProperty_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyClassMethodDescr_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyClassMethodDescr_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGetSetDescr_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyGetSetDescr_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMemberDescr_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyMemberDescr_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyMethodDescr_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyMethodDescr_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyWrapperDescr_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyWrapperDescr_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDictProxy_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyDictProxy_Type: PyTypeObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyProperty_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyProperty_Type: PyTypeObject;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub fn </span>PyDescr_NewMethod(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyMethodDef) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewClassMethod&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyDescr_NewClassMethod(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyMethodDef)
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewClassMethod&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyDescr_NewClassMethod(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyMethodDef)
         -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewMember&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyDescr_NewMember(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyMemberDef) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewGetSet&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyDescr_NewGetSet(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyGetSetDef) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewMember&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyDescr_NewMember(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyMemberDef) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDescr_NewGetSet&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyDescr_NewGetSet(arg1: <span class="kw-2">*mut </span>PyTypeObject, arg2: <span class="kw-2">*mut </span>PyGetSetDef) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDictProxy_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyDictProxy_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyDictProxy_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyDictProxy_New(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyWrapper_New(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

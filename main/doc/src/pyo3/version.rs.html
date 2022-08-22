@@ -157,8 +157,8 @@
 /// ```
 ///
 /// [`Python::version`]: crate::marker::Python::version
-</span><span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub struct </span>PythonVersionInfo&lt;<span class="lifetime">&#39;py</span>&gt; {
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>PythonVersionInfo&lt;<span class="lifetime">&#39;py</span>&gt; {
     <span class="doccomment">/// Python major version (e.g. `3`).
     </span><span class="kw">pub </span>major: u8,
     <span class="doccomment">/// Python minor version (e.g. `11`).
@@ -239,39 +239,39 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>test {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::Python;
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_python_version_info() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_python_version_info() {
         Python::with_gil(|py| {
             <span class="kw">let </span>version = py.version_info();
-            <span class="attribute">#[cfg(Py_3_7)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">7</span>));
-            <span class="attribute">#[cfg(Py_3_7)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">7</span>, <span class="number">0</span>));
-            <span class="attribute">#[cfg(Py_3_8)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">8</span>));
-            <span class="attribute">#[cfg(Py_3_8)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">8</span>, <span class="number">0</span>));
-            <span class="attribute">#[cfg(Py_3_9)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">9</span>));
-            <span class="attribute">#[cfg(Py_3_9)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">9</span>, <span class="number">0</span>));
-            <span class="attribute">#[cfg(Py_3_10)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">10</span>));
-            <span class="attribute">#[cfg(Py_3_10)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">10</span>, <span class="number">0</span>));
-            <span class="attribute">#[cfg(Py_3_11)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">11</span>));
-            <span class="attribute">#[cfg(Py_3_11)]</span>
-            <span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">11</span>, <span class="number">0</span>));
+            <span class="attribute">#[cfg(Py_3_7)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">7</span>));
+            <span class="attribute">#[cfg(Py_3_7)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">7</span>, <span class="number">0</span>));
+            <span class="attribute">#[cfg(Py_3_8)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">8</span>));
+            <span class="attribute">#[cfg(Py_3_8)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">8</span>, <span class="number">0</span>));
+            <span class="attribute">#[cfg(Py_3_9)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">9</span>));
+            <span class="attribute">#[cfg(Py_3_9)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">9</span>, <span class="number">0</span>));
+            <span class="attribute">#[cfg(Py_3_10)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">10</span>));
+            <span class="attribute">#[cfg(Py_3_10)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">10</span>, <span class="number">0</span>));
+            <span class="attribute">#[cfg(Py_3_11)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">11</span>));
+            <span class="attribute">#[cfg(Py_3_11)]
+            </span><span class="macro">assert!</span>(version &gt;= (<span class="number">3</span>, <span class="number">11</span>, <span class="number">0</span>));
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_python_version_info_parse() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_python_version_info_parse() {
         <span class="macro">assert!</span>(PythonVersionInfo::from_str(<span class="string">&quot;3.5.0a1&quot;</span>).unwrap() &gt;= (<span class="number">3</span>, <span class="number">5</span>, <span class="number">0</span>));
         <span class="macro">assert!</span>(PythonVersionInfo::from_str(<span class="string">&quot;3.5+&quot;</span>).unwrap() &gt;= (<span class="number">3</span>, <span class="number">5</span>, <span class="number">0</span>));
         <span class="macro">assert!</span>(PythonVersionInfo::from_str(<span class="string">&quot;3.5+&quot;</span>).unwrap() == (<span class="number">3</span>, <span class="number">5</span>, <span class="number">0</span>));
@@ -285,4 +285,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

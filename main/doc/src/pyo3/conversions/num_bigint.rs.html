@@ -294,8 +294,8 @@
 //
 // based on Daniel Grunwald&#39;s https://github.com/dgrunwald/rust-cpython
 
-</span><span class="attribute">#![cfg(all(feature = <span class="string">&quot;num-bigint&quot;</span>, not(any(Py_LIMITED_API, PyPy))))]</span>
-<span class="doccomment">//!  Conversions to and from [num-bigint](https://docs.rs/num-bigint)’s [`BigInt`] and [`BigUint`] types.
+</span><span class="attribute">#![cfg(all(feature = <span class="string">&quot;num-bigint&quot;</span>, not(any(Py_LIMITED_API, PyPy))))]
+</span><span class="doccomment">//!  Conversions to and from [num-bigint](https://docs.rs/num-bigint)’s [`BigInt`] and [`BigUint`] types.
 //!
 //! This is useful for converting Python integers when they may not fit in Rust&#39;s built-in integer types.
 //!
@@ -307,12 +307,12 @@
 //! [dependencies]
 //! num-bigint = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;num-bigint\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;num-bigint\&quot;] }&quot;</span>)))]
+#![cfg_attr(
     not(docsrs),
     doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;num-bigint\&quot;] }&quot;
-</span>)]</span>
-<span class="doccomment">//! ```
+</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of num-bigint and PyO3.
 //! The required num-bigint version may vary based on the version of PyO3.
@@ -356,8 +356,8 @@
 <span class="kw">use </span>num_bigint::{BigInt, BigUint};
 <span class="kw">use </span>std::os::raw::{c_int, c_uchar};
 
-<span class="attribute">#[cfg(not(all(windows, PyPy)))]</span>
-<span class="kw">unsafe fn </span>extract(ob: <span class="kw-2">&amp;</span>PyLong, buffer: <span class="kw-2">&amp;mut </span>[c_uchar], is_signed: c_int) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[cfg(not(all(windows, PyPy)))]
+</span><span class="kw">unsafe fn </span>extract(ob: <span class="kw-2">&amp;</span>PyLong, buffer: <span class="kw-2">&amp;mut </span>[c_uchar], is_signed: c_int) -&gt; PyResult&lt;()&gt; {
     err::error_on_minusone(
         ob.py(),
         ffi::_PyLong_AsByteArray(
@@ -370,10 +370,10 @@
     )
 }
 
-<span class="macro">macro_rules!</span> bigint_conversion {
+<span class="macro">macro_rules! </span>bigint_conversion {
     (<span class="macro-nonterminal">$rust_ty</span>: ty, <span class="macro-nonterminal">$is_signed</span>: expr, <span class="macro-nonterminal">$to_bytes</span>: path, <span class="macro-nonterminal">$from_bytes</span>: path) =&gt; {
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]</span>
-        <span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]
+        </span><span class="kw">impl </span>ToPyObject <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
             <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>bytes = <span class="macro-nonterminal">$to_bytes</span>(<span class="self">self</span>);
@@ -388,15 +388,15 @@
             }
         }
 
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]</span>
-        <span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]
+        </span><span class="kw">impl </span>IntoPy&lt;PyObject&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
             <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
                 <span class="self">self</span>.to_object(py)
             }
         }
 
-        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]</span>
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;source</span>&gt; FromPyObject&lt;<span class="lifetime">&#39;source</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
+        <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;num-bigint&quot;</span>)))]
+        </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;source</span>&gt; FromPyObject&lt;<span class="lifetime">&#39;source</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$rust_ty </span>{
             <span class="kw">fn </span>extract(ob: <span class="kw-2">&amp;</span><span class="lifetime">&#39;source </span>PyAny) -&gt; PyResult&lt;<span class="macro-nonterminal">$rust_ty</span>&gt; {
                 <span class="kw">let </span>py = ob.py();
                 <span class="kw">unsafe </span>{
@@ -432,8 +432,8 @@
     BigInt::from_signed_bytes_le
 );
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyDict, PyModule};
     <span class="kw">use </span>indoc::indoc;
@@ -468,8 +468,8 @@
         f0
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>convert_biguint() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>convert_biguint() {
         Python::with_gil(|py| {
             <span class="kw">let </span>rs_result: BigUint = rust_fib(<span class="number">400</span>);
             <span class="kw">let </span>fib = python_fib(py);
@@ -491,8 +491,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>convert_bigint() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>convert_bigint() {
         Python::with_gil(|py| {
             <span class="kw">let </span>rs_result = rust_fib::&lt;BigInt&gt;(<span class="number">400</span>) * -<span class="number">1</span>;
             <span class="kw">let </span>fib = python_fib(py);
@@ -529,8 +529,8 @@
         PyModule::from_code(py, index_code, <span class="string">&quot;index.py&quot;</span>, <span class="string">&quot;index&quot;</span>).unwrap()
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>convert_index_class() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>convert_index_class() {
         Python::with_gil(|py| {
             <span class="kw">let </span>index = python_index_class(py);
             <span class="kw">let </span>locals = PyDict::new(py);
@@ -540,8 +540,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>handle_zero() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>handle_zero() {
         Python::with_gil(|py| {
             <span class="kw">let </span>fib = python_fib(py);
             <span class="kw">let </span>zero: BigInt =
@@ -551,10 +551,10 @@
     }
 
     <span class="doccomment">/// `OverflowError` on converting Python int to BigInt, see issue #629
-    </span><span class="attribute">#[test]</span>
-    <span class="kw">fn </span>check_overflow() {
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>check_overflow() {
         Python::with_gil(|py| {
-            <span class="macro">macro_rules!</span> test {
+            <span class="macro">macro_rules! </span>test {
                 (<span class="macro-nonterminal">$T</span>:ty, <span class="macro-nonterminal">$value</span>:expr, <span class="macro-nonterminal">$py</span>:expr) =&gt; {
                     <span class="kw">let </span>value = <span class="macro-nonterminal">$value</span>;
                     <span class="macro">println!</span>(<span class="string">&quot;{}: {}&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$T</span>), value);
@@ -583,4 +583,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

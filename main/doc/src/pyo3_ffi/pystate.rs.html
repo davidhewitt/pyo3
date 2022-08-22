@@ -81,13 +81,13 @@
 <span id="81">81</span>
 <span id="82">82</span>
 <span id="83">83</span>
-</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::moduleobject::PyModuleDef;
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::moduleobject::PyModuleDef;
 <span class="kw">use </span><span class="kw">crate</span>::object::PyObject;
 <span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span>std::os::raw::c_long;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span>std::os::raw::c_long;
 
 <span class="kw">pub const </span>MAX_CO_EXTRA_USERS: c_int = <span class="number">255</span>;
 
@@ -95,74 +95,74 @@
 <span class="macro">opaque_struct!</span>(PyInterpreterState);
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_New() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Clear(arg1: <span class="kw-2">*mut </span>PyInterpreterState);
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Delete(arg1: <span class="kw-2">*mut </span>PyInterpreterState);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_New() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Clear(arg1: <span class="kw-2">*mut </span>PyInterpreterState);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Delete(arg1: <span class="kw-2">*mut </span>PyInterpreterState);
 
-    <span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Get() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg(all(Py_3_9, not(PyPy)))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Get() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
 
-    <span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_GetDict(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(all(Py_3_8, not(PyPy)))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_GetDict(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_GetID(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; i64;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_GetID(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; i64;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyState_AddModule(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyModuleDef) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyState_AddModule(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyModuleDef) -&gt; c_int;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyState_RemoveModule(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyState_RemoveModule(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; c_int;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyState_FindModule(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyState_FindModule(arg1: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_New(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Clear&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_Clear(arg1: <span class="kw-2">*mut </span>PyThreadState);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Delete&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_Delete(arg1: <span class="kw-2">*mut </span>PyThreadState);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_New(arg1: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Clear&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_Clear(arg1: <span class="kw-2">*mut </span>PyThreadState);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Delete&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_Delete(arg1: <span class="kw-2">*mut </span>PyThreadState);
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Get&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_Get() -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Get&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_Get() -&gt; <span class="kw-2">*mut </span>PyThreadState;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyThreadState_GET() -&gt; <span class="kw-2">*mut </span>PyThreadState {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyThreadState_GET() -&gt; <span class="kw-2">*mut </span>PyThreadState {
     PyThreadState_Get()
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Swap&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_Swap(arg1: <span class="kw-2">*mut </span>PyThreadState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_GetDict&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_GetDict() -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyThreadState_SetAsyncExc(arg1: c_long, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_Swap&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_Swap(arg1: <span class="kw-2">*mut </span>PyThreadState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_GetDict&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_GetDict() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyThreadState_SetAsyncExc(arg1: c_long, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
 <span class="comment">// skipped non-limited / 3.9 PyThreadState_GetInterpreter
 // skipped non-limited / 3.9 PyThreadState_GetFrame
 // skipped non-limited / 3.9 PyThreadState_GetID
 
-</span><span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Copy, Clone, Debug, PartialEq, Eq)]</span>
-<span class="kw">pub enum </span>PyGILState_STATE {
+</span><span class="attribute">#[repr(C)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>PyGILState_STATE {
     PyGILState_LOCKED,
     PyGILState_UNLOCKED,
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Ensure&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyGILState_Ensure() -&gt; PyGILState_STATE;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Release&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyGILState_Release(arg1: PyGILState_STATE);
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyGILState_GetThisThreadState() -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Ensure&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyGILState_Ensure() -&gt; PyGILState_STATE;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Release&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyGILState_Release(arg1: PyGILState_STATE);
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyGILState_GetThisThreadState() -&gt; <span class="kw-2">*mut </span>PyThreadState;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

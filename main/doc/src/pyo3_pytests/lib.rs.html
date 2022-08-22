@@ -61,12 +61,12 @@
 <span class="kw">pub mod </span>pyfunctions;
 <span class="kw">pub mod </span>subclassing;
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">fn </span>pyo3_pytests(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    m.add_wrapped(<span class="macro">wrap_pymodule!</span>(buf_and_str::buf_and_str))<span class="question-mark">?</span>;
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    m.add_wrapped(<span class="macro">wrap_pymodule!</span>(datetime::datetime))<span class="question-mark">?</span>;
+<span class="attribute">#[pymodule]
+</span><span class="kw">fn </span>pyo3_pytests(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span>m.add_wrapped(<span class="macro">wrap_pymodule!</span>(buf_and_str::buf_and_str))<span class="question-mark">?</span>;
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span>m.add_wrapped(<span class="macro">wrap_pymodule!</span>(datetime::datetime))<span class="question-mark">?</span>;
     m.add_wrapped(<span class="macro">wrap_pymodule!</span>(dict_iter::dict_iter))<span class="question-mark">?</span>;
     m.add_wrapped(<span class="macro">wrap_pymodule!</span>(misc::misc))<span class="question-mark">?</span>;
     m.add_wrapped(<span class="macro">wrap_pymodule!</span>(objstore::objstore))<span class="question-mark">?</span>;
@@ -95,4 +95,4 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -1170,13 +1170,13 @@
 /// the GIL is not held.
 ///
 /// See the [module-level documentation](self) for more information.
-</span><span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))]</span> <span class="comment">// Hide the cfg flag
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]</span>
-<span class="kw">pub unsafe trait </span>Ungil {}
+</span><span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))] </span><span class="comment">// Hide the cfg flag
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]
+</span><span class="kw">pub unsafe trait </span>Ungil {}
 
-<span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))]</span> <span class="comment">// Hide the cfg flag
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]</span>
-<span class="kw">unsafe impl</span>&lt;T: Send&gt; Ungil <span class="kw">for </span>T {}
+<span class="attribute">#[cfg_attr(docsrs, doc(cfg(all())))] </span><span class="comment">// Hide the cfg flag
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;nightly&quot;</span>))]
+</span><span class="kw">unsafe impl</span>&lt;T: Send&gt; Ungil <span class="kw">for </span>T {}
 
 <span class="doccomment">/// Types that are safe to access while the GIL is not held.
 ///
@@ -1186,11 +1186,11 @@
 /// the GIL is not held.
 ///
 /// See the [module-level documentation](self) for more information.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]</span>
-<span class="kw">pub unsafe </span>auto <span class="kw">trait </span>Ungil {}
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+</span><span class="kw">pub unsafe </span>auto <span class="kw">trait </span>Ungil {}
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]</span>
-<span class="kw">mod </span>negative_impls {
+<span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+</span><span class="kw">mod </span>negative_impls {
     <span class="kw">use </span><span class="kw">super</span>::Ungil;
 
     <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::Python&lt;<span class="lifetime">&#39;_</span>&gt; {}
@@ -1212,10 +1212,10 @@
     <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyWeakReference {}
     <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyFrameObject {}
     <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyCodeObject {}
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyDictKeysObject {}
-    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, Py_3_10)))]</span>
-    <span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyArena {}
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyDictKeysObject {}
+    <span class="attribute">#[cfg(not(any(Py_LIMITED_API, Py_3_10)))]
+    </span><span class="kw">impl </span>!Ungil <span class="kw">for </span><span class="kw">crate</span>::ffi::PyArena {}
 }
 
 <span class="doccomment">/// A marker token that represents holding the GIL.
@@ -1302,8 +1302,8 @@
 /// [scoping rules]: https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html#ownership-rules
 /// [`Py::clone_ref`]: crate::Py::clone_ref
 /// [Memory Management]: https://pyo3.rs/main/memory.html#gil-bound-memory
-</span><span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>Python&lt;<span class="lifetime">&#39;py</span>&gt;(PhantomData&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>GILGuard, NotSend)&gt;);
+</span><span class="attribute">#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>Python&lt;<span class="lifetime">&#39;py</span>&gt;(PhantomData&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>GILGuard, NotSend)&gt;);
 
 <span class="kw">impl </span>Python&lt;<span class="lifetime">&#39;_</span>&gt; {
     <span class="doccomment">/// Acquires the global interpreter lock, allowing access to the Python interpreter. The
@@ -1314,9 +1314,9 @@
     </span><span class="attribute">#[cfg_attr(
         not(PyPy),
         doc = <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;
-    </span>)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
-    <span class="doccomment">/// for details.
+    </span>)]
+    #[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]
+    </span><span class="doccomment">/// for details.
     ///
     /// # Panics
     ///
@@ -1338,8 +1338,8 @@
     /// ```
     ///
     /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>with_gil&lt;F, R&gt;(f: F) -&gt; R
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>with_gil&lt;F, R&gt;(f: F) -&gt; R
     <span class="kw">where
         </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;py</span>&gt; FnOnce(Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; R,
     {
@@ -1364,13 +1364,13 @@
     </span><span class="attribute">#[cfg_attr(
         all(Py_3_8, not(PyPy)),
         doc = <span class="string">&quot;[`_Py_InitializeMain`](crate::ffi::_Py_InitializeMain)&quot;
-    </span>)]</span>
-    <span class="attribute">#[cfg_attr(any(not(Py_3_8), PyPy), doc = <span class="string">&quot;`_Py_InitializeMain`&quot;</span>)]</span>
-    <span class="doccomment">/// is called because the interpreter is only partially initialized.
+    </span>)]
+    #[cfg_attr(any(not(Py_3_8), PyPy), doc = <span class="string">&quot;`_Py_InitializeMain`&quot;</span>)]
+    </span><span class="doccomment">/// is called because the interpreter is only partially initialized.
     ///
     /// Behavior in other scenarios is not documented.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>with_gil_unchecked&lt;F, R&gt;(f: F) -&gt; R
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>with_gil_unchecked&lt;F, R&gt;(f: F) -&gt; R
     <span class="kw">where
         </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;py</span>&gt; FnOnce(Python&lt;<span class="lifetime">&#39;py</span>&gt;) -&gt; R,
     {
@@ -1386,9 +1386,9 @@
     </span><span class="attribute">#[cfg_attr(
         not(PyPy),
         doc = <span class="string">&quot;[`prepare_freethreaded_python`](crate::prepare_freethreaded_python)&quot;
-    </span>)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]</span>
-    <span class="doccomment">/// for details.
+    </span>)]
+    #[cfg_attr(PyPy, doc = <span class="string">&quot;`prepare_freethreaded_python`&quot;</span>)]
+    </span><span class="doccomment">/// for details.
     ///
     /// Most users should not need to use this API directly, and should prefer one of two options:
     /// 1. If implementing [`#[pymethods]`](crate::pymethods) or [`#[pyfunction]`](crate::pyfunction),  declare `py: Python` as an argument.
@@ -1418,10 +1418,10 @@
     ///
     /// [`PyGILState_Ensure`]: crate::ffi::PyGILState_Ensure
     /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize
-    </span><span class="attribute">#[inline]</span>
-    <span class="comment">// Once removed, we can remove GILGuard&#39;s drop tracking.
-    </span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.17.0&quot;</span>, note = <span class="string">&quot;prefer Python::with_gil&quot;</span>)]</span>
-    <span class="kw">pub fn </span>acquire_gil() -&gt; GILGuard {
+    </span><span class="attribute">#[inline]
+    </span><span class="comment">// Once removed, we can remove GILGuard&#39;s drop tracking.
+    </span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.17.0&quot;</span>, note = <span class="string">&quot;prefer Python::with_gil&quot;</span>)]
+    </span><span class="kw">pub fn </span>acquire_gil() -&gt; GILGuard {
         GILGuard::acquire()
     }
 
@@ -1638,16 +1638,16 @@
     }
 
     <span class="doccomment">/// Gets the Python builtin value `None`.
-    </span><span class="attribute">#[allow(non_snake_case)]</span> <span class="comment">// the Python keyword starts with uppercase
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span><span class="prelude-val">None</span>(<span class="self">self</span>) -&gt; PyObject {
+    </span><span class="attribute">#[allow(non_snake_case)] </span><span class="comment">// the Python keyword starts with uppercase
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span><span class="prelude-val">None</span>(<span class="self">self</span>) -&gt; PyObject {
         <span class="kw">unsafe </span>{ PyObject::from_borrowed_ptr(<span class="self">self</span>, ffi::Py_None()) }
     }
 
     <span class="doccomment">/// Gets the Python builtin value `NotImplemented`.
-    </span><span class="attribute">#[allow(non_snake_case)]</span> <span class="comment">// the Python keyword starts with uppercase
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>NotImplemented(<span class="self">self</span>) -&gt; PyObject {
+    </span><span class="attribute">#[allow(non_snake_case)] </span><span class="comment">// the Python keyword starts with uppercase
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>NotImplemented(<span class="self">self</span>) -&gt; PyObject {
         <span class="kw">unsafe </span>{ PyObject::from_borrowed_ptr(<span class="self">self</span>, ffi::Py_NotImplemented()) }
     }
 
@@ -1721,8 +1721,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1737,8 +1737,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1753,8 +1753,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1768,8 +1768,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1783,8 +1783,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_err&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1798,8 +1798,8 @@
     /// # Safety
     ///
     /// Callers must ensure that ensure that the cast is valid.
-    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
+    </span><span class="attribute">#[allow(clippy::wrong_self_convention)]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_opt&lt;T&gt;(<span class="self">self</span>, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>T&gt;
     <span class="kw">where
         </span>T: FromPyPointer&lt;<span class="lifetime">&#39;py</span>&gt;,
     {
@@ -1904,8 +1904,8 @@
     ///   is dropped.
     ///
     /// [`.python()`]: crate::GILPool::python
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>new_pool(<span class="self">self</span>) -&gt; GILPool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>new_pool(<span class="self">self</span>) -&gt; GILPool {
         GILPool::new()
     }
 }
@@ -1927,21 +1927,21 @@
     /// lifetimes, see the [nomicon].
     ///
     /// [nomicon]: https://doc.rust-lang.org/nomicon/unbounded-lifetimes.html
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>assume_gil_acquired() -&gt; Python&lt;<span class="lifetime">&#39;unbound</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>assume_gil_acquired() -&gt; Python&lt;<span class="lifetime">&#39;unbound</span>&gt; {
         Python(PhantomData)
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::{IntoPyDict, PyList};
     <span class="kw">use </span><span class="kw">crate</span>::Py;
     <span class="kw">use </span>std::sync::Arc;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_eval() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_eval() {
         Python::with_gil(|py| {
             <span class="comment">// Make sure builtin names are accessible
             </span><span class="kw">let </span>v: i32 = py
@@ -1980,8 +1980,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]</span> <span class="comment">// We are building wasm Python with pthreads disabled
+    <span class="attribute">#[test]
+    #[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))] </span><span class="comment">// We are building wasm Python with pthreads disabled
     </span><span class="kw">fn </span>test_allow_threads_releases_and_acquires_gil() {
         Python::with_gil(|py| {
             <span class="kw">let </span>b = std::sync::Arc::new(std::sync::Barrier::new(<span class="number">2</span>));
@@ -2004,8 +2004,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_allow_threads_panics_safely() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_allow_threads_panics_safely() {
         Python::with_gil(|py| {
             <span class="kw">let </span>result = std::panic::catch_unwind(|| <span class="kw">unsafe </span>{
                 <span class="kw">let </span>py = Python::assume_gil_acquired();
@@ -2024,8 +2024,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_allow_threads_pass_stuff_in() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_allow_threads_pass_stuff_in() {
         <span class="kw">let </span>list: Py&lt;PyList&gt; = Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>]);
             list.into()
@@ -2040,9 +2040,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">fn </span>test_acquire_gil() {
+    <span class="attribute">#[test]
+    #[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">fn </span>test_acquire_gil() {
         <span class="kw">const </span>GIL_NOT_HELD: c_int = <span class="number">0</span>;
         <span class="kw">const </span>GIL_HELD: c_int = <span class="number">1</span>;
 
@@ -2059,4 +2059,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

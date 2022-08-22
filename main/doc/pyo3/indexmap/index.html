@@ -48,8 +48,8 @@ always print the same result, matching users’ expectations about Python’s di
         .unwrap() <span class="kw">as </span>f32
   }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>calculate_statistics(data: Vec&lt;i32&gt;) -&gt; IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f32&gt; {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>calculate_statistics(data: Vec&lt;i32&gt;) -&gt; IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f32&gt; {
     <span class="macro">indexmap!</span>{
        <span class="string">&quot;median&quot; </span>=&gt; median(<span class="kw-2">&amp;</span>data),
        <span class="string">&quot;mean&quot; </span>=&gt; mean(<span class="kw-2">&amp;</span>data),
@@ -57,8 +57,8 @@ always print the same result, matching users’ expectations about Python’s di
     }
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">fn </span>my_module(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(calculate_statistics, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
@@ -66,4 +66,4 @@ always print the same result, matching users’ expectations about Python’s di
 <div class="example-wrap"><pre class="language-python"><code>from my_module import calculate_statistics
 
 data = [1, 1, 1, 3, 4, 5]
-print(calculate_statistics(data))</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+print(calculate_statistics(data))</code></pre></div></div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -252,8 +252,8 @@
 ///     pyo3::py_run!(py, *locals, &quot;c = C()&quot;);
 /// });
 /// ```
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> py_run {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>py_run {
     (<span class="macro-nonterminal">$py</span>:expr, $(<span class="macro-nonterminal">$val</span>:ident)+, <span class="macro-nonterminal">$code</span>:literal) =&gt; {{
         <span class="macro-nonterminal">$</span><span class="macro">crate::py_run_impl!</span>(<span class="macro-nonterminal">$py</span>, $(<span class="macro-nonterminal">$val</span>)+, <span class="macro-nonterminal">$</span><span class="macro">crate::indoc::indoc!</span>(<span class="macro-nonterminal">$code</span>))
     }};
@@ -268,9 +268,9 @@
     }};
 }
 
-<span class="attribute">#[macro_export]</span>
-<span class="attribute">#[doc(hidden)]</span>
-<span class="macro">macro_rules!</span> py_run_impl {
+<span class="attribute">#[macro_export]
+#[doc(hidden)]
+</span><span class="macro">macro_rules! </span>py_run_impl {
     (<span class="macro-nonterminal">$py</span>:expr, $(<span class="macro-nonterminal">$val</span>:ident)+, <span class="macro-nonterminal">$code</span>:expr) =&gt; {{
         <span class="kw">use </span><span class="macro-nonterminal">$crate::types::IntoPyDict</span>;
         <span class="kw">use </span><span class="macro-nonterminal">$crate::ToPyObject</span>;
@@ -295,8 +295,8 @@
 ///
 /// This can be used with [`PyModule::add_function`](crate::types::PyModule::add_function) to add free
 /// functions to a [`PyModule`](crate::types::PyModule) - see its documentation for more information.
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> wrap_pyfunction {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>wrap_pyfunction {
     (<span class="macro-nonterminal">$function</span>:path) =&gt; {
         <span class="kw-2">&amp;</span>|py_or_module| {
             <span class="kw">use </span><span class="macro-nonterminal">$function </span><span class="kw">as </span>wrapped_pyfunction;
@@ -314,8 +314,8 @@
 ///
 /// Use this together with [`#[pymodule]`](crate::pymodule) and
 /// [`PyModule::add_wrapped`](crate::types::PyModule::add_wrapped).
-</span><span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> wrap_pymodule {
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>wrap_pymodule {
     (<span class="macro-nonterminal">$module</span>:path) =&gt; {
         <span class="kw-2">&amp;</span>|py| {
             <span class="kw">use </span><span class="macro-nonterminal">$module </span><span class="kw">as </span>wrapped_pymodule;
@@ -331,9 +331,9 @@
 ///
 /// Use it before [`prepare_freethreaded_python`](crate::prepare_freethreaded_python) and
 /// leave feature `auto-initialize` off
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[macro_export]</span>
-<span class="macro">macro_rules!</span> append_to_inittab {
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>append_to_inittab {
     (<span class="macro-nonterminal">$module</span>:ident) =&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">if </span><span class="macro-nonterminal">$crate::ffi::Py_IsInitialized</span>() != <span class="number">0 </span>{
@@ -349,4 +349,4 @@
     };
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

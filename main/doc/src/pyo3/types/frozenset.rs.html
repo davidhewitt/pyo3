@@ -204,26 +204,26 @@
 //
 
 </span><span class="kw">use </span><span class="kw">crate</span>::err::{PyErr, PyResult};
-<span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-<span class="kw">use </span><span class="kw">crate</span>::types::PyIterator;
+<span class="attribute">#[cfg(Py_LIMITED_API)]
+</span><span class="kw">use </span><span class="kw">crate</span>::types::PyIterator;
 <span class="kw">use crate</span>::{ffi, AsPyPointer, PyAny, Python, ToPyObject};
 
 <span class="kw">use </span>std::ptr;
 
 <span class="doccomment">/// Represents a  Python `frozenset`
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyFrozenSet(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyFrozenSet(PyAny);
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">pyobject_native_type!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">pyobject_native_type!</span>(
     PyFrozenSet,
     ffi::PySetObject,
     ffi::PyFrozenSet_Type,
     #checkfunction=ffi::PyFrozenSet_Check
 );
 
-<span class="attribute">#[cfg(PyPy)]</span>
-<span class="macro">pyobject_native_type_core!</span>(
+<span class="attribute">#[cfg(PyPy)]
+</span><span class="macro">pyobject_native_type_core!</span>(
     PyFrozenSet,
     ffi::PyFrozenSet_Type,
     #checkfunction=ffi::PyFrozenSet_Check
@@ -245,8 +245,8 @@
 
     <span class="doccomment">/// Return the number of items in the set.
     /// This is equivalent to len(p) on a set.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">unsafe </span>{ ffi::PySet_Size(<span class="self">self</span>.as_ptr()) <span class="kw">as </span>usize }
     }
 
@@ -276,8 +276,8 @@
     }
 }
 
-<span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-<span class="kw">mod </span>impl_ {
+<span class="attribute">#[cfg(Py_LIMITED_API)]
+</span><span class="kw">mod </span>impl_ {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::iter::IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyFrozenSet {
@@ -298,15 +298,15 @@
     <span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; Iterator <span class="kw">for </span>PyFrozenSetIterator&lt;<span class="lifetime">&#39;py</span>&gt; {
         <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span><span class="kw">super</span>::PyAny;
 
-        <span class="attribute">#[inline]</span>
-        <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
             <span class="self">self</span>.it.next().map(Result::unwrap)
         }
     }
 }
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="kw">mod </span>impl_ {
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+</span><span class="kw">mod </span>impl_ {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::iter::IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>PyFrozenSet {
@@ -326,8 +326,8 @@
     <span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; Iterator <span class="kw">for </span>PyFrozenSetIterator&lt;<span class="lifetime">&#39;py</span>&gt; {
         <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny;
 
-        <span class="attribute">#[inline]</span>
-        <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
             <span class="kw">unsafe </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>key: <span class="kw-2">*mut </span>ffi::PyObject = std::ptr::null_mut();
                 <span class="kw">let </span><span class="kw-2">mut </span>hash: ffi::Py_hash_t = <span class="number">0</span>;
@@ -341,8 +341,8 @@
             }
         }
 
-        <span class="attribute">#[inline]</span>
-        <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="attribute">#[inline]
+        </span><span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
             <span class="kw">let </span>len = <span class="self">self</span>.set.len().unwrap_or_default();
             (
                 len.saturating_sub(<span class="self">self</span>.pos <span class="kw">as </span>usize),
@@ -354,12 +354,12 @@
 
 <span class="kw">pub use </span>impl_::<span class="kw-2">*</span>;
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_frozenset_new_and_len() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_frozenset_new_and_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span>set = PyFrozenSet::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>]).unwrap();
             <span class="macro">assert_eq!</span>(<span class="number">1</span>, set.len());
@@ -369,24 +369,24 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_frozenset_empty() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_frozenset_empty() {
         Python::with_gil(|py| {
             <span class="kw">let </span>set = PyFrozenSet::empty(py).unwrap();
             <span class="macro">assert_eq!</span>(<span class="number">0</span>, set.len());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_frozenset_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_frozenset_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span>set = PyFrozenSet::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>]).unwrap();
             <span class="macro">assert!</span>(set.contains(<span class="number">1</span>).unwrap());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_frozenset_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_frozenset_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span>set = PyFrozenSet::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>]).unwrap();
 
@@ -403,4 +403,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -364,8 +364,8 @@
 <span id="364">364</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{exceptions, PyErr};
 
-<span class="attribute">#[cfg(min_const_generics)]</span>
-<span class="kw">mod </span>min_const_generics {
+<span class="attribute">#[cfg(min_const_generics)]
+</span><span class="kw">mod </span>min_const_generics {
     <span class="kw">use </span><span class="kw">super</span>::invalid_sequence_length;
     <span class="kw">use </span><span class="kw">crate</span>::conversion::IntoPyPointer;
     <span class="kw">use crate</span>::{
@@ -378,7 +378,7 @@
     {
         <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
             <span class="kw">unsafe </span>{
-                <span class="attribute">#[allow(deprecated)]</span> <span class="comment">// we&#39;re not on edition 2021 yet
+                <span class="attribute">#[allow(deprecated)] </span><span class="comment">// we&#39;re not on edition 2021 yet
                 </span><span class="kw">let </span>elements = std::array::IntoIter::new(<span class="self">self</span>);
                 <span class="kw">let </span>len = N <span class="kw">as </span>ffi::Py_ssize_t;
 
@@ -392,10 +392,10 @@
                 <span class="kw">for </span>(i, obj) <span class="kw">in </span>(<span class="number">0</span>..len).zip(elements) {
                     <span class="kw">let </span>obj = obj.into_py(py).into_ptr();
 
-                    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-                    ffi::PyList_SET_ITEM(ptr, i, obj);
-                    <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-                    ffi::PyList_SetItem(ptr, i, obj);
+                    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+                    </span>ffi::PyList_SET_ITEM(ptr, i, obj);
+                    <span class="attribute">#[cfg(Py_LIMITED_API)]
+                    </span>ffi::PyList_SetItem(ptr, i, obj);
                 }
 
                 list
@@ -476,16 +476,16 @@
         }
     }
 
-    <span class="attribute">#[cfg(test)]</span>
-    <span class="kw">mod </span>tests {
+    <span class="attribute">#[cfg(test)]
+    </span><span class="kw">mod </span>tests {
         <span class="kw">use super</span>::<span class="kw-2">*</span>;
         <span class="kw">use </span>std::{
             panic,
             sync::atomic::{AtomicUsize, Ordering},
         };
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>array_try_from_fn() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>array_try_from_fn() {
             <span class="kw">static </span>DROP_COUNTER: AtomicUsize = AtomicUsize::new(<span class="number">0</span>);
             <span class="kw">struct </span>CountDrop;
             <span class="kw">impl </span>Drop <span class="kw">for </span>CountDrop {
@@ -495,8 +495,8 @@
             }
             <span class="kw">let _ </span>= catch_unwind_silent(<span class="kw">move </span>|| {
                 <span class="kw">let _</span>: <span class="prelude-ty">Result</span>&lt;[CountDrop; <span class="number">4</span>], ()&gt; = <span class="kw">super</span>::array_try_from_fn(|idx| {
-                    <span class="attribute">#[allow(clippy::manual_assert)]</span>
-                    <span class="kw">if </span>idx == <span class="number">2 </span>{
+                    <span class="attribute">#[allow(clippy::manual_assert)]
+                    </span><span class="kw">if </span>idx == <span class="number">2 </span>{
                         <span class="macro">panic!</span>(<span class="string">&quot;peek a boo&quot;</span>);
                     }
                     <span class="prelude-val">Ok</span>(CountDrop)
@@ -505,8 +505,8 @@
             <span class="macro">assert_eq!</span>(DROP_COUNTER.load(Ordering::SeqCst), <span class="number">2</span>);
         }
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>test_extract_bytearray_to_array() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_extract_bytearray_to_array() {
             Python::with_gil(|py| {
                 <span class="kw">let </span>v: [u8; <span class="number">33</span>] = py
                     .eval(
@@ -535,8 +535,8 @@
     }
 }
 
-<span class="attribute">#[cfg(not(min_const_generics))]</span>
-<span class="kw">mod </span>array_impls {
+<span class="attribute">#[cfg(not(min_const_generics))]
+</span><span class="kw">mod </span>array_impls {
     <span class="kw">use </span><span class="kw">super</span>::invalid_sequence_length;
     <span class="kw">use </span><span class="kw">crate</span>::conversion::IntoPyPointer;
     <span class="kw">use crate</span>::{
@@ -544,7 +544,7 @@
     };
     <span class="kw">use </span>std::mem::{transmute_copy, ManuallyDrop};
 
-    <span class="macro">macro_rules!</span> array_impls {
+    <span class="macro">macro_rules! </span>array_impls {
         ($(<span class="macro-nonterminal">$N</span>:expr),+) =&gt; {
             $(
                 <span class="kw">impl</span>&lt;T&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span>[T; <span class="macro-nonterminal">$N</span>]
@@ -591,10 +591,10 @@
 
                                 <span class="kw">let </span>obj = obj.into_py(py).into_ptr();
 
-                                <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-                                ffi::PyList_SET_ITEM(ptr, i <span class="kw">as </span>ffi::Py_ssize_t, obj);
-                                <span class="attribute">#[cfg(Py_LIMITED_API)]</span>
-                                ffi::PyList_SetItem(ptr, i <span class="kw">as </span>ffi::Py_ssize_t, obj);
+                                <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+                                </span>ffi::PyList_SET_ITEM(ptr, i <span class="kw">as </span>ffi::Py_ssize_t, obj);
+                                <span class="attribute">#[cfg(Py_LIMITED_API)]
+                                </span>ffi::PyList_SetItem(ptr, i <span class="kw">as </span>ffi::Py_ssize_t, obj);
                             }
 
                             std::mem::forget(guard);
@@ -627,14 +627,14 @@
         }
     }
 
-    <span class="attribute">#[cfg(not(min_const_generics))]</span>
-    <span class="macro">array_impls!</span>(
+    <span class="attribute">#[cfg(not(min_const_generics))]
+    </span><span class="macro">array_impls!</span>(
         <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>,
         <span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32
     </span>);
 
-    <span class="attribute">#[cfg(not(min_const_generics))]</span>
-    <span class="kw">fn </span>extract_sequence_into_slice&lt;<span class="lifetime">&#39;s</span>, T&gt;(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>PyAny, slice: <span class="kw-2">&amp;mut </span>[T]) -&gt; PyResult&lt;()&gt;
+    <span class="attribute">#[cfg(not(min_const_generics))]
+    </span><span class="kw">fn </span>extract_sequence_into_slice&lt;<span class="lifetime">&#39;s</span>, T&gt;(obj: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>PyAny, slice: <span class="kw-2">&amp;mut </span>[T]) -&gt; PyResult&lt;()&gt;
     <span class="kw">where
         </span>T: FromPyObject&lt;<span class="lifetime">&#39;s</span>&gt;,
     {
@@ -657,12 +657,12 @@
     ))
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{types::PyList, IntoPy, PyResult, Python, ToPyObject};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_small_bytearray_to_array() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_small_bytearray_to_array() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: [u8; <span class="number">3</span>] = py
                 .eval(<span class="string">&quot;bytearray(b&#39;abc&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -672,8 +672,8 @@
             <span class="macro">assert!</span>(<span class="kw-2">&amp;</span>v == <span class="string">b&quot;abc&quot;</span>);
         });
     }
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_topyobject_array_conversion() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_topyobject_array_conversion() {
         Python::with_gil(|py| {
             <span class="kw">let </span>array: [f32; <span class="number">4</span>] = [<span class="number">0.0</span>, -<span class="number">16.0</span>, <span class="number">16.0</span>, <span class="number">42.0</span>];
             <span class="kw">let </span>pyobject = array.to_object(py);
@@ -685,8 +685,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_extract_invalid_sequence_length() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_extract_invalid_sequence_length() {
         Python::with_gil(|py| {
             <span class="kw">let </span>v: PyResult&lt;[u8; <span class="number">3</span>]&gt; = py
                 .eval(<span class="string">&quot;bytearray(b&#39;abcdefg&#39;)&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
@@ -699,8 +699,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_intopy_array_conversion() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_intopy_array_conversion() {
         Python::with_gil(|py| {
             <span class="kw">let </span>array: [f32; <span class="number">4</span>] = [<span class="number">0.0</span>, -<span class="number">16.0</span>, <span class="number">16.0</span>, <span class="number">42.0</span>];
             <span class="kw">let </span>pyobject = array.into_py(py);
@@ -712,11 +712,11 @@
         });
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyclass_intopy_array_conversion() {
-        <span class="attribute">#[<span class="kw">crate</span>::pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-        <span class="kw">struct </span>Foo;
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    #[test]
+    </span><span class="kw">fn </span>test_pyclass_intopy_array_conversion() {
+        <span class="attribute">#[<span class="kw">crate</span>::pyclass(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+        </span><span class="kw">struct </span>Foo;
 
         Python::with_gil(|py| {
             <span class="kw">let </span>array: [Foo; <span class="number">8</span>] = [Foo, Foo, Foo, Foo, Foo, Foo, Foo, Foo];
@@ -727,4 +727,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

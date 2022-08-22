@@ -69,8 +69,8 @@
 ///
 /// This serves to unify the use of `PyRef` and `PyRefMut` in automatically
 /// derived code, since both types can be obtained from a `PyCell`.
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="kw">pub trait </span>TryFromPyCell&lt;<span class="lifetime">&#39;a</span>, T: PyClass&gt;: Sized {
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub trait </span>TryFromPyCell&lt;<span class="lifetime">&#39;a</span>, T: PyClass&gt;: Sized {
     <span class="kw">type </span>Error: Into&lt;PyErr&gt;;
     <span class="kw">fn </span>try_from_pycell(cell: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw">crate</span>::PyCell&lt;T&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
 }
@@ -117,4 +117,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

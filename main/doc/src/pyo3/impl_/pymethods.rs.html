@@ -304,41 +304,41 @@
 <span class="kw">use </span>std::os::raw::{c_int, c_void};
 
 <span class="doccomment">/// Python 3.8 and up - __ipow__ has modulo argument correctly populated.
-</span><span class="attribute">#[cfg(Py_3_8)]</span>
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>IPowModulo(<span class="kw-2">*mut </span>ffi::PyObject);
+</span><span class="attribute">#[cfg(Py_3_8)]
+#[repr(transparent)]
+</span><span class="kw">pub struct </span>IPowModulo(<span class="kw-2">*mut </span>ffi::PyObject);
 
 <span class="doccomment">/// Python 3.7 and older - __ipow__ does not have modulo argument correctly populated.
-</span><span class="attribute">#[cfg(not(Py_3_8))]</span>
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>IPowModulo(std::mem::MaybeUninit&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt;);
+</span><span class="attribute">#[cfg(not(Py_3_8))]
+#[repr(transparent)]
+</span><span class="kw">pub struct </span>IPowModulo(std::mem::MaybeUninit&lt;<span class="kw-2">*mut </span>ffi::PyObject&gt;);
 
 <span class="doccomment">/// Helper to use as pymethod ffi definition
-</span><span class="attribute">#[allow(non_camel_case_types)]</span>
-<span class="kw">pub type </span>ipowfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+</span><span class="attribute">#[allow(non_camel_case_types)]
+</span><span class="kw">pub type </span>ipowfunc = <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
     arg1: <span class="kw-2">*mut </span>ffi::PyObject,
     arg2: <span class="kw-2">*mut </span>ffi::PyObject,
     arg3: IPowModulo,
 ) -&gt; <span class="kw-2">*mut </span>ffi::PyObject;
 
 <span class="kw">impl </span>IPowModulo {
-    <span class="attribute">#[cfg(Py_3_8)]</span>
-    <span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>to_borrowed_any(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyAny {
+    <span class="attribute">#[cfg(Py_3_8)]
+    #[inline]
+    </span><span class="kw">pub fn </span>to_borrowed_any(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyAny {
         <span class="kw">unsafe </span>{ py.from_borrowed_ptr::&lt;PyAny&gt;(<span class="self">self</span>.<span class="number">0</span>) }
     }
 
-    <span class="attribute">#[cfg(not(Py_3_8))]</span>
-    <span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>to_borrowed_any(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyAny {
+    <span class="attribute">#[cfg(not(Py_3_8))]
+    #[inline]
+    </span><span class="kw">pub fn </span>to_borrowed_any(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyAny {
         <span class="kw">unsafe </span>{ py.from_borrowed_ptr::&lt;PyAny&gt;(ffi::Py_None()) }
     }
 }
 
 <span class="doccomment">/// `PyMethodDefType` represents different types of Python callable objects.
 /// It is used by the `#[pymethods]` and `#[pyproto]` annotations.
-</span><span class="attribute">#[derive(Debug)]</span>
-<span class="kw">pub enum </span>PyMethodDefType {
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>PyMethodDefType {
     <span class="doccomment">/// Represents class method
     </span>Class(PyMethodDef),
     <span class="doccomment">/// Represents static method
@@ -353,56 +353,56 @@
     </span>Setter(PySetterDef),
 }
 
-<span class="attribute">#[derive(Copy, Clone, Debug)]</span>
-<span class="kw">pub enum </span>PyMethodType {
+<span class="attribute">#[derive(Copy, Clone, Debug)]
+</span><span class="kw">pub enum </span>PyMethodType {
     PyCFunction(PyCFunction),
     PyCFunctionWithKeywords(PyCFunctionWithKeywords),
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    PyCFunctionFastWithKeywords(PyCFunctionFastWithKeywords),
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span>PyCFunctionFastWithKeywords(PyCFunctionFastWithKeywords),
 }
 
 <span class="comment">// These newtype structs serve no purpose other than wrapping which are function pointers - because
 // function pointers aren&#39;t allowed in const fn, but types wrapping them are!
-</span><span class="attribute">#[derive(Clone, Copy, Debug)]</span>
-<span class="kw">pub struct </span>PyCFunction(<span class="kw">pub </span>ffi::PyCFunction);
-<span class="attribute">#[derive(Clone, Copy, Debug)]</span>
-<span class="kw">pub struct </span>PyCFunctionWithKeywords(<span class="kw">pub </span>ffi::PyCFunctionWithKeywords);
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="attribute">#[derive(Clone, Copy, Debug)]</span>
-<span class="kw">pub struct </span>PyCFunctionFastWithKeywords(<span class="kw">pub </span>ffi::_PyCFunctionFastWithKeywords);
-<span class="attribute">#[derive(Clone, Copy, Debug)]</span>
-<span class="kw">pub struct </span>PyGetter(<span class="kw">pub </span>ffi::getter);
-<span class="attribute">#[derive(Clone, Copy, Debug)]</span>
-<span class="kw">pub struct </span>PySetter(<span class="kw">pub </span>ffi::setter);
-<span class="attribute">#[derive(Clone, Copy)]</span>
-<span class="kw">pub struct </span>PyClassAttributeFactory(<span class="kw">pub for</span>&lt;<span class="lifetime">&#39;p</span>&gt; <span class="kw">fn</span>(Python&lt;<span class="lifetime">&#39;p</span>&gt;) -&gt; PyResult&lt;PyObject&gt;);
+</span><span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>PyCFunction(<span class="kw">pub </span>ffi::PyCFunction);
+<span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>PyCFunctionWithKeywords(<span class="kw">pub </span>ffi::PyCFunctionWithKeywords);
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>PyCFunctionFastWithKeywords(<span class="kw">pub </span>ffi::_PyCFunctionFastWithKeywords);
+<span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>PyGetter(<span class="kw">pub </span>ffi::getter);
+<span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>PySetter(<span class="kw">pub </span>ffi::setter);
+<span class="attribute">#[derive(Clone, Copy)]
+</span><span class="kw">pub struct </span>PyClassAttributeFactory(<span class="kw">pub for</span>&lt;<span class="lifetime">&#39;p</span>&gt; <span class="kw">fn</span>(Python&lt;<span class="lifetime">&#39;p</span>&gt;) -&gt; PyResult&lt;PyObject&gt;);
 
 <span class="comment">// TODO: it would be nice to use CStr in these types, but then the constructors can&#39;t be const fn
 // until `CStr::from_bytes_with_nul_unchecked` is const fn.
 
-</span><span class="attribute">#[derive(Clone, Debug)]</span>
-<span class="kw">pub struct </span>PyMethodDef {
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>PyMethodDef {
     <span class="kw">pub</span>(<span class="kw">crate</span>) ml_name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
     <span class="kw">pub</span>(<span class="kw">crate</span>) ml_meth: PyMethodType,
     <span class="kw">pub</span>(<span class="kw">crate</span>) ml_flags: c_int,
     <span class="kw">pub</span>(<span class="kw">crate</span>) ml_doc: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
 }
 
-<span class="attribute">#[derive(Copy, Clone)]</span>
-<span class="kw">pub struct </span>PyClassAttributeDef {
+<span class="attribute">#[derive(Copy, Clone)]
+</span><span class="kw">pub struct </span>PyClassAttributeDef {
     <span class="kw">pub</span>(<span class="kw">crate</span>) name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
     <span class="kw">pub</span>(<span class="kw">crate</span>) meth: PyClassAttributeFactory,
 }
 
-<span class="attribute">#[derive(Clone, Debug)]</span>
-<span class="kw">pub struct </span>PyGetterDef {
+<span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>PyGetterDef {
     <span class="kw">pub</span>(<span class="kw">crate</span>) name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
     <span class="kw">pub</span>(<span class="kw">crate</span>) meth: PyGetter,
     doc: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
 }
 
-<span class="attribute">#[derive(Clone, Debug)]</span>
-<span class="kw">pub struct </span>PySetterDef {
+<span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>PySetterDef {
     <span class="kw">pub</span>(<span class="kw">crate</span>) name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
     <span class="kw">pub</span>(<span class="kw">crate</span>) meth: PySetter,
     doc: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
@@ -440,8 +440,8 @@
     }
 
     <span class="doccomment">/// Define a function that can take `*args` and `**kwargs`.
-    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub const fn </span>fastcall_cfunction_with_keywords(
+    </span><span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub const fn </span>fastcall_cfunction_with_keywords(
         name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
         cfunction: PyCFunctionFastWithKeywords,
         doc: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
@@ -468,8 +468,8 @@
             PyMethodType::PyCFunctionWithKeywords(meth) =&gt; ffi::PyMethodDefPointer {
                 PyCFunctionWithKeywords: meth.<span class="number">0</span>,
             },
-            <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-            PyMethodType::PyCFunctionFastWithKeywords(meth) =&gt; ffi::PyMethodDefPointer {
+            <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+            </span>PyMethodType::PyCFunctionFastWithKeywords(meth) =&gt; ffi::PyMethodDefPointer {
                 _PyCFunctionFastWithKeywords: meth.<span class="number">0</span>,
             },
         };
@@ -552,12 +552,12 @@
     extract_cstr_or_leak_cstring(doc, <span class="string">&quot;Document cannot contain NUL byte.&quot;</span>)
 }
 
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyTraverseError(<span class="kw">pub</span>(<span class="kw">crate</span>) c_int);
+<span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyTraverseError(<span class="kw">pub</span>(<span class="kw">crate</span>) c_int);
 
 <span class="doccomment">/// Object visitor for GC.
-</span><span class="attribute">#[derive(Clone)]</span>
-<span class="kw">pub struct </span>PyVisit&lt;<span class="lifetime">&#39;p</span>&gt; {
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>PyVisit&lt;<span class="lifetime">&#39;p</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) visit: ffi::visitproc,
     <span class="kw">pub</span>(<span class="kw">crate</span>) arg: <span class="kw-2">*mut </span>c_void,
     <span class="doccomment">/// VisitProc contains a Python instance to ensure that
@@ -581,20 +581,20 @@
     }
 
     <span class="doccomment">/// Creates the PyVisit from the arguments to tp_traverse
-    </span><span class="attribute">#[doc(hidden)]</span>
-    <span class="kw">pub unsafe fn </span>from_raw(visit: ffi::visitproc, arg: <span class="kw-2">*mut </span>c_void, _py: Python&lt;<span class="lifetime">&#39;p</span>&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub unsafe fn </span>from_raw(visit: ffi::visitproc, arg: <span class="kw-2">*mut </span>c_void, _py: Python&lt;<span class="lifetime">&#39;p</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ visit, arg, _py }
     }
 }
 
 <span class="doccomment">/// Unwraps the result of __traverse__ for tp_traverse
-</span><span class="attribute">#[doc(hidden)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>unwrap_traverse_result(result: <span class="prelude-ty">Result</span>&lt;(), PyTraverseError&gt;) -&gt; c_int {
+</span><span class="attribute">#[doc(hidden)]
+#[inline]
+</span><span class="kw">pub fn </span>unwrap_traverse_result(result: <span class="prelude-ty">Result</span>&lt;(), PyTraverseError&gt;) -&gt; c_int {
     <span class="kw">match </span>result {
         <span class="prelude-val">Ok</span>(()) =&gt; <span class="number">0</span>,
         <span class="prelude-val">Err</span>(PyTraverseError(value)) =&gt; value,
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

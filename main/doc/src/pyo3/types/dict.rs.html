@@ -1048,16 +1048,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::err::{<span class="self">self</span>, PyErr, PyResult};
 <span class="kw">use </span><span class="kw">crate</span>::ffi::Py_ssize_t;
 <span class="kw">use </span><span class="kw">crate</span>::types::{PyAny, PyList};
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::IntoPyPointer;
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::IntoPyPointer;
 <span class="kw">use crate</span>::{ffi, AsPyPointer, FromPyObject, IntoPy, PyObject, PyTryFrom, Python, ToPyObject};
 <span class="kw">use </span>std::collections::{BTreeMap, HashMap};
 <span class="kw">use </span>std::ptr::NonNull;
 <span class="kw">use </span>std::{cmp, collections, hash};
 
 <span class="doccomment">/// Represents a Python `dict`.
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDict(PyAny);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDict(PyAny);
 
 <span class="macro">pyobject_native_type!</span>(
     PyDict,
@@ -1067,36 +1067,36 @@
 );
 
 <span class="doccomment">/// Represents a Python `dict_keys`.
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDictKeys(PyAny);
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDictKeys(PyAny);
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">pyobject_native_type_core!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">pyobject_native_type_core!</span>(
     PyDictKeys,
     ffi::PyDictKeys_Type,
     #checkfunction=ffi::PyDictKeys_Check
 );
 
 <span class="doccomment">/// Represents a Python `dict_values`.
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDictValues(PyAny);
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDictValues(PyAny);
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">pyobject_native_type_core!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">pyobject_native_type_core!</span>(
     PyDictValues,
     ffi::PyDictValues_Type,
     #checkfunction=ffi::PyDictValues_Check
 );
 
 <span class="doccomment">/// Represents a Python `dict_items`.
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>PyDictItems(PyAny);
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(transparent)]
+</span><span class="kw">pub struct </span>PyDictItems(PyAny);
 
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="macro">pyobject_native_type_core!</span>(
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="macro">pyobject_native_type_core!</span>(
     PyDictItems,
     ffi::PyDictItems_Type,
     #checkfunction=ffi::PyDictItems_Check
@@ -1115,8 +1115,8 @@
     ///
     /// Returns an error on invalid input. In the case of key collisions,
     /// this keeps the last entry seen.
-    </span><span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>from_sequence(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, seq: PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDict&gt; {
+    </span><span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>from_sequence(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, seq: PyObject) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyDict&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>dict = py.from_owned_ptr::&lt;PyDict&gt;(ffi::PyDict_New());
             err::error_on_minusone(
@@ -1150,13 +1150,13 @@
     }
 
     <span class="kw">fn </span>_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Py_ssize_t {
-        <span class="attribute">#[cfg(any(not(Py_3_8), PyPy, Py_LIMITED_API))]</span>
-        <span class="kw">unsafe </span>{
+        <span class="attribute">#[cfg(any(not(Py_3_8), PyPy, Py_LIMITED_API))]
+        </span><span class="kw">unsafe </span>{
             ffi::PyDict_Size(<span class="self">self</span>.as_ptr())
         }
 
-        <span class="attribute">#[cfg(all(Py_3_8, not(PyPy), not(Py_LIMITED_API)))]</span>
-        <span class="kw">unsafe </span>{
+        <span class="attribute">#[cfg(all(Py_3_8, not(PyPy), not(Py_LIMITED_API)))]
+        </span><span class="kw">unsafe </span>{
             (<span class="kw-2">*</span><span class="self">self</span>.as_ptr().cast::&lt;ffi::PyDictObject&gt;()).ma_used
         }
     }
@@ -1205,8 +1205,8 @@
     /// returns `Ok(None)` if item is not present, or `Err(PyErr)` if an error occurs.
     ///
     /// To get a `KeyError` for non-existing keys, use `PyAny::get_item_with_error`.
-    </span><span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>get_item_with_error&lt;K&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K) -&gt; PyResult&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;&gt;
+    </span><span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>get_item_with_error&lt;K&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: K) -&gt; PyResult&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PyAny&gt;&gt;
     <span class="kw">where
         </span>K: ToPyObject,
     {
@@ -1315,8 +1315,8 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;py</span>&gt; Iterator <span class="kw">for </span>PyDictIterator&lt;<span class="lifetime">&#39;py</span>&gt; {
     <span class="kw">type </span>Item = (<span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny, <span class="kw-2">&amp;</span><span class="lifetime">&#39;py </span>PyAny);
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">let </span>ma_used = <span class="self">self</span>.dict._len();
 
         <span class="comment">// These checks are similar to what CPython does.
@@ -1350,8 +1350,8 @@
         ret
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
         <span class="kw">let </span>len = <span class="self">self</span>.len <span class="kw">as </span>usize;
         (len, <span class="prelude-val">Some</span>(len))
     }
@@ -1533,18 +1533,18 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">use </span><span class="kw">crate</span>::exceptions;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">use crate</span>::{types::PyList, PyTypeInfo};
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">use </span><span class="kw">crate</span>::exceptions;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">use crate</span>::{types::PyList, PyTypeInfo};
     <span class="kw">use crate</span>::{types::PyTuple, IntoPy, PyObject, PyTryFrom, Python, ToPyObject};
     <span class="kw">use </span>std::collections::{BTreeMap, HashMap};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_new() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_new() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = [(<span class="number">7</span>, <span class="number">32</span>)].into_py_dict(py);
             <span class="macro">assert_eq!</span>(<span class="number">32</span>, dict.get_item(<span class="number">7i32</span>).unwrap().extract::&lt;i32&gt;().unwrap());
@@ -1556,9 +1556,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>test_from_sequence() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>test_from_sequence() {
         Python::with_gil(|py| {
             <span class="kw">let </span>items = PyList::new(py, <span class="kw-2">&amp;</span><span class="macro">vec!</span>[(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>), (<span class="string">&quot;b&quot;</span>, <span class="number">2</span>)]);
             <span class="kw">let </span>dict = PyDict::from_sequence(py, items.to_object(py)).unwrap();
@@ -1571,17 +1571,17 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>test_from_sequence_err() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>test_from_sequence_err() {
         Python::with_gil(|py| {
             <span class="kw">let </span>items = PyList::new(py, <span class="kw-2">&amp;</span><span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]);
             <span class="macro">assert!</span>(PyDict::from_sequence(py, items.to_object(py)).is_err());
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_copy() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_copy() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = [(<span class="number">7</span>, <span class="number">32</span>)].into_py_dict(py);
 
@@ -1591,8 +1591,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_len() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             <span class="kw">let </span>ob = v.to_object(py);
@@ -1605,8 +1605,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_contains() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_contains() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1617,8 +1617,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_get_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_get_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1629,9 +1629,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>test_get_item_with_error() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>test_get_item_with_error() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1653,8 +1653,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1673,8 +1673,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_item_refcnt() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_item_refcnt() {
         Python::with_gil(|py| {
             <span class="kw">let </span>cnt;
             {
@@ -1689,8 +1689,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_set_item_does_not_update_original_object() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_set_item_does_not_update_original_object() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1703,8 +1703,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_del_item() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_del_item() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1716,8 +1716,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_del_item_does_not_update_original_object() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_del_item_does_not_update_original_object() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1728,8 +1728,8 @@
         </span>});
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_items() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_items() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1750,8 +1750,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_keys() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_keys() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1768,8 +1768,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_values() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_values() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1786,8 +1786,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1806,8 +1806,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter_value_mutated() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter_value_mutated() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1824,9 +1824,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic]</span>
-    <span class="kw">fn </span>test_iter_key_mutated() {
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>test_iter_key_mutated() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
@@ -1849,9 +1849,9 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[should_panic]</span>
-    <span class="kw">fn </span>test_iter_key_mutated_constant_len() {
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>test_iter_key_mutated_constant_len() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
@@ -1874,8 +1874,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_iter_size_hint() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_iter_size_hint() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1900,8 +1900,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_into_iter() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_iter() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>v = HashMap::new();
             v.insert(<span class="number">7</span>, <span class="number">32</span>);
@@ -1920,8 +1920,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashmap_to_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashmap_to_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -1935,8 +1935,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_btreemap_to_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_btreemap_to_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -1950,8 +1950,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashmap_into_python() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashmap_into_python() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -1964,8 +1964,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_hashmap_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hashmap_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -1977,8 +1977,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_btreemap_into_py() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_btreemap_into_py() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -1991,8 +1991,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_btreemap_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_btreemap_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -2004,8 +2004,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_vec_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_vec_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span>vec = <span class="macro">vec!</span>[(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>), (<span class="string">&quot;b&quot;</span>, <span class="number">2</span>), (<span class="string">&quot;c&quot;</span>, <span class="number">3</span>)];
             <span class="kw">let </span>py_map = vec.into_py_dict(py);
@@ -2015,8 +2015,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_slice_into_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_slice_into_dict() {
         Python::with_gil(|py| {
             <span class="kw">let </span>arr = [(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>), (<span class="string">&quot;b&quot;</span>, <span class="number">2</span>), (<span class="string">&quot;c&quot;</span>, <span class="number">3</span>)];
             <span class="kw">let </span>py_map = arr.into_py_dict(py);
@@ -2026,8 +2026,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>dict_as_mapping() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>dict_as_mapping() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;i32, i32&gt;::new();
             map.insert(<span class="number">1</span>, <span class="number">1</span>);
@@ -2047,8 +2047,8 @@
         });
     }
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>abc_dict(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyDict {
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>abc_dict(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="kw-2">&amp;</span>PyDict {
         <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, i32&gt;::new();
         map.insert(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>);
         map.insert(<span class="string">&quot;b&quot;</span>, <span class="number">2</span>);
@@ -2056,9 +2056,9 @@
         map.into_py_dict(py)
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>dict_keys_view() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>dict_keys_view() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = abc_dict(py);
             <span class="kw">let </span>keys = dict.call_method0(<span class="string">&quot;keys&quot;</span>).unwrap();
@@ -2066,9 +2066,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>dict_values_view() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>dict_values_view() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = abc_dict(py);
             <span class="kw">let </span>values = dict.call_method0(<span class="string">&quot;values&quot;</span>).unwrap();
@@ -2076,9 +2076,9 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">fn </span>dict_items_view() {
+    <span class="attribute">#[test]
+    #[cfg(not(PyPy))]
+    </span><span class="kw">fn </span>dict_items_view() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict = abc_dict(py);
             <span class="kw">let </span>items = dict.call_method0(<span class="string">&quot;items&quot;</span>).unwrap();
@@ -2087,4 +2087,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

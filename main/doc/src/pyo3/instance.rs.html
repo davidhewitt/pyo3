@@ -1175,8 +1175,8 @@
 /// This trait must only be implemented for types which cannot be accessed without the GIL.
 </span><span class="kw">pub unsafe trait </span>PyNativeType: Sized {
     <span class="doccomment">/// Returns a GIL marker constrained to the lifetime of this type.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>py(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>py(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Python&lt;<span class="lifetime">&#39;_</span>&gt; {
         <span class="kw">unsafe </span>{ Python::assume_gil_acquired() }
     }
     <span class="doccomment">/// Cast `&amp;PyAny` to `&amp;Self` without no type checking.
@@ -1372,12 +1372,12 @@
 /// [`Rc`]: std::rc::Rc
 /// [`RefCell`]: std::cell::RefCell
 /// [gc]: https://pyo3.rs/main/class/protocols.html#garbage-collector-integration
-</span><span class="attribute">#[repr(transparent)]</span>
-<span class="kw">pub struct </span>Py&lt;T&gt;(NonNull&lt;ffi::PyObject&gt;, PhantomData&lt;T&gt;);
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>Py&lt;T&gt;(NonNull&lt;ffi::PyObject&gt;, PhantomData&lt;T&gt;);
 
 <span class="comment">// The inner value is only accessed through ways that require proving the gil is held
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]</span>
-<span class="kw">unsafe impl</span>&lt;T&gt; <span class="kw">crate</span>::marker::Ungil <span class="kw">for </span>Py&lt;T&gt; {}
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+</span><span class="kw">unsafe impl</span>&lt;T&gt; <span class="kw">crate</span>::marker::Ungil <span class="kw">for </span>Py&lt;T&gt; {}
 <span class="kw">unsafe impl</span>&lt;T&gt; Send <span class="kw">for </span>Py&lt;T&gt; {}
 <span class="kw">unsafe impl</span>&lt;T&gt; Sync <span class="kw">for </span>Py&lt;T&gt; {}
 
@@ -1625,14 +1625,14 @@
     /// the equality of two objects (the `==` operator), use [`eq`](PyAny::eq).
     ///
     /// This is equivalent to the Python expression `self is other`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is&lt;U: AsPyPointer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, o: <span class="kw-2">&amp;</span>U) -&gt; bool {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is&lt;U: AsPyPointer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, o: <span class="kw-2">&amp;</span>U) -&gt; bool {
         <span class="self">self</span>.as_ptr() == o.as_ptr()
     }
 
     <span class="doccomment">/// Gets the reference count of the `ffi::PyObject` pointer.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_refcnt(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; isize {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_refcnt(<span class="kw-2">&amp;</span><span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; isize {
         <span class="kw">unsafe </span>{ ffi::Py_REFCNT(<span class="self">self</span>.<span class="number">0</span>.as_ptr()) }
     }
 
@@ -1658,8 +1658,8 @@
     /// });
     /// # }
     /// ```
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>clone_ref(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Py&lt;T&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>clone_ref(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Py&lt;T&gt; {
         <span class="kw">unsafe </span>{ Py::from_borrowed_ptr(py, <span class="self">self</span>.<span class="number">0</span>.as_ptr()) }
     }
 
@@ -1797,11 +1797,11 @@
     ///
     /// This is equivalent to the Python expression `self()`.
     </span><span class="kw">pub fn </span>call0(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyResult&lt;PyObject&gt; {
-        <span class="macro">cfg_if::cfg_if!</span> {
+        <span class="macro">cfg_if::cfg_if! </span>{
             <span class="kw">if </span><span class="attribute">#[cfg(all(
                 not(PyPy),
                 any(Py_3_10, all(not(Py_LIMITED_API), Py_3_9)) <span class="comment">// PyObject_CallNoArgs was added to python in 3.9 but to limited API in 3.10
-            </span>))]</span> {
+            </span>))] </span>{
                 <span class="comment">// Optimized path on python 3.9+
                 </span><span class="kw">unsafe </span>{
                     PyObject::from_owned_ptr_or_err(py, ffi::PyObject_CallNoArgs(<span class="self">self</span>.as_ptr()))
@@ -1867,8 +1867,8 @@
     <span class="kw">where
         </span>N: IntoPy&lt;Py&lt;PyString&gt;&gt;,
     {
-        <span class="macro">cfg_if::cfg_if!</span> {
-            <span class="kw">if </span><span class="attribute">#[cfg(all(Py_3_9, not(any(Py_LIMITED_API, PyPy))))]</span> {
+        <span class="macro">cfg_if::cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(all(Py_3_9, not(any(Py_LIMITED_API, PyPy))))] </span>{
                 <span class="comment">// Optimized path on python 3.9+
                 </span><span class="kw">unsafe </span>{
                     <span class="kw">let </span>name: Py&lt;PyString&gt; = name.into_py(py);
@@ -1890,8 +1890,8 @@
     ///
     /// # Panics
     /// Panics if `ptr` is null.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; Py&lt;T&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; Py&lt;T&gt; {
         <span class="kw">match </span>NonNull::new(ptr) {
             <span class="prelude-val">Some</span>(nonnull_ptr) =&gt; Py(nonnull_ptr, PhantomData),
             <span class="prelude-val">None </span>=&gt; <span class="kw">crate</span>::err::panic_after_error(py),
@@ -1904,8 +1904,8 @@
     ///
     /// # Safety
     /// If non-null, `ptr` must be a pointer to a Python object of type T.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_err(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr_or_err(
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         ptr: <span class="kw-2">*mut </span>ffi::PyObject,
     ) -&gt; PyResult&lt;Py&lt;T&gt;&gt; {
@@ -1921,8 +1921,8 @@
     ///
     /// # Safety
     /// If non-null, `ptr` must be a pointer to a Python object of type T.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_owned_ptr_or_opt(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_owned_ptr_or_opt(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
         NonNull::new(ptr).map(|nonnull_ptr| Py(nonnull_ptr, PhantomData))
     }
 
@@ -1933,8 +1933,8 @@
     ///
     /// # Panics
     /// Panics if `ptr` is null.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; Py&lt;T&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr(py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>ffi::PyObject) -&gt; Py&lt;T&gt; {
         <span class="kw">match </span><span class="self">Self</span>::from_borrowed_ptr_or_opt(py, ptr) {
             <span class="prelude-val">Some</span>(slf) =&gt; slf,
             <span class="prelude-val">None </span>=&gt; <span class="kw">crate</span>::err::panic_after_error(py),
@@ -1947,8 +1947,8 @@
     ///
     /// # Safety
     /// `ptr` must be a pointer to a Python object of type T.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_err(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_err(
         py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         ptr: <span class="kw-2">*mut </span>ffi::PyObject,
     ) -&gt; PyResult&lt;<span class="self">Self</span>&gt; {
@@ -1961,8 +1961,8 @@
     ///
     /// # Safety
     /// `ptr` must be a pointer to a Python object of type T.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_opt(
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub unsafe fn </span>from_borrowed_ptr_or_opt(
         _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;,
         ptr: <span class="kw-2">*mut </span>ffi::PyObject,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
@@ -1976,14 +1976,14 @@
     ///
     /// # Safety
     /// `ptr` must point to a Python object of type T.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>from_non_null(ptr: NonNull&lt;ffi::PyObject&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>from_non_null(ptr: NonNull&lt;ffi::PyObject&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(ptr, PhantomData)
     }
 
     <span class="doccomment">/// Returns the inner pointer without decreasing the refcount.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_non_null(<span class="self">self</span>) -&gt; NonNull&lt;ffi::PyObject&gt; {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_non_null(<span class="self">self</span>) -&gt; NonNull&lt;ffi::PyObject&gt; {
         <span class="kw">let </span>pointer = <span class="self">self</span>.<span class="number">0</span>;
         mem::forget(<span class="self">self</span>);
         pointer
@@ -2000,25 +2000,25 @@
 <span class="kw">impl</span>&lt;T&gt; IntoPy&lt;PyObject&gt; <span class="kw">for </span>Py&lt;T&gt; {
     <span class="doccomment">/// Converts a `Py` instance to `PyObject`.
     /// Consumes `self` without calling `Py_DECREF()`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, _py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="kw">unsafe </span>{ PyObject::from_non_null(<span class="self">self</span>.into_non_null()) }
     }
 }
 
 <span class="kw">impl</span>&lt;T&gt; AsPyPointer <span class="kw">for </span>Py&lt;T&gt; {
     <span class="doccomment">/// Gets the underlying FFI pointer, returns a borrowed pointer.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
         <span class="self">self</span>.<span class="number">0</span>.as_ptr()
     }
 }
 
 <span class="kw">impl</span>&lt;T&gt; IntoPyPointer <span class="kw">for </span>Py&lt;T&gt; {
     <span class="doccomment">/// Gets the underlying FFI pointer, returns a owned pointer.
-    </span><span class="attribute">#[inline]</span>
-    <span class="attribute">#[must_use]</span>
-    <span class="kw">fn </span>into_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    </span><span class="attribute">#[inline]
+    #[must_use]
+    </span><span class="kw">fn </span>into_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
         <span class="self">self</span>.into_non_null().as_ptr()
     }
 }
@@ -2036,8 +2036,8 @@
 <span class="kw">where
     </span>T: AsRef&lt;PyAny&gt;,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>from(other: Py&lt;T&gt;) -&gt; <span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>from(other: Py&lt;T&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_non_null(other.into_non_null()) }
     }
 }
@@ -2154,14 +2154,14 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::{Py, PyObject};
     <span class="kw">use </span><span class="kw">crate</span>::types::{PyDict, PyString};
     <span class="kw">use crate</span>::{PyAny, PyResult, Python, ToPyObject};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_call0() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_call0() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj = py.get_type::&lt;PyDict&gt;().to_object(py);
             <span class="macro">assert_eq!</span>(
@@ -2176,8 +2176,8 @@
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_call_for_non_existing_method() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_call_for_non_existing_method() {
         Python::with_gil(|py| {
             <span class="kw">let </span>obj: PyObject = PyDict::new(py).into();
             <span class="macro">assert!</span>(obj.call_method0(py, <span class="string">&quot;asdf&quot;</span>).is_err());
@@ -2189,8 +2189,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>py_from_dict() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>py_from_dict() {
         <span class="kw">let </span>dict: Py&lt;PyDict&gt; = Python::with_gil(|py| {
             <span class="kw">let </span>native = PyDict::new(py);
             Py::from(native)
@@ -2199,8 +2199,8 @@
         <span class="macro">assert_eq!</span>(Python::with_gil(|py| dict.get_refcnt(py)), <span class="number">1</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>pyobject_from_py() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pyobject_from_py() {
         Python::with_gil(|py| {
             <span class="kw">let </span>dict: Py&lt;PyDict&gt; = PyDict::new(py).into();
             <span class="kw">let </span>cnt = dict.get_refcnt(py);
@@ -2209,8 +2209,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>attr() -&gt; PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>attr() -&gt; PyResult&lt;()&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::types::PyModule;
 
         Python::with_gil(|py| {
@@ -2236,8 +2236,8 @@ a = A()
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>pystring_attr() -&gt; PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pystring_attr() -&gt; PyResult&lt;()&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::types::PyModule;
 
         Python::with_gil(|py| {
@@ -2259,8 +2259,8 @@ a = A()
         })
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>invalid_attr() -&gt; PyResult&lt;()&gt; {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>invalid_attr() -&gt; PyResult&lt;()&gt; {
         Python::with_gil(|py| {
             <span class="kw">let </span>instance: Py&lt;PyAny&gt; = py.eval(<span class="string">&quot;object()&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>.into();
 
@@ -2272,16 +2272,16 @@ a = A()
         })
     }
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]</span>
-    <span class="kw">mod </span>using_macros {
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+    </span><span class="kw">mod </span>using_macros {
         <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-        <span class="attribute">#[<span class="kw">crate</span>::pyclass]</span>
-        <span class="attribute">#[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]</span>
-        <span class="kw">struct </span>SomeClass(i32);
+        <span class="attribute">#[<span class="kw">crate</span>::pyclass]
+        #[pyo3(<span class="kw">crate </span>= <span class="string">&quot;crate&quot;</span>)]
+        </span><span class="kw">struct </span>SomeClass(i32);
 
-        <span class="attribute">#[test]</span>
-        <span class="kw">fn </span>instance_borrow_methods() {
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>instance_borrow_methods() {
             <span class="comment">// More detailed tests of the underlying semantics in pycell.rs
             </span>Python::with_gil(|py| {
                 <span class="kw">let </span>instance = Py::new(py, SomeClass(<span class="number">0</span>)).unwrap();
@@ -2301,4 +2301,4 @@ a = A()
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

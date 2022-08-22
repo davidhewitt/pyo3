@@ -252,11 +252,11 @@
 <span id="252">252</span>
 <span id="253">253</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::object::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::pyarena::PyArena;
+<span class="attribute">#[cfg(not(any(PyPy, Py_LIMITED_API, Py_3_10)))]
+</span><span class="kw">use </span><span class="kw">crate</span>::pyarena::PyArena;
 <span class="kw">use </span><span class="kw">crate</span>::PyCompilerFlags;
-<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-<span class="kw">use crate</span>::{_mod, _node};
+<span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+</span><span class="kw">use crate</span>::{_mod, _node};
 <span class="kw">use </span>libc::FILE;
 <span class="kw">use </span>std::os::raw::{c_char, c_int};
 
@@ -307,24 +307,24 @@
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
     ) -&gt; c_int;
 
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyParser_ASTFromString(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyParser_ASTFromString(
         s: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*const </span>c_char,
         start: c_int,
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
         arena: <span class="kw-2">*mut </span>PyArena,
     ) -&gt; <span class="kw-2">*mut </span>_mod;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyParser_ASTFromStringObject(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyParser_ASTFromStringObject(
         s: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*mut </span>PyObject,
         start: c_int,
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
         arena: <span class="kw-2">*mut </span>PyArena,
     ) -&gt; <span class="kw-2">*mut </span>_mod;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyParser_ASTFromFile(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyParser_ASTFromFile(
         fp: <span class="kw-2">*mut </span>FILE,
         filename: <span class="kw-2">*const </span>c_char,
         enc: <span class="kw-2">*const </span>c_char,
@@ -335,8 +335,8 @@
         errcode: <span class="kw-2">*mut </span>c_int,
         arena: <span class="kw-2">*mut </span>PyArena,
     ) -&gt; <span class="kw-2">*mut </span>_mod;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="kw">pub fn </span>PyParser_ASTFromFileObject(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    </span><span class="kw">pub fn </span>PyParser_ASTFromFileObject(
         fp: <span class="kw-2">*mut </span>FILE,
         filename: <span class="kw-2">*mut </span>PyObject,
         enc: <span class="kw-2">*const </span>c_char,
@@ -350,16 +350,16 @@
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_StringFlags&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyRun_StringFlags(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_StringFlags&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyRun_StringFlags(
         arg1: <span class="kw-2">*const </span>c_char,
         arg2: c_int,
         arg3: <span class="kw-2">*mut </span>PyObject,
         arg4: <span class="kw-2">*mut </span>PyObject,
         arg5: <span class="kw-2">*mut </span>PyCompilerFlags,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_FileExFlags(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_FileExFlags(
         fp: <span class="kw-2">*mut </span>FILE,
         filename: <span class="kw-2">*const </span>c_char,
         start: c_int,
@@ -369,16 +369,16 @@
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>Py_CompileStringExFlags(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>Py_CompileStringExFlags(
         str: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*const </span>c_char,
         start: c_int,
         flags: <span class="kw-2">*mut </span>PyCompilerFlags,
         optimize: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-    <span class="kw">pub fn </span>Py_CompileStringObject(
+    <span class="attribute">#[cfg(not(Py_LIMITED_API))]
+    </span><span class="kw">pub fn </span>Py_CompileStringObject(
         str: <span class="kw-2">*const </span>c_char,
         filename: <span class="kw-2">*mut </span>PyObject,
         start: c_int,
@@ -387,18 +387,18 @@
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>Py_CompileString(string: <span class="kw-2">*const </span>c_char, p: <span class="kw-2">*const </span>c_char, s: c_int) -&gt; <span class="kw-2">*mut </span>PyObject {
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">return </span>Py_CompileStringExFlags(string, p, s, std::ptr::null_mut(), -<span class="number">1</span>);
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>Py_CompileString(string: <span class="kw-2">*const </span>c_char, p: <span class="kw-2">*const </span>c_char, s: c_int) -&gt; <span class="kw-2">*mut </span>PyObject {
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">return </span>Py_CompileStringExFlags(string, p, s, std::ptr::null_mut(), -<span class="number">1</span>);
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    Py_CompileStringFlags(string, p, s, std::ptr::null_mut())
+    <span class="attribute">#[cfg(PyPy)]
+    </span>Py_CompileStringFlags(string, p, s, std::ptr::null_mut())
 }
 
-<span class="attribute">#[inline]</span>
-<span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">pub unsafe fn </span>Py_CompileStringFlags(
+<span class="attribute">#[inline]
+#[cfg(not(PyPy))]
+</span><span class="kw">pub unsafe fn </span>Py_CompileStringFlags(
     string: <span class="kw-2">*const </span>c_char,
     p: <span class="kw-2">*const </span>c_char,
     s: c_int,
@@ -410,43 +410,43 @@
 <span class="comment">// skipped _Py_SourceAsString
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_String&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyRun_String(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_String&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyRun_String(
         string: <span class="kw-2">*const </span>c_char,
         s: c_int,
         g: <span class="kw-2">*mut </span>PyObject,
         l: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_AnyFile(fp: <span class="kw-2">*mut </span>FILE, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_AnyFileEx(fp: <span class="kw-2">*mut </span>FILE, name: <span class="kw-2">*const </span>c_char, closeit: c_int) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_AnyFileFlags(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_AnyFile(fp: <span class="kw-2">*mut </span>FILE, name: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_AnyFileEx(fp: <span class="kw-2">*mut </span>FILE, name: <span class="kw-2">*const </span>c_char, closeit: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_AnyFileFlags(
         arg1: <span class="kw-2">*mut </span>FILE,
         arg2: <span class="kw-2">*const </span>c_char,
         arg3: <span class="kw-2">*mut </span>PyCompilerFlags,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_SimpleString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyRun_SimpleString(s: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_SimpleFile(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_SimpleFileEx(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char, c: c_int) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_InteractiveOne(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_InteractiveLoop(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_File&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyRun_File(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_SimpleString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyRun_SimpleString(s: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_SimpleFile(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_SimpleFileEx(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char, c: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_InteractiveOne(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_InteractiveLoop(f: <span class="kw-2">*mut </span>FILE, p: <span class="kw-2">*const </span>c_char) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyRun_File&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyRun_File(
         fp: <span class="kw-2">*mut </span>FILE,
         p: <span class="kw-2">*const </span>c_char,
         s: c_int,
         g: <span class="kw-2">*mut </span>PyObject,
         l: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_FileEx(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_FileEx(
         fp: <span class="kw-2">*mut </span>FILE,
         p: <span class="kw-2">*const </span>c_char,
         s: c_int,
@@ -454,8 +454,8 @@
         l: <span class="kw-2">*mut </span>PyObject,
         c: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyRun_FileFlags(
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyRun_FileFlags(
         fp: <span class="kw-2">*mut </span>FILE,
         p: <span class="kw-2">*const </span>c_char,
         s: c_int,
@@ -471,33 +471,33 @@
 // skipped macro PyRun_AnyFileFlags
 
 </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PyParser_SimpleParseStringFlags(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    #[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    </span><span class="kw">pub fn </span>PyParser_SimpleParseStringFlags(
         arg1: <span class="kw-2">*const </span>c_char,
         arg2: c_int,
         arg3: c_int,
     ) -&gt; <span class="kw-2">*mut </span>_node;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PyParser_SimpleParseStringFlagsFilename(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    #[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    </span><span class="kw">pub fn </span>PyParser_SimpleParseStringFlagsFilename(
         arg1: <span class="kw-2">*const </span>c_char,
         arg2: <span class="kw-2">*const </span>c_char,
         arg3: c_int,
         arg4: c_int,
     ) -&gt; <span class="kw-2">*mut </span>_node;
-    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]</span>
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PyParser_SimpleParseFileFlags(
+    <span class="attribute">#[cfg(not(any(PyPy, Py_3_10)))]
+    #[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    </span><span class="kw">pub fn </span>PyParser_SimpleParseFileFlags(
         arg1: <span class="kw-2">*mut </span>FILE,
         arg2: <span class="kw-2">*const </span>c_char,
         arg3: c_int,
         arg4: c_int,
     ) -&gt; <span class="kw-2">*mut </span>_node;
 
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_CompileStringFlags&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_CompileStringFlags(
+    <span class="attribute">#[cfg(PyPy)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_CompileStringFlags&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_CompileStringFlags(
         string: <span class="kw-2">*const </span>c_char,
         p: <span class="kw-2">*const </span>c_char,
         s: c_int,
@@ -505,4 +505,4 @@
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

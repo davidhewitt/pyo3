@@ -76,8 +76,8 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
-</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]</span>
-<span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
+</pre><pre class="rust"><code><span class="attribute">#![allow(deprecated)]
+</span><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Python Mapping Interface
 //! Trait and support implementation for implementing mapping support
@@ -87,9 +87,9 @@
 <span class="kw">use crate</span>::{FromPyObject, PyClass, PyObject};
 
 <span class="doccomment">/// Mapping interface
-</span><span class="attribute">#[allow(unused_variables)]</span>
-<span class="attribute">#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]</span>
-<span class="kw">pub trait </span>PyMappingProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass&lt;Frozen = False&gt; {
+</span><span class="attribute">#[allow(unused_variables)]
+#[deprecated(since = <span class="string">&quot;0.16.0&quot;</span>, note = <span class="string">&quot;prefer `#[pymethods]` to `#[pyproto]`&quot;</span>)]
+</span><span class="kw">pub trait </span>PyMappingProtocol&lt;<span class="lifetime">&#39;p</span>&gt;: PyClass&lt;Frozen = False&gt; {
     <span class="kw">fn </span>__len__(<span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Result
     <span class="kw">where
         </span><span class="self">Self</span>: PyMappingLenProtocol&lt;<span class="lifetime">&#39;p</span>&gt;,
@@ -155,4 +155,4 @@
     __delitem__
 );
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

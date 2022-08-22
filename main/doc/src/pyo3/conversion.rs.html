@@ -778,8 +778,8 @@
 <span class="kw">where
     </span>T: AsPyPointer,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
         <span class="self">self</span>.as_ref()
             .map_or_else(std::ptr::null_mut, |t| t.as_ptr())
     }
@@ -790,8 +790,8 @@
 <span class="kw">where
     </span>T: IntoPyPointer,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_ptr(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>ffi::PyObject {
         <span class="self">self</span>.map_or_else(std::ptr::null_mut, |t| t.into_ptr())
     }
 }
@@ -816,8 +816,8 @@
 </span><span class="attribute">#[deprecated(
     since = <span class="string">&quot;0.17.0&quot;</span>,
     note = <span class="string">&quot;this trait is no longer used by PyO3, use ToPyObject or IntoPy&lt;PyObject&gt;&quot;
-</span>)]</span>
-<span class="kw">pub trait </span>ToBorrowedObject: ToPyObject {
+</span>)]
+</span><span class="kw">pub trait </span>ToBorrowedObject: ToPyObject {
     <span class="doccomment">/// Converts self into a Python object and calls the specified closure
     /// on the native FFI pointer underlying the Python object.
     ///
@@ -836,8 +836,8 @@
     }
 }
 
-<span class="attribute">#[allow(deprecated)]</span>
-<span class="kw">impl</span>&lt;T&gt; ToBorrowedObject <span class="kw">for </span>T <span class="kw">where </span>T: ToPyObject {}
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T&gt; ToBorrowedObject <span class="kw">for </span>T <span class="kw">where </span>T: ToPyObject {}
 
 <span class="doccomment">/// Defines a conversion from a Rust type to a Python object.
 ///
@@ -918,8 +918,8 @@
 /// # }
 /// ```
 /// Python code will see this as any of the `int`, `string` or `None` objects.
-</span><span class="attribute">#[cfg_attr(docsrs, doc(alias = <span class="string">&quot;IntoPyCallbackOutput&quot;</span>))]</span>
-<span class="kw">pub trait </span>IntoPy&lt;T&gt;: Sized {
+</span><span class="attribute">#[cfg_attr(docsrs, doc(alias = <span class="string">&quot;IntoPyCallbackOutput&quot;</span>))]
+</span><span class="kw">pub trait </span>IntoPy&lt;T&gt;: Sized {
     <span class="doccomment">/// Performs the conversion.
     </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; T;
 }
@@ -972,8 +972,8 @@
 <span class="doccomment">/// Identity conversion: allows using existing `PyObject` instances where
 /// `T: ToPyObject` is expected.
 </span><span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized + ToPyObject&gt; ToPyObject <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>T {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>to_object(<span class="kw-2">&amp;</span><span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         &lt;T <span class="kw">as </span>ToPyObject&gt;::to_object(<span class="kw-2">*</span><span class="self">self</span>, py)
     }
 }
@@ -1016,8 +1016,8 @@
 <span class="kw">where
     </span>T: AsPyPointer,
 {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_py(<span class="self">self</span>, py: Python&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; PyObject {
         <span class="kw">unsafe </span>{ PyObject::from_borrowed_ptr(py, <span class="self">self</span>.as_ptr()) }
     }
 }
@@ -1143,8 +1143,8 @@
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span><span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span><span class="self">Self </span>{
         <span class="self">Self</span>::unchecked_downcast(value.into())
     }
 }
@@ -1173,8 +1173,8 @@
             }
         }
     }
-    <span class="attribute">#[inline]</span>
-    <span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span><span class="self">Self </span>{
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>try_from_unchecked&lt;V: Into&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>PyAny&gt;&gt;(value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span><span class="self">Self </span>{
         <span class="self">Self</span>::unchecked_downcast(value.into())
     }
 }
@@ -1293,15 +1293,15 @@
 /// ```
 </span><span class="kw">mod </span>test_no_clone {}
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::types::{IntoPyDict, PyAny, PyDict, PyList};
     <span class="kw">use crate</span>::{AsPyPointer, PyObject, Python, ToPyObject};
 
     <span class="kw">use </span><span class="kw">super</span>::PyTryFrom;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_try_from() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_try_from() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list: <span class="kw-2">&amp;</span>PyAny = <span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">7</span>].to_object(py).into_ref(py);
             <span class="kw">let </span>dict: <span class="kw-2">&amp;</span>PyAny = <span class="macro">vec!</span>[(<span class="string">&quot;reverse&quot;</span>, <span class="bool-val">true</span>)].into_py_dict(py).as_ref();
@@ -1314,8 +1314,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_try_from_exact() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_try_from_exact() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list: <span class="kw-2">&amp;</span>PyAny = <span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">7</span>].to_object(py).into_ref(py);
             <span class="kw">let </span>dict: <span class="kw-2">&amp;</span>PyAny = <span class="macro">vec!</span>[(<span class="string">&quot;reverse&quot;</span>, <span class="bool-val">true</span>)].into_py_dict(py).as_ref();
@@ -1328,8 +1328,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_try_from_unchecked() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_try_from_unchecked() {
         Python::with_gil(|py| {
             <span class="kw">let </span>list = PyList::new(py, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
             <span class="kw">let </span>val = <span class="kw">unsafe </span>{ &lt;PyList <span class="kw">as </span>PyTryFrom&gt;::try_from_unchecked(list.as_ref()) };
@@ -1337,8 +1337,8 @@
         });
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_option_as_ptr() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_option_as_ptr() {
         Python::with_gil(|py| {
             <span class="kw">let </span><span class="kw-2">mut </span>option: <span class="prelude-ty">Option</span>&lt;PyObject&gt; = <span class="prelude-val">None</span>;
             <span class="macro">assert_eq!</span>(option.as_ptr(), std::ptr::null_mut());
@@ -1355,4 +1355,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

@@ -49,18 +49,18 @@
         arg7: <span class="kw-2">*const </span>c_char,
         arg8: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_GetLine&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyFile_GetLine(arg1: <span class="kw-2">*mut </span>PyObject, arg2: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_WriteObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyFile_WriteObject(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: c_int) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_WriteString&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyFile_WriteString(arg1: <span class="kw-2">*const </span>c_char, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_AsFileDescriptor&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyObject_AsFileDescriptor(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_GetLine&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyFile_GetLine(arg1: <span class="kw-2">*mut </span>PyObject, arg2: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_WriteObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyFile_WriteObject(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject, arg3: c_int) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_WriteString&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyFile_WriteString(arg1: <span class="kw-2">*const </span>c_char, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyFile_AsFileDescriptor&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyObject_AsFileDescriptor(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
 }
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_FileSystemDefaultEncoding: <span class="kw-2">*const </span>c_char;
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_FileSystemDefaultEncodeErrors: <span class="kw-2">*const </span>c_char;
     <span class="kw">pub static </span><span class="kw-2">mut </span>Py_HasFileSystemDefaultEncoding: c_int;
@@ -69,4 +69,4 @@
 
 <span class="comment">// skipped _PyIsSelectable_fd
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

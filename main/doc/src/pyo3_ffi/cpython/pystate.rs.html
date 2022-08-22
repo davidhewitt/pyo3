@@ -103,8 +103,8 @@
 <span id="103">103</span>
 <span id="104">104</span>
 <span id="105">105</span>
-</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="kw">use </span><span class="kw">crate</span>::PyThreadState;
+</pre><pre class="rust"><code><span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">use </span><span class="kw">crate</span>::PyThreadState;
 <span class="kw">use crate</span>::{PyFrameObject, PyInterpreterState, PyObject};
 <span class="kw">use </span>std::os::raw::c_int;
 
@@ -132,15 +132,15 @@
 <span class="comment">// skipped PyTraceInfo
 // skipped CFrame
 
-</span><span class="attribute">#[cfg(not(PyPy))]</span>
-<span class="attribute">#[repr(C)]</span>
-<span class="attribute">#[derive(Clone, Copy)]</span>
-<span class="kw">pub struct </span>_PyErr_StackItem {
-    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-    <span class="kw">pub </span>exc_type: <span class="kw-2">*mut </span>PyObject,
+</span><span class="attribute">#[cfg(not(PyPy))]
+#[repr(C)]
+#[derive(Clone, Copy)]
+</span><span class="kw">pub struct </span>_PyErr_StackItem {
+    <span class="attribute">#[cfg(not(Py_3_11))]
+    </span><span class="kw">pub </span>exc_type: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>exc_value: <span class="kw-2">*mut </span>PyObject,
-    <span class="attribute">#[cfg(not(Py_3_11))]</span>
-    <span class="kw">pub </span>exc_traceback: <span class="kw-2">*mut </span>PyObject,
+    <span class="attribute">#[cfg(not(Py_3_11))]
+    </span><span class="kw">pub </span>exc_traceback: <span class="kw-2">*mut </span>PyObject,
     <span class="kw">pub </span>previous_item: <span class="kw-2">*mut </span>_PyErr_StackItem,
 }
 
@@ -152,37 +152,37 @@
     // skipped _PyThreadState_UncheckedGet
     // skipped _PyThreadState_GetDict
 
-    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Check&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyGILState_Check() -&gt; c_int;
+    </span><span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyGILState_Check&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyGILState_Check() -&gt; c_int;
 
     <span class="comment">// skipped _PyGILState_GetInterpreterStateUnsafe
     // skipped _PyThread_CurrentFrames
     // skipped _PyThread_CurrentExceptions
 
-    </span><span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Main() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Head&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Head() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Next&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_Next(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyInterpreterState_ThreadHead(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
-    <span class="attribute">#[cfg(not(PyPy))]</span>
-    <span class="kw">pub fn </span>PyThreadState_Next(tstate: <span class="kw-2">*mut </span>PyThreadState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    </span><span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Main() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Head&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Head() -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyInterpreterState_Next&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyInterpreterState_Next(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyInterpreterState;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyInterpreterState_ThreadHead(interp: <span class="kw-2">*mut </span>PyInterpreterState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg(not(PyPy))]
+    </span><span class="kw">pub fn </span>PyThreadState_Next(tstate: <span class="kw-2">*mut </span>PyThreadState) -&gt; <span class="kw-2">*mut </span>PyThreadState;
 
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_DeleteCurrent&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyThreadState_DeleteCurrent();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyThreadState_DeleteCurrent&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyThreadState_DeleteCurrent();
 }
 
-<span class="attribute">#[cfg(Py_3_9)]</span>
-<span class="kw">pub type </span>_PyFrameEvalFunction = <span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
+<span class="attribute">#[cfg(Py_3_9)]
+</span><span class="kw">pub type </span>_PyFrameEvalFunction = <span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
     <span class="kw-2">*mut </span><span class="kw">crate</span>::PyThreadState,
     <span class="kw-2">*mut </span><span class="kw">crate</span>::PyFrameObject,
     c_int,
 ) -&gt; <span class="kw-2">*mut </span><span class="kw">crate</span>::object::PyObject;
 
-<span class="attribute">#[cfg(Py_3_9)]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg(Py_3_9)]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="doccomment">/// Get the frame evaluation function.
     </span><span class="kw">pub fn </span>_PyInterpreterState_GetEvalFrameFunc(
         interp: <span class="kw-2">*mut </span>PyInterpreterState,
@@ -209,4 +209,4 @@
 // skipped _PyCrossInterpreterData_RegisterClass
 // skipped _PyCrossInterpreterData_Lookup
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

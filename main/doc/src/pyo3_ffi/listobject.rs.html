@@ -68,67 +68,67 @@
 <span class="kw">use </span><span class="kw">crate</span>::pyport::Py_ssize_t;
 <span class="kw">use </span>std::os::raw::c_int;
 
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Type&quot;</span>)]</span>
-    <span class="kw">pub static </span><span class="kw-2">mut </span>PyList_Type: PyTypeObject;
+<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Type&quot;</span>)]
+    </span><span class="kw">pub static </span><span class="kw-2">mut </span>PyList_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyListIter_Type: PyTypeObject;
     <span class="kw">pub static </span><span class="kw-2">mut </span>PyListRevIter_Type: PyTypeObject;
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyList_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyList_Check(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_LIST_SUBCLASS)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyList_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyList_CheckExact(op: <span class="kw-2">*mut </span>PyObject) -&gt; c_int {
     (Py_TYPE(op) == <span class="macro">addr_of_mut_shim!</span>(PyList_Type)) <span class="kw">as </span>c_int
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_New&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_New(size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Size&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_Size(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_GetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SetItem&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_SetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Insert&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_Insert(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Append&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_Append(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GetSlice&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_GetSlice(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_New&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_New(size: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Size&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_Size(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_GetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SetItem&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_SetItem(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Insert&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_Insert(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Append&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_Append(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GetSlice&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_GetSlice(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: Py_ssize_t,
         arg3: Py_ssize_t,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SetSlice&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_SetSlice(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SetSlice&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_SetSlice(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: Py_ssize_t,
         arg3: Py_ssize_t,
         arg4: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Sort&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_Sort(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Reverse&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_Reverse(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_AsTuple&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_AsTuple(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Sort&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_Sort(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_Reverse&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_Reverse(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_AsTuple&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_AsTuple(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
 
     <span class="comment">// CPython macros exported as functions on PyPy
-    </span><span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GET_ITEM&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_GET_ITEM(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GET_SIZE&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_GET_SIZE(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
-    <span class="attribute">#[cfg(PyPy)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SET_ITEM&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyList_SET_ITEM(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject);
+    </span><span class="attribute">#[cfg(PyPy)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GET_ITEM&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_GET_ITEM(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(PyPy)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_GET_SIZE&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_GET_SIZE(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; Py_ssize_t;
+    <span class="attribute">#[cfg(PyPy)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyList_SET_ITEM&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyList_SET_ITEM(arg1: <span class="kw-2">*mut </span>PyObject, arg2: Py_ssize_t, arg3: <span class="kw-2">*mut </span>PyObject);
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

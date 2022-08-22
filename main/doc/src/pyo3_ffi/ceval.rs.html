@@ -125,8 +125,8 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_void};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_EvalCode&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_EvalCode(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_EvalCode&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_EvalCode(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: <span class="kw-2">*mut </span>PyObject,
@@ -146,62 +146,62 @@
         closure: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallObjectWithKeywords&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_CallObjectWithKeywords(
+    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallObjectWithKeywords&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_CallObjectWithKeywords(
         func: <span class="kw-2">*mut </span>PyObject,
         obj: <span class="kw-2">*mut </span>PyObject,
         kwargs: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyEval_CallObject(func: <span class="kw-2">*mut </span>PyObject, arg: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
-    <span class="attribute">#[allow(deprecated)]</span>
-    PyEval_CallObjectWithKeywords(func, arg, std::ptr::null_mut())
+<span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyEval_CallObject(func: <span class="kw-2">*mut </span>PyObject, arg: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+    <span class="attribute">#[allow(deprecated)]
+    </span>PyEval_CallObjectWithKeywords(func, arg, std::ptr::null_mut())
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallFunction&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_CallFunction(obj: <span class="kw-2">*mut </span>PyObject, format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallMethod&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_CallMethod(
+    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallFunction&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_CallFunction(obj: <span class="kw-2">*mut </span>PyObject, format: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(Py_3_9, deprecated(note = <span class="string">&quot;Python 3.9&quot;</span>))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_CallMethod&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_CallMethod(
         obj: <span class="kw-2">*mut </span>PyObject,
         methodname: <span class="kw-2">*const </span>c_char,
         format: <span class="kw-2">*const </span>c_char,
         ...
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetBuiltins&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_GetBuiltins() -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetGlobals&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_GetGlobals() -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetLocals&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_GetLocals() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetBuiltins&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_GetBuiltins() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetGlobals&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_GetGlobals() -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_GetLocals&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_GetLocals() -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyEval_GetFrame() -&gt; <span class="kw-2">*mut </span><span class="kw">crate</span>::PyFrameObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_AddPendingCall&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_AddPendingCall(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_AddPendingCall&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_AddPendingCall(
         func: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(arg1: <span class="kw-2">*mut </span>c_void) -&gt; c_int&gt;,
         arg: <span class="kw-2">*mut </span>c_void,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_MakePendingCalls&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_MakePendingCalls() -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_SetRecursionLimit&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_SetRecursionLimit(arg1: c_int);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetRecursionLimit&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_GetRecursionLimit() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_MakePendingCalls&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_MakePendingCalls() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_SetRecursionLimit&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_SetRecursionLimit(arg1: c_int);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_GetRecursionLimit&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_GetRecursionLimit() -&gt; c_int;
     <span class="kw">fn </span>_Py_CheckRecursiveCall(_where: <span class="kw-2">*mut </span>c_char) -&gt; c_int;
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(Py_3_9)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_EnterRecursiveCall&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_EnterRecursiveCall(arg1: <span class="kw-2">*const </span>c_char);
-    <span class="attribute">#[cfg(Py_3_9)]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_LeaveRecursiveCall&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_LeaveRecursiveCall();
+    <span class="attribute">#[cfg(Py_3_9)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_EnterRecursiveCall&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_EnterRecursiveCall(arg1: <span class="kw-2">*const </span>c_char);
+    <span class="attribute">#[cfg(Py_3_9)]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_LeaveRecursiveCall&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_LeaveRecursiveCall();
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
@@ -210,25 +210,25 @@
     <span class="kw">pub fn </span>PyEval_GetCallStats(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyEval_EvalFrame(arg1: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyFrameObject) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="kw">pub fn </span>PyEval_EvalFrameEx(f: <span class="kw-2">*mut </span><span class="kw">crate</span>::PyFrameObject, exc: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_SaveThread&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_SaveThread() -&gt; <span class="kw-2">*mut </span>PyThreadState;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_RestoreThread&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_RestoreThread(arg1: <span class="kw-2">*mut </span>PyThreadState);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_SaveThread&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_SaveThread() -&gt; <span class="kw-2">*mut </span>PyThreadState;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_RestoreThread&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_RestoreThread(arg1: <span class="kw-2">*mut </span>PyThreadState);
 }
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_ThreadsInitialized&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_ThreadsInitialized() -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_InitThreads&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_InitThreads();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_ThreadsInitialized&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_ThreadsInitialized() -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_InitThreads&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_InitThreads();
     <span class="kw">pub fn </span>PyEval_AcquireLock();
     <span class="kw">pub fn </span>PyEval_ReleaseLock();
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_AcquireThread&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_AcquireThread(tstate: <span class="kw-2">*mut </span>PyThreadState);
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_ReleaseThread&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyEval_ReleaseThread(tstate: <span class="kw-2">*mut </span>PyThreadState);
-    <span class="attribute">#[cfg(not(Py_3_8))]</span>
-    <span class="kw">pub fn </span>PyEval_ReInitThreads();
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_AcquireThread&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_AcquireThread(tstate: <span class="kw-2">*mut </span>PyThreadState);
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyEval_ReleaseThread&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyEval_ReleaseThread(tstate: <span class="kw-2">*mut </span>PyThreadState);
+    <span class="attribute">#[cfg(not(Py_3_8))]
+    </span><span class="kw">pub fn </span>PyEval_ReInitThreads();
 }
 
 <span class="comment">// skipped Py_BEGIN_ALLOW_THREADS
@@ -243,4 +243,4 @@
 // skipped FVS_MASK
 // skipped FVS_HAVE_SPEC
 </span></code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

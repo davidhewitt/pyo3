@@ -45,15 +45,15 @@
 
 </span><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 
-<span class="attribute">#[pyclass]</span>
-<span class="kw">pub struct </span>ModClass {
+<span class="attribute">#[pyclass]
+</span><span class="kw">pub struct </span>ModClass {
     _somefield: String,
 }
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>ModClass {
-    <span class="attribute">#[new]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>ModClass {
+    <span class="attribute">#[new]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         ModClass {
             _somefield: String::from(<span class="string">&quot;contents&quot;</span>),
         }
@@ -64,13 +64,13 @@
     }
 }
 
-<span class="attribute">#[pyfunction]</span>
-<span class="kw">fn </span>double(x: i32) -&gt; i32 {
+<span class="attribute">#[pyfunction]
+</span><span class="kw">fn </span>double(x: i32) -&gt; i32 {
     x * <span class="number">2
 </span>}
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>othermod(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>othermod(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(<span class="macro">wrap_pyfunction!</span>(double, m)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
     m.add_class::&lt;ModClass&gt;()<span class="question-mark">?</span>;
@@ -81,4 +81,4 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

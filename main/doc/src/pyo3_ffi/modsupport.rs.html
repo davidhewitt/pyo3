@@ -171,12 +171,12 @@
 <span class="kw">use </span>std::os::raw::{c_char, c_int, c_long};
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_Parse&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyArg_Parse(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char, ...) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_ParseTuple&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyArg_ParseTuple(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char, ...) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_ParseTupleAndKeywords&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyArg_ParseTupleAndKeywords(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_Parse&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyArg_Parse(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char, ...) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_ParseTuple&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyArg_ParseTuple(arg1: <span class="kw-2">*mut </span>PyObject, arg2: <span class="kw-2">*const </span>c_char, ...) -&gt; c_int;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_ParseTupleAndKeywords&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyArg_ParseTupleAndKeywords(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*mut </span>PyObject,
         arg3: <span class="kw-2">*const </span>c_char,
@@ -184,16 +184,16 @@
         ...
     ) -&gt; c_int;
     <span class="kw">pub fn </span>PyArg_ValidateKeywordArguments(arg1: <span class="kw-2">*mut </span>PyObject) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_UnpackTuple&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyArg_UnpackTuple(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyArg_UnpackTuple&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyArg_UnpackTuple(
         arg1: <span class="kw-2">*mut </span>PyObject,
         arg2: <span class="kw-2">*const </span>c_char,
         arg3: Py_ssize_t,
         arg4: Py_ssize_t,
         ...
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_BuildValue&quot;</span>)]</span>
-    <span class="kw">pub fn </span>Py_BuildValue(arg1: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPy_BuildValue&quot;</span>)]
+    </span><span class="kw">pub fn </span>Py_BuildValue(arg1: <span class="kw-2">*const </span>c_char, ...) -&gt; <span class="kw-2">*mut </span>PyObject;
     <span class="comment">// #[cfg_attr(PyPy, link_name = &quot;_PyPy_BuildValue_SizeT&quot;)]
     //pub fn _Py_BuildValue_SizeT(arg1: *const c_char, ...)
     // -&gt; *mut PyObject;
@@ -219,33 +219,33 @@
     // skipped non-limited _PyArg_UnpackKeywords
     // skipped non-limited _PyArg_Fini
 
-    </span><span class="attribute">#[cfg(Py_3_10)]</span>
-    <span class="kw">pub fn </span>PyModule_AddObjectRef(
+    </span><span class="attribute">#[cfg(Py_3_10)]
+    </span><span class="kw">pub fn </span>PyModule_AddObjectRef(
         module: <span class="kw-2">*mut </span>PyObject,
         name: <span class="kw-2">*const </span>c_char,
         value: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddObject&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_AddObject(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddObject&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_AddObject(
         module: <span class="kw-2">*mut </span>PyObject,
         name: <span class="kw-2">*const </span>c_char,
         value: <span class="kw-2">*mut </span>PyObject,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddIntConstant&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_AddIntConstant(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddIntConstant&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_AddIntConstant(
         module: <span class="kw-2">*mut </span>PyObject,
         name: <span class="kw-2">*const </span>c_char,
         value: c_long,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddStringConstant&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_AddStringConstant(
+    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddStringConstant&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_AddStringConstant(
         module: <span class="kw-2">*mut </span>PyObject,
         name: <span class="kw-2">*const </span>c_char,
         value: <span class="kw-2">*const </span>c_char,
     ) -&gt; c_int;
-    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddType&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_AddType(
+    <span class="attribute">#[cfg(any(Py_3_10, all(Py_3_9, not(Py_LIMITED_API))))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_AddType&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_AddType(
         module: <span class="kw-2">*mut </span>PyObject,
         type_: <span class="kw-2">*mut </span><span class="kw">crate</span>::object::PyTypeObject,
     ) -&gt; c_int;
@@ -262,37 +262,37 @@
 <span class="kw">pub const </span>PYTHON_ABI_VERSION: i32 = <span class="number">3</span>;
 
 <span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
-    <span class="attribute">#[cfg(not(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>))]</span>
-    <span class="attribute">#[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_Create2&quot;</span>)]</span>
-    <span class="kw">pub fn </span>PyModule_Create2(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(not(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>))]
+    #[cfg_attr(PyPy, link_name = <span class="string">&quot;PyPyModule_Create2&quot;</span>)]
+    </span><span class="kw">pub fn </span>PyModule_Create2(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    <span class="kw">fn </span>PyModule_Create2TraceRefs(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span><span class="kw">fn </span>PyModule_Create2TraceRefs(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(not(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>))]</span>
-    <span class="kw">pub fn </span>PyModule_FromDefAndSpec2(
+    <span class="attribute">#[cfg(not(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>))]
+    </span><span class="kw">pub fn </span>PyModule_FromDefAndSpec2(
         def: <span class="kw-2">*mut </span>PyModuleDef,
         spec: <span class="kw-2">*mut </span>PyObject,
         module_api_version: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 
-    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-    <span class="kw">fn </span>PyModule_FromDefAndSpec2TraceRefs(
+    <span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+    </span><span class="kw">fn </span>PyModule_FromDefAndSpec2TraceRefs(
         def: <span class="kw-2">*mut </span>PyModuleDef,
         spec: <span class="kw-2">*mut </span>PyObject,
         module_api_version: c_int,
     ) -&gt; <span class="kw-2">*mut </span>PyObject;
 }
 
-<span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_Create2(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_Create2(module: <span class="kw-2">*mut </span>PyModuleDef, apiver: c_int) -&gt; <span class="kw-2">*mut </span>PyObject {
     PyModule_Create2TraceRefs(module, apiver)
 }
 
-<span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_FromDefAndSpec2(
+<span class="attribute">#[cfg(py_sys_config = <span class="string">&quot;Py_TRACE_REFS&quot;</span>)]
+#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_FromDefAndSpec2(
     def: <span class="kw-2">*mut </span>PyModuleDef,
     spec: <span class="kw-2">*mut </span>PyObject,
     module_api_version: c_int,
@@ -300,8 +300,8 @@
     PyModule_FromDefAndSpec2TraceRefs(def, spec, module_api_version)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_Create(module: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_Create(module: <span class="kw-2">*mut </span>PyModuleDef) -&gt; <span class="kw-2">*mut </span>PyObject {
     PyModule_Create2(
         module,
         <span class="kw">if </span><span class="macro">cfg!</span>(Py_LIMITED_API) {
@@ -312,8 +312,8 @@
     )
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">pub unsafe fn </span>PyModule_FromDefAndSpec(def: <span class="kw-2">*mut </span>PyModuleDef, spec: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
+<span class="attribute">#[inline]
+</span><span class="kw">pub unsafe fn </span>PyModule_FromDefAndSpec(def: <span class="kw-2">*mut </span>PyModuleDef, spec: <span class="kw-2">*mut </span>PyObject) -&gt; <span class="kw-2">*mut </span>PyObject {
     PyModule_FromDefAndSpec2(
         def,
         spec,
@@ -325,10 +325,10 @@
     )
 }
 
-<span class="attribute">#[cfg(not(Py_LIMITED_API))]</span>
-<span class="attribute">#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]</span>
-<span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+<span class="attribute">#[cfg(not(Py_LIMITED_API))]
+#[cfg_attr(windows, link(name = <span class="string">&quot;pythonXY&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
     <span class="kw">pub static </span><span class="kw-2">mut </span>_Py_PackageContext: <span class="kw-2">*const </span>c_char;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

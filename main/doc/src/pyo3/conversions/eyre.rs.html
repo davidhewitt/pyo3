@@ -151,9 +151,9 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
-</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;eyre&quot;</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![cfg(feature = <span class="string">&quot;eyre&quot;</span>)]
 
-<span class="doccomment">//! A conversion from
+</span><span class="doccomment">//! A conversion from
 //! [eyre](https://docs.rs/eyre/ &quot;A library for easy idiomatic error handling and reporting in Rust applications.&quot;)’s
 //! [`Report`] type to [`PyErr`].
 //!
@@ -177,9 +177,9 @@
 //! ## change * to the version you want to use, ideally the latest.
 //! eyre = &quot;*&quot;
 </span><span class="comment">// workaround for `extended_key_value_attributes`: https://github.com/rust-lang/rust/issues/82768#issuecomment-803935643
-</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;eyre\&quot;] }&quot;</span>)))]</span>
-<span class="attribute">#![cfg_attr(not(docsrs), doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;eyre\&quot;] }&quot;</span>)]</span>
-<span class="doccomment">//! ```
+</span><span class="attribute">#![cfg_attr(docsrs, cfg_attr(docsrs, doc = <span class="macro">concat!</span>(<span class="string">&quot;pyo3 = { version = \&quot;&quot;</span>, <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>),  <span class="string">&quot;\&quot;, features = [\&quot;eyre\&quot;] }&quot;</span>)))]
+#![cfg_attr(not(docsrs), doc = <span class="string">&quot;pyo3 = { version = \&quot;*\&quot;, features = [\&quot;eyre\&quot;] }&quot;</span>)]
+</span><span class="doccomment">//! ```
 //!
 //! Note that you must use compatible versions of eyre and PyO3.
 //! The required eyre version may vary based on the version of PyO3.
@@ -271,8 +271,8 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::types::IntoPyDict;
 
@@ -291,8 +291,8 @@
         g().wrap_err(<span class="string">&quot;g failed&quot;</span>)
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_pyo3_exception_contents() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_pyo3_exception_contents() {
         <span class="kw">let </span>err = h().unwrap_err();
         <span class="kw">let </span>expected_contents = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err);
         <span class="kw">let </span>pyerr = PyErr::from(err);
@@ -305,4 +305,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>

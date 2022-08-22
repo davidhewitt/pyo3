@@ -44,27 +44,27 @@
 </pre><pre class="rust"><code><span class="kw">use </span>pyo3::iter::IterNextOutput;
 <span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 
-<span class="attribute">#[pyclass]</span>
-<span class="kw">struct </span>EmptyClass {}
+<span class="attribute">#[pyclass]
+</span><span class="kw">struct </span>EmptyClass {}
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>EmptyClass {
-    <span class="attribute">#[new]</span>
-    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>EmptyClass {
+    <span class="attribute">#[new]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         EmptyClass {}
     }
 }
 
 <span class="doccomment">/// This is for demonstrating how to return a value from __next__
-</span><span class="attribute">#[pyclass]</span>
-<span class="kw">struct </span>PyClassIter {
+</span><span class="attribute">#[pyclass]
+</span><span class="kw">struct </span>PyClassIter {
     count: usize,
 }
 
-<span class="attribute">#[pymethods]</span>
-<span class="kw">impl </span>PyClassIter {
-    <span class="attribute">#[new]</span>
-    <span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+<span class="attribute">#[pymethods]
+</span><span class="kw">impl </span>PyClassIter {
+    <span class="attribute">#[new]
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         PyClassIter { count: <span class="number">0 </span>}
     }
 
@@ -78,11 +78,11 @@
     }
 }
 
-<span class="attribute">#[pymodule]</span>
-<span class="kw">pub fn </span>pyclasses(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
+<span class="attribute">#[pymodule]
+</span><span class="kw">pub fn </span>pyclasses(_py: Python&lt;<span class="lifetime">&#39;_</span>&gt;, m: <span class="kw-2">&amp;</span>PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_class::&lt;EmptyClass&gt;()<span class="question-mark">?</span>;
     m.add_class::&lt;PyClassIter&gt;()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (878aef79d 2022-08-20)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_pytests" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>
