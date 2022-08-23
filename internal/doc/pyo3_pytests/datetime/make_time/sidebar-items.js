@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":[["DEF",""]],"fn":[["wrap",""]],"struct":[["PyO3Def",""]]};

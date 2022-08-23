@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["PyFrozenSet","Represents a  Python `frozenset`"],["PySet","Represents a Python `set`"],["PySetIterator",""]]};

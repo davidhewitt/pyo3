@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["abstract_",""],["bytesobject",""],["ceval",""],["code",""],["compile",""],["dictobject",""],["frameobject",""],["import",""],["initconfig",""],["listobject",""],["object",""],["pydebug",""],["pylifecycle",""],["pymem",""],["pystate",""],["pythonrun",""],["tupleobject",""],["unicodeobject",""]]};
