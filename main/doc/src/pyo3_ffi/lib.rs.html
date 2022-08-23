@@ -430,12 +430,6 @@
 <span id="430">430</span>
 <span id="431">431</span>
 <span id="432">432</span>
-<span id="433">433</span>
-<span id="434">434</span>
-<span id="435">435</span>
-<span id="436">436</span>
-<span id="437">437</span>
-<span id="438">438</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Raw FFI declarations for Python&#39;s C API.
 //!
 //! PyO3 can be used to write native Python modules or run Python code and modules from Rust.
@@ -526,64 +520,40 @@
 //!
 //! use pyo3_ffi::*;
 //!
+//! static mut MODULE_DEF: PyModuleDef = PyModuleDef {
+//!     m_base: PyModuleDef_HEAD_INIT,
+//!     m_name: &quot;string_sum\0&quot;.as_ptr().cast::&lt;c_char&gt;(),
+//!     m_doc: &quot;A Python module written in Rust.\0&quot;
+//!         .as_ptr()
+//!         .cast::&lt;c_char&gt;(),
+//!     m_size: 0,
+//!     m_methods: unsafe { METHODS.as_mut_ptr().cast() },
+//!     m_slots: std::ptr::null_mut(),
+//!     m_traverse: None,
+//!     m_clear: None,
+//!     m_free: None,
+//! };
+//!
+//! static mut METHODS: [PyMethodDef; 2] = [
+//!     PyMethodDef {
+//!         ml_name: &quot;sum_as_string\0&quot;.as_ptr().cast::&lt;c_char&gt;(),
+//!         ml_meth: PyMethodDefPointer {
+//!             _PyCFunctionFast: sum_as_string,
+//!         },
+//!         ml_flags: METH_FASTCALL,
+//!         ml_doc: &quot;returns the sum of two integers as a string\0&quot;
+//!             .as_ptr()
+//!             .cast::&lt;c_char&gt;(),
+//!     },
+//!     // A zeroed PyMethodDef to mark the end of the array.
+//!     PyMethodDef::zeroed()
+//! ];
+//!
+//! // The module initialization function, which must be named `PyInit_&lt;your_module&gt;`.
 //! #[allow(non_snake_case)]
 //! #[no_mangle]
 //! pub unsafe extern &quot;C&quot; fn PyInit_string_sum() -&gt; *mut PyObject {
-//!     let init = PyModuleDef {
-//!         m_base: PyModuleDef_HEAD_INIT,
-//!         m_name: &quot;string_sum\0&quot;.as_ptr() as *const c_char,
-//!         m_doc: std::ptr::null(),
-//!         m_size: 0,
-//!         m_methods: std::ptr::null_mut(),
-//!         m_slots: std::ptr::null_mut(),
-//!         m_traverse: None,
-//!         m_clear: None,
-//!         m_free: None,
-//!     };
-//!
-//!     let mptr = PyModule_Create(Box::into_raw(Box::new(init)));
-//!     let version = env!(&quot;CARGO_PKG_VERSION&quot;);
-//!     PyModule_AddObject(
-//!         mptr,
-//!         &quot;__version__\0&quot;.as_ptr() as *const c_char,
-//!         PyUnicode_FromStringAndSize(version.as_ptr() as *const c_char, version.len() as isize),
-//!     );
-//!
-//!     let wrapped_sum_as_string = PyMethodDef {
-//!         ml_name: &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,
-//!         ml_meth: PyMethodDefPointer {
-//!             _PyCFunctionFast: sum_as_string
-//!         },
-//!         ml_flags: METH_FASTCALL,
-//!         ml_doc: &quot;returns the sum of two integers as a string\0&quot;.as_ptr() as *const c_char,
-//!     };
-//!
-//!     // PyModule_AddObject can technically fail.
-//!     // For more involved applications error checking may be necessary
-//!     PyModule_AddObject(
-//!         mptr,
-//!         &quot;sum_as_string\0&quot;.as_ptr() as *const c_char,
-//!         PyCFunction_NewEx(
-//!             Box::into_raw(Box::new(wrapped_sum_as_string)),
-//!             std::ptr::null_mut(),
-//!             PyUnicode_InternFromString(&quot;string_sum\0&quot;.as_ptr() as *const c_char),
-//!         ),
-//!     );
-//!
-//!     let all = [&quot;__all__\0&quot;, &quot;__version__\0&quot;, &quot;sum_as_string\0&quot;];
-//!
-//!     let pyall = PyTuple_New(all.len() as isize);
-//!     for (i, obj) in all.iter().enumerate() {
-//!         PyTuple_SET_ITEM(
-//!             pyall,
-//!             i as isize,
-//!             PyUnicode_InternFromString(obj.as_ptr() as *const c_char),
-//!         )
-//!     }
-//!
-//!     PyModule_AddObject(mptr, &quot;__all__\0&quot;.as_ptr() as *const c_char, pyall);
-//!
-//!     mptr
+//!     PyModule_Create(ptr::addr_of_mut!(MODULE_DEF))
 //! }
 //!
 //! pub unsafe extern &quot;C&quot; fn sum_as_string(
@@ -592,42 +562,60 @@
 //!     nargs: Py_ssize_t,
 //! ) -&gt; *mut PyObject {
 //!     if nargs != 2 {
-//!         return raise_type_error(&quot;sum_as_string() expected 2 positional arguments&quot;);
+//!         PyErr_SetString(
+//!             PyExc_TypeError,
+//!             &quot;sum_as_string() expected 2 positional arguments\0&quot;
+//!                 .as_ptr()
+//!                 .cast::&lt;c_char&gt;(),
+//!         );
+//!         return std::ptr::null_mut();
 //!     }
 //!
 //!     let arg1 = *args;
 //!     if PyLong_Check(arg1) == 0 {
-//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 1&quot;);
+//!         PyErr_SetString(
+//!             PyExc_TypeError,
+//!             &quot;sum_as_string() expected an int for positional argument 1\0&quot;
+//!                 .as_ptr()
+//!                 .cast::&lt;c_char&gt;(),
+//!         );
+//!         return std::ptr::null_mut();
 //!     }
 //!
 //!     let arg1 = PyLong_AsLong(arg1);
 //!     if !PyErr_Occurred().is_null() {
-//!         return ptr::null_mut()
+//!         return ptr::null_mut();
 //!     }
 //!
 //!     let arg2 = *args.add(1);
 //!     if PyLong_Check(arg2) == 0 {
-//!         return raise_type_error(&quot;sum_as_string() expected an int for positional argument 2&quot;);
+//!         PyErr_SetString(
+//!             PyExc_TypeError,
+//!             &quot;sum_as_string() expected an int for positional argument 2\0&quot;
+//!                 .as_ptr()
+//!                 .cast::&lt;c_char&gt;(),
+//!         );
+//!         return std::ptr::null_mut();
 //!     }
 //!
 //!     let arg2 = PyLong_AsLong(arg2);
 //!     if !PyErr_Occurred().is_null() {
-//!         return ptr::null_mut()
+//!         return ptr::null_mut();
 //!     }
-//!     let res = (arg1 + arg2).to_string();
-//!     PyUnicode_FromStringAndSize(res.as_ptr() as *const c_char, res.len() as isize)
-//! }
 //!
-//! #[cold]
-//! #[inline(never)]
-//! fn raise_type_error(msg: &amp;str) -&gt; *mut PyObject {
-//!     unsafe {
-//!         let err_msg =
-//!             PyUnicode_FromStringAndSize(msg.as_ptr() as *const c_char, msg.len() as isize);
-//!         PyErr_SetObject(PyExc_TypeError, err_msg);
-//!         Py_DECREF(err_msg);
-//!     };
-//!     std::ptr::null_mut()
+//!     match arg1.checked_add(arg2) {
+//!         Some(sum) =&gt; {
+//!             let string = sum.to_string();
+//!             PyUnicode_FromStringAndSize(string.as_ptr().cast::&lt;c_char&gt;(), string.len() as isize)
+//!         }
+//!         None =&gt; {
+//!             PyErr_SetString(
+//!                 PyExc_OverflowError,
+//!                 &quot;arguments too large to add\0&quot;.as_ptr().cast::&lt;c_char&gt;(),
+//!             );
+//!             std::ptr::null_mut()
+//!         }
+//!     }
 //! }
 //! ```
 //!
@@ -875,4 +863,4 @@
 <span class="attribute">#[cfg(not(Py_LIMITED_API))]
 </span><span class="kw">pub use </span><span class="self">self</span>::cpython::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (c0941dfb5 2022-08-21)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3_ffi" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (015a824f2 2022-08-22)" ></div></body></html>
