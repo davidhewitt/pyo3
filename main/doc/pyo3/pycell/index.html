@@ -38,9 +38,9 @@ using <a href="struct.PyCell.html" title="PyCell"><code>PyCell</code></a> under 
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// This function is exported to Python.
 </span><span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>__pymethod_increment__(
-    _slf: <span class="kw-2">*mut </span>::pyo3::ffi::PyObject,
-    _args: <span class="kw-2">*mut </span>::pyo3::ffi::PyObject,
-) -&gt; <span class="kw-2">*mut </span>::pyo3::ffi::PyObject {
+    _slf: <span class="kw-2">*mut </span>pyo3::ffi::PyObject,
+    _args: <span class="kw-2">*mut </span>pyo3::ffi::PyObject,
+) -&gt; <span class="kw-2">*mut </span>pyo3::ffi::PyObject {
     <span class="kw">use </span>:: pyo3 <span class="kw">as </span>_pyo3;
     <span class="kw">let </span>gil = _pyo3::GILPool::new();
     <span class="kw">let </span>_py = gil.python();
