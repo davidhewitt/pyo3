@@ -41,7 +41,7 @@ The required eyre version may vary based on the version of PyO3.</p>
 }</code></pre></div>
 <h2 id="example-using-eyre-in-general"><a href="#example-using-eyre-in-general">Example: Using <code>eyre</code> in general</a></h2>
 <p>Note that you don’t need this feature to convert a <a href="../prelude/struct.PyErr.html" title="PyErr"><code>PyErr</code></a> into an <a href="https://docs.rs/eyre/0.6.8/eyre/struct.Report.html" title="eyre::Report"><code>eyre::Report</code></a>, because
-it can already convert anything that implements <a href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html"><code>Error</code></a>:</p>
+it can already convert anything that implements <a href="https://doc.rust-lang.org/nightly/core/error/trait.Error.html"><code>Error</code></a>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>pyo3::types::PyBytes;
@@ -77,4 +77,4 @@ it can already convert anything that implements <a href="https://doc.rust-lang.o
     <span class="macro">println!</span>(<span class="string">&quot;The text is \&quot;{}\&quot;&quot;</span>, text);
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
-</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (015a824f2 2022-08-22)" ></div></body></html>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (060e47f74 2022-08-23)" ></div></body></html>
