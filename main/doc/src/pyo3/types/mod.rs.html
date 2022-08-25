@@ -290,6 +290,8 @@
 <span id="290">290</span>
 <span id="291">291</span>
 <span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017-present PyO3 Project and Contributors
 
 </span><span class="doccomment">//! Various types defined by the Python interpreter such as `int`, `str` and `tuple`.
@@ -308,6 +310,8 @@
     PyTzInfo, PyTzInfoAccess,
 };
 <span class="kw">pub use </span><span class="self">self</span>::dict::{IntoPyDict, PyDict};
+<span class="attribute">#[cfg(not(PyPy))]
+</span><span class="kw">pub use </span><span class="self">self</span>::dict::{PyDictItems, PyDictKeys, PyDictValues};
 <span class="kw">pub use </span><span class="self">self</span>::floatob::PyFloat;
 <span class="attribute">#[cfg(all(not(Py_LIMITED_API), not(PyPy)))]
 </span><span class="kw">pub use </span><span class="self">self</span>::frame::PyFrame;
@@ -583,4 +587,4 @@
 <span class="kw">mod </span>tuple;
 <span class="kw">mod </span>typeobject;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (060e47f74 2022-08-23)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="pyo3" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (addacb587 2022-08-24)" ></div></body></html>
