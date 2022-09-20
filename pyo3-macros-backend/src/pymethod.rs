@@ -72,6 +72,7 @@ impl PyMethodKind {
                 PyMethodKind::Proto(PyMethodProtoKind::Slot(&__INPLACE_REPEAT__))
             }
             "__getitem__" => PyMethodKind::Proto(PyMethodProtoKind::Slot(&__GETITEM__)),
+            "__seqgetitem__" => PyMethodKind::Proto(PyMethodProtoKind::Slot(&__SEQGETITEM__)),
             "__pos__" => PyMethodKind::Proto(PyMethodProtoKind::Slot(&__POS__)),
             "__neg__" => PyMethodKind::Proto(PyMethodProtoKind::Slot(&__NEG__)),
             "__abs__" => PyMethodKind::Proto(PyMethodProtoKind::Slot(&__ABS__)),
@@ -730,6 +731,8 @@ const __INPLACE_CONCAT__: SlotDef =
 const __INPLACE_REPEAT__: SlotDef =
     SlotDef::new("Py_sq_repeat", "ssizeargfunc").arguments(&[Ty::PySsizeT]);
 const __GETITEM__: SlotDef = SlotDef::new("Py_mp_subscript", "binaryfunc").arguments(&[Ty::Object]);
+const __SEQGETITEM__: SlotDef =
+    SlotDef::new("Py_sq_item", "ssizeargfunc").arguments(&[Ty::SeqIndex]);
 
 const __POS__: SlotDef = SlotDef::new("Py_nb_positive", "unaryfunc");
 const __NEG__: SlotDef = SlotDef::new("Py_nb_negative", "unaryfunc");
@@ -814,6 +817,8 @@ enum Ty {
     Int,
     PyHashT,
     PySsizeT,
+    /// Takes Py_ssize_t in the ffi layer but raises IndexError if negative
+    SeqIndex,
     Void,
     PyBuffer,
 }
@@ -826,7 +831,7 @@ impl Ty {
             Ty::IPowModulo => quote! { _pyo3::impl_::pymethods::IPowModulo },
             Ty::Int | Ty::CompareOp => quote! { ::std::os::raw::c_int },
             Ty::PyHashT => quote! { _pyo3::ffi::Py_hash_t },
-            Ty::PySsizeT => quote! { _pyo3::ffi::Py_ssize_t },
+            Ty::PySsizeT | Ty::SeqIndex => quote! { _pyo3::ffi::Py_ssize_t },
             Ty::Void => quote! { () },
             Ty::PyBuffer => quote! { *mut _pyo3::ffi::Py_buffer },
         }
@@ -897,6 +902,15 @@ impl Ty {
                     },
                 )
             }
+            // Sequence indexes always get converted to usize (negative indexes are always out of
+            // bounds in sq_item)
+            Ty::SeqIndex => handle_error(
+                extract_error_mode,
+                py,
+                quote! {
+                        ::std::convert::TryInto::<usize>::try_into(#ident).map_err(|_| _pyo3::exceptions::PyIndexError::new_err(()))
+                },
+            ),
             // Just pass other types through unmodified
             Ty::PyBuffer | Ty::Int | Ty::PyHashT | Ty::Void => quote! { #ident },
         }

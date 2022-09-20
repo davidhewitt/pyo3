@@ -1,5 +1,7 @@
 #![cfg(feature = "macros")]
 
+use std::convert::TryInto;
+
 use pyo3::exceptions::{PyIndexError, PyValueError};
 use pyo3::types::{IntoPyDict, PyList, PyMapping, PySequence};
 use pyo3::{ffi, prelude::*, AsPyPointer};
@@ -8,7 +10,13 @@ use pyo3::py_run;
 
 mod common;
 
-#[pyclass]
+#[derive(Copy, Clone, FromPyObject)]
+pub enum SequenceIndex<'a> {
+    Slice(&'a pyo3::types::PySlice),
+    Integer(&'a pyo3::types::PyLong),
+}
+
+#[pyclass(sequence)]
 struct ByteSequence {
     elements: Vec<u8>,
 }
@@ -35,11 +43,36 @@ impl ByteSequence {
         self.elements.len()
     }
 
-    fn __getitem__(&self, idx: isize) -> PyResult<u8> {
+    fn __getitem__(&self, py: Python<'_>, index: SequenceIndex) -> PyResult<PyObject> {
+        match index {
+            SequenceIndex::Integer(i) => {
+                let mut idx: isize = i.extract()?;
+                if idx < 0 {
+                    idx += self.__len__() as isize
+                }
+                self.__seqgetitem__(idx.try_into()?)
+                    .map(|byte| byte.into_py(py))
+            }
+            SequenceIndex::Slice(s) => {
+                let indices = s.indices(self.__len__() as i64)?;
+                let elements = self
+                    .elements
+                    .iter()
+                    .take(indices.stop as usize)
+                    .skip(indices.start as usize)
+                    .step_by(indices.step as usize)
+                    .copied()
+                    .collect();
+                Py::new(py, ByteSequence { elements }).map(|obj| obj.into_py(py))
+            }
+        }
+    }
+
+    fn __seqgetitem__(&self, idx: usize) -> PyResult<u8> {
         self.elements
-            .get(idx as usize)
+            .get(idx)
             .copied()
-            .ok_or_else(|| PyIndexError::new_err("list index out of range"))
+            .ok_or_else(|| PyIndexError::new_err("sequence index out of range"))
     }
 
     fn __setitem__(&mut self, idx: isize, value: u8) {
@@ -119,6 +152,9 @@ fn test_getitem() {
         py_assert!(py, *d, "s[0] == 1");
         py_assert!(py, *d, "s[1] == 2");
         py_assert!(py, *d, "s[2] == 3");
+        py_assert!(py, *d, "s[-1] == 3");
+        py_assert!(py, *d, "s[-2] == 2");
+        py_assert!(py, *d, "s[-3] == 1");
         py_expect_exception!(py, *d, "print(s[-4])", PyIndexError);
         py_expect_exception!(py, *d, "print(s[4])", PyIndexError);
     });

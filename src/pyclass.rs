@@ -72,6 +72,7 @@ struct PyTypeBuilder {
     has_new: bool,
     has_dealloc: bool,
     has_getitem: bool,
+    has_seqgetitem: bool,
     has_setitem: bool,
     has_traverse: bool,
     has_clear: bool,
@@ -90,6 +91,7 @@ impl PyTypeBuilder {
             ffi::Py_tp_new => self.has_new = true,
             ffi::Py_tp_dealloc => self.has_dealloc = true,
             ffi::Py_mp_subscript => self.has_getitem = true,
+            ffi::Py_sq_item => self.has_seqgetitem = true,
             ffi::Py_mp_ass_subscript => self.has_setitem = true,
             ffi::Py_tp_traverse => {
                 self.has_traverse = true;
@@ -198,7 +200,7 @@ impl PyTypeBuilder {
 
         // Don't add these methods for "pure" mappings.
 
-        if !self.is_mapping && self.has_getitem {
+        if !self.is_mapping && self.has_getitem && !self.has_seqgetitem {
             // Safety: This is the correct slot type for Py_sq_item
             unsafe {
                 self.push_slot(

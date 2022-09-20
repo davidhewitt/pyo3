@@ -241,9 +241,13 @@ Use the `#[pyclass(sequence)]` annotation to instruct PyO3 to fill the `sq_lengt
 
   - `__getitem__(<self>, object) -> object`
 
-    Implements retrieval of the `self[a]` element.
+    Implements retrieval of the `self[a]` element. For mapping types, this is the correct method to implement. For sequence types, only implement this method if you want to support slice indexing. See the [sequence example](#sequence-example) below.
 
-    *Note:* Negative integer indexes are not handled specially.
+  - `__seqsetitem__(self, index: usize) -> object`
+
+    This is a method unique to PyO3 which implements retrieval of the `self[a]` element for sequence types.
+
+    To support negative indexes also use `#[pyclass(sequence)]` and implement `__len__`. With these two in place, CPython will adjust negative indices before calling `__seqsetitem__`.
 
   - `__setitem__(<self>, object, object) -> ()`
 
@@ -278,6 +282,8 @@ Use the `#[pyclass(sequence)]` annotation to instruct PyO3 to fill the `sq_lengt
     Concatenates two sequences.
     Used by the `*=` operator, after trying the numeric multiplication via
     the `__imul__` method.
+
+#### Sequence Example
 
 ### Descriptors
 
