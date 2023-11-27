@@ -1,13 +1,11 @@
-use crate::conversion::PyTryFrom;
 use crate::err::{self, PyDowncastError, PyErr, PyResult};
-use crate::gil;
 use crate::pycell::{PyBorrowError, PyBorrowMutError, PyCell};
 use crate::pyclass::boolean_struct::{False, True};
 use crate::types::any::PyAnyMethods;
 use crate::types::{PyDict, PyString, PyTuple};
 use crate::{
-    ffi, AsPyPointer, FromPyObject, IntoPy, PyAny, PyClass, PyClassInitializer, PyRef, PyRefMut,
-    PyTypeInfo, Python, ToPyObject,
+    ffi, gil, AsPyPointer, FromPyObject, IntoPy, PyAny, PyClass, PyClassInitializer, PyRef,
+    PyRefMut, PyTryFrom, PyTypeInfo, Python, ToPyObject,
 };
 use std::marker::PhantomData;
 use std::mem::{self, ManuallyDrop};
@@ -69,6 +67,12 @@ impl<'py> Py2<'py, PyAny> {
 impl<'py, T> Py2<'py, T> {
     /// Helper to cast to Py2<'py, PyAny>
     pub(crate) fn as_any(&self) -> &Py2<'py, PyAny> {
+        // Safety: all Py2<T> have the same memory layout, and all Py2<T> are valid Py2<PyAny>
+        unsafe { std::mem::transmute(self) }
+    }
+
+    /// Helper to cast to Py2<'py, PyAny>
+    pub(crate) fn into_any(self) -> Py2<'py, PyAny> {
         // Safety: all Py2<T> have the same memory layout, and all Py2<T> are valid Py2<PyAny>
         unsafe { std::mem::transmute(self) }
     }
@@ -172,13 +176,11 @@ impl<'py, T> Py2<'py, T> {
     /// Internal helper to convert e.g. &'a &'py PyDict to &'a Py2<'py, PyDict> for
     /// backwards-compatibility during migration to removal of pool.
     #[doc(hidden)] // public and doc(hidden) to use in examples and tests for now
-    pub fn borrowed_from_gil_ref<'a>(gil_ref: &'a &'py T::AsRefTarget) -> &'a Self
+    pub fn borrowed_from_gil_ref(gil_ref: &'py T::AsRefTarget) -> Py2Borrowed<'py, 'py, T>
     where
         T: PyTypeInfo,
     {
-        // Safety: &'py T::AsRefTarget is expected to be a Python pointer,
-        // so &'a &'py T::AsRefTarget has the same layout as &'a Py2<'py, T>
-        unsafe { std::mem::transmute(gil_ref) }
+        Py2Borrowed::from_gil_ref(gil_ref)
     }
 
     /// Internal helper to get to pool references for backwards compatibility
@@ -206,11 +208,266 @@ impl<'py, T> Py2<'py, T> {
         // the reference count
         ManuallyDrop::new(self).1 .0
     }
+
+    /// Downcast this `Py2` to a concrete Python type or pyclass.
+    ///
+    /// Note that you can often avoid downcasting yourself by just specifying
+    /// the desired type in function or method signatures.
+    /// However, manual downcasting is sometimes necessary.
+    ///
+    /// For extracting a Rust-only type, see [`PyAny::extract`](struct.PyAny.html#method.extract).
+    ///
+    /// # Example: Downcasting to a specific Python object
+    ///
+    /// ```rust
+    /// use pyo3::prelude::*;
+    /// use pyo3::types::{PyDict, PyList};
+    ///
+    /// Python::with_gil(|py| {
+    ///     let dict = PyDict::new(py);
+    ///     assert!(dict.is_instance_of::<PyAny>());
+    ///     let any: &PyAny = dict.as_ref();
+    ///
+    ///     assert!(any.downcast::<PyDict>().is_ok());
+    ///     assert!(any.downcast::<PyList>().is_err());
+    /// });
+    /// ```
+    ///
+    /// # Example: Getting a reference to a pyclass
+    ///
+    /// This is useful if you want to mutate a `PyObject` that
+    /// might actually be a pyclass.
+    ///
+    /// ```rust
+    /// # fn main() -> Result<(), pyo3::PyErr> {
+    /// use pyo3::prelude::*;
+    ///
+    /// #[pyclass]
+    /// struct Class {
+    ///     i: i32,
+    /// }
+    ///
+    /// Python::with_gil(|py| {
+    ///     let class: &PyAny = Py::new(py, Class { i: 0 }).unwrap().into_ref(py);
+    ///
+    ///     let class_cell: &PyCell<Class> = class.downcast()?;
+    ///
+    ///     class_cell.borrow_mut().i += 1;
+    ///
+    ///     // Alternatively you can get a `PyRefMut` directly
+    ///     let class_ref: PyRefMut<'_, Class> = class.extract()?;
+    ///     assert_eq!(class_ref.i, 1);
+    ///     Ok(())
+    /// })
+    /// # }
+    /// ```
+    #[inline]
+    pub fn downcast<U>(&self) -> Result<&Py2<'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        if U::is_type_of(self.as_any().as_gil_ref()) {
+            // Safety: is_type_of is responsible for ensuring that the type is correct
+            Ok(unsafe { self.downcast_unchecked() })
+        } else {
+            Err(PyDowncastError::new(
+                self.clone().into_any().into_gil_ref(),
+                U::NAME,
+            ))
+        }
+    }
+
+    /// Same as [`Py2::downcast`], but also consumes `self`.
+    #[inline]
+    #[allow(dead_code)]
+    pub fn downcast_into<U>(self) -> Result<Py2<'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        if U::is_type_of(self.as_any().as_gil_ref()) {
+            // Safety: is_type_of is responsible for ensuring that the type is correct
+            Ok(unsafe { self.downcast_into_unchecked() })
+        } else {
+            Err(PyDowncastError::new(
+                self.clone().into_any().into_gil_ref(),
+                U::NAME,
+            ))
+        }
+    }
+
+    /// Downcast this `Py2` to a concrete Python type or pyclass (but not a subclass of it).
+    ///
+    /// It is almost always better to use [`Py2::downcast`] because it accounts for Python
+    /// subtyping. Use this method only when you do not want to allow subtypes.
+    ///
+    /// The advantage of this method over [`Py2::downcast`] is that it is faster. The implementation
+    /// of `downcast_exact` uses the equivalent of the Python expression `type(self) is T`, whereas
+    /// `downcast` uses `isinstance(self, T)`.
+    ///
+    /// For extracting a Rust-only type, see [`PyAny::extract`](struct.PyAny.html#method.extract).
+    ///
+    /// # Example: Downcasting to a specific Python object but not a subtype
+    ///
+    /// ```rust
+    /// use pyo3::prelude::*;
+    /// use pyo3::types::{PyBool, PyLong};
+    ///
+    /// Python::with_gil(|py| {
+    ///     let b = PyBool::new(py, true);
+    ///     assert!(b.is_instance_of::<PyBool>());
+    ///     let any: &PyAny = b.as_ref();
+    ///
+    ///     // `bool` is a subtype of `int`, so `downcast` will accept a `bool` as an `int`
+    ///     // but `downcast_exact` will not.
+    ///     assert!(any.downcast::<PyLong>().is_ok());
+    ///     assert!(any.downcast_exact::<PyLong>().is_err());
+    ///
+    ///     assert!(any.downcast_exact::<PyBool>().is_ok());
+    /// });
+    /// ```
+    #[inline]
+    pub fn downcast_exact<U>(&self) -> Result<&Py2<'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        if self.as_any().is_exact_instance_of::<U>() {
+            // Safety: is_exact_instance_of is responsible for ensuring that the type is correct
+            Ok(unsafe { self.downcast_unchecked() })
+        } else {
+            Err(PyDowncastError::new(
+                self.clone().into_any().into_gil_ref(),
+                U::NAME,
+            ))
+        }
+    }
+
+    /// Same as [`Py2::downcast_exact`], but also consumes `self`.
+    #[inline]
+    pub fn downcast_into_exact<U>(self) -> Result<Py2<'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        if self.as_any().is_exact_instance_of::<U>() {
+            // Safety: is_exact_instance_of is responsible for ensuring that the type is correct
+            Ok(unsafe { self.downcast_into_unchecked() })
+        } else {
+            Err(PyDowncastError::new(
+                self.into_any().into_gil_ref(),
+                U::NAME,
+            ))
+        }
+    }
+
+    /// Converts this `PyAny` to a concrete Python type without checking validity.
+    ///
+    /// # Safety
+    ///
+    /// Callers must ensure that the type is valid or risk type confusion.
+    #[inline]
+    pub unsafe fn downcast_unchecked<U>(&self) -> &Py2<'py, U> {
+        &*(self as *const Py2<'py, T>).cast()
+    }
+
+    #[inline]
+    pub unsafe fn downcast_into_unchecked<U>(self) -> Py2<'py, U> {
+        std::mem::transmute(self)
+    }
+
+    pub(crate) fn borrow<'a>(&'a self) -> Py2Borrowed<'a, 'py, T> {
+        // Safety: Py2 and Py2Borrowed have the same memory layout
+        unsafe { std::mem::transmute_copy(self) }
+    }
 }
 
 unsafe impl<T> AsPyPointer for Py2<'_, T> {
     fn as_ptr(&self) -> *mut ffi::PyObject {
         self.1.as_ptr()
+    }
+}
+
+/// A borrowed equivalent to `Py2`.
+///
+/// The advantage of this over `&Py2` is that it avoids the need to have a pointer-to-pointer, as Py2
+/// is already a pointer to a PyObject.
+#[repr(transparent)]
+pub(crate) struct Py2Borrowed<'a, 'py, T>(NonNull<ffi::PyObject>, PhantomData<&'a Py2<'py, T>>);
+
+impl<T> Clone for Py2Borrowed<'_, '_, T> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T> Copy for Py2Borrowed<'_, '_, T> {}
+
+impl<'py, T> Py2Borrowed<'py, 'py, T>
+where
+    T: PyTypeInfo,
+{
+    pub(crate) fn from_gil_ref(gil_ref: &'py T::AsRefTarget) -> Self {
+        // Safety: &'py T::AsRefTarget is expected to be a Python pointer,
+        // so &'py T::AsRefTarget has the same layout as Self.
+        unsafe { std::mem::transmute(gil_ref) }
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn into_gil_ref(self) -> &'py T::AsRefTarget {
+        // Safety: self is a borrow over `'py`.
+        unsafe { self.py().from_borrowed_ptr(self.0.as_ptr()) }
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn to_owned(self) -> Py2<'py, T> {
+        self.as_ref().clone()
+    }
+}
+
+// Some internal helpers to convert between Py2 and Py2Borrowed
+impl<'a, 'py, T> Py2Borrowed<'a, 'py, T> {
+    #[inline]
+    #[allow(dead_code)]
+    pub(crate) fn downcast_into<U>(self) -> Result<Py2Borrowed<'a, 'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        self.as_ref()
+            .downcast()
+            .map(|downcasted| downcasted.borrow())
+    }
+
+    #[inline]
+    #[allow(dead_code)]
+    pub(crate) fn downcast_into_exact<U>(
+        self,
+    ) -> Result<Py2Borrowed<'a, 'py, U>, PyDowncastError<'py>>
+    where
+        U: PyTypeInfo,
+    {
+        self.as_ref()
+            .downcast_exact()
+            .map(|downcasted| downcasted.borrow())
+    }
+
+    #[inline]
+    #[allow(dead_code)]
+    pub(crate) unsafe fn downcast_into_unchecked<U>(self) -> Py2Borrowed<'a, 'py, U> {
+        self.as_ref().downcast_unchecked().borrow()
+    }
+
+    pub(crate) fn as_ref(&self) -> &'a Py2<'py, T> {
+        // Safety: Py2Borrowed is a borrow on Py2 for the lifetime 'a, so it's ok to
+        // extend the lifetime from '_ to 'a.
+        unsafe { &*(self as *const Self).cast() }
+    }
+}
+
+impl<'py, T> Deref for Py2Borrowed<'_, 'py, T> {
+    type Target = Py2<'py, T>;
+
+    #[inline]
+    fn deref(&self) -> &Py2<'py, T> {
+        // safety: Py2 has the same layout as NonNull<ffi::PyObject>
+        unsafe { &*(&self.0 as *const _ as *const Py2<'py, T>) }
     }
 }
 
@@ -1220,7 +1477,7 @@ where
 {
     /// Extracts `Self` from the source `PyObject`.
     fn extract(ob: &'a PyAny) -> PyResult<Self> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&ob)
+        Py2::<PyAny>::borrowed_from_gil_ref(ob)
             .downcast()
             .map(Clone::clone)
             .map_err(Into::into)
@@ -1314,11 +1571,11 @@ impl PyObject {
     /// # }
     /// ```
     #[inline]
-    pub fn downcast<'p, T>(&'p self, py: Python<'p>) -> Result<&T, PyDowncastError<'_>>
+    pub fn downcast<'p, T>(&'p self, py: Python<'p>) -> Result<&'p T, PyDowncastError<'p>>
     where
         T: PyTryFrom<'p>,
     {
-        <T as PyTryFrom<'_>>::try_from(self.as_ref(py))
+        self.as_ref(py).downcast::<T>()
     }
 
     /// Casts the PyObject to a concrete Python object type without checking validity.
@@ -1331,14 +1588,14 @@ impl PyObject {
     where
         T: PyTryFrom<'p>,
     {
-        <T as PyTryFrom<'_>>::try_from_unchecked(self.as_ref(py))
+        self.as_ref(py).downcast_unchecked::<T>()
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::{Py, Py2, PyObject};
-    use crate::types::{PyDict, PyString};
+    use crate::types::{PyBool, PyDict, PyInt, PyString};
     use crate::{PyAny, PyResult, Python, ToPyObject};
 
     #[test]
@@ -1467,7 +1724,7 @@ a = A()
     fn test_py2_into_py_object() {
         Python::with_gil(|py| {
             let instance: Py2<'_, PyAny> =
-                Py2::borrowed_from_gil_ref(&py.eval("object()", None, None).unwrap()).clone();
+                Py2::borrowed_from_gil_ref(py.eval("object()", None, None).unwrap()).to_owned();
             let ptr = instance.as_ptr();
             let instance: PyObject = instance.clone().into();
             assert_eq!(instance.as_ptr(), ptr);
@@ -1504,6 +1761,65 @@ a = A()
         Python::with_gil(|py| {
             let obj = "hello world".to_object(py).attach_into(py);
             assert_eq!(format!("{}", obj), "hello world");
+        });
+    }
+
+    #[test]
+    fn test_py2_downcast() {
+        Python::with_gil(|py| {
+            let obj = Py2::<PyBool>::borrowed_from_gil_ref(PyBool::new(py, true));
+            let obj = obj.as_any();
+
+            assert!(obj.downcast::<PyBool>().unwrap().as_gil_ref().is_true());
+            assert!(obj
+                .downcast_exact::<PyBool>()
+                .unwrap()
+                .as_gil_ref()
+                .is_true());
+            assert!(unsafe { obj.downcast_unchecked::<PyBool>() }
+                .as_gil_ref()
+                .is_true());
+
+            assert!(obj
+                .clone()
+                .downcast_into::<PyBool>()
+                .unwrap()
+                .as_gil_ref()
+                .is_true());
+            assert!(obj
+                .clone()
+                .downcast_into_exact::<PyBool>()
+                .unwrap()
+                .as_gil_ref()
+                .is_true());
+            assert!(unsafe { obj.clone().downcast_into_unchecked::<PyBool>() }
+                .as_gil_ref()
+                .is_true());
+
+            // and just for sanity, double check bool casts as an int subclass
+            assert!(obj.downcast::<PyInt>().is_ok());
+            assert!(obj.downcast_exact::<PyInt>().is_err());
+        });
+    }
+
+    #[test]
+    fn test_py2_borrowed_downcast_into() {
+        Python::with_gil(|py| {
+            let obj = Py2::<PyAny>::borrowed_from_gil_ref(PyBool::new(py, true));
+
+            assert!(obj
+                .downcast_into::<PyBool>()
+                .unwrap()
+                .as_gil_ref()
+                .is_true());
+            assert!(obj
+                .downcast_into_exact::<PyBool>()
+                .unwrap()
+                .as_gil_ref()
+                .is_true());
+            assert!(unsafe { obj.downcast_into_unchecked::<PyBool>() }
+                .as_gil_ref()
+                .is_true());
         });
     }
 

@@ -58,8 +58,8 @@ impl PySuper {
     /// ```
     pub fn new<'py>(ty: &'py PyType, obj: &'py PyAny) -> PyResult<&'py PySuper> {
         Self::new2(
-            Py2::borrowed_from_gil_ref(&ty),
-            Py2::borrowed_from_gil_ref(&obj),
+            &Py2::borrowed_from_gil_ref(ty),
+            &Py2::borrowed_from_gil_ref(obj),
         )
         .map(Py2::into_gil_ref)
     }
@@ -68,7 +68,7 @@ impl PySuper {
         ty: &Py2<'py, PyType>,
         obj: &Py2<'py, PyAny>,
     ) -> PyResult<Py2<'py, PySuper>> {
-        Py2::<PyType>::borrowed_from_gil_ref(&PySuper::type_object(ty.py()))
+        Py2::<PyType>::borrowed_from_gil_ref(PySuper::type_object(ty.py()))
             .call1((ty, obj))
             .map(|any| {
                 // Safety: super() always returns instance of super

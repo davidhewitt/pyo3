@@ -71,7 +71,7 @@ impl PyAny {
     /// This is equivalent to the Python expression `self is other`.
     #[inline]
     pub fn is<T: AsPyPointer>(&self, other: &T) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is(other)
     }
 
     /// Determines whether this object has the given attribute.
@@ -100,7 +100,7 @@ impl PyAny {
     where
         N: IntoPy<Py<PyString>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).hasattr(attr_name)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).hasattr(attr_name)
     }
 
     /// Retrieves an attribute value.
@@ -129,7 +129,7 @@ impl PyAny {
     where
         N: IntoPy<Py<PyString>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .getattr(attr_name)
             .map(Py2::into_gil_ref)
     }
@@ -206,7 +206,7 @@ impl PyAny {
         N: IntoPy<Py<PyString>>,
         V: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).setattr(attr_name, value)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).setattr(attr_name, value)
     }
 
     /// Deletes an attribute.
@@ -219,7 +219,7 @@ impl PyAny {
     where
         N: IntoPy<Py<PyString>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).delattr(attr_name)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).delattr(attr_name)
     }
 
     /// Returns an [`Ordering`] between `self` and `other`.
@@ -272,7 +272,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).compare(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).compare(other)
     }
 
     /// Tests whether two Python objects obey a given [`CompareOp`].
@@ -313,7 +313,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .rich_compare(other, compare_op)
             .map(Py2::into_gil_ref)
     }
@@ -325,7 +325,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).lt(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).lt(other)
     }
 
     /// Tests whether this object is less than or equal to another.
@@ -335,7 +335,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).le(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).le(other)
     }
 
     /// Tests whether this object is equal to another.
@@ -345,7 +345,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).eq(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).eq(other)
     }
 
     /// Tests whether this object is not equal to another.
@@ -355,7 +355,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).ne(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).ne(other)
     }
 
     /// Tests whether this object is greater than another.
@@ -365,7 +365,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).gt(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).gt(other)
     }
 
     /// Tests whether this object is greater than or equal to another.
@@ -375,7 +375,7 @@ impl PyAny {
     where
         O: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).ge(other)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).ge(other)
     }
 
     /// Determines whether this object appears callable.
@@ -406,7 +406,7 @@ impl PyAny {
     ///
     /// [1]: https://docs.python.org/3/library/functions.html#callable
     pub fn is_callable(&self) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_callable()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_callable()
     }
 
     /// Calls the object.
@@ -444,7 +444,7 @@ impl PyAny {
         args: impl IntoPy<Py<PyTuple>>,
         kwargs: Option<&PyDict>,
     ) -> PyResult<&PyAny> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call(args, kwargs)
             .map(Py2::into_gil_ref)
     }
@@ -470,7 +470,7 @@ impl PyAny {
     ///
     /// This is equivalent to the Python expression `help()`.
     pub fn call0(&self) -> PyResult<&PyAny> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call0()
             .map(Py2::into_gil_ref)
     }
@@ -503,7 +503,7 @@ impl PyAny {
     /// # }
     /// ```
     pub fn call1(&self, args: impl IntoPy<Py<PyTuple>>) -> PyResult<&PyAny> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call1(args)
             .map(Py2::into_gil_ref)
     }
@@ -548,7 +548,7 @@ impl PyAny {
         N: IntoPy<Py<PyString>>,
         A: IntoPy<Py<PyTuple>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call_method(name, args, kwargs)
             .map(Py2::into_gil_ref)
     }
@@ -588,7 +588,7 @@ impl PyAny {
     where
         N: IntoPy<Py<PyString>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call_method0(name)
             .map(Py2::into_gil_ref)
     }
@@ -630,7 +630,7 @@ impl PyAny {
         N: IntoPy<Py<PyString>>,
         A: IntoPy<Py<PyTuple>>,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .call_method1(name, args)
             .map(Py2::into_gil_ref)
     }
@@ -639,7 +639,7 @@ impl PyAny {
     ///
     /// This is equivalent to the Python expression `bool(self)`.
     pub fn is_true(&self) -> PyResult<bool> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_true()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_true()
     }
 
     /// Returns whether the object is considered to be None.
@@ -647,7 +647,7 @@ impl PyAny {
     /// This is equivalent to the Python expression `self is None`.
     #[inline]
     pub fn is_none(&self) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_none()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_none()
     }
 
     /// Returns whether the object is Ellipsis, e.g. `...`.
@@ -655,14 +655,14 @@ impl PyAny {
     /// This is equivalent to the Python expression `self is ...`.
     #[deprecated(since = "0.20.0", note = "use `.is(py.Ellipsis())` instead")]
     pub fn is_ellipsis(&self) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_ellipsis()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_ellipsis()
     }
 
     /// Returns true if the sequence or mapping has a length of 0.
     ///
     /// This is equivalent to the Python expression `len(self) == 0`.
     pub fn is_empty(&self) -> PyResult<bool> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_empty()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_empty()
     }
 
     /// Gets an item from the collection.
@@ -672,7 +672,7 @@ impl PyAny {
     where
         K: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .get_item(key)
             .map(Py2::into_gil_ref)
     }
@@ -685,7 +685,7 @@ impl PyAny {
         K: ToPyObject,
         V: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).set_item(key, value)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).set_item(key, value)
     }
 
     /// Deletes an item from the collection.
@@ -695,7 +695,7 @@ impl PyAny {
     where
         K: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).del_item(key)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).del_item(key)
     }
 
     /// Takes an object and returns an iterator for it.
@@ -703,24 +703,22 @@ impl PyAny {
     /// This is typically a new iterator but if the argument is an iterator,
     /// this returns itself.
     pub fn iter(&self) -> PyResult<&PyIterator> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
-            .iter()
-            .map(|py2| {
-                // Can't use into_gil_ref here because T: PyTypeInfo bound is not satisfied
-                // Safety: into_ptr produces a valid pointer to PyIterator object
-                unsafe { self.py().from_owned_ptr(py2.into_ptr()) }
-            })
+        Py2::<PyAny>::borrowed_from_gil_ref(self).iter().map(|py2| {
+            // Can't use into_gil_ref here because T: PyTypeInfo bound is not satisfied
+            // Safety: into_ptr produces a valid pointer to PyIterator object
+            unsafe { self.py().from_owned_ptr(py2.into_ptr()) }
+        })
     }
 
     /// Returns the Python type object for this object's type.
     pub fn get_type(&self) -> &PyType {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).get_type()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).get_type()
     }
 
     /// Returns the Python type pointer for this object.
     #[inline]
     pub fn get_type_ptr(&self) -> *mut ffi::PyTypeObject {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).get_type_ptr()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).get_type_ptr()
     }
 
     /// Downcast this `PyAny` to a concrete Python type or pyclass.
@@ -846,14 +844,14 @@ impl PyAny {
 
     /// Returns the reference count for the Python object.
     pub fn get_refcnt(&self) -> isize {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).get_refcnt()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).get_refcnt()
     }
 
     /// Computes the "repr" representation of self.
     ///
     /// This is equivalent to the Python expression `repr(self)`.
     pub fn repr(&self) -> PyResult<&PyString> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .repr()
             .map(Py2::into_gil_ref)
     }
@@ -862,7 +860,7 @@ impl PyAny {
     ///
     /// This is equivalent to the Python expression `str(self)`.
     pub fn str(&self) -> PyResult<&PyString> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .str()
             .map(Py2::into_gil_ref)
     }
@@ -871,21 +869,21 @@ impl PyAny {
     ///
     /// This is equivalent to the Python expression `hash(self)`.
     pub fn hash(&self) -> PyResult<isize> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).hash()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).hash()
     }
 
     /// Returns the length of the sequence or mapping.
     ///
     /// This is equivalent to the Python expression `len(self)`.
     pub fn len(&self) -> PyResult<usize> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).len()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).len()
     }
 
     /// Returns the list of attributes of this object.
     ///
     /// This is equivalent to the Python expression `dir(self)`.
     pub fn dir(&self) -> &PyList {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .dir()
             .into_gil_ref()
     }
@@ -895,7 +893,7 @@ impl PyAny {
     /// This is equivalent to the Python expression `isinstance(self, ty)`.
     #[inline]
     pub fn is_instance(&self, ty: &PyAny) -> PyResult<bool> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_instance(Py2::borrowed_from_gil_ref(&ty))
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_instance(&Py2::borrowed_from_gil_ref(ty))
     }
 
     /// Checks whether this object is an instance of exactly type `ty` (not a subclass).
@@ -903,8 +901,7 @@ impl PyAny {
     /// This is equivalent to the Python expression `type(self) is ty`.
     #[inline]
     pub fn is_exact_instance(&self, ty: &PyAny) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
-            .is_exact_instance(Py2::borrowed_from_gil_ref(&ty))
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_exact_instance(&Py2::borrowed_from_gil_ref(ty))
     }
 
     /// Checks whether this object is an instance of type `T`.
@@ -913,7 +910,7 @@ impl PyAny {
     /// if the type `T` is known at compile time.
     #[inline]
     pub fn is_instance_of<T: PyTypeInfo>(&self) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_instance_of::<T>()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_instance_of::<T>()
     }
 
     /// Checks whether this object is an instance of exactly type `T`.
@@ -922,7 +919,7 @@ impl PyAny {
     /// if the type `T` is known at compile time.
     #[inline]
     pub fn is_exact_instance_of<T: PyTypeInfo>(&self) -> bool {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).is_exact_instance_of::<T>()
+        Py2::<PyAny>::borrowed_from_gil_ref(self).is_exact_instance_of::<T>()
     }
 
     /// Determines if self contains `value`.
@@ -932,7 +929,7 @@ impl PyAny {
     where
         V: ToPyObject,
     {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self).contains(value)
+        Py2::<PyAny>::borrowed_from_gil_ref(self).contains(value)
     }
 
     /// Returns a GIL marker constrained to the lifetime of this type.
@@ -971,7 +968,7 @@ impl PyAny {
     /// This is equivalent to the Python expression `super()`
     #[cfg(not(PyPy))]
     pub fn py_super(&self) -> PyResult<&PySuper> {
-        Py2::<PyAny>::borrowed_from_gil_ref(&self)
+        Py2::<PyAny>::borrowed_from_gil_ref(self)
             .py_super()
             .map(Py2::into_gil_ref)
     }
@@ -1495,116 +1492,6 @@ pub(crate) trait PyAnyMethods<'py> {
     /// Returns the Python type pointer for this object.
     fn get_type_ptr(&self) -> *mut ffi::PyTypeObject;
 
-    /// Downcast this `PyAny` to a concrete Python type or pyclass.
-    ///
-    /// Note that you can often avoid downcasting yourself by just specifying
-    /// the desired type in function or method signatures.
-    /// However, manual downcasting is sometimes necessary.
-    ///
-    /// For extracting a Rust-only type, see [`PyAny::extract`](struct.PyAny.html#method.extract).
-    ///
-    /// # Example: Downcasting to a specific Python object
-    ///
-    /// ```rust
-    /// use pyo3::prelude::*;
-    /// use pyo3::types::{PyDict, PyList};
-    ///
-    /// Python::with_gil(|py| {
-    ///     let dict = PyDict::new(py);
-    ///     assert!(dict.is_instance_of::<PyAny>());
-    ///     let any: &PyAny = dict.as_ref();
-    ///
-    ///     assert!(any.downcast::<PyDict>().is_ok());
-    ///     assert!(any.downcast::<PyList>().is_err());
-    /// });
-    /// ```
-    ///
-    /// # Example: Getting a reference to a pyclass
-    ///
-    /// This is useful if you want to mutate a `PyObject` that
-    /// might actually be a pyclass.
-    ///
-    /// ```rust
-    /// # fn main() -> Result<(), pyo3::PyErr> {
-    /// use pyo3::prelude::*;
-    ///
-    /// #[pyclass]
-    /// struct Class {
-    ///     i: i32,
-    /// }
-    ///
-    /// Python::with_gil(|py| {
-    ///     let class: &PyAny = Py::new(py, Class { i: 0 }).unwrap().into_ref(py);
-    ///
-    ///     let class_cell: &PyCell<Class> = class.downcast()?;
-    ///
-    ///     class_cell.borrow_mut().i += 1;
-    ///
-    ///     // Alternatively you can get a `PyRefMut` directly
-    ///     let class_ref: PyRefMut<'_, Class> = class.extract()?;
-    ///     assert_eq!(class_ref.i, 1);
-    ///     Ok(())
-    /// })
-    /// # }
-    /// ```
-    fn downcast<T>(&self) -> Result<&Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo;
-
-    /// Like `downcast` but takes ownership of `self`.
-    fn downcast_into<T>(self) -> Result<Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo;
-
-    /// Downcast this `PyAny` to a concrete Python type or pyclass (but not a subclass of it).
-    ///
-    /// It is almost always better to use [`PyAny::downcast`] because it accounts for Python
-    /// subtyping. Use this method only when you do not want to allow subtypes.
-    ///
-    /// The advantage of this method over [`PyAny::downcast`] is that it is faster. The implementation
-    /// of `downcast_exact` uses the equivalent of the Python expression `type(self) is T`, whereas
-    /// `downcast` uses `isinstance(self, T)`.
-    ///
-    /// For extracting a Rust-only type, see [`PyAny::extract`](struct.PyAny.html#method.extract).
-    ///
-    /// # Example: Downcasting to a specific Python object but not a subtype
-    ///
-    /// ```rust
-    /// use pyo3::prelude::*;
-    /// use pyo3::types::{PyBool, PyLong};
-    ///
-    /// Python::with_gil(|py| {
-    ///     let b = PyBool::new(py, true);
-    ///     assert!(b.is_instance_of::<PyBool>());
-    ///     let any: &PyAny = b.as_ref();
-    ///
-    ///     // `bool` is a subtype of `int`, so `downcast` will accept a `bool` as an `int`
-    ///     // but `downcast_exact` will not.
-    ///     assert!(any.downcast::<PyLong>().is_ok());
-    ///     assert!(any.downcast_exact::<PyLong>().is_err());
-    ///
-    ///     assert!(any.downcast_exact::<PyBool>().is_ok());
-    /// });
-    /// ```
-    fn downcast_exact<T>(&self) -> Result<&Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo;
-
-    /// Like `downcast_exact` but takes ownership of `self`.
-    fn downcast_into_exact<T>(self) -> Result<Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo;
-
-    /// Converts this `PyAny` to a concrete Python type without checking validity.
-    ///
-    /// # Safety
-    ///
-    /// Callers must ensure that the type is valid or risk type confusion.
-    unsafe fn downcast_unchecked<T>(&self) -> &Py2<'py, T>;
-
-    /// Like `downcast_unchecked` but takes ownership of `self`.
-    unsafe fn downcast_into_unchecked<T>(self) -> Py2<'py, T>;
-
     /// Extracts some type from the Python object.
     ///
     /// This is a wrapper function around [`FromPyObject::extract()`].
@@ -2028,68 +1915,6 @@ impl<'py> PyAnyMethods<'py> for Py2<'py, PyAny> {
         unsafe { ffi::Py_TYPE(self.as_ptr()) }
     }
 
-    #[inline]
-    fn downcast<T>(&self) -> Result<&Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo,
-    {
-        if self.is_instance_of::<T>() {
-            // Safety: is_instance_of is responsible for ensuring that the type is correct
-            Ok(unsafe { self.downcast_unchecked() })
-        } else {
-            Err(PyDowncastError::new(self.clone().into_gil_ref(), T::NAME))
-        }
-    }
-
-    #[inline]
-    fn downcast_into<T>(self) -> Result<Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo,
-    {
-        if self.is_instance_of::<T>() {
-            // Safety: is_instance_of is responsible for ensuring that the type is correct
-            Ok(unsafe { self.downcast_into_unchecked() })
-        } else {
-            Err(PyDowncastError::new(self.clone().into_gil_ref(), T::NAME))
-        }
-    }
-
-    #[inline]
-    fn downcast_exact<T>(&self) -> Result<&Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo,
-    {
-        if self.is_exact_instance_of::<T>() {
-            // Safety: is_exact_instance_of is responsible for ensuring that the type is correct
-            Ok(unsafe { self.downcast_unchecked() })
-        } else {
-            Err(PyDowncastError::new(self.clone().into_gil_ref(), T::NAME))
-        }
-    }
-
-    #[inline]
-    fn downcast_into_exact<T>(self) -> Result<Py2<'py, T>, PyDowncastError<'py>>
-    where
-        T: PyTypeInfo,
-    {
-        if self.is_exact_instance_of::<T>() {
-            // Safety: is_exact_instance_of is responsible for ensuring that the type is correct
-            Ok(unsafe { self.downcast_into_unchecked() })
-        } else {
-            Err(PyDowncastError::new(self.into_gil_ref(), T::NAME))
-        }
-    }
-
-    #[inline]
-    unsafe fn downcast_unchecked<T>(&self) -> &Py2<'py, T> {
-        &*(self as *const Py2<'py, PyAny>).cast()
-    }
-
-    #[inline]
-    unsafe fn downcast_into_unchecked<T>(self) -> Py2<'py, T> {
-        std::mem::transmute(self)
-    }
-
     fn extract<'a, D>(&'a self) -> PyResult<D>
     where
         D: FromPyObject<'a>,
@@ -2174,7 +1999,7 @@ impl<'py> PyAnyMethods<'py> for Py2<'py, PyAny> {
 
     #[cfg(not(PyPy))]
     fn py_super(&self) -> PyResult<Py2<'py, PySuper>> {
-        PySuper::new2(Py2::borrowed_from_gil_ref(&self.get_type()), self)
+        PySuper::new2(&Py2::borrowed_from_gil_ref(self.get_type()), self)
     }
 }
 
