@@ -18,6 +18,7 @@ pub(crate) trait FfiPtrExt: Sealed {
     unsafe fn assume_owned_or_err(self, py: Python<'_>) -> PyResult<Bound<'_, PyAny>>;
     unsafe fn assume_owned_or_opt(self, py: Python<'_>) -> Option<Bound<'_, PyAny>>;
     unsafe fn assume_owned(self, py: Python<'_>) -> Bound<'_, PyAny>;
+    unsafe fn assume_owned_unchecked(self, py: Python<'_>) -> Bound<'_, PyAny>;
 
     /// Assumes this pointer is borrowed from a parent object.
     ///
@@ -50,6 +51,11 @@ impl FfiPtrExt for *mut ffi::PyObject {
     #[inline]
     unsafe fn assume_owned(self, py: Python<'_>) -> Bound<'_, PyAny> {
         Bound::from_owned_ptr(py, self)
+    }
+
+    #[inline]
+    unsafe fn assume_owned_unchecked(self, py: Python<'_>) -> Bound<'_, PyAny> {
+        Bound::from_ptr_unchecked(py, self)
     }
 
     #[inline]
