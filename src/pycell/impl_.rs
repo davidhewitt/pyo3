@@ -67,19 +67,69 @@ impl BorrowFlag {
 pub struct EmptySlot(());
 pub struct BorrowChecker(Cell<BorrowFlag>);
 
+/// Token representing an immutable borrow of a PyClassObject.
+///
+/// This is a helper that should be used to ensure that the borrow is released
+/// when it goes out of scope (will panic if this happens).
+pub struct BorrowToken(());
+
+/// Variant of the above which does not pa
+pub struct DefusedBorrowToken(());
+
+impl BorrowToken {
+    fn new() -> Self {
+        BorrowToken(())
+    }
+
+    fn release(self) {
+        // avoids the drop panic
+        std::mem::forget(self)
+    }
+
+    /// Defuses the borrow token, allowing it to be dropped without guarding against
+    /// forgotten releases of the borrow. This is a workaround for the fact that
+    /// `ManuallyDrop<BorrowToken>` can't be stored in `PyRef` (see the fixme on
+    /// that type).
+    pub(crate) fn defuse(self) -> DefusedBorrowToken {
+        DefusedBorrowToken(())
+    }
+}
+
+impl DefusedBorrowToken {
+    /// Re-arms the borrow token, allowing it to be used to release a borrow.
+    ///
+    /// # Safety
+    ///
+    /// This should only ever be called once on a `DefusedBorrowToken`, but we
+    /// cannot guarantee this in the type system due to `PyRef` being
+    /// `#[repr(transparent)]`.
+    pub(crate) unsafe fn rearm(&self) -> BorrowToken {
+        BorrowToken(())
+    }
+}
+
+impl Drop for BorrowToken {
+    fn drop(&mut self) {
+        // PyO3 should unsure that this is never reached by design.
+        unreachable!("BorrowToken must not be released");
+    }
+}
+
 pub trait PyClassBorrowChecker {
     /// Initial value for self
     fn new() -> Self;
 
     /// Increments immutable borrow count, if possible
-    fn try_borrow(&self) -> Result<(), PyBorrowError>;
+    fn try_borrow(&self) -> Result<BorrowToken, PyBorrowError>;
 
     /// Decrements immutable borrow count
-    fn release_borrow(&self);
+    fn release_borrow(&self, token: BorrowToken);
+
     /// Increments mutable borrow count, if possible
-    fn try_borrow_mut(&self) -> Result<(), PyBorrowMutError>;
+    fn try_borrow_mut(&self) -> Result<BorrowToken, PyBorrowMutError>;
+
     /// Decremements mutable borrow count
-    fn release_borrow_mut(&self);
+    fn release_borrow_mut(&self, token: BorrowToken);
 }
 
 impl PyClassBorrowChecker for EmptySlot {
@@ -89,21 +139,23 @@ impl PyClassBorrowChecker for EmptySlot {
     }
 
     #[inline]
-    fn try_borrow(&self) -> Result<(), PyBorrowError> {
-        Ok(())
+    fn try_borrow(&self) -> Result<BorrowToken, PyBorrowError> {
+        Ok(BorrowToken::new())
     }
 
     #[inline]
-    fn release_borrow(&self) {}
-
-    #[inline]
-    fn try_borrow_mut(&self) -> Result<(), PyBorrowMutError> {
-        unreachable!()
+    fn release_borrow(&self, token: BorrowToken) {
+        token.release()
     }
 
     #[inline]
-    fn release_borrow_mut(&self) {
-        unreachable!()
+    fn try_borrow_mut(&self) -> Result<BorrowToken, PyBorrowMutError> {
+        Ok(BorrowToken::new())
+    }
+
+    #[inline]
+    fn release_borrow_mut(&self, token: BorrowToken) {
+        token.release()
     }
 }
 
@@ -113,32 +165,34 @@ impl PyClassBorrowChecker for BorrowChecker {
         Self(Cell::new(BorrowFlag::UNUSED))
     }
 
-    fn try_borrow(&self) -> Result<(), PyBorrowError> {
+    fn try_borrow(&self) -> Result<BorrowToken, PyBorrowError> {
         let flag = self.0.get();
         if flag != BorrowFlag::HAS_MUTABLE_BORROW {
             self.0.set(flag.increment());
-            Ok(())
+            Ok(BorrowToken::new())
         } else {
             Err(PyBorrowError { _private: () })
         }
     }
 
-    fn release_borrow(&self) {
+    fn release_borrow(&self, token: BorrowToken) {
+        token.release();
         let flag = self.0.get();
         self.0.set(flag.decrement())
     }
 
-    fn try_borrow_mut(&self) -> Result<(), PyBorrowMutError> {
+    fn try_borrow_mut(&self) -> Result<BorrowToken, PyBorrowMutError> {
         let flag = self.0.get();
         if flag == BorrowFlag::UNUSED {
             self.0.set(BorrowFlag::HAS_MUTABLE_BORROW);
-            Ok(())
+            Ok(BorrowToken::new())
         } else {
             Err(PyBorrowMutError { _private: () })
         }
     }
 
-    fn release_borrow_mut(&self) {
+    fn release_borrow_mut(&self, token: BorrowToken) {
+        token.release();
         self.0.set(BorrowFlag::UNUSED)
     }
 }

@@ -196,17 +196,21 @@
 use crate::conversion::{AsPyPointer, IntoPyObject};
 use crate::exceptions::PyRuntimeError;
 use crate::ffi_ptr_ext::FfiPtrExt;
+use crate::impl_::pyclass::PyClassImpl;
 use crate::internal_tricks::{ptr_from_mut, ptr_from_ref};
 use crate::pyclass::{boolean_struct::False, PyClass};
 use crate::types::any::PyAnyMethods;
-use crate::{ffi, Bound, IntoPy, PyErr, PyObject, Python};
+use crate::{ffi, Bound, IntoPy, Py, PyErr, PyObject, Python};
 use std::convert::Infallible;
 use std::fmt;
 use std::mem::ManuallyDrop;
 use std::ops::{Deref, DerefMut};
 
 pub(crate) mod impl_;
-use impl_::{PyClassBorrowChecker, PyClassObjectLayout};
+use impl_::{
+    BorrowToken, DefusedBorrowToken, PyClassBorrowChecker, PyClassMutability, PyClassObject,
+    PyClassObjectLayout,
+};
 
 /// A wrapper type for an immutably borrowed value from a [`Bound<'py, T>`].
 ///
@@ -253,9 +257,7 @@ use impl_::{PyClassBorrowChecker, PyClassObjectLayout};
 /// See the [module-level documentation](self) for more information.
 #[repr(transparent)]
 pub struct PyRef<'p, T: PyClass> {
-    // TODO: once the GIL Ref API is removed, consider adding a lifetime parameter to `PyRef` to
-    // store `Borrowed` here instead, avoiding reference counting overhead.
-    inner: Bound<'p, T>,
+    inner: PyRefContents<'p, T, Immutable>,
 }
 
 impl<'p, T: PyClass> PyRef<'p, T> {
@@ -297,7 +299,7 @@ impl<'py, T: PyClass> PyRef<'py, T> {
     /// of the pointer or decrease the reference count (e.g. with [`pyo3::ffi::Py_DecRef`](crate::ffi::Py_DecRef)).
     #[inline]
     pub fn into_ptr(self) -> *mut ffi::PyObject {
-        self.inner.clone().into_ptr()
+        self.inner.release().into_ptr()
     }
 
     #[track_caller]
@@ -308,17 +310,17 @@ impl<'py, T: PyClass> PyRef<'py, T> {
     pub(crate) fn try_borrow(obj: &Bound<'py, T>) -> Result<Self, PyBorrowError> {
         let cell = obj.get_class_object();
         cell.ensure_threadsafe();
-        cell.borrow_checker()
-            .try_borrow()
-            .map(|_| Self { inner: obj.clone() })
+        cell.borrow_checker().try_borrow().map(|token| Self {
+            inner: PyRefContents::new(obj.clone(), token),
+        })
     }
 
     pub(crate) fn try_borrow_threadsafe(obj: &Bound<'py, T>) -> Result<Self, PyBorrowError> {
         let cell = obj.get_class_object();
         cell.check_threadsafe()?;
-        cell.borrow_checker()
-            .try_borrow()
-            .map(|_| Self { inner: obj.clone() })
+        cell.borrow_checker().try_borrow().map(|token| Self {
+            inner: PyRefContents::new(obj.clone(), token),
+        })
     }
 }
 
@@ -373,14 +375,8 @@ where
     /// # });
     /// ```
     pub fn into_super(self) -> PyRef<'p, U> {
-        let py = self.py();
         PyRef {
-            inner: unsafe {
-                ManuallyDrop::new(self)
-                    .as_ptr()
-                    .assume_owned(py)
-                    .downcast_into_unchecked()
-            },
+            inner: self.inner.into_super(),
         }
     }
 
@@ -446,18 +442,9 @@ impl<'p, T: PyClass> Deref for PyRef<'p, T> {
     }
 }
 
-impl<'p, T: PyClass> Drop for PyRef<'p, T> {
-    fn drop(&mut self) {
-        self.inner
-            .get_class_object()
-            .borrow_checker()
-            .release_borrow()
-    }
-}
-
 impl<T: PyClass> IntoPy<PyObject> for PyRef<'_, T> {
-    fn into_py(self, py: Python<'_>) -> PyObject {
-        unsafe { PyObject::from_borrowed_ptr(py, self.inner.as_ptr()) }
+    fn into_py(self, _py: Python<'_>) -> PyObject {
+        self.inner.release().unbind().into_any()
     }
 }
 
@@ -473,7 +460,7 @@ impl<'py, T: PyClass> IntoPyObject<'py> for PyRef<'py, T> {
     type Error = Infallible;
 
     fn into_pyobject(self, _py: Python<'py>) -> Result<Self::Output, Self::Error> {
-        Ok(self.inner.clone())
+        Ok(self.inner.release())
     }
 }
 
@@ -483,7 +470,7 @@ impl<'a, 'py, T: PyClass> IntoPyObject<'py> for &'a PyRef<'py, T> {
     type Error = Infallible;
 
     fn into_pyobject(self, _py: Python<'py>) -> Result<Self::Output, Self::Error> {
-        Ok(&self.inner)
+        Ok(&self.inner.inner)
     }
 }
 
@@ -503,10 +490,8 @@ impl<T: PyClass + fmt::Debug> fmt::Debug for PyRef<'_, T> {
 ///
 /// See the [module-level documentation](self) for more information.
 #[repr(transparent)]
-pub struct PyRefMut<'p, T: PyClass<Frozen = False>> {
-    // TODO: once the GIL Ref API is removed, consider adding a lifetime parameter to `PyRef` to
-    // store `Borrowed` here instead, avoiding reference counting overhead.
-    inner: Bound<'p, T>,
+pub struct PyRefMut<'py, T: PyClass<Frozen = False>> {
+    inner: PyRefContents<'py, T, Mutable>,
 }
 
 impl<'p, T: PyClass<Frozen = False>> PyRefMut<'p, T> {
@@ -558,7 +543,7 @@ impl<'py, T: PyClass<Frozen = False>> PyRefMut<'py, T> {
     /// of the pointer or decrease the reference count (e.g. with [`pyo3::ffi::Py_DecRef`](crate::ffi::Py_DecRef)).
     #[inline]
     pub fn into_ptr(self) -> *mut ffi::PyObject {
-        self.inner.clone().into_ptr()
+        self.inner.release().into_ptr()
     }
 
     #[inline]
@@ -570,9 +555,9 @@ impl<'py, T: PyClass<Frozen = False>> PyRefMut<'py, T> {
     pub(crate) fn try_borrow(obj: &Bound<'py, T>) -> Result<Self, PyBorrowMutError> {
         let cell = obj.get_class_object();
         cell.ensure_threadsafe();
-        cell.borrow_checker()
-            .try_borrow_mut()
-            .map(|_| Self { inner: obj.clone() })
+        cell.borrow_checker().try_borrow_mut().map(|token| Self {
+            inner: PyRefContents::new(obj.clone(), token),
+        })
     }
 
     pub(crate) fn downgrade(slf: &Self) -> &PyRef<'py, T> {
@@ -589,15 +574,10 @@ where
     /// Gets a `PyRef<T::BaseType>`.
     ///
     /// See [`PyRef::into_super`] for more.
+    #[inline]
     pub fn into_super(self) -> PyRefMut<'p, U> {
-        let py = self.py();
         PyRefMut {
-            inner: unsafe {
-                ManuallyDrop::new(self)
-                    .as_ptr()
-                    .assume_owned(py)
-                    .downcast_into_unchecked()
-            },
+            inner: self.inner.into_super(),
         }
     }
 
@@ -635,15 +615,6 @@ impl<'p, T: PyClass<Frozen = False>> DerefMut for PyRefMut<'p, T> {
     }
 }
 
-impl<'p, T: PyClass<Frozen = False>> Drop for PyRefMut<'p, T> {
-    fn drop(&mut self) {
-        self.inner
-            .get_class_object()
-            .borrow_checker()
-            .release_borrow_mut()
-    }
-}
-
 impl<T: PyClass<Frozen = False>> IntoPy<PyObject> for PyRefMut<'_, T> {
     fn into_py(self, py: Python<'_>) -> PyObject {
         unsafe { PyObject::from_borrowed_ptr(py, self.inner.as_ptr()) }
@@ -652,7 +623,7 @@ impl<T: PyClass<Frozen = False>> IntoPy<PyObject> for PyRefMut<'_, T> {
 
 impl<T: PyClass<Frozen = False>> IntoPy<PyObject> for &'_ PyRefMut<'_, T> {
     fn into_py(self, py: Python<'_>) -> PyObject {
-        self.inner.clone().into_py(py)
+        Bound::clone(&self.inner.inner).into_py(py)
     }
 }
 
@@ -661,8 +632,9 @@ impl<'py, T: PyClass<Frozen = False>> IntoPyObject<'py> for PyRefMut<'py, T> {
     type Output = Bound<'py, T>;
     type Error = Infallible;
 
+    #[inline]
     fn into_pyobject(self, _py: Python<'py>) -> Result<Self::Output, Self::Error> {
-        Ok(self.inner.clone())
+        Ok(self.inner.release())
     }
 }
 
@@ -671,8 +643,9 @@ impl<'a, 'py, T: PyClass<Frozen = False>> IntoPyObject<'py> for &'a PyRefMut<'py
     type Output = &'a Bound<'py, T>;
     type Error = Infallible;
 
+    #[inline]
     fn into_pyobject(self, _py: Python<'py>) -> Result<Self::Output, Self::Error> {
-        Ok(&self.inner)
+        Ok(&self.inner.inner)
     }
 }
 
@@ -729,6 +702,109 @@ impl fmt::Display for PyBorrowMutError {
 impl From<PyBorrowMutError> for PyErr {
     fn from(other: PyBorrowMutError) -> Self {
         PyRuntimeError::new_err(other.to_string())
+    }
+}
+
+type BorrowChecker<T: PyClass> =
+    <<T as PyClassImpl>::PyClassMutability as PyClassMutability>::Checker;
+
+trait Mutability {
+    fn release<T: PyClass>(borrow_checker: &BorrowChecker<T>, token: BorrowToken);
+}
+
+struct Immutable;
+impl Mutability for Immutable {
+    #[inline]
+    fn release<T: PyClass>(borrow_checker: &BorrowChecker<T>, token: BorrowToken) {
+        borrow_checker.release_borrow(token)
+    }
+}
+
+struct Mutable;
+impl Mutability for Mutable {
+    #[inline]
+    fn release<T: PyClass>(borrow_checker: &BorrowChecker<T>, token: BorrowToken) {
+        borrow_checker.release_borrow_mut(token)
+    }
+}
+
+/// Shared state for `PyRef` and `PyRefMut`.
+#[repr(transparent)]
+struct PyRefContents<'py, T: PyClass, M: Mutability> {
+    // TODO: once the GIL Ref API is removed, consider adding a lifetime parameter to `PyRef` to
+    // store `Borrowed` here instead, avoiding reference counting overhead.
+    inner: ManuallyDrop<Bound<'py, T>>,
+    // FIXME: it would be nice to store the real token here, but it would need to be in `ManuallyDrop`,
+    // and that runs into https://github.com/rust-lang/rust/issues/129470
+    // token: ManuallyDrop<BorrowToken>,
+    token: DefusedBorrowToken,
+    _marker: std::marker::PhantomData<M>,
+}
+
+impl<'py, T: PyClass, M: Mutability> PyRefContents<'py, T, M> {
+    fn new(inner: Bound<'py, T>, token: BorrowToken) -> Self {
+        Self {
+            inner: ManuallyDrop::new(inner),
+            // Why defuse? see FIXME on the `token` field
+            token: token.defuse(),
+            _marker: std::marker::PhantomData,
+        }
+    }
+
+    fn py(&self) -> Python<'py> {
+        self.inner.py()
+    }
+
+    fn as_ptr(&self) -> *mut ffi::PyObject {
+        self.inner.as_ptr()
+    }
+
+    fn get_class_object(&self) -> &PyClassObject<T> {
+        self.inner.get_class_object()
+    }
+
+    fn into_super(self) -> PyRefContents<'py, T::BaseType, M>
+    where
+        T::BaseType: PyClass,
+    {
+        // SAFETY: we're about to drop the token and we never used it anywhere else
+        let token = unsafe { self.token.rearm() };
+        let inner = unsafe { ManuallyDrop::take(&mut ManuallyDrop::new(self).inner) };
+
+        PyRefContents::new(inner.into_super(), token)
+    }
+}
+
+impl<'py, T: PyClass> PyRefContents<'py, T, Immutable> {
+    fn release(self) -> Bound<'py, T> {
+        self.inner
+            .get_class_object()
+            .borrow_checker()
+            // SAFETY: we're dropping the token and we never used it anywhere else
+            .release_borrow(unsafe { self.token.rearm() });
+        // SAFETY: we never drop self, so we can take the inner
+        unsafe { ManuallyDrop::take(&mut ManuallyDrop::new(self).inner) }
+    }
+}
+
+impl<'py, T: PyClass> PyRefContents<'py, T, Mutable> {
+    fn release(self) -> Bound<'py, T> {
+        self.inner
+            .get_class_object()
+            .borrow_checker()
+            // SAFETY: we're dropping the token and we never used it anywhere else
+            .release_borrow_mut(unsafe { self.token.rearm() });
+        // SAFETY: we never drop self, so we can take the inner
+        unsafe { ManuallyDrop::take(&mut ManuallyDrop::new(self).inner) }
+    }
+}
+
+impl<T: PyClass, M: Mutability> Drop for PyRefContents<'_, T, M> {
+    fn drop(&mut self) {
+        // SAFETY: we're dropping the token and we never used it anywhere else
+        <M as Mutability>::release::<T>(self.inner.get_class_object().borrow_checker(), unsafe {
+            self.token.rearm()
+        });
     }
 }
 
