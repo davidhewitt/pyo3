@@ -160,13 +160,13 @@ jobs:
 
       - name: Generate coverage report
         if: inputs.python-version == '3.12'
-        run: |
-          cargo llvm-cov \
-            --package=pyo3 \
-            --package=pyo3-build-config \
-            --package=pyo3-macros-backend \
-            --package=pyo3-macros \
-            --package=pyo3-ffi \
+        run: >
+          cargo llvm-cov
+            --package=pyo3
+            --package=pyo3-build-config
+            --package=pyo3-macros-backend
+            --package=pyo3-macros
+            --package=pyo3-ffi
             report --codecov --output-path coverage.json
 
       - name: Upload coverage report
