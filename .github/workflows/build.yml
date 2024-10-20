@@ -74,7 +74,7 @@ jobs:
         name: Prepare coverage environment
         run: |
           cargo llvm-cov clean --workspace --profraw-only
-          cargo llvm-cov show-env >> "$GITHUB_ENV"
+          nox -s set-coverage-env
         shell: bash
 
       - name: Build docs
