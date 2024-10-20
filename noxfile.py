@@ -96,7 +96,7 @@ def coverage(session: nox.Session) -> None:
 
 
 @nox.session(name="set-coverage-env", venv_backend="none")
-def set_coverage_env() -> None:
+def set_coverage_env(session: nox.Session) -> None:
     """For use in GitHub Actions to set coverage environment variables."""
     with open(os.environ["GITHUB_ENV"], "a") as env_file:
         for k, v in _get_coverage_env().items():

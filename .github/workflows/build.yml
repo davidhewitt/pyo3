@@ -169,10 +169,12 @@ jobs:
             --package=pyo3-ffi \
             report --codecov --output-path coverage.json
 
-      - uses: codecov/codecov-action@v4
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        if: inputs.python-version == '3.12'
         with:
           file: coverage.json
-          name: ${{ matrix.os }}
+          name: ${{ inputs.os }}/${{ inputs.python-version }}
           token: ${{ secrets.CODECOV_TOKEN }}
 
     env:
