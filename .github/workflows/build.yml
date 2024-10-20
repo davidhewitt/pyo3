@@ -44,7 +44,7 @@ jobs:
           toolchain: ${{ inputs.rust }}
           targets: ${{ inputs.rust-target }}
           # needed to correctly format errors, see #1865
-          components: rust-src
+          components: llvm-tools-preview,rust-src
 
       - uses: Swatinem/rust-cache@v2
         with:
@@ -65,6 +65,17 @@ jobs:
       - if: inputs.rust == 'nightly'
         name: Prepare to test on nightly rust
         run: echo "MAYBE_NIGHTLY=nightly" >> "$GITHUB_ENV"
+
+      - if: inputs.python-version == '3.12'
+        name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - if: inputs.python-version == '3.12'
+        name: Prepare coverage environment
+        run: |
+          cargo llvm-cov clean --workspace --profraw-only
+          cargo llvm-cov show-env >> "$GITHUB_ENV"
+        shell: bash
 
       - name: Build docs
         run: nox -s docs
@@ -147,6 +158,23 @@ jobs:
         # pypy 3.9 on windows is not PEP 3123 compliant, nor is graalpy
         if: ${{ endsWith(inputs.python-version, '-dev') || (steps.ffi-changes.outputs.changed == 'true' && inputs.rust == 'stable' && !startsWith(inputs.python-version, 'graalpy') && !(inputs.python-version == 'pypy3.9' && contains(inputs.os, 'windows'))) }}
         run: nox -s ffi-check
+
+      - name: Generate coverage report
+        if: inputs.python-version == '3.12'
+        run: |
+          cargo llvm-cov \
+            --package=pyo3 \
+            --package=pyo3-build-config \
+            --package=pyo3-macros-backend \
+            --package=pyo3-macros \
+            --package=pyo3-ffi \
+            report --codecov --output-path coverage.json
+
+      - uses: codecov/codecov-action@v4
+        with:
+          file: coverage.json
+          name: ${{ matrix.os }}
+          token: ${{ secrets.CODECOV_TOKEN }}
 
     env:
       CARGO_TERM_VERBOSE: true
