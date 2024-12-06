@@ -680,18 +680,20 @@ jobs:
       - name: Setup cross-compiler
         if: ${{ matrix.target == 'x86_64-pc-windows-gnu' }}
         run: sudo apt-get install -y mingw-w64 llvm
-      - name: Compile version-specific library
-        uses: PyO3/maturin-action@v1
-        with:
-          target: ${{ matrix.target }}
-          manylinux: ${{ matrix.manylinux }}
-          args: --release -m examples/maturin-starter/Cargo.toml ${{ matrix.flags }}
+      # - name: Compile version-specific library
+      #   uses: PyO3/maturin-action@v1
+      #   with:
+      #     target: ${{ matrix.target }}
+      #     manylinux: ${{ matrix.manylinux }}
+      #     args: --release -m examples/maturin-starter/Cargo.toml ${{ matrix.flags }}
       - name: Compile abi3 library
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.target }}
           manylinux: ${{ matrix.manylinux }}
           args: --release -m examples/maturin-starter/Cargo.toml --features abi3 ${{ matrix.flags }}
+        env:
+          PYO3_PRINT_CONFIG: 1
 
   test-cross-compilation-windows:
     needs: [fmt]
