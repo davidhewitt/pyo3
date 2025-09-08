@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python -m pip install --upgrade pip && pip install nox
@@ -39,7 +39,7 @@ jobs:
       MSRV: ${{ steps.resolve-msrv.outputs.MSRV }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: resolve MSRV
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: obi1kenobi/cargo-semver-checks-action@v2
@@ -67,7 +67,7 @@ jobs:
         with:
           toolchain: ${{ needs.resolve.outputs.MSRV }}
           components: rust-src
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -146,7 +146,7 @@ jobs:
           toolchain: ${{ matrix.rust }}
           targets: ${{ matrix.platform.rust-target }}
           components: clippy,rust-src
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           architecture: ${{ matrix.platform.python-architecture }}
@@ -385,7 +385,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           # FIXME valgrind detects an issue with Python 3.12.5, needs investigation
           # whether it's a PyO3 issue or upstream CPython.
@@ -408,7 +408,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -430,7 +430,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -451,7 +451,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -477,7 +477,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           # TODO bump emscripten builds to test on 3.12
           python-version: 3.11
@@ -594,7 +594,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -618,7 +618,7 @@ jobs:
           - rust: ${{ needs.resolve.outputs.MSRV }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -666,7 +666,7 @@ jobs:
             target: "x86_64-apple-darwin"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
@@ -690,7 +690,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - uses: Swatinem/rust-cache@v2
