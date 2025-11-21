@@ -465,7 +465,6 @@ pub use pyo3_macros::{
 #[cfg(feature = "macros")]
 pub use pyo3_macros::pyclass;
 
-#[cfg(feature = "macros")]
 #[macro_use]
 mod macros;
 

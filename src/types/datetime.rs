@@ -900,11 +900,9 @@ fn opt_to_pyobj(opt: Option<&Bound<'_, PyTzInfo>>) -> *mut ffi::PyObject {
 #[cfg(test)]
 mod tests {
     use super::*;
-    #[cfg(feature = "macros")]
     use crate::py_run;
 
     #[test]
-    #[cfg(feature = "macros")]
     #[cfg_attr(target_arch = "wasm32", ignore)] // DateTime import fails on wasm for mysterious reasons
     fn test_datetime_fromtimestamp() {
         Python::attach(|py| {

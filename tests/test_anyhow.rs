@@ -1,4 +1,4 @@
-#![cfg(feature = "anyhow")]
+#![cfg(all(feature = "anyhow", feature = "macros"))]
 
 use pyo3::wrap_pyfunction;
 

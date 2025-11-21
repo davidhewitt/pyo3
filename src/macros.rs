@@ -136,6 +136,7 @@ macro_rules! py_run_impl {
 /// add free functions to a [`PyModule`](crate::types::PyModule) - see its documentation for more
 /// information.
 #[macro_export]
+#[cfg(feature = "macros")]
 macro_rules! wrap_pyfunction {
     ($function:path) => {
         &|py_or_module| {
@@ -161,6 +162,7 @@ macro_rules! wrap_pyfunction {
 /// Use this together with [`#[pymodule]`](crate::pymodule) and
 /// [`PyModule::add_wrapped`](crate::types::PyModuleMethods::add_wrapped).
 #[macro_export]
+#[cfg(feature = "macros")]
 macro_rules! wrap_pymodule {
     ($module:path) => {
         &|py| {

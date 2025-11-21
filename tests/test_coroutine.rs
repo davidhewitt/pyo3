@@ -1,4 +1,4 @@
-#![cfg(feature = "experimental-async")]
+#![cfg(all(feature = "experimental-async", feature = "macros"))]
 #![cfg(not(target_arch = "wasm32"))]
 use std::{ffi::CString, task::Poll, thread, time::Duration};
 

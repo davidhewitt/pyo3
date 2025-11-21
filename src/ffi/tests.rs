@@ -2,7 +2,7 @@ use crate::ffi::*;
 use crate::types::any::PyAnyMethods;
 use crate::Python;
 
-#[cfg(all(not(Py_LIMITED_API), any(not(any(PyPy, GraalPy)), feature = "macros")))]
+#[cfg(all(not(Py_LIMITED_API), any(not(any(PyPy, GraalPy)))))]
 use crate::types::PyString;
 
 #[cfg(not(Py_LIMITED_API))]
@@ -76,7 +76,6 @@ fn test_utc_timezone() {
 
 #[test]
 #[cfg(not(Py_LIMITED_API))]
-#[cfg(feature = "macros")]
 #[cfg_attr(target_arch = "wasm32", ignore)] // DateTime import fails on wasm for mysterious reasons
 fn test_timezone_from_offset() {
     use crate::{ffi_ptr_ext::FfiPtrExt, types::PyDelta};
@@ -94,7 +93,6 @@ fn test_timezone_from_offset() {
 
 #[test]
 #[cfg(not(Py_LIMITED_API))]
-#[cfg(feature = "macros")]
 #[cfg_attr(target_arch = "wasm32", ignore)] // DateTime import fails on wasm for mysterious reasons
 fn test_timezone_from_offset_and_name() {
     use crate::{ffi_ptr_ext::FfiPtrExt, types::PyDelta};
