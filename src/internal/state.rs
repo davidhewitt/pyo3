@@ -175,6 +175,24 @@ impl Drop for AttachGuard {
     }
 }
 
+/// Helper type to increment / decrement attach count with RAII.
+pub(crate) struct AttachCounter<'py>(Python<'py>);
+
+impl<'py> AttachCounter<'py> {
+    /// Increments the internal attach count and drops deferred references.
+    pub(crate) fn new(py: Python<'py>) -> Self {
+        increment_attach_count();
+        drop_deferred_references(py);
+        Self(py)
+    }
+}
+
+impl Drop for AttachCounter<'_> {
+    fn drop(&mut self) {
+        decrement_attach_count();
+    }
+}
+
 #[cfg(not(pyo3_disable_reference_pool))]
 type PyObjVec = Vec<NonNull<ffi::PyObject>>;
 

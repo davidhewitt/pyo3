@@ -9,10 +9,15 @@ use std::{
     panic::{self, UnwindSafe},
 };
 
-use crate::internal::state::AttachGuard;
 use crate::{
-    ffi, ffi_ptr_ext::FfiPtrExt, impl_::callback::PyCallbackOutput, impl_::panic::PanicTrap,
-    impl_::pymethods::IPowModulo, panic::PanicException, types::PyModule, Bound, PyResult, Python,
+    ffi,
+    ffi_ptr_ext::FfiPtrExt,
+    impl_::extract_argument::{FunctionArgumentHolder, PyFunctionArgument},
+    impl_::{callback::PyCallbackOutput, panic::PanicTrap, pymethods::IPowModulo},
+    internal::state::{AttachCounter, AttachGuard},
+    panic::PanicException,
+    types::PyModule,
+    Bound, PyResult, Python,
 };
 
 #[inline]
@@ -327,4 +332,84 @@ where
         py_err.write_unraisable(py, unsafe { ctx.assume_borrowed_or_opt(py) }.as_deref());
     }
     trap.disarm();
+}
+
+/// Token type to ensure that the trampoline can only be called with an unsafe assertion.
+pub(crate) struct TrampolineToken(());
+
+impl TrampolineToken {
+    /// SAFETY: The caller must ensure that the thread is attached to the interpreter.
+    pub(crate) unsafe fn assume() -> Self {
+        Self(())
+    }
+}
+
+fn trampoline_with_token<F, R>(py: Python<'_>, body: F) -> R
+where
+    F: for<'py> FnOnce(Python<'py>) -> PyResult<R> + UnwindSafe,
+    R: PyCallbackOutput,
+{
+    let trap = PanicTrap::new("uncaught panic at ffi boundary");
+
+    let _counter = AttachCounter::new(py);
+    let out = panic_result_into_callback_output(
+        py,
+        panic::catch_unwind(move || -> PyResult<_> { body(py) }),
+    );
+    trap.disarm();
+    out
+}
+
+trait LenOutput {
+    fn into_ssize_t(self) -> ffi::Py_ssize_t;
+}
+
+type LenFuncPtr<SelfT, OutputT: LenOutput> = fn(SelfT) -> OutputT;
+
+// trait UnpackByRef {
+//     type Target<'a>
+//     where
+//         Self: 'a;
+//     fn unpack_by_ref(&self) -> Self::Target<'_>;
+// }
+
+// trait LenSelfArg<const B1: bool, const B2: bool> {
+//     type Holder;
+// }
+
+// /// Helper type to perform argument unpacking for `__len__` methods.
+// struct UnpackArg<const B1: bool, const B2: bool, ValueT: LenSelfArg<B1, B2>>(ValueT::Holder);
+
+// impl<'a, ValueT> UnpackArg<false, true, ValueT>
+// where
+//     ValueT: LenSelfArg<false, true> + 'a,
+//     ValueT::Holder: UnpackByRef<Target<'a> = ValueT>,
+// {
+//     fn unpack(&'a self) -> ValueT {
+//         self.0.unpack_by_ref()
+//     }
+// }
+
+/// Noargs is a special case where the `_args` parameter is unused and not passed to the inner `Func`.
+pub unsafe extern "C" fn pymethod_len_impl<
+    const B1: bool,
+    SelfT: for<'a, 'holder, 'py> PyFunctionArgument<'a, 'holder, 'py, B1>,
+    OutputT: LenOutput,
+    Meth: MethodDef<LenFuncPtr<SelfT, OutputT>>,
+>(
+    slf: *mut ffi::PyObject,
+) -> ffi::Py_ssize_t {
+    trampoline_with_token(unsafe { Python::assume_attached() }, |py| {
+        let output = {
+            let mut holder = SelfT::Holder::INIT;
+            let output = Meth::METH(
+                SelfT::extract(unsafe { slf.assume_borrowed_unchecked(py) }, &mut holder)
+                    .map_err(Into::into)?,
+            )
+            .into_ssize_t();
+            drop(holder);
+            output
+        };
+        Ok(output)
+    })
 }
