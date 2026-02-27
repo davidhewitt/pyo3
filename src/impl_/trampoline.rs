@@ -7,17 +7,22 @@ use std::{
     any::Any,
     os::raw::c_int,
     panic::{self, UnwindSafe},
+    ptr::NonNull,
 };
 
 use crate::{
     ffi,
     ffi_ptr_ext::FfiPtrExt,
-    impl_::extract_argument::{FunctionArgumentHolder, PyFunctionArgument},
-    impl_::{callback::PyCallbackOutput, panic::PanicTrap, pymethods::IPowModulo},
+    impl_::{
+        callback::PyCallbackOutput,
+        extract_argument::{FunctionArgumentHolder, PyFunctionArgument},
+        panic::PanicTrap,
+        pymethods::IPowModulo,
+    },
     internal::state::{AttachCounter, AttachGuard},
     panic::PanicException,
     types::PyModule,
-    Bound, PyResult, Python,
+    Borrowed, Bound, FromPyObject, PyAny, PyClass, PyClassGuard, PyRef, PyResult, Python,
 };
 
 #[inline]
@@ -334,16 +339,6 @@ where
     trap.disarm();
 }
 
-/// Token type to ensure that the trampoline can only be called with an unsafe assertion.
-pub(crate) struct TrampolineToken(());
-
-impl TrampolineToken {
-    /// SAFETY: The caller must ensure that the thread is attached to the interpreter.
-    pub(crate) unsafe fn assume() -> Self {
-        Self(())
-    }
-}
-
 fn trampoline_with_token<F, R>(py: Python<'_>, body: F) -> R
 where
     F: for<'py> FnOnce(Python<'py>) -> PyResult<R> + UnwindSafe,
@@ -360,56 +355,62 @@ where
     out
 }
 
-trait LenOutput {
+pub trait LenOutput {
     fn into_ssize_t(self) -> ffi::Py_ssize_t;
 }
 
-type LenFuncPtr<SelfT, OutputT: LenOutput> = fn(SelfT) -> OutputT;
+pub type LenFuncPtr<SelfT, OutputT> = fn(SelfT) -> OutputT;
 
-// trait UnpackByRef {
-//     type Target<'a>
-//     where
-//         Self: 'a;
-//     fn unpack_by_ref(&self) -> Self::Target<'_>;
-// }
+pub trait LenSelfArg<'a, 'py>: Sized {
+    fn extract_and_call<R: 'static>(
+        obj: Borrowed<'a, 'py, PyAny>,
+        f: impl FnOnce(PyResult<Self>) -> R,
+    ) -> R;
+}
 
-// trait LenSelfArg<const B1: bool, const B2: bool> {
-//     type Holder;
-// }
+impl<T: PyClass> LenSelfArg<'_, '_> for &'_ T {
+    fn extract_and_call<R: 'static>(
+        obj: Borrowed<'_, '_, PyAny>,
+        f: impl FnOnce(PyResult<Self>) -> R,
+    ) -> R {
+        match obj.extract::<PyClassGuard<'_, T>>() {
+            Ok(ref guard) => {
+                let value_ptr = NonNull::from(&**guard);
 
-// /// Helper type to perform argument unpacking for `__len__` methods.
-// struct UnpackArg<const B1: bool, const B2: bool, ValueT: LenSelfArg<B1, B2>>(ValueT::Holder);
+                f(Ok(unsafe { value_ptr.as_ref() }))
+            }
+            Err(e) => f(Err(e.into())),
+        }
+    }
+}
 
-// impl<'a, ValueT> UnpackArg<false, true, ValueT>
-// where
-//     ValueT: LenSelfArg<false, true> + 'a,
-//     ValueT::Holder: UnpackByRef<Target<'a> = ValueT>,
-// {
-//     fn unpack(&'a self) -> ValueT {
-//         self.0.unpack_by_ref()
-//     }
-// }
+impl<'py, T: PyClass> LenSelfArg<'_, 'py> for PyRef<'py, T> {
+    fn extract_and_call<R: 'static>(
+        obj: Borrowed<'_, 'py, PyAny>,
+        f: impl FnOnce(PyResult<Self>) -> R,
+    ) -> R {
+        match obj.extract() {
+            Ok(pyref) => f(Ok(pyref)),
+            Err(e) => f(Err(e.into())),
+        }
+    }
+}
 
 /// Noargs is a special case where the `_args` parameter is unused and not passed to the inner `Func`.
 pub unsafe extern "C" fn pymethod_len_impl<
-    const B1: bool,
-    SelfT: for<'a, 'holder, 'py> PyFunctionArgument<'a, 'holder, 'py, B1>,
+    SelfT: for<'a, 'py> LenSelfArg<'a, 'py>,
     OutputT: LenOutput,
-    Meth: MethodDef<LenFuncPtr<SelfT, OutputT>>,
+    Meth: MethodDef<fn(SelfT) -> OutputT>,
 >(
     slf: *mut ffi::PyObject,
 ) -> ffi::Py_ssize_t {
     trampoline_with_token(unsafe { Python::assume_attached() }, |py| {
-        let output = {
-            let mut holder = SelfT::Holder::INIT;
-            let output = Meth::METH(
-                SelfT::extract(unsafe { slf.assume_borrowed_unchecked(py) }, &mut holder)
-                    .map_err(Into::into)?,
-            )
-            .into_ssize_t();
-            drop(holder);
-            output
-        };
-        Ok(output)
+        SelfT::extract_and_call(
+            unsafe { slf.assume_borrowed_unchecked(py) },
+            |slf| match slf {
+                Ok(slf) => Ok(Meth::METH(slf).into_ssize_t()),
+                Err(e) => Err(e),
+            },
+        )
     })
 }
