@@ -821,6 +821,31 @@ mod py_buffer_flags_impl {
         const CONTIGUITY: u8,
     >;
 
+    /// Marker trait for buffer flags which have requested format information.
+    #[diagnostic::on_unimplemented(
+        message = "format information is not available with the requested buffer flags",
+        note = "use `.format()` when building a buffer request to request format information",
+        note = "`PyBufferFlags::simple()` and `PyBufferFlags::writable()` also imply u8 format"
+    )]
+    pub trait IncludesFormat {
+        const ASSUME_U8: bool;
+    }
+
+    #[diagnostic::do_not_recommend]
+    impl<const SHAPE: bool, const STRIDE: bool, const INDIRECT: bool, const WRITABLE: bool, const CONTIGUITY: u8>
+        IncludesFormat for PyBufferFlagsImpl<true, SHAPE, STRIDE, INDIRECT, WRITABLE, CONTIGUITY>
+    {
+        const ASSUME_U8: bool = false;
+    }
+
+    // simple (maybe writable) buffers also have an implied format
+    #[diagnostic::do_not_recommend]
+    impl<const WRITABLE: bool>
+        IncludesFormat for PyBufferFlagsImpl<false, false, false, false, WRITABLE, {super::CONTIGUITY_UNDEFINED }>
+    {
+        const ASSUME_U8: bool = true;
+    }
+
     pub trait Sealed {}
     impl<
             const FORMAT: bool,
@@ -1112,18 +1137,17 @@ impl<Flags: PyBufferFlagsType> PyUntypedBufferView<Flags> {
     }
 }
 
-impl<
-        const SHAPE: bool,
-        const STRIDE: bool,
-        const INDIRECT: bool,
-        const WRITABLE: bool,
-        const CONTIGUITY: u8,
-    > PyUntypedBufferView<FlagsImpl<true, SHAPE, STRIDE, INDIRECT, WRITABLE, CONTIGUITY>>
-{
+impl<Flags: PyBufferFlagsType> PyUntypedBufferView<Flags> {
     /// A [struct module style](https://docs.python.org/3/c-api/buffer.html#c.Py_buffer.format)
     /// string describing the contents of a single item.
     #[inline]
-    pub fn format(&self) -> &CStr {
+    pub fn format(&self) -> &CStr
+    where Flags: py_buffer_flags_impl::IncludesFormat
+    {
+        if Flags::ASSUME_U8 {
+            return c"B";
+        }
+
         debug_assert!(!self.raw.format.is_null());
         unsafe { CStr::from_ptr(self.raw.format) }
     }
@@ -1131,21 +1155,21 @@ impl<
     /// Attempt to interpret this untyped view as containing elements of type `T`.
     pub fn as_typed<T: Element>(
         &self,
-    ) -> PyResult<&PyBufferView<T, FlagsImpl<true, SHAPE, STRIDE, INDIRECT, WRITABLE, CONTIGUITY>>>
+    ) -> PyResult<&PyBufferView<T, Flags>>
+    where Flags: py_buffer_flags_impl::IncludesFormat
     {
         self.ensure_compatible_with::<T>()?;
         // SAFETY: PyBufferView<T, ..> is repr(transparent) around PyUntypedBufferView<..>
         Ok(unsafe {
             NonNull::from(self)
-                .cast::<PyBufferView<
-                    T,
-                    FlagsImpl<true, SHAPE, STRIDE, INDIRECT, WRITABLE, CONTIGUITY>,
-                >>()
+                .cast::<PyBufferView<T, Flags>>()
                 .as_ref()
         })
     }
 
-    fn ensure_compatible_with<T: Element>(&self) -> PyResult<()> {
+    fn ensure_compatible_with<T: Element>(&self) -> PyResult<()>
+    where Flags: py_buffer_flags_impl::IncludesFormat
+    {
         check_buffer_compatibility::<T>(self.raw.buf, self.item_size(), self.format())
     }
 }
@@ -1208,17 +1232,6 @@ impl<
         }
 
         Some(unsafe { slice::from_raw_parts(self.raw.suboffsets, self.raw.ndim as usize) })
-    }
-}
-
-// SIMPLE and WRITABLE requests guarantee the implicit "B" format.
-impl<const WRITABLE: bool>
-    PyUntypedBufferView<FlagsImpl<false, false, false, false, WRITABLE, CONTIGUITY_UNDEFINED>>
-{
-    /// Returns the format string for a simple byte buffer, which is always `"B"`.
-    #[inline]
-    pub fn format(&self) -> &CStr {
-        ffi::c_str!("B")
     }
 }
 
