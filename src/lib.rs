@@ -407,8 +407,6 @@ pub use inventory; // Re-exported for `#[pyclass]` and `#[pymethods]` with `mult
 /// are available in unit tests.
 #[cfg(test)]
 mod test_utils;
-#[cfg(test)]
-mod tests;
 
 #[macro_use]
 mod internal;
@@ -531,4 +529,10 @@ pub mod doc_test {
         "guide/src/trait-bounds.md" => guide_trait_bounds_md,
         "guide/src/types.md" => guide_types_md,
     }
+}
+
+#[cfg(test)]
+mod tests {
+    #[cfg(feature = "macros")]
+    mod hygiene;
 }

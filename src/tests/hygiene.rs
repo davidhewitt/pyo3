@@ -1,3 +1,6 @@
+//! Test macro hygiene - this is in the crate since we won't have
+//! `pyo3` available in the crate root.
+
 // TODO https://github.com/PyO3/pyo3/issues/5487
 #![allow(clippy::undocumented_unsafe_blocks)]
 #![no_implicit_prelude]
