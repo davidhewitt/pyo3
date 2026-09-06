@@ -26,12 +26,12 @@ extern_libpython! {
     // skipped non-limited _PyCodecInfo_GetIncrementalEncoder from Include/codecs.h
     pub fn PyCodec_Encoder(encoding: *const c_char) -> *mut PyObject;
     pub fn PyCodec_Decoder(encoding: *const c_char) -> *mut PyObject;
-    #[cfg_attr(PyPy, link_name = "PyPyCodec_IncrementalEncoder")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyCodec_IncrementalEncoder")]
     pub fn PyCodec_IncrementalEncoder(
         encoding: *const c_char,
         errors: *const c_char,
     ) -> *mut PyObject;
-    #[cfg_attr(PyPy, link_name = "PyPyCodec_IncrementalDecoder")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyCodec_IncrementalDecoder")]
     pub fn PyCodec_IncrementalDecoder(
         encoding: *const c_char,
         errors: *const c_char,

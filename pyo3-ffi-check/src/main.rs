@@ -2,6 +2,12 @@ use std::{ffi::CStr, process::exit};
 
 use pyo3_ffi_check_definitions::{bindgen as bindings, pyo3_ffi};
 
+/// Functions which don't have equivalent addresses between pyo3-ffi and bindgen.
+static SPECIAL_CASE_FUNCTIONS: &[&str] = &[
+    "PyEval_RestoreThread", // PyO3 adds special handling for pthread_exit
+    "PyGILState_Ensure",    // Similar to PyEval_RestoreThread
+];
+
 fn main() {
     println!(
         "comparing pyo3-ffi against headers generated for {}",
@@ -142,8 +148,23 @@ fn main() {
         ($name:ident, [$($modifiers:tt)*] ($($arg_types:tt)*)) => {{
             // Check functions have the same number of arguments
             #[allow(deprecated)]
-            { pyo3_ffi::$name as $($modifiers)* fn($($arg_types)*) -> _ };
-            bindings::$name as $($modifiers)* fn($($arg_types)*) -> _;
+            let pyo3_ffi_fn = { pyo3_ffi::$name as $($modifiers)* fn($($arg_types)*) -> _ };
+            let bindgen_fn = bindings::$name as $($modifiers)* fn($($arg_types)*) -> _;
+
+            // Check function addresses are the same (i.e. link is configured as expected).
+            // This will also trigger build errors if linker fails to find the symbol pyo3-ffi
+            // is expecting.
+            if !std::ptr::fn_addr_eq(pyo3_ffi_fn, bindgen_fn)
+                && !SPECIAL_CASE_FUNCTIONS.contains(&stringify!($name))
+            {
+                failed = true;
+                println!(
+                    "error: function address of {} differs between pyo3_ffi ({:p}) and bindgen ({:p})",
+                    stringify!($name),
+                    pyo3_ffi_fn,
+                    bindgen_fn
+                );
+            }
 
             // TODO: can probably sniff arg types by binding sniffers for each argument position and then passing
             // those inside `todo_args!` to use type inference for each argument.

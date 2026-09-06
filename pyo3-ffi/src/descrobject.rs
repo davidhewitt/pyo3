@@ -55,15 +55,15 @@ extern_libpython! {
 
 extern_libpython! {
     pub fn PyDescr_NewMethod(arg1: *mut PyTypeObject, arg2: *mut PyMethodDef) -> *mut PyObject;
-    #[cfg_attr(PyPy, link_name = "PyPyDescr_NewClassMethod")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDescr_NewClassMethod")]
     pub fn PyDescr_NewClassMethod(arg1: *mut PyTypeObject, arg2: *mut PyMethodDef)
         -> *mut PyObject;
-    #[cfg_attr(PyPy, link_name = "PyPyDescr_NewMember")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDescr_NewMember")]
     pub fn PyDescr_NewMember(arg1: *mut PyTypeObject, arg2: *mut PyMemberDef) -> *mut PyObject;
-    #[cfg_attr(PyPy, link_name = "PyPyDescr_NewGetSet")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDescr_NewGetSet")]
     pub fn PyDescr_NewGetSet(arg1: *mut PyTypeObject, arg2: *mut PyGetSetDef) -> *mut PyObject;
 
-    #[cfg_attr(PyPy, link_name = "PyPyDictProxy_New")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDictProxy_New")]
     pub fn PyDictProxy_New(arg1: *mut PyObject) -> *mut PyObject;
     pub fn PyWrapper_New(arg1: *mut PyObject, arg2: *mut PyObject) -> *mut PyObject;
 }

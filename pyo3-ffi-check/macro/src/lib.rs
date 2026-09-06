@@ -6,7 +6,7 @@ use std::{
 };
 
 use proc_macro2::{Ident, Span, TokenStream, TokenTree};
-use pyo3_build_config::PythonVersion;
+use pyo3_build_config::{PythonImplementation, PythonVersion};
 use quote::quote;
 
 const PY_3_15: PythonVersion = PythonVersion {
@@ -195,6 +195,7 @@ pub fn for_all_fields(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         let bindgen_field_ident = if (pyo3_build_config::get().target_abi().version() >= PY_3_12)
             && struct_name == "PyObject"
             && field_name == "ob_refcnt"
+            && pyo3_build_config::get().target_abi().implementation() != PythonImplementation::PyPy
         {
             // PyObject since 3.12 implements ob_refcnt as a union; bindgen creates
             // an anonymous name for the field
@@ -495,6 +496,13 @@ const EXCLUDED_SYMBOLS: &[&str] = &[
     "PyOS_BeforeFork",
     "PyOS_AfterFork_Parent",
     "PyOS_AfterFork_Child",
+    // TODO: PyPy 3.12 declares these symbols in its headers but does not export them.
+    "PyMapping_Length",
+    "PyObject_IS_GC",
+    "PyObject_Length",
+    "PySequence_In",
+    "PySequence_Length",
+    "PyType_ClearCache",
 ];
 
 // Assert at compile time that `MACRO_EXCLUSIONS` and `EXCLUDED_SYMBOLS` are disjoint
