@@ -129,6 +129,9 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
     env:
+      CARGO_TARGET_AARCH64_PC_WINDOWS_MSVC_LINKER: lld-link.exe
+      CARGO_TARGET_I686_PC_WINDOWS_MSVC_LINKER: lld-link.exe
+      CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER: lld-link.exe
       CARGO_TERM_VERBOSE: ${{ inputs.verbose }}
       RUST_BACKTRACE: 1
       RUSTFLAGS: "-D warnings"
