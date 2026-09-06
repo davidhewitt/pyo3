@@ -1,20 +1,10 @@
 name: Enable merged doctests
-description: Temporarily use Rust 2024 edition to enable merged doctests
+description: Temporarily enable unstable merged doctests on Rust 2021 edition
 runs:
   using: composite
   steps:
-    - name: Set Rust edition to 2024 and MSRV to 1.85
+    - name: Enable merged doctests
       shell: bash
       run: |
-        if ! grep -qx 'edition = "2021"' Cargo.toml; then
-          echo 'expected Cargo.toml to use Rust 2021 edition' >&2
-          exit 1
-        fi
-        if ! grep -qx 'package.rust-version = "1.83"' Cargo.toml; then
-          echo 'expected Cargo.toml to require Rust 1.83' >&2
-          exit 1
-        fi
-        sed -i \
-          -e 's/^edition = "2021"$/edition = "2024"/' \
-          -e 's/^package.rust-version = "1.83"$/package.rust-version = "1.85"/' \
-          Cargo.toml
+        echo "RUSTC_BOOTSTRAP=1" >> "$GITHUB_ENV"
+        echo "RUSTDOCFLAGS=${RUSTDOCFLAGS:+$RUSTDOCFLAGS }-Zunstable-options --merge-doctests=yes" >> "$GITHUB_ENV"

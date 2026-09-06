@@ -498,7 +498,9 @@ def test_emscripten(session: nox.Session):
             "-C link-arg=-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$stringToNewUTF8",
         ]
     )
-    session.env["RUSTDOCFLAGS"] = session.env["RUSTFLAGS"]
+    session.env["RUSTDOCFLAGS"] = " ".join(
+        [session.env["RUSTFLAGS"], session.env.get("RUSTDOCFLAGS", "")]
+    )
     session.env["CARGO_BUILD_TARGET"] = target
     session.env["PYO3_CROSS_LIB_DIR"] = pythonlibdir
     _run(session, "rustup", "target", "add", target, "--toolchain", "stable")
@@ -604,7 +606,9 @@ def test_wasm(session: nox.Session):
             "-C link-arg=-lexpat",
         ]
     )
-    session.env["RUSTDOCFLAGS"] = session.env["RUSTFLAGS"]
+    session.env["RUSTDOCFLAGS"] = " ".join(
+        [session.env["RUSTFLAGS"], session.env.get("RUSTDOCFLAGS", "")]
+    )
     _run(session, "rustup", "target", "add", target, "--toolchain", "stable")
 
     _run(session, "cargo", "test", *session.posargs, external=True)
