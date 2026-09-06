@@ -285,7 +285,10 @@ extern_libpython! {
     pub fn PyErr_NoMemory() -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyErr_SetFromErrno")]
     pub fn PyErr_SetFromErrno(arg1: *mut PyObject) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyErr_SetFromErrnoWithFilenameObject")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyErr_SetFromErrnoWithFilenameObject"
+    )]
     pub fn PyErr_SetFromErrnoWithFilenameObject(
         arg1: *mut PyObject,
         arg2: *mut PyObject,

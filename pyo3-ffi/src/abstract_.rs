@@ -112,10 +112,7 @@ extern_libpython! {
     pub fn PyObject_Size(o: *mut PyObject) -> Py_ssize_t;
 
     // PyObject_Length is a direct alias for PyObject_Size
-    #[cfg_attr(
-        any(not(PyPy), all(PyPy, Py_3_12)),
-        link_name = "PyObject_Size"
-    )]
+    #[cfg_attr(any(not(PyPy), all(PyPy, Py_3_12)), link_name = "PyObject_Size")]
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyObject_Size")]
     pub fn PyObject_Length(o: *mut PyObject) -> Py_ssize_t;
 
@@ -212,7 +209,10 @@ extern_libpython! {
     pub fn PyNumber_InPlaceSubtract(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyNumber_InPlaceMultiply")]
     pub fn PyNumber_InPlaceMultiply(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyNumber_InPlaceMatrixMultiply")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyNumber_InPlaceMatrixMultiply"
+    )]
     pub fn PyNumber_InPlaceMatrixMultiply(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyNumber_InPlaceFloorDivide")]
     pub fn PyNumber_InPlaceFloorDivide(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
@@ -244,10 +244,7 @@ extern_libpython! {
     pub fn PySequence_Size(o: *mut PyObject) -> Py_ssize_t;
 
     // PySequence_Length is a direct alias for PySequence_Size
-    #[cfg_attr(
-        any(not(PyPy), all(PyPy, Py_3_12)),
-        link_name = "PySequence_Size"
-    )]
+    #[cfg_attr(any(not(PyPy), all(PyPy, Py_3_12)), link_name = "PySequence_Size")]
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPySequence_Size")]
     pub fn PySequence_Length(o: *mut PyObject) -> Py_ssize_t;
 
@@ -283,10 +280,7 @@ extern_libpython! {
     pub fn PySequence_Contains(seq: *mut PyObject, ob: *mut PyObject) -> c_int;
 
     // PySequence_In is a direct alias for PySequence_Contains
-    #[cfg_attr(
-        any(not(PyPy), all(PyPy, Py_3_12)),
-        link_name = "PySequence_Contains"
-    )]
+    #[cfg_attr(any(not(PyPy), all(PyPy, Py_3_12)), link_name = "PySequence_Contains")]
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPySequence_Contains")]
     pub fn PySequence_In(o: *mut PyObject, value: *mut PyObject) -> c_int;
 
@@ -302,10 +296,7 @@ extern_libpython! {
     pub fn PyMapping_Size(o: *mut PyObject) -> Py_ssize_t;
 
     // PyMapping_Length is a direct alias for PyMapping_Size
-    #[cfg_attr(
-        any(not(PyPy), all(PyPy, Py_3_12)),
-        link_name = "PyMapping_Size"
-    )]
+    #[cfg_attr(any(not(PyPy), all(PyPy, Py_3_12)), link_name = "PyMapping_Size")]
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyMapping_Size")]
     pub fn PyMapping_Length(o: *mut PyObject) -> Py_ssize_t;
 }

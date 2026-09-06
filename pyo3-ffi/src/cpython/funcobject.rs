@@ -147,7 +147,6 @@ extern_libpython! {
     pub static mut PyStaticMethod_Type: crate::PyTypeObject;
 
     #[cfg_attr(PyPy, link_name = "PyPyClassMethod_New")]
-
     pub fn PyClassMethod_New(ob: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(PyPy, link_name = "PyPyStaticMethod_New")]
     pub fn PyStaticMethod_New(ob: *mut PyObject) -> *mut PyObject;

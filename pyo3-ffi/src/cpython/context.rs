@@ -56,7 +56,6 @@ extern_libpython! {
     pub fn PyContext_ClearWatcher(watcher_id: c_int) -> c_int;
 
     #[cfg_attr(PyPy, link_name = "PyPyContextVar_New")]
-
     pub fn PyContextVar_New(name: *const c_char, def: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(PyPy, link_name = "PyPyContextVar_Get")]
     pub fn PyContextVar_Get(

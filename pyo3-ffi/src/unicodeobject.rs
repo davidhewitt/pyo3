@@ -213,7 +213,10 @@ extern_libpython! {
         length: Py_ssize_t,
         errors: *const c_char,
     ) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_AsUnicodeEscapeString")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyUnicode_AsUnicodeEscapeString"
+    )]
     pub fn PyUnicode_AsUnicodeEscapeString(unicode: *mut PyObject) -> *mut PyObject;
     pub fn PyUnicode_DecodeRawUnicodeEscape(
         string: *const c_char,
@@ -289,7 +292,10 @@ extern_libpython! {
     pub fn PyUnicode_FSDecoder(arg1: *mut PyObject, arg2: *mut c_void) -> c_int;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeFSDefault")]
     pub fn PyUnicode_DecodeFSDefault(s: *const c_char) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeFSDefaultAndSize")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyUnicode_DecodeFSDefaultAndSize"
+    )]
     pub fn PyUnicode_DecodeFSDefaultAndSize(s: *const c_char, size: Py_ssize_t) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_EncodeFSDefault")]
     pub fn PyUnicode_EncodeFSDefault(unicode: *mut PyObject) -> *mut PyObject;
@@ -367,7 +373,10 @@ extern_libpython! {
     ) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Compare")]
     pub fn PyUnicode_Compare(left: *mut PyObject, right: *mut PyObject) -> c_int;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_CompareWithASCIIString")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyUnicode_CompareWithASCIIString"
+    )]
     pub fn PyUnicode_CompareWithASCIIString(left: *mut PyObject, right: *const c_char) -> c_int;
     #[cfg(Py_3_13)]
     pub fn PyUnicode_EqualToUTF8(unicode: *mut PyObject, string: *const c_char) -> c_int;

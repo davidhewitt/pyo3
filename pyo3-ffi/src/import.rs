@@ -48,7 +48,10 @@ extern_libpython! {
         fromlist: *mut PyObject,
         level: c_int,
     ) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyImport_ImportModuleLevelObject")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyImport_ImportModuleLevelObject"
+    )]
     pub fn PyImport_ImportModuleLevelObject(
         name: *mut PyObject,
         globals: *mut PyObject,
