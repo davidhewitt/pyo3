@@ -791,5 +791,8 @@ extern_libpython! {
     pub fn PyType_GetModule_DuringGC(type_: *mut PyTypeObject) -> *mut PyObject;
 
     #[cfg(Py_3_15)]
-    pub fn PyType_GetModuleByToken_DuringGC(type_: *mut PyTypeObject, mod_token: *const c_void) -> *mut PyObject;
+    pub fn PyType_GetModuleByToken_DuringGC(
+        type_: *mut PyTypeObject,
+        mod_token: *const c_void,
+    ) -> *mut PyObject;
 }
