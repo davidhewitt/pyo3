@@ -453,9 +453,6 @@ const MACRO_EXCLUSIONS: &[(&str, &str)] = &[
     ("Py_UNICODE_TODECIMAL", ""),
     ("Py_XDECREF", ""),
     ("Py_XINCREF", ""),
-    ("_PyCode_GetExtra", "Py_3_12"),
-    ("_PyCode_SetExtra", "Py_3_12"),
-    ("_PyEval_RequestCodeExtraIndex", "Py_3_12"),
     // These functions were only added in 3.10, but pyo3-ffi defines them for
     // all versions. Technically not macros but the machinery happens to work
     // the same way.
@@ -496,13 +493,17 @@ const EXCLUDED_SYMBOLS: &[&str] = &[
     "PyOS_BeforeFork",
     "PyOS_AfterFork_Parent",
     "PyOS_AfterFork_Child",
-    // TODO: PyPy 3.12 declares these symbols in its headers but does not export them.
+    // TODO: PyPy 3.12 declares these symbols in its headers but does not implement them?
     "PyMapping_Length",
     "PyObject_IS_GC",
     "PyObject_Length",
     "PySequence_In",
     "PySequence_Length",
     "PyType_ClearCache",
+    // TODO: deprecated backwards compatibility aliases to be removed in PyO3 0.31
+    "_PyCode_GetExtra",
+    "_PyCode_SetExtra",
+    "_PyEval_RequestCodeExtraIndex",
 ];
 
 // Assert at compile time that `MACRO_EXCLUSIONS` and `EXCLUDED_SYMBOLS` are disjoint
