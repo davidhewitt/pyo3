@@ -42,6 +42,17 @@ fn main() {
         vec![format!("-I{python_include_dir}")]
     };
 
+    // Windows requires a link library to resolve symbols for the function address checks
+    if env::var("TARGET").is_ok_and(|t| t.contains("windows")) {
+        if let Some(python_lib_dir) = config.lib_dir() {
+            println!("cargo:rustc-link-search=native={python_lib_dir}");
+        }
+
+        if let Some(python_lib_name) = config.lib_name() {
+            println!("cargo:rustc-link-lib={python_lib_name}");
+        }
+    }
+
     println!("cargo:rerun-if-changed=wrapper.h");
 
     let builder = bindgen::Builder::default()
