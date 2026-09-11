@@ -293,13 +293,19 @@ extern_libpython! {
         arg1: *mut PyObject,
         arg2: *mut PyObject,
     ) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyErr_SetFromErrnoWithFilenameObjects")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyErr_SetFromErrnoWithFilenameObjects"
+    )]
     pub fn PyErr_SetFromErrnoWithFilenameObjects(
         arg1: *mut PyObject,
         arg2: *mut PyObject,
         arg3: *mut PyObject,
     ) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyErr_SetFromErrnoWithFilename")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyErr_SetFromErrnoWithFilename"
+    )]
     pub fn PyErr_SetFromErrnoWithFilename(
         exc: *mut PyObject,
         filename: *const c_char,

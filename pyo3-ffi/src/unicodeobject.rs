@@ -224,7 +224,10 @@ extern_libpython! {
         link_name = "PyPyUnicode_AsUnicodeEscapeString"
     )]
     pub fn PyUnicode_AsUnicodeEscapeString(unicode: *mut PyObject) -> *mut PyObject;
-    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeRawUnicodeEscape")]
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyUnicode_DecodeRawUnicodeEscape"
+    )]
     pub fn PyUnicode_DecodeRawUnicodeEscape(
         string: *const c_char,
         length: Py_ssize_t,
