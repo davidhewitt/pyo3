@@ -2413,7 +2413,7 @@ fn default_lib_name_windows(abi: PythonAbi, mingw: bool, debug: bool) -> Result<
         // "lib" prefix is not automatically added).
         let mut lib_name = default_lib_name_unix(abi, true, None)?;
         lib_name.insert_str(0, "lib");
-        return Ok(lib_name);
+        Ok(lib_name)
     } else if debug && abi.version < PythonVersion::PY310 {
         // CPython bug: linking against python3_d.dll raises error
         // https://github.com/python/cpython/issues/101614
