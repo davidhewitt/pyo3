@@ -235,6 +235,7 @@ extern_libpython! {
     pub fn PyNumber_InPlaceXor(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyNumber_InPlaceOr")]
     pub fn PyNumber_InPlaceOr(o1: *mut PyObject, o2: *mut PyObject) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyNumber_ToBase")]
     pub fn PyNumber_ToBase(n: *mut PyObject, base: c_int) -> *mut PyObject;
 
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPySequence_Check")]

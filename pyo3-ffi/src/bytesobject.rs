@@ -29,6 +29,7 @@ extern_libpython! {
 
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyBytes_FromStringAndSize")]
     pub fn PyBytes_FromStringAndSize(arg1: *const c_char, arg2: Py_ssize_t) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyBytes_FromString")]
     pub fn PyBytes_FromString(arg1: *const c_char) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyBytes_FromObject")]
     pub fn PyBytes_FromObject(arg1: *mut PyObject) -> *mut PyObject;

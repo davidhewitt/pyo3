@@ -88,6 +88,7 @@ extern_libpython! {
     pub fn PyCFunction_GetFlags(f: *mut PyObject) -> c_int;
     #[cfg(not(Py_3_13))]
     #[deprecated(note = "Python 3.9")]
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyCFunction_Call")]
     pub fn PyCFunction_Call(
         f: *mut PyObject,
         args: *mut PyObject,

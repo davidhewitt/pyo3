@@ -19,19 +19,6 @@ impl bindgen::callbacks::ParseCallbacks for ParseCallbacks {
     }
 }
 
-#[derive(Debug)]
-struct PyPyReplaceCallbacks;
-
-impl bindgen::callbacks::ParseCallbacks for PyPyReplaceCallbacks {
-    fn item_name(&self, item_info: ItemInfo<'_>) -> Option<String> {
-        if item_info.name.starts_with("PyPy") || item_info.name.starts_with("_PyPy") {
-            Some(item_info.name.replacen("PyPy", "Py", 1))
-        } else {
-            None
-        }
-    }
-}
-
 fn main() {
     let config = pyo3_build_config::get();
 
@@ -57,7 +44,7 @@ fn main() {
 
     println!("cargo:rerun-if-changed=wrapper.h");
 
-    let mut builder = bindgen::Builder::default()
+    let builder = bindgen::Builder::default()
         .header("wrapper.h")
         .clang_args(clang_args)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
@@ -68,13 +55,6 @@ fn main() {
         .blocklist_item("memcmp")
         .blocklist_item("strlen")
         .blocklist_item("bcmp");
-
-    if matches!(
-        config.implementation(),
-        pyo3_build_config::PythonImplementation::PyPy
-    ) {
-        builder = builder.parse_callbacks(Box::new(PyPyReplaceCallbacks));
-    }
 
     let bindings = builder
         // blocklist some values which apparently have conflicting definitions on unix

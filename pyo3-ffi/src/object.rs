@@ -540,7 +540,9 @@ extern_libpython! {
 
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyObject_Dir")]
     pub fn PyObject_Dir(arg1: *mut PyObject) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPy_ReprEnter")]
     pub fn Py_ReprEnter(arg1: *mut PyObject) -> c_int;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPy_ReprLeave")]
     pub fn Py_ReprLeave(arg1: *mut PyObject);
 }
 

@@ -557,13 +557,20 @@ pub fn for_all_functions(_input: proc_macro::TokenStream) -> proc_macro::TokenSt
             continue;
         }
 
-        if pyo3_build_config::get().implementation()
-            == pyo3_build_config::PythonImplementation::PyPy
-        {
+        let mut bindgen_name = function_name.to_owned();
+        if pyo3_build_config::get().implementation() == PythonImplementation::PyPy {
+            // For PyPy, some functions are prefixed with "PyPy", we check whether the
+            // bindgen name contains the prefixed name and use that if it does.
+            if function_name.starts_with("Py") || function_name.starts_with("_Py") {
+                let prefixed_name = function_name.replacen("Py", "PyPy", 1);
+                if BINDGEN_FUNCTION_NAMES.contains(&prefixed_name) {
+                    bindgen_name = prefixed_name;
+                }
+            }
             // If the function doesn't exist in PyPy, for now we don't care:
             // - For PyO3 inline functions it's probably fine to include anyway
             // - For extern symbols - PyPy may add them in a future release
-            if !BINDGEN_FUNCTION_NAMES.contains(function_name) {
+            if !BINDGEN_FUNCTION_NAMES.contains(&bindgen_name) {
                 continue;
             }
         }
@@ -623,6 +630,7 @@ pub fn for_all_functions(_input: proc_macro::TokenStream) -> proc_macro::TokenSt
         };
 
         let function_ident = Ident::new(function_name, Span::call_site());
+        let bindgen_ident = Ident::new(&bindgen_name, Span::call_site());
 
         let arg_types = std::iter::repeat_n(quote!(_), arg_count);
 
@@ -649,7 +657,7 @@ pub fn for_all_functions(_input: proc_macro::TokenStream) -> proc_macro::TokenSt
             .map(|(_, cfg)| if cfg.is_empty() { "all()" } else { *cfg })
             .map(|cfg| cfg.parse().expect("failed to parse macro exclusion cfg"));
 
-        let has_symbol = BINDGEN_FUNCTION_NAMES.contains(function_name);
+        let has_symbol = BINDGEN_FUNCTION_NAMES.contains(&bindgen_name);
         match (macro_exclusion_cfg, has_symbol) {
             (Some(cfg), true) => {
                 // emit an error if checking within the cfgs where a macro is expected
@@ -659,7 +667,7 @@ pub fn for_all_functions(_input: proc_macro::TokenStream) -> proc_macro::TokenSt
                 output.extend(quote!(#[cfg(#cfg)] compile_error!(#error_message);));
                 // if not within the macro range, we found a symbol, this should be good
                 output.extend(
-                    quote!(#[cfg(not(#cfg))] #macro_name!(#inline #function_ident, #modifiers (#(#arg_types),* #vararg));),
+                    quote!(#[cfg(not(#cfg))] #macro_name!(#inline #function_ident, #bindgen_ident, #modifiers (#(#arg_types),* #vararg));),
                 );
             }
             (Some(cfg), false) => {
@@ -673,7 +681,7 @@ pub fn for_all_functions(_input: proc_macro::TokenStream) -> proc_macro::TokenSt
             (None, true) => {
                 // emit the comparison macro to check that the argument count matches
                 output.extend(
-                    quote!(#macro_name!(#inline #function_ident, #modifiers (#(#arg_types),* #vararg));),
+                    quote!(#macro_name!(#inline #function_ident, #bindgen_ident, #modifiers (#(#arg_types),* #vararg));),
                 );
             }
             (None, false) => {

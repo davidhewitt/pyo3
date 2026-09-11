@@ -41,19 +41,23 @@ extern_libpython! {
 
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_FromStringAndSize")]
     pub fn PyUnicode_FromStringAndSize(u: *const c_char, size: Py_ssize_t) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_FromString")]
     pub fn PyUnicode_FromString(u: *const c_char) -> *mut PyObject;
 
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Substring")]
     pub fn PyUnicode_Substring(
         str: *mut PyObject,
         start: Py_ssize_t,
         end: Py_ssize_t,
     ) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_AsUCS4")]
     pub fn PyUnicode_AsUCS4(
         unicode: *mut PyObject,
         buffer: *mut Py_UCS4,
         buflen: Py_ssize_t,
         copy_null: c_int,
     ) -> *mut Py_UCS4;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_AsUCS4Copy")]
     pub fn PyUnicode_AsUCS4Copy(unicode: *mut PyObject) -> *mut Py_UCS4;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_GetLength")]
     pub fn PyUnicode_GetLength(unicode: *mut PyObject) -> Py_ssize_t;
@@ -61,7 +65,9 @@ extern_libpython! {
     #[deprecated(note = "Removed in Python 3.12")]
     #[cfg_attr(PyPy, link_name = "PyPyUnicode_GetSize")]
     pub fn PyUnicode_GetSize(unicode: *mut PyObject) -> Py_ssize_t;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_ReadChar")]
     pub fn PyUnicode_ReadChar(unicode: *mut PyObject, index: Py_ssize_t) -> Py_UCS4;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_WriteChar")]
     pub fn PyUnicode_WriteChar(
         unicode: *mut PyObject,
         index: Py_ssize_t,
@@ -218,11 +224,16 @@ extern_libpython! {
         link_name = "PyPyUnicode_AsUnicodeEscapeString"
     )]
     pub fn PyUnicode_AsUnicodeEscapeString(unicode: *mut PyObject) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeRawUnicodeEscape")]
     pub fn PyUnicode_DecodeRawUnicodeEscape(
         string: *const c_char,
         length: Py_ssize_t,
         errors: *const c_char,
     ) -> *mut PyObject;
+    #[cfg_attr(
+        all(PyPy, not(Py_3_12)),
+        link_name = "PyPyUnicode_AsRawUnicodeEscapeString"
+    )]
     pub fn PyUnicode_AsRawUnicodeEscapeString(unicode: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeLatin1")]
     pub fn PyUnicode_DecodeLatin1(
@@ -279,12 +290,15 @@ extern_libpython! {
         unicode: *mut PyObject,
         errors: *const c_char,
     ) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeLocaleAndSize")]
     pub fn PyUnicode_DecodeLocaleAndSize(
         str: *const c_char,
         len: Py_ssize_t,
         errors: *const c_char,
     ) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_DecodeLocale")]
     pub fn PyUnicode_DecodeLocale(str: *const c_char, errors: *const c_char) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_EncodeLocale")]
     pub fn PyUnicode_EncodeLocale(unicode: *mut PyObject, errors: *const c_char) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_FSConverter")]
     pub fn PyUnicode_FSConverter(arg1: *mut PyObject, arg2: *mut c_void) -> c_int;
@@ -301,7 +315,9 @@ extern_libpython! {
     pub fn PyUnicode_EncodeFSDefault(unicode: *mut PyObject) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Concat")]
     pub fn PyUnicode_Concat(left: *mut PyObject, right: *mut PyObject) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Append")]
     pub fn PyUnicode_Append(pleft: *mut *mut PyObject, right: *mut PyObject);
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_AppendAndDel")]
     pub fn PyUnicode_AppendAndDel(pleft: *mut *mut PyObject, right: *mut PyObject);
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Split")]
     pub fn PyUnicode_Split(
@@ -350,6 +366,7 @@ extern_libpython! {
         end: Py_ssize_t,
         direction: c_int,
     ) -> Py_ssize_t;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_FindChar")]
     pub fn PyUnicode_FindChar(
         str: *mut PyObject,
         ch: Py_UCS4,
@@ -388,6 +405,7 @@ extern_libpython! {
     ) -> c_int;
     #[cfg(Py_3_14)]
     pub fn PyUnicode_Equal(str1: *mut PyObject, str2: *mut PyObject) -> c_int;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_RichCompare")]
     pub fn PyUnicode_RichCompare(
         left: *mut PyObject,
         right: *mut PyObject,
@@ -395,6 +413,8 @@ extern_libpython! {
     ) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Format")]
     pub fn PyUnicode_Format(format: *mut PyObject, args: *mut PyObject) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_Contains")]
     pub fn PyUnicode_Contains(container: *mut PyObject, element: *mut PyObject) -> c_int;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyUnicode_IsIdentifier")]
     pub fn PyUnicode_IsIdentifier(s: *mut PyObject) -> c_int;
 }

@@ -93,7 +93,9 @@ extern_libpython! {
 type PyOS_sighandler_t = unsafe extern "C" fn(arg1: c_int);
 
 extern_libpython! {
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyOS_getsig")]
     pub fn PyOS_getsig(arg1: c_int) -> PyOS_sighandler_t;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyOS_setsig")]
     pub fn PyOS_setsig(arg1: c_int, arg2: PyOS_sighandler_t) -> PyOS_sighandler_t;
 
     #[cfg(Py_3_11)]

@@ -54,6 +54,7 @@ extern_libpython! {
 }
 
 extern_libpython! {
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDescr_NewMethod")]
     pub fn PyDescr_NewMethod(arg1: *mut PyTypeObject, arg2: *mut PyMethodDef) -> *mut PyObject;
     #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyDescr_NewClassMethod")]
     pub fn PyDescr_NewClassMethod(arg1: *mut PyTypeObject, arg2: *mut PyMethodDef)
@@ -128,6 +129,8 @@ pub const _Py_WRITE_RESTRICTED: c_int = 4; // Deprecated, no-op. Do not reuse th
 pub const Py_RELATIVE_OFFSET: c_int = 8;
 
 extern_libpython! {
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyMember_GetOne")]
     pub fn PyMember_GetOne(addr: *const c_char, l: *mut PyMemberDef) -> *mut PyObject;
+    #[cfg_attr(all(PyPy, not(Py_3_12)), link_name = "PyPyMember_SetOne")]
     pub fn PyMember_SetOne(addr: *mut c_char, l: *mut PyMemberDef, value: *mut PyObject) -> c_int;
 }
