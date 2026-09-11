@@ -1,7 +1,8 @@
 use std::env;
 use std::path::PathBuf;
 
-use bindgen::callbacks::ItemInfo;
+use bindgen::callbacks::{ItemInfo, ItemKind};
+use target_lexicon::{Architecture, OperatingSystem, Triple};
 
 #[derive(Debug)]
 struct ParseCallbacks;
@@ -19,8 +20,24 @@ impl bindgen::callbacks::ParseCallbacks for ParseCallbacks {
     }
 }
 
+#[derive(Debug)]
+struct WindowsX86RawDylibCallbacks;
+
+// Matches the adjustment in `pyo3-ffi` to force the link name for functions starting
+// with `_Py` (see `pyo3-ffi/src/impl_/macros.rs`)
+impl bindgen::callbacks::ParseCallbacks for WindowsX86RawDylibCallbacks {
+    fn generated_link_name_override(&self, item: ItemInfo<'_>) -> Option<String> {
+        if item.kind == ItemKind::Function && item.name.starts_with("_Py") {
+            Some(format!("_{}", item.name))
+        } else {
+            None
+        }
+    }
+}
+
 fn main() {
     let config = pyo3_build_config::get();
+    let target: Triple = env::var("TARGET").unwrap().parse().unwrap();
 
     let python_include_dir = config
         .run_python_script(
@@ -42,20 +59,9 @@ fn main() {
         vec![format!("-I{python_include_dir}")]
     };
 
-    // Windows requires a link library to resolve symbols for the function address checks
-    if env::var("TARGET").is_ok_and(|t| t.contains("windows")) {
-        if let Some(python_lib_dir) = config.lib_dir() {
-            println!("cargo:rustc-link-search=native={python_lib_dir}");
-        }
-
-        if let Some(python_lib_name) = config.lib_name() {
-            println!("cargo:rustc-link-lib={python_lib_name}");
-        }
-    }
-
     println!("cargo:rerun-if-changed=wrapper.h");
 
-    let builder = bindgen::Builder::default()
+    let mut builder = bindgen::Builder::default()
         .header("wrapper.h")
         .clang_args(clang_args)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
@@ -66,6 +72,33 @@ fn main() {
         .blocklist_item("memcmp")
         .blocklist_item("strlen")
         .blocklist_item("bcmp");
+
+    // Match PyO3's choice to use raw-dylib linking on Windows for the bindgen symbols
+    // so that link resolution is done identically
+    if target.operating_system == OperatingSystem::Windows {
+        println!("cargo:rerun-if-env-changed=PYO3_USE_RAW_DYLIB");
+        let lib_name = config.lib_name().expect("missing Python library name");
+        if env::var("PYO3_USE_RAW_DYLIB").map_or(true, |value| value == "1") {
+            // Make sure that only `Py` symbols have raw-dylib bindings generated
+            // rather than any CRT standard library stuff
+            builder = builder
+                .allowlist_type(".*")
+                .allowlist_function("_?Py.*")
+                .allowlist_var("_?Py.*|PY.*");
+
+            // Matches the adjustment in `pyo3-ffi` to force the link name for functions starting
+            // with `_Py` (see `pyo3-ffi/src/impl_/macros.rs`)
+            let import_name_type = if matches!(target.architecture, Architecture::X86_32(_)) {
+                builder = builder.parse_callbacks(Box::new(WindowsX86RawDylibCallbacks));
+                ", import_name_type = \"undecorated\""
+            } else {
+                ""
+            };
+            builder = builder.extern_block_attrs(format!(
+                "#[link(name = \"{lib_name}\", kind = \"raw-dylib\"{import_name_type})]"
+            ));
+        }
+    }
 
     let bindings = builder
         // blocklist some values which apparently have conflicting definitions on unix
