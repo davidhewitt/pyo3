@@ -186,9 +186,9 @@ def test_py(session: nox.Session) -> None:
     features = (
         ",".join(f"pyo3/{feat}" for feat in _REQUIRED_FOR_NO_STD)
         if _is_no_std()
-        else None
+        else ""
     )
-    features = f"--features={features}" if features else None
+    features = f"--features={features}" if features else ""
 
     _run(session, "nox", "-f", "pytests/noxfile.py", "--", features, external=True)
     for example in glob("examples/*/noxfile.py"):
