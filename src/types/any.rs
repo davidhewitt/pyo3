@@ -35,7 +35,6 @@ use core::ptr;
 pub struct PyAny(UnsafeCell<ffi::PyObject>);
 
 #[allow(non_snake_case)]
-// Copied here as the macro does not accept deprecated functions.
 // Originally ffi::object::PyObject_Check, but this is not in the Python C API.
 fn PyObject_Check(_: *mut ffi::PyObject) -> c_int {
     1
@@ -755,13 +754,6 @@ pub trait PyAnyMethods<'py>: crate::sealed::Sealed {
     where
         T: FromPyObject<'a, 'py>;
 
-    /// Returns the reference count for the Python object.
-    #[deprecated(
-        since = "0.29.0",
-        note = "use `pyo3::ffi::Py_REFCNT(obj.as_ptr())` instead"
-    )]
-    fn get_refcnt(&self) -> isize;
-
     /// Computes the "repr" representation of self.
     ///
     /// This is equivalent to the Python expression `repr(self)`.
@@ -1209,10 +1201,6 @@ impl<'py> PyAnyMethods<'py> for Bound<'py, PyAny> {
         T: FromPyObject<'a, 'py>,
     {
         FromPyObject::extract(self.as_borrowed())
-    }
-
-    fn get_refcnt(&self) -> isize {
-        self._get_refcnt()
     }
 
     fn repr(&self) -> PyResult<Bound<'py, PyString>> {

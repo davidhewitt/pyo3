@@ -1774,16 +1774,6 @@ impl<T> Py<T> {
         ptr::eq(self.as_ptr(), o.as_ref().as_ptr())
     }
 
-    /// Gets the reference count of the `ffi::PyObject` pointer.
-    #[inline]
-    #[deprecated(
-        since = "0.29.0",
-        note = "use `pyo3::ffi::Py_REFCNT(obj.as_ptr())` instead"
-    )]
-    pub fn get_refcnt(&self, py: Python<'_>) -> isize {
-        self._get_refcnt(py)
-    }
-
     #[inline]
     pub(crate) fn _get_refcnt(&self, _py: Python<'_>) -> isize {
         // SAFETY: Self is a valid pointer to a PyObject

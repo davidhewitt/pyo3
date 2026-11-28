@@ -167,17 +167,6 @@ impl PyCapsule {
         }
     }
 
-    /// See [`PyCapsule::new_with_value`]
-    #[deprecated(since = "0.29.0", note = "use `PyCapsule::new_with_value` instead")]
-    pub fn new<T: 'static + Send>(
-        py: Python<'_>,
-        value: T,
-        name: Option<CString>,
-    ) -> PyResult<Bound<'_, Self>> {
-        #[allow(deprecated)]
-        Self::new_with_destructor(py, value, name, |_, _| {})
-    }
-
     /// Constructs a new capsule whose contents are `value`, associated with `name`.
     ///
     /// Also provides a destructor: when the `PyCapsule` is destroyed, it will be passed the original object,
@@ -228,45 +217,9 @@ impl PyCapsule {
         }
     }
 
-    /// See [`PyCapsule::new_with_value_and_destructor`]
-    #[deprecated(
-        since = "0.29.0",
-        note = "use `PyCapsule::new_with_value_and_destructor` instead"
-    )]
-    pub fn new_with_destructor<T: 'static + Send, F: FnOnce(T, *mut c_void) + Send + 'static>(
-        py: Python<'_>,
-        value: T,
-        name: Option<CString>,
-        destructor: F,
-    ) -> PyResult<Bound<'_, Self>> {
-        // Sanity check for capsule layout
-        debug_assert_eq!(offset_of!(CapsuleContents::<T, F>, value), 0);
-
-        let name_ptr = name
-            .as_ref()
-            .map_or(core::ptr::null(), |name| name.as_ptr());
-        let val = Box::into_raw(Box::new(CapsuleContents {
-            value,
-            destructor,
-            name,
-        }));
-
-        // SAFETY:
-        // - `val` is a non-null pointer to valid capsule data
-        // - `name_ptr` is either a valid C string or null
-        // - `destructor` will delete this data when called
-        // - thread is attached to the Python interpreter
-        // - `PyCapsule_New` returns a new reference or null on error
-        unsafe {
-            ffi::PyCapsule_New(val.cast(), name_ptr, Some(capsule_destructor::<T, F>))
-                .assume_owned_or_err(py)
-                .cast_into_unchecked()
-        }
-    }
-
     /// Constructs a new capsule from a raw pointer.
     ///
-    /// Unlike [`PyCapsule::new`], which stores a value and sets the capsule's pointer
+    /// Unlike [`PyCapsule::new_with_value`], which stores a value and sets the capsule's pointer
     /// to that value's address, this method uses the pointer directly. This is useful
     /// for APIs that expect the capsule to hold a specific address (e.g., a function
     /// pointer for FFI) rather than a pointer to owned data.
@@ -318,7 +271,7 @@ impl PyCapsule {
     /// This is the full-featured version of [`PyCapsule::new_with_pointer`], allowing
     /// a destructor to be called when the capsule is garbage collected.
     ///
-    /// Unlike [`PyCapsule::new_with_destructor`], the destructor here must be a raw
+    /// Unlike [`PyCapsule::new_with_value_and_destructor`], the destructor here must be a raw
     /// `extern "C"` function pointer, not a Rust closure. This is because there is
     /// no internal storage for a closure—the capsule holds only the raw pointer you
     /// provide.
@@ -893,22 +846,6 @@ mod tests {
     }
 
     #[test]
-    #[allow(deprecated)]
-    fn test_pycapsule_no_name() {
-        Python::attach(|py| {
-            let cap = PyCapsule::new(py, 0usize, None).unwrap();
-
-            assert_eq!(
-                // SAFETY: `cap` is known to contain a `usize`
-                unsafe { cap.pointer_checked(None).unwrap().cast::<usize>().as_ref() },
-                &0usize
-            );
-            assert!(cap.name().unwrap().is_none());
-            assert_eq!(cap.context().unwrap(), core::ptr::null_mut());
-        });
-    }
-
-    #[test]
     fn test_pycapsule_new_with_pointer() {
         extern "C" fn dummy_handler(_: *mut c_void) -> *mut c_void {
             core::ptr::null_mut()
@@ -995,22 +932,6 @@ mod tests {
     }
 
     #[test]
-    #[allow(deprecated)]
-    fn test_pycapsule_pointer_checked_none_vs_some() {
-        Python::attach(|py| {
-            // Capsule with no name
-            let cap_no_name = PyCapsule::new(py, 123u32, None).unwrap();
-
-            // Should succeed with None
-            assert!(cap_no_name.pointer_checked(None).is_ok());
-
-            // Should fail with Some(name)
-            let result = cap_no_name.pointer_checked(Some(c"some.name"));
-            assert!(result.unwrap_err().is_instance_of::<PyValueError>(py));
-        });
-    }
-
-    #[test]
     fn test_pycapsule_is_valid_checked_wrong_name() {
         Python::attach(|py| {
             let cap = PyCapsule::new_with_value(py, 123u32, c"correct.name").unwrap();
@@ -1023,20 +944,6 @@ mod tests {
 
             // Should be invalid with None when capsule has a name
             assert!(!cap.is_valid_checked(None));
-        });
-    }
-
-    #[test]
-    #[allow(deprecated)]
-    fn test_pycapsule_is_valid_checked_no_name() {
-        Python::attach(|py| {
-            let cap = PyCapsule::new(py, 123u32, None).unwrap();
-
-            // Should be valid with None
-            assert!(cap.is_valid_checked(None));
-
-            // Should be invalid with any name
-            assert!(!cap.is_valid_checked(Some(c"any.name")));
         });
     }
 

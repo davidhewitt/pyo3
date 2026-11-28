@@ -19,15 +19,6 @@ extern_libpython! {
     pub fn PyUnstable_Eval_RequestCodeExtraIndex(func: freefunc) -> Py_ssize_t;
 }
 
-#[deprecated(
-    since = "0.29.0",
-    note = "renamed to PyUnstable_Eval_RequestCodeExtraIndex"
-)]
-#[inline]
-pub unsafe extern "C" fn _PyEval_RequestCodeExtraIndex(func: freefunc) -> Py_ssize_t {
-    PyUnstable_Eval_RequestCodeExtraIndex(func)
-}
-
 extern_libpython! {
 
     // skipped private _PyEval_SliceIndex

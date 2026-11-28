@@ -156,23 +156,3 @@ extern_libpython! {
         extra: *mut c_void,
     ) -> c_int;
 }
-
-#[deprecated(since = "0.29.0", note = "renamed to PyUnstable_Code_GetExtra")]
-#[inline]
-pub unsafe extern "C" fn _PyCode_GetExtra(
-    code: *mut PyObject,
-    index: Py_ssize_t,
-    extra: *mut *mut c_void,
-) -> c_int {
-    PyUnstable_Code_GetExtra(code, index, extra)
-}
-
-#[deprecated(since = "0.29.0", note = "renamed to PyUnstable_Code_SetExtra")]
-#[inline]
-pub unsafe extern "C" fn _PyCode_SetExtra(
-    code: *mut PyObject,
-    index: Py_ssize_t,
-    extra: *mut c_void,
-) -> c_int {
-    PyUnstable_Code_SetExtra(code, index, extra)
-}

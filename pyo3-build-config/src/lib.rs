@@ -331,7 +331,6 @@ fn rustc_minor_version() -> Option<u32> {
 }
 
 #[cfg(test)]
-#[expect(deprecated, reason = "accessing config directly")]
 mod tests {
     use crate::impl_::escape;
 

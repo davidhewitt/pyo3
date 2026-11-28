@@ -114,21 +114,6 @@ where
     }
 }
 
-impl<S, B> TpNewTupleResolver<S, (S, B)>
-where
-    S: PyClass<BaseType = B>,
-    B: PyClass + PyClassBaseType<Initializer = PyClassInitializer<B>>,
-    B::BaseType: PyClassBaseType<Initializer = PyNativeTypeInitializer<B::BaseType>>,
-{
-    #[deprecated(
-        since = "0.29.0",
-        note = "Tuple syntax for super class initialization is phased out. Use `PyClassInitializer` instead."
-    )]
-    pub fn resolve(&self, value: (S, B)) -> PyClassInitializer<S> {
-        value.into()
-    }
-}
-
 /// All other conversions fall back to IntoPyObject via the deref implementation
 impl ResolveToArbitraryObject {
     pub fn resolve<ValueT>(&self, value: ValueT) -> ValueT {

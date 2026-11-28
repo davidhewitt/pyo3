@@ -614,10 +614,6 @@ const EXCLUDED_SYMBOLS: &[&str] = &[
     "PySequence_In",
     "PySequence_Length",
     "PyType_ClearCache",
-    // TODO: deprecated backwards compatibility aliases to be removed in PyO3 0.31
-    "_PyCode_GetExtra",
-    "_PyCode_SetExtra",
-    "_PyEval_RequestCodeExtraIndex",
 ];
 
 // Assert at compile time that `MACRO_EXCLUSIONS` and `EXCLUDED_SYMBOLS` are disjoint

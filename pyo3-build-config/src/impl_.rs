@@ -152,35 +152,19 @@ pub struct InterpreterConfig {
     /// The host Python implementation flavor.
     ///
     /// Serialized to `implementation`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.implementation()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub implementation: PythonImplementation,
+    implementation: PythonImplementation,
 
     /// The host Python `X.Y` version. e.g. `3.9`.
     ///
     /// Serialized to `version`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.version()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub version: PythonVersion,
+    version: PythonVersion,
 
     /// Whether link library is shared.
     ///
     /// Serialized to `shared`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.shared()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub shared: bool,
+    shared: bool,
 
     target_abi: PythonAbi,
-
-    /// Serialized to `abi3`.
-    #[deprecated(since = "0.29.0", note = "please match against target_abi instead")]
-    pub abi3: bool,
 
     /// The name of the link library defining Python.
     ///
@@ -189,11 +173,7 @@ pub struct InterpreterConfig {
     /// prefix.
     ///
     /// Serialized to `lib_name`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.lib_name()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub lib_name: Option<String>,
+    lib_name: Option<String>,
 
     /// The directory containing the Python library to link against.
     ///
@@ -201,11 +181,7 @@ pub struct InterpreterConfig {
     /// to add an additional library search path for the linker.
     ///
     /// Serialized to `lib_dir`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.lib_dir()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub lib_dir: Option<String>,
+    lib_dir: Option<String>,
 
     /// Path of host `python` executable.
     ///
@@ -214,29 +190,17 @@ pub struct InterpreterConfig {
     /// executable invoked.
     ///
     /// Serialized to `executable`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.executable()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub executable: Option<String>,
+    executable: Option<String>,
 
     /// Width in bits of pointers on the target machine.
     ///
     /// Serialized to `pointer_width`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.pointer_width()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub pointer_width: Option<u32>,
+    pointer_width: Option<u32>,
 
     /// Additional relevant Python build flags / configuration settings.
     ///
     /// Serialized to `build_flags`.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.build_flags()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub build_flags: BuildFlags,
+    build_flags: BuildFlags,
 
     /// Whether to suppress emitting of `cargo:rustc-link-*` lines from the build script.
     ///
@@ -248,11 +212,7 @@ pub struct InterpreterConfig {
     ///
     /// If suppression is enabled, `extra_build_script_lines` should contain equivalent
     /// functionality or else a build failure is likely.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.suppress_build_script_link_lines()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub suppress_build_script_link_lines: bool,
+    suppress_build_script_link_lines: bool,
 
     /// Additional lines to `println!()` from Cargo build scripts.
     ///
@@ -264,22 +224,16 @@ pub struct InterpreterConfig {
     /// is build/configured.
     ///
     /// Serialized to multiple `extra_build_script_line` values.
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.extra_build_script_lines()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub extra_build_script_lines: Vec<String>,
+    extra_build_script_lines: Vec<String>,
+
     /// macOS Python3.framework requires special rpath handling
-    #[deprecated(
-        since = "0.29.0",
-        note = "please use `.python_framework_prefix()` getter or `InterpreterConfigBuilder` instead"
-    )]
-    pub python_framework_prefix: Option<String>,
+    python_framework_prefix: Option<String>,
+
+    /// PyPy abi version
     pypy_version: Option<PythonVersion>,
 }
 
 // Should no longer be deprecated once the internal fields are private
-#[expect(deprecated, reason = "this impl block touches the internal fields")]
 impl InterpreterConfig {
     /// The Python implementation flavor.
     ///
@@ -308,13 +262,6 @@ impl InterpreterConfig {
     /// Serialized to `target_abi`.
     pub fn target_abi(&self) -> PythonAbi {
         self.target_abi
-    }
-
-    /// Whether linking against the stable/limited Python 3 API.
-    ///
-    #[deprecated(since = "0.29.0", note = "please use `target_abi()` instead")]
-    pub fn abi3(&self) -> bool {
-        matches!(self.target_abi.kind, PythonAbiKind::Stable(StableAbi::Abi3))
     }
 
     /// The name of the link library defining Python.
@@ -744,7 +691,7 @@ print("debug", bool(debug))
         let mut version = None;
         let mut shared = None;
         let mut target_abi = None;
-        // deprecated in the struct but we still allow it to support old config files
+        // removed from the struct but we still allow it to support old config files
         let mut abi3 = None;
         let mut lib_name = None;
         let mut lib_dir = None;
@@ -1494,16 +1441,11 @@ impl InterpreterConfigBuilder {
             abi
         };
 
-        #[expect(
-            deprecated,
-            reason = "constructing an InterpreterConfig directly, need to write to fields"
-        )]
         Ok(InterpreterConfig {
             implementation: self.implementation,
             version: self.version,
             shared: self.shared,
             target_abi,
-            abi3: matches!(target_abi.kind(), PythonAbiKind::Stable(StableAbi::Abi3)),
             lib_name: self.lib_name,
             lib_dir: self.lib_dir,
             executable: self.executable,
@@ -1534,19 +1476,13 @@ impl PythonVersion {
         major: 3,
         minor: 14,
     };
-    #[deprecated(
-        since = "0.29.0",
-        note = "please construct `PythonVersion` directly rather than use these constants"
-    )]
-    pub const PY313: Self = PythonVersion {
+    #[cfg(test)]
+    pub(crate) const PY313: Self = PythonVersion {
         major: 3,
         minor: 13,
     };
-    #[deprecated(
-        since = "0.29.0",
-        note = "please construct `PythonVersion` directly rather than use these constants"
-    )]
-    pub const PY312: Self = PythonVersion {
+    #[cfg(test)]
+    pub(crate) const PY312: Self = PythonVersion {
         major: 3,
         minor: 12,
     };
@@ -1939,8 +1875,6 @@ pub fn cross_compiling_from_to(
 pub enum BuildFlag {
     Py_DEBUG,
     Py_REF_DEBUG,
-    #[deprecated(since = "0.29.0", note = "no longer supported by PyO3")]
-    Py_TRACE_REFS,
     Py_GIL_DISABLED,
     COUNT_ALLOCS,
     Other(String),
@@ -1951,8 +1885,6 @@ impl BuildFlag {
         match self {
             BuildFlag::Py_DEBUG => "Py_DEBUG",
             BuildFlag::Py_REF_DEBUG => "Py_REF_DEBUG",
-            #[expect(deprecated, reason = "internal implementation")]
-            BuildFlag::Py_TRACE_REFS => "Py_TRACE_REFS",
             BuildFlag::Py_GIL_DISABLED => "Py_GIL_DISABLED",
             BuildFlag::COUNT_ALLOCS => "COUNT_ALLOCS",
             BuildFlag::Other(flag) => flag,
@@ -2365,7 +2297,6 @@ fn cross_compile_from_sysconfigdata(
     if let Some(path) = find_sysconfigdata(cross_compile_config)? {
         let data = parse_sysconfigdata(path)?;
         let mut config = InterpreterConfig::from_sysconfigdata(&data)?;
-        #[expect(deprecated, reason = "modifying config inline")]
         if let Some(cross_lib_dir) = cross_compile_config.lib_dir_string() {
             config.lib_dir = Some(cross_lib_dir)
         }
@@ -2813,8 +2744,6 @@ fn unescape(escaped: &str) -> Vec<u8> {
 }
 
 #[cfg(test)]
-// can remove this expect when fields are private
-#[expect(deprecated, reason = "accessing config fields directly for testing")]
 mod tests {
     use target_lexicon::triple;
 

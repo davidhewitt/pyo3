@@ -124,7 +124,7 @@ To migrate use `PyClassInitializer` directly:
 
 Before:
 
-```rust
+```rust,ignore
 # #![allow(deprecated)]
 # use pyo3::prelude::*;
 #[pyclass(subclass)]
