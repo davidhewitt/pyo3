@@ -313,7 +313,7 @@ fn test_unsendable<T: PyClass + 'static>(py: Python<'_>) -> PyResult<()> {
     // the decref to be treated as non-local, which may defer it until a
     // later refcount merge on that other thread.
     py.detach(|| {
-        std::thread::scope(|s| {
+        let caught_panic = std::thread::scope(|s| {
             s.spawn(|| {
                 // This access must panic
                 Python::attach(|py| {
@@ -321,8 +321,12 @@ fn test_unsendable<T: PyClass + 'static>(py: Python<'_>) -> PyResult<()> {
                 });
             })
             .join()
-            .unwrap();
-        })
+        });
+
+        panic!(
+            "{}",
+            caught_panic.unwrap_err().downcast_ref::<String>().unwrap()
+        );
     });
 
     Ok(())
