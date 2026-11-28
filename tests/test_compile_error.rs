@@ -103,7 +103,14 @@ fn main() {
         "pyo3/full".to_string(),
     ];
 
-    let mut deps_cargo = ui_test::CommandBuilder::cargo();
+    let mut dependencies = ui_test::dependencies::DependencyBuilder {
+        crate_manifest_path: PathBuf::from(
+            env!("CARGO_MANIFEST_DIR").to_owned() + "/tests/ui/base/Cargo.toml",
+        ),
+        ..Default::default()
+    };
+
+    let deps_cargo = &mut dependencies.program;
     deps_cargo.args.push("--features".into());
     deps_cargo.args.push(deps_features.join(",").into());
     #[cfg(not(wip_feature_std))]
@@ -111,16 +118,10 @@ fn main() {
         .envs
         .push(("PYO3_WIP_NO_STD".into(), Some("1".into())));
 
-    config.comment_defaults.base().set_custom(
-        "dependencies",
-        ui_test::dependencies::DependencyBuilder {
-            crate_manifest_path: PathBuf::from(
-                env!("CARGO_MANIFEST_DIR").to_owned() + "/tests/ui/base/Cargo.toml",
-            ),
-            program: deps_cargo,
-            ..Default::default()
-        },
-    );
+    config
+        .comment_defaults
+        .base()
+        .set_custom("dependencies", dependencies);
 
     if let Ok(target) = std::env::var("CARGO_BUILD_TARGET") {
         config.target = Some(target);

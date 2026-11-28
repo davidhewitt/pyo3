@@ -16,7 +16,10 @@ runs:
   - name: Prepare coverage environment
     shell: bash
     run: |
-      cargo llvm-cov clean --workspace
       uv run --isolated --only-group nox nox -s set-coverage-env -- ${{ inputs.host_only == 'true' && '--coverage-host-only' || '' }}
     env:
       CARGO_LLVM_COV_SETUP: "yes"
+
+  - name: Clean raw coverage profiles
+    shell: bash
+    run: cargo llvm-cov clean --profraw-only
