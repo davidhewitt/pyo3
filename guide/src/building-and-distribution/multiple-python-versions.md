@@ -116,7 +116,7 @@ Your user could freely install and run your abi3 extension module on Python 3.10
 
 There's no way to detect your user doing that at compile time, so instead you need to fall back to runtime checks.
 
-PyO3 provides the APIs [`Python::version()`] and [`Python::version_info()`] to query the running Python version.
+PyO3 provides the APIs [`Python::version_str()`] and [`Python::version_info()`] to query the running Python version.
 This allows you to do the following, for example:
 
 ```rust
@@ -129,5 +129,5 @@ Python::attach(|py| {
 });
 ```
 
-[`Python::version()`]: {{#PYO3_DOCS_URL}}/pyo3/marker/struct.Python.html#method.version
+[`Python::version()`]: {{#PYO3_DOCS_URL}}/pyo3/marker/struct.Python.html#method.version_str
 [`Python::version_info()`]: {{#PYO3_DOCS_URL}}/pyo3/marker/struct.Python.html#method.version_info
