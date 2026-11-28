@@ -1936,6 +1936,7 @@ pub fn cross_compiling_from_to(
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum BuildFlag {
     Py_DEBUG,
     Py_REF_DEBUG,
