@@ -1,3 +1,23 @@
+warning: use of deprecated struct `pyo3::impl_::pyclass::Unsendable`: `#[pyclass(unsendable)]` is deprecated, all Python types should be `Send` and `Sync`
+  --> tests/ui/pyclass_send.rs:21:11
+   |
+21 | #[pyclass(unsendable)]
+   |           ^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated struct `pyo3::impl_::pyclass::Unsendable`: `#[pyclass(unsendable)]` is deprecated, all Python types should be `Send` and `Sync`
+  --> tests/ui/pyclass_send.rs:24:11
+   |
+24 | #[pyclass(unsendable)]
+   |           ^^^^^^^^^^
+
+warning: use of deprecated struct `pyo3::impl_::pyclass::Unsendable`: `#[pyclass(unsendable)]` is deprecated, all Python types should be `Send` and `Sync`
+  --> tests/ui/pyclass_send.rs:28:11
+   |
+28 | #[pyclass(unsendable)]
+   |           ^^^^^^^^^^
+
 error[E0277]: `*mut c_void` cannot be sent between threads safely
  --> tests/ui/pyclass_send.rs:5:8
   |
@@ -78,6 +98,6 @@ note: required by a bound in `pyo3::impl_::pyclass::assert_pyclass_send_sync`
   |     T: Send + Sync,
   |        ^^^^ required by this bound in `assert_pyclass_send_sync`
 
-error: aborting due to 4 previous errors
+error: aborting due to 4 previous errors; 3 warnings emitted
 
 For more information about this error, try `rustc --explain E0277`.

@@ -2856,8 +2856,8 @@ impl<'a> PyClassImplsBuilder<'a> {
             TokenStream::new()
         };
 
-        let thread_checker = if self.attr.options.unsendable.is_some() {
-            quote! { #pyo3_path::impl_::pyclass::ThreadCheckerImpl }
+        let thread_checker = if let Some(unsendable) = self.attr.options.unsendable {
+            quote_spanned! { unsendable.span() => #pyo3_path::impl_::pyclass::Unsendable }
         } else {
             quote! { #pyo3_path::impl_::pyclass::NoopThreadChecker }
         };

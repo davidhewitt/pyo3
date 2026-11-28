@@ -4,7 +4,6 @@ use pyo3::prelude::*;
 use pyo3::py_run;
 use pyo3::types::PyString;
 use pyo3::types::{IntoPyDict, PyList};
-use std::cell::Cell;
 use std::convert::Infallible;
 
 mod test_utils;
@@ -213,31 +212,6 @@ fn get_all_and_set() {
 
         py_run!(py, inst, "assert inst.num == 10");
         py_run!(py, inst, "inst.num = 20; assert inst.num == 20");
-    });
-}
-
-#[pyclass(unsendable)]
-struct CellGetterSetter {
-    #[pyo3(get, set)]
-    cell_inner: Cell<i32>,
-}
-
-#[test]
-fn cell_getter_setter() {
-    let c = CellGetterSetter {
-        cell_inner: Cell::new(10),
-    };
-    Python::attach(|py| {
-        let inst = Py::new(py, c).unwrap();
-        let cell = Cell::new(20i32).into_pyobject(py).unwrap();
-
-        py_run!(py, cell, "assert cell == 20");
-        py_run!(py, inst, "assert inst.cell_inner == 10");
-        py_run!(
-            py,
-            inst,
-            "inst.cell_inner = 20; assert inst.cell_inner == 20"
-        );
     });
 }
 

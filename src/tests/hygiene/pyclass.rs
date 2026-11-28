@@ -1,3 +1,5 @@
+#![expect(deprecated, reason = "testing `unsendable`")]
+
 #[crate::pyclass(from_py_object)]
 #[pyo3(crate = "crate")]
 #[derive(::core::clone::Clone)]

@@ -258,91 +258,95 @@ fn class_with_hash() {
     });
 }
 
-#[pyclass(unsendable, subclass)]
-struct UnsendableBase {
-    value: std::rc::Rc<usize>,
-}
+#[expect(deprecated, reason = "unsendable is deprecated")]
+mod test_unsendable {
+    use super::*;
+    #[pyclass(unsendable, subclass)]
+    struct UnsendableBase {
+        value: std::rc::Rc<usize>,
+    }
 
-#[pymethods]
-impl UnsendableBase {
-    #[new]
-    fn new(value: usize) -> UnsendableBase {
-        Self {
-            value: std::rc::Rc::new(value),
+    #[pymethods]
+    impl UnsendableBase {
+        #[new]
+        fn new(value: usize) -> UnsendableBase {
+            Self {
+                value: std::rc::Rc::new(value),
+            }
+        }
+
+        #[getter]
+        fn value(&self) -> usize {
+            *self.value
         }
     }
 
-    #[getter]
-    fn value(&self) -> usize {
-        *self.value
-    }
-}
+    #[pyclass(extends=UnsendableBase)]
+    struct UnsendableChild {}
 
-#[pyclass(extends=UnsendableBase)]
-struct UnsendableChild {}
-
-#[pymethods]
-impl UnsendableChild {
-    #[new]
-    fn new(value: usize) -> PyClassInitializer<Self> {
-        PyClassInitializer::from(UnsendableBase::new(value)).add_subclass(UnsendableChild {})
-    }
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-fn test_unsendable<T: PyClass + 'static>() -> PyResult<()> {
-    let (keep_obj_here, obj) = Python::attach(|py| -> PyResult<_> {
-        let obj: Py<T> = PyType::new::<T>(py).call1((5,))?.extract()?;
-
-        // Accessing the value inside this thread should not panic
-        let caught_panic =
-            std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| -> PyResult<_> {
-                assert_eq!(obj.getattr(py, "value")?.extract::<usize>(py)?, 5);
-                Ok(())
-            }))
-            .is_err();
-
-        assert!(!caught_panic);
-
-        Ok((obj.clone_ref(py), obj))
-    })?;
-
-    let caught_panic = std::thread::spawn(move || {
-        // This access must panic
-        Python::attach(move |py| {
-            obj.borrow(py);
-        });
-    })
-    .join();
-
-    Python::attach(|_py| drop(keep_obj_here));
-
-    if let Err(err) = caught_panic {
-        if let Some(msg) = err.downcast_ref::<String>() {
-            panic!("{}", msg);
+    #[pymethods]
+    impl UnsendableChild {
+        #[new]
+        fn new(value: usize) -> PyClassInitializer<Self> {
+            PyClassInitializer::from(UnsendableBase::new(value)).add_subclass(UnsendableChild {})
         }
     }
 
-    Ok(())
-}
+    #[cfg(not(target_arch = "wasm32"))]
+    fn test_unsendable<T: PyClass + 'static>() -> PyResult<()> {
+        let (keep_obj_here, obj) = Python::attach(|py| -> PyResult<_> {
+            let obj: Py<T> = PyType::new::<T>(py).call1((5,))?.extract()?;
 
-/// If a class is marked as `unsendable`, it panics when accessed by another thread.
-#[test]
-#[cfg(not(target_arch = "wasm32"))]
-#[should_panic(
-    expected = "test_class_basics::UnsendableBase is unsendable, but sent to another thread"
-)]
-fn panic_unsendable_base() {
-    test_unsendable::<UnsendableBase>().unwrap();
-}
+            // Accessing the value inside this thread should not panic
+            let caught_panic =
+                std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| -> PyResult<_> {
+                    assert_eq!(obj.getattr(py, "value")?.extract::<usize>(py)?, 5);
+                    Ok(())
+                }))
+                .is_err();
 
-#[test]
-#[cfg(not(target_arch = "wasm32"))]
-#[should_panic(
-    expected = "test_class_basics::UnsendableBase is unsendable, but sent to another thread"
-)]
-fn panic_unsendable_child() {
-    test_unsendable::<UnsendableChild>().unwrap();
+            assert!(!caught_panic);
+
+            Ok((obj.clone_ref(py), obj))
+        })?;
+
+        let caught_panic = std::thread::spawn(move || {
+            // This access must panic
+            Python::attach(move |py| {
+                obj.borrow(py);
+            });
+        })
+        .join();
+
+        Python::attach(|_py| drop(keep_obj_here));
+
+        if let Err(err) = caught_panic {
+            if let Some(msg) = err.downcast_ref::<String>() {
+                panic!("{}", msg);
+            }
+        }
+
+        Ok(())
+    }
+
+    /// If a class is marked as `unsendable`, it panics when accessed by another thread.
+    #[test]
+    #[cfg(not(target_arch = "wasm32"))]
+    #[should_panic(
+        expected = "test_class_basics::UnsendableBase is unsendable, but sent to another thread"
+    )]
+    fn panic_unsendable_base() {
+        test_unsendable::<UnsendableBase>().unwrap();
+    }
+
+    #[test]
+    #[cfg(not(target_arch = "wasm32"))]
+    #[should_panic(
+        expected = "test_class_basics::UnsendableBase is unsendable, but sent to another thread"
+    )]
+    fn panic_unsendable_child() {
+        test_unsendable::<UnsendableChild>().unwrap();
+    }
 }
 
 fn get_length(obj: &Bound<'_, PyAny>) -> PyResult<usize> {
@@ -676,6 +680,7 @@ fn access_frozen_class_without_gil() {
 }
 
 #[test]
+#[expect(deprecated, reason = "unsendable is deprecated")]
 #[cfg_attr(target_arch = "wasm32", ignore)]
 fn drop_unsendable_elsewhere() {
     use std::sync::{
@@ -737,6 +742,7 @@ fn drop_unsendable_elsewhere() {
 }
 
 #[test]
+#[expect(deprecated, reason = "unsendable is deprecated")]
 fn test_unsendable_dict() {
     #[pyclass(dict, unsendable)]
     struct UnsendableDictClass {}
@@ -756,6 +762,7 @@ fn test_unsendable_dict() {
 }
 
 #[test]
+#[expect(deprecated, reason = "unsendable is deprecated")]
 fn test_unsendable_dict_with_weakref() {
     #[pyclass(dict, unsendable, weakref)]
     struct UnsendableDictClassWithWeakRef {}

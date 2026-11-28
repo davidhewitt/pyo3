@@ -568,6 +568,7 @@ fn drop_during_traversal_without_gil() {
 }
 
 #[test]
+#[expect(deprecated, reason = "unsendable is deprecated")]
 #[cfg(not(target_arch = "wasm32"))] // We are building wasm Python with pthreads disabled
 fn unsendable_are_not_traversed_on_foreign_thread() {
     #[pyclass(unsendable)]

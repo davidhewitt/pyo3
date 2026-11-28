@@ -70,7 +70,8 @@ mod sealed {
     impl Sealed for super::PyClassDummySlot {}
     impl Sealed for super::PyClassDictSlot {}
     impl Sealed for super::PyClassWeakRefSlot {}
-    impl Sealed for super::ThreadCheckerImpl {}
+    #[expect(deprecated)]
+    impl Sealed for super::Unsendable {}
     impl Sealed for super::NoopThreadChecker {}
 }
 
@@ -1114,9 +1115,14 @@ impl<T> PyClassThreadChecker<T> for NoopThreadChecker {
 /// Thread checker for `#[pyclass(unsendable)]` types.
 /// Panics when the value is accessed by another thread.
 #[doc(hidden)]
-pub struct ThreadCheckerImpl(thread::ThreadId);
+#[deprecated(
+    since = "0.31.0",
+    note = "`#[pyclass(unsendable)]` is deprecated, all Python types should be `Send` and `Sync`"
+)]
+pub struct Unsendable(thread::ThreadId);
 
-impl ThreadCheckerImpl {
+#[expect(deprecated)]
+impl Unsendable {
     fn ensure(&self, type_name: &'static str) {
         assert_eq!(
             thread::current().id(),
@@ -1142,7 +1148,8 @@ impl ThreadCheckerImpl {
     }
 }
 
-impl<T> PyClassThreadChecker<T> for ThreadCheckerImpl {
+#[expect(deprecated)]
+impl<T> PyClassThreadChecker<T> for Unsendable {
     fn ensure(&self) {
         self.ensure(core::any::type_name::<T>());
     }
@@ -1153,7 +1160,7 @@ impl<T> PyClassThreadChecker<T> for ThreadCheckerImpl {
         self.can_drop(py, core::any::type_name::<T>())
     }
     fn new() -> Self {
-        ThreadCheckerImpl(thread::current().id())
+        Unsendable(thread::current().id())
     }
 }
 
